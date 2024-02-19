@@ -9,6 +9,7 @@ export default {
       secondary: '#353535',
       black: '#090909',
       white: '#FFFFFF',
+      'light-gray': '#A9A9A9',
     },
   },
   plugins: [],
