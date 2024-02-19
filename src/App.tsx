@@ -1,3 +1,6 @@
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Button } from './components/Button';
+
 function App() {
   return (
     <>
