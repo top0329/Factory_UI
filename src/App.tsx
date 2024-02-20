@@ -24,7 +24,7 @@ function App() {
         products={55}
       />
       <br />
-      {/* <PlatformUsage /> */}
+      <PlatformUsage />
       <br />
       <br />
       <br />
