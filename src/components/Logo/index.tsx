@@ -11,7 +11,7 @@ const Logo: FC<Props> = ({ url, className }) => {
 
   return (
     <img
-      className={`object-contain items-center ${className}`}
+      className={`object-fill items-center ${className}`}
       alt="logo"
       src={url}
       onClick={() => navigate('/')}

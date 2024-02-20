@@ -47,7 +47,7 @@ const SearchBar: FC<Props> = ({ value }) => {
             <Button
               text="New Blueprint"
               variant="primary"
-              className="flex justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36"
+              className="truncate flex justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36"
             />
           </div>
         </div>

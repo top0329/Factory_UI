@@ -14,14 +14,14 @@ function Header() {
     useState<boolean>(false);
 
   return (
-    <div className="flex px-7 py-3 bg-black h-14 sm:h-16 md:h-20 items-center object-contain">
+    <div className="flex mx-6 py-3 bg-black h-14 sm:h-16 md:h-20 items-center 2xl:mx-24 xl:mx-20 lg:mx-16 md:mx-12 sm:mx-10">
       <div className="flex flex-grow justify-between items-center">
         <Logo
-          className="w-28 h-9 sm:w-32 sm:h-10 md:w-40 md:h-12 lg:w-48 lg:h-14 cursor-pointer"
+          className="w-24 h-9 sm:w-28 sm:h-10 md:w-32 md:h-12 lg:w-40 lg:h-14 cursor-pointer"
           url={LogoImage}
         />
         <div className="flex justify-between items-center gap-2 md:gap-6 lg:gap-16">
-          <div className="hidden items-center gap-1 lg:gap-10 md:flex sm:flex md:gap-4">
+          <div className="hidden items-center gap-1 lg:gap-10 md:flex sm:flex md:gap-2">
             <Link
               to={'#'}
               className="text-light-gray text-sm md:text-base lg:text-lg"
