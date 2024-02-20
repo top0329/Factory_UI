@@ -2,6 +2,7 @@ import Header from './components/Layout/Header';
 import Footer from './components/Layout/Footer';
 import SearchBar from './components/SearchBar';
 import PlatformStatus from './components/PlatformStatus';
+import PlatformUsage from './components/PlatformUsage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         products={55}
       />
       <br />
+      <PlatformUsage />
       <br />
       <br />
       <br />
