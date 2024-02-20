@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
-@base{
+@base {
   font-family: 'Roboto', sans-serif;
+}
+
+.search-button-width {
+  @apply w-full;
+  width: calc((100% - 12px) / 2);
 }

@@ -9,13 +9,19 @@ export interface Props {
   onClick?: () => void;
 }
 
-export const Button: FC<Props> = ({ text, variant = 'primary', icon, className, onClick }) => {
+export const Button: FC<Props> = ({
+  text,
+  variant = 'primary',
+  icon,
+  className,
+  onClick,
+}) => {
   const styling: IButtonClass | undefined = buttonClasses.find((classes) => {
     return classes.name === variant;
   });
   return (
     <button
-      className={`py-3 px-5 rounded-2xl flex gap-3 items-center ${styling?.style} ${className}`}
+      className={`py-2 px-5 rounded-2xl flex gap-3 items-center ${styling?.style} ${className}`}
       onClick={onClick}
     >
       {icon}

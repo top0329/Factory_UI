@@ -1,18 +1,20 @@
 import { FC } from 'react';
-import LogoImage from '../../assets/images/blueprint-logo.png';
+import { useNavigate } from 'react-router-dom';
 
-console.log(LogoImage);
 export interface Props {
   url: string;
   className?: string;
 }
 
 export const Logo: FC<Props> = ({ url, className }) => {
+  const navigate = useNavigate();
+
   return (
     <img
       className={`object-contain items-center ${className}`}
       alt="logo"
       src={url}
+      onClick={() => navigate('/')}
     />
   );
 };
