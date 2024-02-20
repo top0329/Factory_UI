@@ -1,6 +1,7 @@
 import { FC } from 'react';
-import { Button } from '../Button';
 import { Icon } from '@iconify/react/dist/iconify.js';
+
+import Button from '../Button';
 
 export interface Props {
   value?: string;

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-
-import { Logo } from '../../Logo';
-import { Button } from '../../Button';
 import { Icon } from '@iconify/react/dist/iconify.js';
+
+import Logo from '../../Logo';
+import Button from '../../Button';
+import LogoImage from '../../../assets/images/blueprint-logo.png';
+import EthereumImage from '../../../assets/images/ethereum.png';
+import AvatarImage from '../../../assets/images/avatar.png';
 
 function Header() {
   const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false);
@@ -15,7 +18,7 @@ function Header() {
       <div className="flex flex-grow justify-between items-center">
         <Logo
           className="w-28 h-9 sm:w-32 sm:h-10 md:w-40 md:h-12 lg:w-48 lg:h-14 cursor-pointer"
-          url="/src/assets/images/blueprint-logo.png"
+          url={LogoImage}
         />
         <div className="flex justify-between items-center gap-2 md:gap-6 lg:gap-16">
           <div className="hidden items-center gap-1 lg:gap-10 md:flex sm:flex md:gap-4">
@@ -50,7 +53,7 @@ function Header() {
                 <div className="hidden gap-0 items-center sm:flex">
                   <img
                     className="h-6 md:h-7 lg:h-10"
-                    src="/src/assets/images/ethereum.png"
+                    src={EthereumImage}
                     alt="avatar"
                   />
                   <Icon
@@ -61,7 +64,7 @@ function Header() {
                 <div className="flex items-center gap-2">
                   <img
                     className="h-6 md:h-7 lg:h-9 cursor-pointer"
-                    src="/src/assets/images/avatar.png"
+                    src={AvatarImage}
                     alt="avatar"
                   />
                   <p className="hidden text-white text-sm lg:text-lg md:text-base sm:block">

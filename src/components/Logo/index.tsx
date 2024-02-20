@@ -6,7 +6,7 @@ export interface Props {
   className?: string;
 }
 
-export const Logo: FC<Props> = ({ url, className }) => {
+const Logo: FC<Props> = ({ url, className }) => {
   const navigate = useNavigate();
 
   return (
@@ -18,3 +18,5 @@ export const Logo: FC<Props> = ({ url, className }) => {
     />
   );
 };
+
+export default Logo;

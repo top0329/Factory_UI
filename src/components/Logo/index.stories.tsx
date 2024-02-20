@@ -1,6 +1,6 @@
 import { Meta, Story } from '@storybook/react';
 
-import { Logo, Props } from './index';
+import Logo, { Props } from './index';
 
 const meta: Meta = {
   title: 'Atoms/Logo',

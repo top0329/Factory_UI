@@ -1,7 +1,7 @@
 import { Meta, Story } from '@storybook/react';
 import { Icon } from '@iconify/react';
 
-import { Button, Props } from './index';
+import Button, { Props } from './index';
 
 const meta: Meta = {
   title: 'Atoms/Button',

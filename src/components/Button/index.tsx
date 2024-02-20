@@ -9,7 +9,7 @@ export interface Props {
   onClick?: () => void;
 }
 
-export const Button: FC<Props> = ({
+const Button: FC<Props> = ({
   text,
   variant = 'primary',
   icon,
@@ -48,3 +48,5 @@ const buttonClasses: Array<IButtonClass> = [
     style: 'text-white border border-white bg-opacity-100',
   },
 ];
+
+export default Button;
