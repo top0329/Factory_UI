@@ -1,4 +1,4 @@
-import EthLineSvg from '../../assets/svg/eth_yellow_line.svg';
+import EthLineSvg from '../../assets/images/CurrencyEth.png';
 
 export interface Props {
   imageLink: string;

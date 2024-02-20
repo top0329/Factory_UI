@@ -1,6 +1,5 @@
 import { Meta, Story } from '@storybook/react';
-import imagedog from '../../assets/images/Imagedog.svg';
-import robot from '../../assets/images/robot.svg';
+import robot from '../../assets/svg/robot.svg';
 
 import { DefaultBlueprintCard, Props } from './default';
 
