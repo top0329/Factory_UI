@@ -35,8 +35,8 @@ const PlatformUsage: FC = () => {
             </p>
           </div>
         </div>
-        <div className="relative col-span-12 h-full rounded-b-3xl md:col-span-6 lg:col-span-5">
-          <div className="absolute w-2/5 h-full bg-gradient-to-r from-landing via-transparent to-transparent rounded-b-3xl md:rounded-r-3xl"></div>
+        <div className="relative col-span-12 h-full rounded-3xl md:col-span-6 lg:col-span-5">
+          <div className="absolute w-2/5 h-full bg-gradient-to-r from-landing via-transparent to-transparent rounded-b-3xl md:rounded-r-3xl md:rounded-bl-none"></div>
           <img
             className="w-full h-full object-cover rounded-b-3xl md:rounded-r-3xl"
             src={ImageForPlatformUsage}
