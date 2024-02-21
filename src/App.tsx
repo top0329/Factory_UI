@@ -3,10 +3,19 @@ import { DefaultBlueprintCard } from './components/Cards/default';
 import { MyBlueprintCard } from './components/Cards/mycard';
 import { MyOwnBlueprintCard } from './components/Cards/myown';
 import { OwnBlueprintCard } from './components/Cards/own';
+import { ProductBlueprintCard } from './components/Cards/product';
 import { UserBlueprintCard } from './components/Cards/user';
 function App() {
   return (
     <div className="flex flex-col gap-2">
+      <ProductBlueprintCard
+        imageLink={robot}
+        name="Robot"
+        blueprintid={28}
+        tsupply={1000000000}
+        address="0x55d398326f99059ff775485246999027b3197955"
+      />
+
       <MyOwnBlueprintCard
         imageLink={robot}
         name="Robot"

@@ -51,7 +51,7 @@ export function OwnBlueprintCard(props: Props) {
             </div>
           </div>
 
-          <div id="id_supply" className="w-full">
+          <div id="id_supply" className="w-full hidden sm:block">
             <div id="address" className="text-white">
               <p className="text-xs font-mono text-[#858584]">Address</p>
               <div id="id_supply" className="flex justify-between text-white">
