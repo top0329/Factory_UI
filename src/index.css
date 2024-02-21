@@ -6,7 +6,24 @@
   font-family: 'Roboto', sans-serif;
 }
 
+body {
+  @apply bg-landing;
+}
+
 .search-button-width {
   @apply w-full;
   width: calc((100% - 12px) / 2);
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.rotate {
+  animation: spin 20s linear infinite;
 }
