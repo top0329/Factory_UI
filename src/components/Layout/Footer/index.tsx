@@ -32,7 +32,7 @@ function Footer() {
         </div>
         <hr className="absolute top-24 text-light-gray hidden sm:block sm:inset-x-12 md:inset-x-16 lg:inset-x-28 lg:border xl:inset-x-32" />
         <div className="flex flex-row items-start justify-between px-2 sm:items-end sm:flex-col sm:justify-start">
-          <div className="flex flex-col gap-2 py-4 text-base font-bold text-light-gray xl:gap-10 xl:text-2xl lg:gap-8 lg:text-xl md:gap-3.5 md:text-lg sm:flex-row sm:font-medium">
+          <div className="flex flex-col gap-2 py-4 text-base font-bold text-light-gray xl:gap-10 xl:text-2xl lg:gap-8 lg:text-xl md:gap-3.5 md:text-lg sm:flex-row sm:font-normal">
             <Link to={'#'}>Blueprint</Link>
             <Link to={'#'}>Product</Link>
             <Link to={'#'}>Decompose</Link>
