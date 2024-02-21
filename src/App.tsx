@@ -1,8 +1,17 @@
+import robot from './assets/svg/robot.svg';
+import { DefaultBlueprintCard } from './components/Cards/default';
 function App() {
   return (
-    <>
-      <h1 className="text-blue-900 text-4xl">Hello World!</h1>
-    </>
+    <div className="flex flex-col gap-2">
+      <DefaultBlueprintCard
+        imageLink={robot}
+        name="Robot"
+        blueprintid={28}
+        tsupply={1000000000}
+        mintPrice={0.001}
+        mintLimit={100}
+      />
+    </div>
   );
 }
 
