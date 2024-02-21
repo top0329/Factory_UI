@@ -22,7 +22,7 @@ export default function AdvancedFilter() {
 
       <div className="flex flex-col gap-y-2">
         <div className="flex justify-between items-center px-3 py-1 text-[#FFFFFF] bg-black rounded-lg w-full">
-          <p className="text-base font-mono">Blueprint ID</p>
+          <p className="text-base font-mono">Mint Price</p>
           <Icon icon="formkit:down" className="flex w-4 items-center" />
         </div>
         <div className="flex flex-col gap-2">
@@ -63,15 +63,15 @@ export default function AdvancedFilter() {
 
       <div className="flex flex-col gap-y-2">
         <div className="flex justify-between items-center  px-3 py-1 text-[#FFFFFF] bg-[#000000] rounded-lg w-full">
-          <p className="text-base font-mono">Mint Limit</p>
-          <Icon icon="formkit:down" className="flex w-4 items-center" />
+          <p className="text-base font-mono">Total Supply</p>
+          <Icon icon="formkit:up" className="flex w-4 items-center" />
         </div>
       </div>
 
       <div className="flex flex-col gap-y-2">
         <div className="flex justify-between items-center  px-3 py-1 text-[#FFFFFF] bg-[#000000] rounded-lg w-full">
           <p className="text-base font-mono">Minted Amount</p>
-          <Icon icon="formkit:down" className="flex w-4 items-center" />
+          <Icon icon="formkit:up" className="flex w-4 items-center" />
         </div>
       </div>
 

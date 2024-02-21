@@ -1,5 +1,5 @@
-import Button from '../Button';
-import EthLineSvg from '../../assets/images/CurrencyEth.png';
+import Button from '../../Button';
+import EthLineSvg from '../../../assets/images/CurrencyEth.png';
 
 export interface Props {
   imageLink: string;

@@ -1,16 +1,18 @@
 import robot from './assets/svg/robot.svg';
-import { DefaultBlueprintCard } from './components/Cards/default';
-import { MyBlueprintCard } from './components/Cards/mycard';
-import { MyOwnBlueprintCard } from './components/Cards/myown';
-import { OwnBlueprintCard } from './components/Cards/own';
-import { ProductBlueprintCard } from './components/Cards/product';
-import { UserBlueprintCard } from './components/Cards/user';
+import { DefaultBlueprintCard } from './components/Cards/BlueprintCard/default';
+import { MyBlueprintCard } from './components/Cards/BlueprintCard/mycard';
+import { MyOwnBlueprintCard } from './components/Cards/BlueprintCard/myown';
+import { OwnBlueprintCard } from './components/Cards/BlueprintCard/own';
+import { ProductBlueprintCard } from './components/Cards/BlueprintCard/product';
+import { UserBlueprintCard } from './components/Cards/BlueprintCard/user';
+import BlueprintInfoCard from './components/Cards/BlueprintInfoCard/BlueprintInfoCard';
 import AdvancedFilter from './components/SearchBar/AdvancedFilter';
 function App() {
   return (
     <div className="flex flex-col gap-2">
-      <AdvancedFilter />
+      <BlueprintInfoCard />
 
+      <AdvancedFilter />
       <ProductBlueprintCard
         imageLink={robot}
         name="Robot"
