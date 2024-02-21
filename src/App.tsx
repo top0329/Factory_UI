@@ -5,9 +5,12 @@ import { MyOwnBlueprintCard } from './components/Cards/myown';
 import { OwnBlueprintCard } from './components/Cards/own';
 import { ProductBlueprintCard } from './components/Cards/product';
 import { UserBlueprintCard } from './components/Cards/user';
+import AdvancedFilter from './components/SearchBar/AdvancedFilter';
 function App() {
   return (
     <div className="flex flex-col gap-2">
+      <AdvancedFilter />
+
       <ProductBlueprintCard
         imageLink={robot}
         name="Robot"
