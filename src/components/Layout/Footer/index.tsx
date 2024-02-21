@@ -42,7 +42,7 @@ function Footer() {
             <Link to={'/blueprint'}>Blueprint</Link>
             <Link to={'/product'}>Product</Link>
             <Link to={'/decompose'}>Decompose</Link>
-            <Link to={'/whitepaper'}>Whitepaper</Link>
+            <Link to={'#'}>Whitepaper</Link>
           </div>
           <div className="flex flex-col items-end gap-2 py-4 text-light-gray text-base font-bold xl:text-xl lg:text-lg sm:flex-row sm:item-start sm:font-normal sm:opacity-50 sm:text-white sm:gap-8">
             <Link to={'#'}>Contact</Link>

@@ -14,6 +14,7 @@ export default {
       cyan: '#1FCFF1',
       yellow: '#F9D413',
       purple: '#8F2DBD',
+      default: '#040a0f',
     },
   },
   plugins: [],

@@ -15,14 +15,13 @@ const Accordion: FC<Props> = ({ title, content }) => {
         isExpanded ? 'bg-[#0B1B27]' : 'bg-none'
       }`}
     >
-      <h2>
-        <button
-          type="button"
-          className="flex items-center text-white text-xl md:text-2xl lg:text-[28px] justify-between w-full text-left py-5"
-          onClick={() => setIsExpanded(!isExpanded)}
-        >
-          <span>{title}</span>
-          {/* <svg
+      <button
+        type="button"
+        className="flex items-center text-white text-xl md:text-2xl lg:text-[28px] justify-between w-full text-left py-5"
+        onClick={() => setIsExpanded(!isExpanded)}
+      >
+        {title}
+        {/* <svg
             className={`fill-indigo-500 shrink-0 ml-8 bg-white rounded-full p-1`}
             width="24"
             height="24"
@@ -45,25 +44,22 @@ const Accordion: FC<Props> = ({ title, content }) => {
               className="transform origin-center rotate-180 transition duration-200 ease-out"
             />
           </svg> */}
-          <Icon
-            icon={
-              isExpanded
-                ? 'heroicons:minus-circle-16-solid'
-                : 'heroicons:plus-circle-16-solid'
-            }
-            className="flex min-w-10"
-            onClick={() => setIsExpanded(!isExpanded)}
-          />
-        </button>
-      </h2>
+        <Icon
+          icon={
+            isExpanded
+              ? 'heroicons:minus-circle-16-solid'
+              : 'heroicons:plus-circle-16-solid'
+          }
+          className="flex min-w-10"
+          onClick={() => setIsExpanded(!isExpanded)}
+        />
+      </button>
       <div
         className={`grid text-light-gray text-lg md:text-xl overflow-hidden transition-200 duration-700 ease-in-out ${
           isExpanded ? 'max-h-[500px] sm:max-h-[300px]' : 'max-h-[0px]'
         }`}
       >
-        <div className="">
-          <p className="pb-5">{content}</p>
-        </div>
+        <div className="pb-5">{content}</div>
       </div>
     </div>
   );

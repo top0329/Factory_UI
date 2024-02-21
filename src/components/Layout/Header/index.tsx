@@ -25,7 +25,7 @@ function Header() {
             <Link to={'/blueprint'}>Blueprint</Link>
             <Link to={'/product'}>Product</Link>
             <Link to={'/decompose'}>Decompose</Link>
-            <Link to={'/whitepaper'}>Whitepaper</Link>
+            <Link to={'#'}>Whitepaper</Link>
           </div>
           <div className="flex items-center">
             {isWalletConnected ? (
@@ -104,7 +104,7 @@ function Header() {
                 </li>
                 <li>
                   <Link
-                    to={'/whitepaper'}
+                    to={'#'}
                     className="block my-1 px-4 py-3 rounded text-light-gray"
                   >
                     Whitepaper
