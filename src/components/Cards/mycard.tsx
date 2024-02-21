@@ -13,7 +13,7 @@ export function MyBlueprintCard(props: Props) {
   return (
     <div
       id="container"
-      className="w-[176px] sm:w-[280px] border border-black bg-[#011018] rounded-3xl border-block"
+      className="w-[176px] sm:w-[280px] border border-black bg-[#000000] rounded-3xl border-block"
       style={{ overflow: 'hidden' }}
     >
       <div className="relative w-full">
@@ -30,7 +30,7 @@ export function MyBlueprintCard(props: Props) {
         />{' '}
         <div
           id="gradient"
-          className="absolute z-0 top-[258px] bg-gradient-to-t from-[#011018] bg-opacity-100 to-[#000407]/0 sm:w-[280px]  w-[176px] h-[82px]"
+          className="absolute z-0 top-[258px] bg-gradient-to-t from-[#000000] bg-opacity-100 to-[#000407]/0 sm:w-[280px]  w-[176px] h-[82px]"
         ></div>
         <p className="absolute top-[178px] z-50 right-[10px] block-content sm:hidden font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
           My Blueprint

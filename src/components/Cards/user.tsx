@@ -14,7 +14,7 @@ export function UserBlueprintCard(props: Props) {
   return (
     <div
       id="container"
-      className="w-[176px] sm:w-[280px]  border border-black bg-[#011018] rounded-3xl border-block"
+      className="w-[176px] sm:w-[280px]  border border-black bg-[#000000] rounded-3xl border-block"
       style={{ overflow: 'hidden' }}
     >
       <div className="relative w-[176px] sm:w-[280px]">
@@ -31,7 +31,7 @@ export function UserBlueprintCard(props: Props) {
         />
         <div
           id="gradient"
-          className="absolute top-[258px] bg-gradient-to-t from-[#011018] bg-opacity-100 to-[#000407]/0 w-[280px]  xs:w-[176px] h-[82px]"
+          className="absolute top-[258px] bg-gradient-to-t from-[#000000] bg-opacity-100 to-[#000407]/0 w-[280px]  xs:w-[176px] h-[82px]"
         ></div>
         <div
           id="infor"
