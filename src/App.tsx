@@ -7,6 +7,7 @@ import Robot from './assets/svg/robot.svg';
 import DefaultBlueprintCard from './components/Cards/default';
 import ScrollButton from './components/Button/ScrollDownButton';
 import ComponentButton from './components/Button/ComponentButton';
+import FAQ from './components/FAQ';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
       <br />
       <br />
       <br />
+      <FAQ />
       <Footer />
     </div>
   );
