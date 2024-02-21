@@ -10,7 +10,7 @@ export default function FAQ() {
         <Accordion
           title="1. What is Blueprint?"
           content={
-            <p className="leading-8">
+            <p className="leading-8 px-1">
               Blueprint is <span className="text-white">ERC1155</span> Token
               that includes information about Product Token, and that allows
               project owners to create NFTs containing specific combinations of
@@ -22,7 +22,7 @@ export default function FAQ() {
         <Accordion
           title="2. What is Product?"
           content={
-            <p className="leading-8">
+            <p className="leading-8 px-1">
               Product is the main asset of platform synthesized by users using
               Blueprint NFTs and the corresponding <span>Component Tokens</span>
               .
@@ -32,7 +32,7 @@ export default function FAQ() {
         <Accordion
           title="3. How to get origin tokens from Product?"
           content={
-            <p className="leading-8">
+            <p className="leading-8 px-1">
               Origin tokens back to users by decomposing Product.
             </p>
           }
@@ -40,7 +40,7 @@ export default function FAQ() {
         <Accordion
           title="4. What is Factory Platform?"
           content={
-            <p className="leading-8">
+            <p className="leading-8 px-1">
               Factory is an innovative NFT platform based on blockchain
               technology, dedicated to offering users a unique experience in NFT
               synthesis and management. The platform enables users to create
@@ -55,7 +55,7 @@ export default function FAQ() {
         <Accordion
           title="5. How to buy Product?"
           content={
-            <p className="leading-8">
+            <p className="leading-8 px-1">
               Users can get Product by minting own Blueprins that minted from
               Blueprint. Also users can decompose Product to Blueprint directly.
             </p>
