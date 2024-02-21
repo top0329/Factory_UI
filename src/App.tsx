@@ -6,6 +6,7 @@ import PlatformUsage from './components/PlatformUsage';
 import Robot from './assets/svg/robot.svg';
 import DefaultBlueprintCard from './components/Cards/default';
 import ScrollButton from './components/Button/ScrollDownButton';
+import ComponentButton from './components/Button/ComponentButton';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
       <br />
       <ScrollButton />
       <br />
+      <ComponentButton />
       <br />
       <br />
       <SearchBar />
