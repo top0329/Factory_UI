@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import blueprintInfoImage from '../../../assets/images/bluetoken 1.png';
 
 export default function BlueprintUpdateCard() {
   const [editable, setEditable] = useState(false);
