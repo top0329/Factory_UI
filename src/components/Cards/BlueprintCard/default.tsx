@@ -9,7 +9,7 @@ export interface Props {
   mintLimit: number;
 }
 
-export function DefaultBlueprintCard(props: Props) {
+export default function DefaultBlueprintCard(props: Props) {
   return (
     <div
       id="container"

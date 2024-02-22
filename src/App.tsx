@@ -1,5 +1,6 @@
 import robot from './assets/svg/robot.svg';
-import { DefaultBlueprintCard } from './components/Cards/BlueprintCard/default';
+import CoreRoutes from './routes';
+import DefaultBlueprintCard from './components/Cards/BlueprintCard/default';
 import { MyBlueprintCard } from './components/Cards/BlueprintCard/mycard';
 import { MyOwnBlueprintCard } from './components/Cards/BlueprintCard/myown';
 import { OwnBlueprintCard } from './components/Cards/BlueprintCard/own';
@@ -67,6 +68,8 @@ function App() {
         mintPrice={0.001}
         mintLimit={100}
       />
+    <CoreRoutes />
+
     </div>
   );
 }
