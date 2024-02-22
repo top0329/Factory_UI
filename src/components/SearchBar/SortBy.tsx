@@ -12,7 +12,7 @@ export default function SortBy() {
     <div>
       <button
         onClick={handleClick}
-        className="flex justify-between items-center text-center w-[132px] bg-[#000000] text-[#FFFFFF]/30 border-[0.5px] border-[#B1B1B1] rounded-lg py-1 px-2"
+        className="flex gap-2 items-center text-center w-[132px] bg-[#000000] text-[#FFFFFF]/30 border-[0.5px] border-[#B1B1B1] rounded-lg py-1 px-2 text-xs"
       >
         <Icon
           icon="iconamoon:sorting-left"
@@ -21,7 +21,7 @@ export default function SortBy() {
         {selectedItem}
       </button>
       <div
-        className={`flex flex-col cursor-pointer transition-all duration-300 bg-[#000000] text-white/30 px-4 py-2 gap-y-2 ${
+        className={`flex flex-col cursor-pointer transition-all duration-300 bg-[#000000] text-white/30 px-4 py-2 gap-y-2 text-[10px] ${
           showOptions ? 'h-auto opacity-100' : 'h-0 opacity-0'
         }`}
       >
