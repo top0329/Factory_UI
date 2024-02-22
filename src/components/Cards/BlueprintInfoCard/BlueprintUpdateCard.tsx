@@ -2,27 +2,12 @@ import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import blueprintInfoImage from '../../../assets/images/bluetoken 1.png';
 
-export default function BlueprintInfoCard() {
+export default function BlueprintUpdateCard() {
   const [editable, setEditable] = useState(false);
-  const [uriChecked, setUriChecked] = useState(false);
-  const [mintPriceChecked, setMintPriceChecked] = useState(false);
-  const [mintLimitChecked, setMintLimitChecked] = useState(false);
   const [buttonEnable, setButtonEnable] = useState(false);
 
   const handleEditable = () => {
     setEditable(true);
-  };
-
-  const handleUriCheckedChange = () => {
-    setUriChecked(!uriChecked);
-  };
-
-  const handleMintPriceChecked = () => {
-    setMintPriceChecked(!mintPriceChecked);
-  };
-
-  const handleMintLimitChecked = () => {
-    setMintLimitChecked(!mintLimitChecked);
   };
 
   const handleButtonEnable = () => {
@@ -47,7 +32,7 @@ export default function BlueprintInfoCard() {
           )}
         </button>
       </div>
-      <img src={blueprintInfoImage} />
+      <img src="https://s3-alpha-sig.figma.com/img/1227/9881/7c4f8936a4246f91674d47fe40c14d63?Expires=1709510400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fZMf1NLUXLBL0whpRBoxaxVmW~CSdZJ8D~LVlqsDrc6XExG6tYQVfbqM-1jdBugVikABU9UhpX4TBpOzZRdPLK-UEmNMi4ELL6ooAgbNeG5Wa05zvsrgUxJE-2fd1Wjd2zCfjKKjBktjtLX3Rt~8GIUQHyepvdI-TGdbURvn4Rw8WLQFhosDE433k~OHyEr0npRUQEYAfjUfOucLD6uoe2yge9pMUTZA~Ati6FqR1m11LGVWJK9SSZjxS3O1IPZTtHu-S~u~29qJTwtpHmThgxzfZ7gk3Kf7G3Wne3hlmYLeQ-n6rtTPPWve3-k5MkF7oHoP2XhL86nKV2eNj1ba7g__" />
       <div className="flex flex-col items-center px-[32px] gap-y-3 text-white">
         <div className="flex flex-col w-full gap-y-1 ">
           <p className="text-xs text-[#858584]">Name</p>
@@ -75,22 +60,13 @@ export default function BlueprintInfoCard() {
           />
         </div>
         <div className="flex flex-col w-full gap-y-1">
-          <div className="flex justify-start gap-2">
-            <input
-              type="checkbox"
-              disabled={!editable}
-              checked={uriChecked}
-              onChange={handleUriCheckedChange}
-              className="!border-0 !bg-[#03070F] py-1 px-2"
-            />
-            <p className="text-xs text-[#858584]">URI</p>
-          </div>
+          <p className="text-xs text-[#858584]">URI</p>
           <input
             type="input"
-            disabled={!editable || !uriChecked}
+            disabled={!editable}
             className={`border-[0.5px] w-full py-1 px-2 rounded-lg
             ${
-              editable && uriChecked
+              editable
                 ? 'bg-[#03070F] border-[#8B8B8B]'
                 : 'bg-[#010B10] border-[#191313]'
             }`}
@@ -98,27 +74,27 @@ export default function BlueprintInfoCard() {
         </div>
         <div className="flex flex-col w-full gap-y-1">
           <div className="flex justify-start gap-2">
-            <input
-              type="checkbox"
-              disabled={!editable}
-              checked={mintPriceChecked}
-              onChange={handleMintPriceChecked}
-              className="!border-0 !bg-[#03070F] py-1 px-2"
-            />
             <p className="text-xs text-[#858584]">Mint Price</p>
           </div>
           <div className="flex justify-center">
             <input
               type="input"
-              disabled={!editable || !mintPriceChecked}
-              className={`border-[0.5px] w-full py-1 px-2 rounded-l-lg
+              disabled={!editable}
+              className={`border-[0.5px] w-full py-1 px-2 rounded-l-lg border-r-0
             ${
-              editable && mintPriceChecked
+              editable
                 ? 'bg-[#03070F] border-[#8B8B8B]'
                 : 'bg-[#010B10] border-[#191313]'
             }`}
             />
-            <select className="!bg-[#4A4A4A]/20 rounded-r-lg text-sm">
+            <select
+              disabled={!editable}
+              className={`!bg-[#4A4A4A]/20 rounded-r-lg text-sm ${
+                editable
+                  ? '!bg-[#4A4A4A]/20 border-[0.5px] border-l-0 border-[#8B8B8B]'
+                  : 'bg-[#010B10] border-0'
+              }`}
+            >
               <option value="ETH" className="!bg-[#4A4A4A] !text-sm">
                 ETH
               </option>
@@ -132,22 +108,26 @@ export default function BlueprintInfoCard() {
           </div>
         </div>
         <div className="flex flex-col w-full gap-y-1">
-          <div className="flex justify-start gap-2">
-            <input
-              type="checkbox"
-              disabled={!editable}
-              checked={mintLimitChecked}
-              onChange={handleMintLimitChecked}
-              className="!border-0 !bg-[#03070F] py-1 px-2"
-            />
-            <p className="text-xs text-[#858584]">Mint Limit</p>
-          </div>
+          <p className="text-xs text-[#858584]">Mint Limit</p>
           <input
             type="input"
-            disabled={!editable || !mintLimitChecked}
+            disabled={!editable}
             className={`border-[0.5px] w-full py-1 px-2 rounded-lg
             ${
-              editable && mintLimitChecked
+              editable
+                ? 'bg-[#03070F] border-[#8B8B8B]'
+                : 'bg-[#010B10] border-[#191313]'
+            }`}
+          />
+        </div>
+        <div className="flex flex-col w-full gap-y-1">
+          <p className="text-xs text-[#858584]">Mint Limit</p>
+          <input
+            type="input"
+            disabled={!editable}
+            className={`border-[0.5px] w-full py-1 px-2 rounded-lg
+            ${
+              editable
                 ? 'bg-[#03070F] border-[#8B8B8B]'
                 : 'bg-[#010B10] border-[#191313]'
             }`}
@@ -174,7 +154,7 @@ export default function BlueprintInfoCard() {
                 : 'bg-[#1F2937] text-[#718096]'
             }`}
           >
-            Create
+            Update
           </button>
         </div>
       </div>
