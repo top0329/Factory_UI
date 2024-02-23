@@ -1,10 +1,12 @@
-import MintListCard from '../Cards/ListCard/MintListCard';
 import copper from '../../assets/images/copper_ERC20.webp';
 import key721 from '../../assets/images/key_ERC721.webp';
 import axeIron from '../../assets/images/axe_iron_wood_ERC1155.webp';
+import ERC20MintListCard from '../Cards/ListCard/ERC20MintListCard';
+import ERC721MintListCard from '../Cards/ListCard/ERC721MintListCard';
+import ERC1155MintListCard from '../Cards/ListCard/ERC1155MintListCard';
 
 export default function MintProductModal() {
-  const mintListData = [
+  const ERC20Data = [
     {
       uri: copper,
       type: 'ERC20',
@@ -13,12 +15,32 @@ export default function MintProductModal() {
       amount: 100,
     },
     {
+      uri: copper,
+      type: 'ERC20',
+      name: 'Copper ERC20',
+      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+      amount: 100,
+    },
+  ];
+
+  const ERC721Data = [
+    {
       uri: key721,
       type: 'ERC721',
       name: 'KEY ERC721',
       address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
       id: 3,
     },
+    {
+      uri: key721,
+      type: 'ERC721',
+      name: 'KEY ERC721',
+      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+      id: 3,
+    },
+  ];
+
+  const ERC1155Data = [
     {
       uri: axeIron,
       type: 'ERC1155',
@@ -26,20 +48,6 @@ export default function MintProductModal() {
       address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
       id: 3,
       amount: 100,
-    },
-    {
-      uri: copper,
-      type: 'ERC20',
-      name: 'Copper ERC20',
-      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-      amount: 100,
-    },
-    {
-      uri: key721,
-      type: 'ERC721',
-      name: 'KEY ERC721',
-      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-      id: 3,
     },
   ];
 
@@ -54,8 +62,14 @@ export default function MintProductModal() {
         id="container"
         className="flex flex-col w-full py-8 gap-y-4 h-[75%] justify-start items-center"
       >
-        {mintListData.map((data, index) => (
-          <MintListCard key={index} {...data} />
+        {ERC20Data.map((data, index) => (
+          <ERC20MintListCard key={index} {...data} />
+        ))}
+        {ERC721Data.map((data, index) => (
+          <ERC721MintListCard key={index} {...data} />
+        ))}
+        {ERC1155Data.map((data, index) => (
+          <ERC1155MintListCard key={index} {...data} />
         ))}
       </div>
       <div className="flex justify-between !text-cente w-1/3 gap-10 my-2">

@@ -2,10 +2,12 @@ import copper from '../../assets/images/copper_ERC20.webp';
 import key721 from '../../assets/images/key_ERC721.webp';
 import axeIron from '../../assets/images/axe_iron_wood_ERC1155.webp';
 import ProductListCard from '../Cards/ListCard/ProductListCard';
-import DecomposeListCard from '../Cards/ListCard/DecomposeListCard';
+import ERC20DecomposeListCard from '../Cards/ListCard/ERC20DecomposeListCard';
+import ERC721DecomposeListCard from '../Cards/ListCard/ERC721DecomposeListCard';
+import ERC1155DecomposeListCard from '../Cards/ListCard/ERC1155DecomposeListCard';
 
 export default function DecomposeProductModal() {
-  const mintListData = [
+  const ERC20Data = [
     {
       uri: copper,
       type: 'ERC20',
@@ -14,12 +16,32 @@ export default function DecomposeProductModal() {
       amount: 100,
     },
     {
+      uri: copper,
+      type: 'ERC20',
+      name: 'Copper ERC20',
+      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+      amount: 100,
+    },
+  ];
+
+  const ERC721Data = [
+    {
       uri: key721,
       type: 'ERC721',
       name: 'KEY ERC721',
       address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
       id: 3,
     },
+    {
+      uri: key721,
+      type: 'ERC721',
+      name: 'KEY ERC721',
+      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
+      id: 3,
+    },
+  ];
+
+  const ERC1155Data = [
     {
       uri: axeIron,
       type: 'ERC1155',
@@ -27,20 +49,6 @@ export default function DecomposeProductModal() {
       address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
       id: 3,
       amount: 100,
-    },
-    {
-      uri: copper,
-      type: 'ERC20',
-      name: 'Copper ERC20',
-      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-      amount: 100,
-    },
-    {
-      uri: key721,
-      type: 'ERC721',
-      name: 'KEY ERC721',
-      address: '0xdAC17F958D2ee523a2206206994597C13D831ec7',
-      id: 3,
     },
   ];
 
@@ -77,8 +85,14 @@ export default function DecomposeProductModal() {
         <p className="flex !items-start !justify-start text-2xl text-[#AAA8A8]">
           Preview
         </p>
-        {mintListData.map((data, index) => (
-          <DecomposeListCard key={index} {...data} />
+        {ERC20Data.map((data, index) => (
+          <ERC20DecomposeListCard key={index} {...data} />
+        ))}
+        {ERC721Data.map((data, index) => (
+          <ERC721DecomposeListCard key={index} {...data} />
+        ))}
+        {ERC1155Data.map((data, index) => (
+          <ERC1155DecomposeListCard key={index} {...data} />
         ))}
       </div>
       <div className="flex justify-between !text-cente w-1/3 gap-10 my-2">

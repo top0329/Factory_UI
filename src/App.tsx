@@ -9,8 +9,6 @@ import BlueprintInfoCard from './components/Cards/BlueprintInfoCard/BlueprintInf
 import BlueprintUpdateCard from './components/Cards/BlueprintInfoCard/BlueprintUpdateCard';
 import AdvancedFilter from './components/SearchBar/AdvancedFilter';
 import SortBy from './components/SearchBar/SortBy';
-import DecomposeListCard from './components/Cards/ListCard/DecomposeListCard';
-import MintListCard from './components/Cards/ListCard/MintListCard';
 
 import robot from './assets/svg/robot.svg';
 import copper from './assets/images/copper_ERC20.webp';
@@ -20,65 +18,60 @@ import pickAxe from './assets/images/pickaxe_iron_wood_ERC1155.webp';
 import ApproveBlueprintModal from './components/Modals/ApproveBlueprintModal';
 import MintProductModal from './components/Modals/MintProductModal';
 import DecomposeProductModal from './components/Modals/DecomposeProductModal';
+import ERC20DecomposeListCard from './components/Cards/ListCard/ERC20DecomposeListCard';
+import ERC721DecomposeListCard from './components/Cards/ListCard/ERC721DecomposeListCard';
+import ERC1155DecomposeListCard from './components/Cards/ListCard/ERC1155DecomposeListCard';
+import ERC20MintListCard from './components/Cards/ListCard/ERC20MintListCard';
+import ERC721MintListCard from './components/Cards/ListCard/ERC721MintListCard';
+import ERC1155MintListCard from './components/Cards/ListCard/ERC1155MintListCard';
 function App() {
   return (
     <div className="flex flex-col gap-2 justify-center items-center">
+      <ApproveBlueprintModal />
       <DecomposeProductModal />
 
       <MintProductModal />
 
       <ApproveBlueprintModal />
 
-      <DecomposeListCard
+      <ERC20DecomposeListCard
         uri={pickAxe}
         type={'Blueprint'}
         name={'PickAxe Blueprint'}
         address={'0xdAC17F958D2ee523a2206206994597C13D831ec7'}
-        id={3}
         amount={100}
       />
-      <DecomposeListCard
+      <ERC721DecomposeListCard
         uri={copper}
         type={'ERC20'}
         name={'Copper ERC20'}
         address={'0xdAC17F958D2ee523a2206206994597C13D831ec7'}
         id={3}
-        amount={100}
       />
-      <DecomposeListCard
+      <ERC1155DecomposeListCard
         uri={key721}
         type={'ERC721'}
         name={'Key 721'}
-        address={'0xdAC17F958D2ee523a2206206994597C13D831ec7'}
-        id={3}
-        amount={100}
-      />
-      <DecomposeListCard
-        uri={axeIron}
-        type={'ERC1155'}
-        name={'Axe Iron ERC1155'}
         address={'0xdAC17F958D2ee523a2206206994597C13D831ec7'}
         id={3}
         amount={100}
       />
 
-      <MintListCard
+      <ERC20MintListCard
         uri={copper}
         type={'ERC20'}
         name={'Copper ERC20'}
         address={'0xdAC17F958D2ee523a2206206994597C13D831ec7'}
-        id={3}
         amount={100}
       />
-      <MintListCard
+      <ERC721MintListCard
         uri={key721}
         type={'ERC721'}
         name={'Key 721'}
         address={'0xdAC17F958D2ee523a2206206994597C13D831ec7'}
         id={3}
-        amount={100}
       />
-      <MintListCard
+      <ERC1155MintListCard
         uri={axeIron}
         type={'ERC1155'}
         name={'Axe Iron ERC1155'}

@@ -9,17 +9,9 @@ export interface Props {
   amount: number;
 }
 
-export default function MintListCard(props: Props) {
+export default function ERC1155MintListCard(props: Props) {
   return (
-    <div
-      className={`flex gap-0 md:gap-3 w-[400px] md:w-[85%] h-[80px] justify-between items-center md:px-[40px] py-2 border ${
-        props.type == 'ERC20'
-          ? 'bg-[#09F5D8]/10 border-[#09F5D8]'
-          : props.type == 'ERC721'
-          ? 'bg-[#099EF5]/10 border-[#099EF5]'
-          : 'bg-[#7414D5]/10 border-[#7414D5]'
-      } rounded-3xl text-white text-base`}
-    >
+    <div className="flex gap-0 md:gap-3 w-[400px] md:w-[85%] h-[80px] justify-between items-center md:px-[40px] py-2 border bg-[#7414D5]/10 border-[#7414D5] rounded-3xl text-white text-base">
       <div id="icon" className="flex justify-center w-[64px] py-2">
         <img src={props.uri} className="block h-[64px] rounded-full" />
       </div>
