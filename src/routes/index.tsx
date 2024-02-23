@@ -1,15 +1,18 @@
+import { lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
+
 import CommonLayout from '../components/Layout/CommonLayout';
-import LandingPage from '../pages/LandingPage';
-import BlueprintPage from '../pages/Blueprint';
-import ProductPage from '../pages/Product';
-import DecomposePage from '../pages/Decompose';
-import DecomposeProductPage from '../pages/Decompose/DecomposeProduct';
-import MintBlueprintPage from '../pages/Blueprint/MintBlueprint';
-import NewBlueprintPage from '../pages/Blueprint/NewBlueprint';
-import RecreateBlueprintPage from '../pages/Blueprint/RecreateBlueprint';
-import UpdateBlueprintPage from '../pages/Blueprint/UpdateBlueprint';
-import MintProductPage from '../pages/Product/MintProduct';
+
+const LandingPage = lazy(() => import('../pages/LandingPage'));
+const BlueprintPage = lazy(() => import('../pages/Blueprint'));
+const MintBlueprintPage = lazy(() => import('../pages/Blueprint/MintBlueprint'));
+const NewBlueprintPage = lazy(() => import('../pages/Blueprint/NewBlueprint'));
+const RecreateBlueprintPage = lazy(() => import('../pages/Blueprint/RecreateBlueprint'));
+const UpdateBlueprintPage = lazy(() => import('../pages/Blueprint/UpdateBlueprint'));
+const ProductPage = lazy(() => import('../pages/Product'));
+const MintProductPage = lazy(() => import('../pages/Product/MintProduct'));
+const DecomposePage = lazy(() => import('../pages/Decompose'));
+const DecomposeProductPage = lazy(() => import('../pages/Decompose/DecomposeProduct'));
 
 // project import
 const LandingRoute = {
