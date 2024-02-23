@@ -45,7 +45,7 @@ const buttonClasses: Array<IButtonClass> = [
   },
   {
     name: 'outline',
-    style: 'text-white border border-white bg-opacity-100',
+    style: 'text-white border border-white border-2 bg-opacity-100',
   },
 ];
 
