@@ -4,15 +4,15 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../Button';
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-import ERC721Card from '../Cards/ComponentCard/ERC721Card';
-import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
-import IronSheild from '../../assets/images/development/Shield_iron_ERC1155.webp';
+// import ERC721Card from '../Cards/ComponentCard/ERC721Card';
+// import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
+// import IronSheild from '../../assets/images/development/Shield_iron_ERC1155.webp';
 import Wood from '../../assets/images/development/wood_ERC20.webp';
-import Copper from '../../assets/images/development/copper_ERC20.webp';
+// import Copper from '../../assets/images/development/copper_ERC20.webp';
 import Iron from '../../assets/images/development/iron_ERC20.webp';
-import Key from '../../assets/images/development/key_ERC721.webp';
-import Axe from '../../assets/images/development/axe_iron_wood_ERC1155.webp';
-import WoodSheild from '../../assets/images/development/Shield_wood_ERC1155.webp';
+// import Key from '../../assets/images/development/key_ERC721.webp';
+// import Axe from '../../assets/images/development/axe_iron_wood_ERC1155.webp';
+// import WoodSheild from '../../assets/images/development/Shield_wood_ERC1155.webp';
 import Picaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
 import { WindowSize } from '../../types';
 
@@ -72,7 +72,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
   return (
     <main
       className={
-        'fixed overflow-hidden z-10 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
+        'fixed overflow-hidden z-20 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
         (isDrawerOpen
           ? 'transition-opacity opacity-100 duration-500 translate-x-0'
           : 'transition-all delay-500 opacity-0 translate-x-full')
@@ -97,17 +97,17 @@ const BlueprintDetailDrawer: FC<Props> = ({
             Blueprint
           </div>
           <img
-            className="min-h-[435px] object-cover"
-            src={IronSheild}
+            className="min-h-[235px] object-cover md:min-h-[435px]"
+            src={Picaxe}
             alt="drawer"
           />
-          <p className="z-20 absolute top-[380px] left-4 bg-blue-200 text-blue-800 text-lg font-medium me-2 px-2.5 py-0.5 rounded opacity-90">
+          <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px]">
             Iron Sheild
           </p>
-          <div className="z-10 absolute top-[323px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28"></div>
+          <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
           <div className="bg-[#011018] py-6 px-8 h-80 md:h-60">
             <div className="flex flex-col-reverse justify-between items-center gap-4 md:flex-row md:justify-beteen">
-              <div className="flex justify-between w-full">
+              <div className="flex justify-start w-full gap-8">
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="text-light-gray text-sm">Blueprint ID</p>
                   <p>8465</p>
@@ -130,7 +130,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 />
               </div>
             </div>
-            <div className="flex justify-center items-start mt-5 md:justify-between">
+            <div className="flex justify-start items-start mt-5 md:justify-between">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Creator</p>
                 <div className="flex items-center gap-1">
@@ -180,7 +180,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium me-2 px-2.5 rounded-xl opacity-90`}
                 >
-                  3
+                  2
                 </p>
               </button>
               <button
@@ -199,7 +199,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium me-2 px-2.5 rounded-xl opacity-90`}
                 >
-                  1
+                  0
                 </p>
               </button>
               <button
@@ -218,30 +218,29 @@ const BlueprintDetailDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium me-2 px-2.5 rounded-xl opacity-90`}
                 >
-                  4
+                  0
                 </p>
               </button>
             </div>
           </div>
           <div className="px-12 py-10">
             {activeTab === 1 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2">
-                <ERC20Card imageUrl={Copper} />
+              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
+                {/* <ERC20Card imageUrl={Copper} /> */}
                 <ERC20Card imageUrl={Iron} />
                 <ERC20Card imageUrl={Wood} />
               </div>
             )}
             {activeTab === 2 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2">
-                <ERC721Card imageUrl={Key} />
+              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
+                {/* <ERC721Card imageUrl={Key} /> */}
               </div>
             )}
             {activeTab === 3 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2">
-                <ERC1155Card imageUrl={Axe} />
-                <ERC1155Card imageUrl={Picaxe} />
+              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
+                {/* <ERC1155Card imageUrl={Axe} />
                 <ERC1155Card imageUrl={IronSheild} />
-                <ERC1155Card imageUrl={WoodSheild} />
+                <ERC1155Card imageUrl={WoodSheild} /> */}
               </div>
             )}
           </div>

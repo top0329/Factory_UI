@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import SearchBar from '../../components/SearchBar';
-import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailDrawer';
+import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
 import Button from '../../components/Button';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
@@ -11,7 +11,7 @@ import Key from '../../assets/images/development/key_ERC721.webp';
 import IronSheild from '../../assets/images/development/Shield_iron_ERC1155.webp';
 
 const BlueprintPage = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = React.useState<boolean>(false);
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -27,12 +27,12 @@ const BlueprintPage = () => {
     <React.Fragment>
       <SearchBar />
       <Button
-        text="Click here to see drawer"
+        text="Click here to see BlueprintDetailsDrawer"
         className="my-6"
         onClick={showSidebar}
       />
-      <div className="flex my-12 gap-3">
-        <ERC20Card imageUrl={Copper} />
+      <div className="flex flex-col my-12 gap-3">
+        <ERC20Card imageUrl={Copper} icon />
         <ERC721Card imageUrl={Key} />
         <ERC1155Card imageUrl={IronSheild} />
       </div>
