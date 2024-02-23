@@ -18,7 +18,7 @@ export default function ERC1155DecomposeListCard(props: Props) {
 
       <div
         id="type"
-        className="flex text-white justify-center items-center w-[15%]"
+        className="flex text-white justify-center items-center w-[15%]  text-2xl"
       >
         {props.type}
       </div>
@@ -42,7 +42,7 @@ export default function ERC1155DecomposeListCard(props: Props) {
       </div>
 
       <div id="id" className="w-[5%] justify-center">
-        <p className="text-[#858584] text-xs">Id</p>
+        <p className="text-[#858584] text-xs">ID</p>
         <p>{props.id}</p>
       </div>
 

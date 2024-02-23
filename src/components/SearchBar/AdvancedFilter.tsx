@@ -87,8 +87,21 @@ export default function AdvancedFilter() {
       </div>
 
       <div className="flex flex-col gap-y-2">
-        <div className="flex justify-between items-center  px-3 py-1 text-[#FFFFFF] bg-[#000000] rounded-lg w-full">
+        <div className="flex justify-between items-center  px-3 py-1 text-[#FFFFFF] bg-black rounded-lg w-full">
           <p className="text-base font-mono">Minted Amount</p>
+        </div>
+        <div className="flex justify-between text-white gap-2">
+          <input
+            type="input"
+            placeholder="Min"
+            className="rounded-lg border border-[#FFFFFF] text-[#B0A9A9D4] text-base text-center w-full bg-[#000000]"
+          />
+          to
+          <input
+            type="input"
+            placeholder="Max"
+            className="rounded-lg border border-[#FFFFFF] text-[#B0A9A9D4] text-base text-center w-full bg-[#000000]"
+          />
         </div>
       </div>
 

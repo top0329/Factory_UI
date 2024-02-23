@@ -3,7 +3,7 @@ import shield from '../../assets/images/Shield_wood_ERC1155.webp';
 
 export default function ApproveBlueprintModal() {
   return (
-    <div className="flex flex-col w-[614px] rounded-3xl bg-[#020915] broder border-[#313131] gap-y-3 pt-[13px] pb-[30px] ">
+    <div className="flex flex-col sm:w-[30%] w-[420px] rounded-3xl bg-[#020915] broder border-[#313131] gap-y-3 pt-[13px] pb-[30px] ">
       <div className="flex justify-between items-center text-[#AEAEAE]">
         <p className="flex justify-center text-2xl items-center text-center">
           Blueprint Info

@@ -17,7 +17,7 @@ export default function ERC20DecomposeListCard(props: Props) {
 
       <div
         id="type"
-        className="flex text-white justify-center items-center w-[15%]"
+        className="flex text-white justify-center items-center w-[15%] text-2xl"
       >
         {props.type}
       </div>

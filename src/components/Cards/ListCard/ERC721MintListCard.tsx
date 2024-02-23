@@ -17,7 +17,7 @@ export default function ERC721MintListCard(props: Props) {
 
       <div
         id="type"
-        className="hidden md:flex text-white justify-center items-center w-[15%]"
+        className="hidden md:flex text-white justify-center items-center w-[15%]  text-2xl"
       >
         {props.type}
       </div>
@@ -41,7 +41,7 @@ export default function ERC721MintListCard(props: Props) {
       </div>
 
       <div id="id" className="flex flex-col justify-center w-[5%]">
-        <p className="text-[#858584] text-xs">Id</p>
+        <p className="text-[#858584] text-xs">ID</p>
         <p>{props.id}</p>
       </div>
 
