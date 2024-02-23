@@ -102,11 +102,11 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             src={BatteringRam}
             alt="drawer"
           />
-          <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px]">
+          <p className="z-30 absolute top-[192px] left-6 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px]">
             Iron Sheild
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
-          <div className="bg-[#011018] py-6 px-8 h-80 md:h-60">
+          <div className="bg-[#011018] py-6 px-6 h-80 md:h-60 md:px-8">
             <div className="flex flex-col-reverse justify-between items-center gap-4 md:flex-row md:justify-beteen">
               <div className="flex justify-start w-full gap-8">
                 <div className="flex flex-col items-start text-white gap-2">
@@ -118,7 +118,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                   <p>10000</p>
                 </div>
               </div>
-              <div className="flex justify-end gap-8 mb-2 md:gap-3">
+              <div className="flex justify-end gap-8 w-full mb-2 md:gap-3">
                 <Button
                   className="truncate text-base !py-1 !px-2"
                   text="Mint Product"
@@ -145,7 +145,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
               </div>
             </div>
           </div>
-          <div>
+          <div className="mt-4">
             <div className="flex justify-between h-16 bg-black border-t-2 border-gray-700 pt-2">
               <button
                 className={`flex justify-center items-center gap-2 font-medium w-1/3 mx-2 ${
@@ -206,7 +206,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
               </button>
             </div>
           </div>
-          <div className="px-12 py-10">
+          <div className="px-12 py-10 h-full">
             {activeTab === 1 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
                 {/* <ERC20Card imageUrl={Copper} /> */}
