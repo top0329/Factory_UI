@@ -9,9 +9,9 @@ export interface Props {
 
 const SearchBar: FC<Props> = ({ value }) => {
   return (
-    <div className="flex flex-1 items-center justify-center m-6">
+    <div className="flex flex-1 items-center justify-center">
       <div className="w-full">
-        <div className="mt-5 sm:flex sm:items-center">
+        <div className="my-5 sm:flex sm:items-center">
           <div className="flex w-full relative">
             <Icon
               icon="icon-park-outline:setting-config"

@@ -4,39 +4,41 @@ import ImageForPlatformUsage from '../../assets/images/image-for-platform-usage.
 
 const PlatformUsage: FC = () => {
   return (
-    <div className="px-32 py-12 bg-landing">
-      <h1 className="text-light-gray text-3xl mb-14">
-        For <span className="text-white">NFT</span> people, By{' '}
+    <div className="px-6 py-28 mt-2 shadow-light-gray sm:px-10 sm:py-30 sm:mt-4 md:px-15 md:py-8 md:mt-6 lg:px-20 lg:py-12 lg:mt-8">
+      <h1 className="text-light-gray font-bold text-xl mb-10 sm:mb-14 sm:text-2xl md:mb-12 md:text-3xl lg:mb-12 lg:text-4xl">
+        For <span className="text-white">NFT</span> people,
+        <br className="inline-block md:hidden" /> By{' '}
         <span className="text-white">NFT</span> people
       </h1>
-      <div className="grid grid-cols-2 border border-light-gray rounded-3xl shadow-lg shadow-secondary">
-        <div className="col-span-1 py-2">
-          <div className="flex p-8">
-            <hr className="border border-cyan h-16 w-0 my-auto ml-4 block" />
-            <p className="pl-10 text-white text-3xl">
-              Enhancing Asset Value Stability and Reusablility using NFT&nbsp;
+      <div className="grid grid-cols-12 border border-[#16e3e34d] rounded-3xl shadow-lg shadow-secondary bg-[#09080e]">
+        <div className="col-span-12 px-3 py-10 gap-4 flex flex-col justify-center items-start md:col-span-6 lg:col-span-7 lg:gap-8 lg:px-10">
+          <div className="flex justify-center items-center">
+            <hr className="border border-cyan h-[72px] w-0 my-auto ml-3 block" />
+            <p className="pl-3 text-white text-lg md:text-xl lg:text-2xl">
+              Enhancing Asset Value Stability and Reusablility using NFT &nbsp;
               <span className="text-cyan">Synthesis</span>
             </p>
           </div>
-          <div className="flex p-8">
-            <hr className="border border-yellow h-16 w-0 my-auto ml-4 block" />
-            <p className="pl-10 text-white text-3xl">
-              Gamified Advertising Platform by creating&nbsp;
-              <span className="text-yellow">Unique</span>&nbsp;NFTs for gaming
+          <div className="flex justify-center items-center">
+            <hr className="border border-yellow h-[72px] w-0 my-auto ml-3 block" />
+            <p className="pl-3 text-white text-lg md:text-xl lg:text-2xl">
+              Gamified Advertising Platform by creating &nbsp;
+              <span className="text-yellow">Unique </span>&nbsp; NFTs for gaming
               aseets
             </p>
           </div>
-          <div className="flex p-8">
-            <hr className="border border-cyan h-16 w-0 my-auto ml-4 block" />
-            <p className="pl-10 text-white text-3xl">
-              Enhancing Asset Value Stability and Reusablility using NFT&nbsp;
-              <span className="text-cyan">Synthesis</span>
+          <div className="flex justify-center items-center">
+            <hr className="border border-purple h-[72px] w-0 my-auto ml-3 block" />
+            <p className="pl-3 text-white text-lg md:text-xl lg:text-2xl">
+              Improving&nbsp;<span className="text-purple">Liquidity</span>
+              &nbsp;by expanding the ways NFTs can circulate, manage and trade
             </p>
           </div>
         </div>
-        <div className="relative col-span-1 w-full h-full">
+        <div className="relative col-span-12 h-full rounded-3xl md:col-span-6 lg:col-span-5">
+          <div className="absolute w-2/5 h-full bg-gradient-to-r from-landing via-transparent to-transparent rounded-b-3xl md:rounded-r-3xl md:rounded-bl-none"></div>
           <img
-            className="w-full h-full rounded-r-3xl object-cover"
+            className="w-full h-full object-cover rounded-b-3xl md:rounded-r-3xl"
             src={ImageForPlatformUsage}
             alt="image-for-platform-usage"
           />
