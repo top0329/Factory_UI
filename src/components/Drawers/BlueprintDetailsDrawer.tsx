@@ -223,7 +223,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
               </button>
             </div>
           </div>
-          <div className="px-12 py-10 h-full">
+          <div className="px-12 py-10 h-auto">
             {activeTab === 1 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
                 {/* <ERC20Card imageUrl={Copper} /> */}

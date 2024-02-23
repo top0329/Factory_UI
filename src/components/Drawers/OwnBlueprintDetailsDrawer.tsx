@@ -106,7 +106,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             Iron Sheild
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
-          <div className="bg-[#011018] py-6 px-6 h-80 md:h-60 md:px-8">
+          <div className="bg-[#011018] py-6 px-6 h-80 md:h-[172px] md:px-8">
             <div className="flex flex-col-reverse justify-between items-center gap-4 md:flex-row md:justify-beteen">
               <div className="flex justify-start w-full gap-8">
                 <div className="flex flex-col items-start text-white gap-2">
@@ -206,7 +206,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
               </button>
             </div>
           </div>
-          <div className="px-12 py-10 h-full">
+          <div className="px-12 py-10 h-auto">
             {activeTab === 1 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
                 {/* <ERC20Card imageUrl={Copper} /> */}
