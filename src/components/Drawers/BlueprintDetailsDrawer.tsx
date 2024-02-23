@@ -97,7 +97,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
             Blueprint
           </div>
           <img
-            className="min-h-[235px] object-cover md:min-h-[435px]"
+            className="max-h-[235px] object-cover md:max-h-[435px]"
             src={Picaxe}
             alt="drawer"
           />

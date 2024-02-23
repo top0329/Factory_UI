@@ -45,9 +45,15 @@ const ERC1155Card: FC<Props> = ({ imageUrl, icon = false }) => {
       <div className="absolute bottom-0 left-0 rounded-l-3xl bg-gradient-to-t from-slate-800 gray via-transparent to-transparent w-full h-[20px] rounded-b-[-24px]"></div>
       <div className="flex flex-col gap-1 px-4 pt-0 pb-2 text-white">
         <p className="z-20 text-lg font-medium mt-[-12px]">Copper</p>
-        <div className="flex flex-col">
-          <p className="text-sm text-light-gray">Amount</p>
-          <p>2000</p>
+        <div className="flex justify-between">
+          <div className="flex flex-col">
+            <p className="text-sm text-light-gray">ID</p>
+            <p>387</p>
+          </div>
+          <div className="flex flex-col">
+            <p className="text-sm text-light-gray">Amount</p>
+            <p>2000</p>
+          </div>
         </div>
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">Adress</p>
