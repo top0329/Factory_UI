@@ -42,7 +42,7 @@ export function MyOwnBlueprintCard(props: Props) {
             <p className="text-xs font-mono text-[#858584]">Name</p>
             <div className="flex justify-between py-[3px]">
               <p className="text-lg font-mono">{props.name}</p>
-              <p className="hidden sm:block flex font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
+              <p className="hidden sm:block font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
                 My Blueprint
               </p>
             </div>
@@ -54,7 +54,7 @@ export function MyOwnBlueprintCard(props: Props) {
               <p className="text-lg font-mono">{props.blueprintid}</p>
             </div>
             <div id="id" className="text-end hidden sm:block">
-              <p className="text-xs font-mono text-[#858584]">Total Supply</p>
+              <p className="text-xs font-mono text-[#858584]">Balance</p>
               <p className="text-lg font-mono">{props.tsupply}</p>
             </div>
           </div>

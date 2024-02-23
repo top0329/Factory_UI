@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
-export default function BlueprintUpdateCard() {
+export default function ApproveBlueprintModal() {
   const [editable, setEditable] = useState(false);
   const [buttonEnable, setButtonEnable] = useState(false);
 

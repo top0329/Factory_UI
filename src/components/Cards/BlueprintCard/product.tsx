@@ -46,7 +46,7 @@ export function ProductBlueprintCard(props: Props) {
               <p className="text-lg font-mono">{props.blueprintid}</p>
             </div>
             <div id="id" className="text-end hidden sm:block">
-              <p className="text-xs font-mono text-[#858584]">Total Supply</p>
+              <p className="text-xs font-mono text-[#858584]">Balance</p>
               <p className="text-lg font-mono">{props.tsupply}</p>
             </div>
           </div>
