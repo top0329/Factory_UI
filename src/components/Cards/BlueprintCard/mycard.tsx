@@ -23,27 +23,29 @@ export function MyBlueprintCard(props: Props) {
         >
           Blueprint
         </div>
-        <img
-          src={props.imageLink}
-          className="w-[280px] xs:w-[176px]"
-          alt="okoko"
-        />{' '}
+        <div className="w-[176px] h-[176px] sm:w-[280px] sm:h-[335px] overflow-hidden">
+          <img
+            src={props.imageLink}
+            className="w-[280px] xs:w-[176px] sm:w-[280px] sm:h-[335px]"
+            alt="okoko"
+          />
+        </div>
         <div
           id="gradient"
           className="absolute z-0 top-[258px] bg-gradient-to-t from-[#000000] bg-opacity-100 to-[#000407]/0 sm:w-[280px]  w-[176px] h-[82px]"
         ></div>
-        <p className="absolute flex top-[178px] z-50 right-[10px] block-content sm:hidden font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
+        <p className="absolute flex top-[148px] z-50 right-[10px] block-content sm:hidden font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
           My Blueprint
         </p>
         <div
           id="infor"
-          className="relative flex justify-between sm:flex-col gap-y-1 top-[-8px] px-6 sm:w-[280px] w-[176px] box-border"
+          className="relative flex justify-between sm:flex-col gap-y-1 top-[2px] sm:top-[-8px] px-6 sm:w-[280px] w-[176px] box-border"
         >
           <div id="name" className="text-white">
             <p className="text-xs font-mono text-[#858584]">Name</p>
             <div className="flex justify-between py-[3px]">
               <p className="text-lg font-mono">{props.name}</p>
-              <p className="hidden sm:block flex font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
+              <p className="hidden sm:block font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
                 My Blueprint
               </p>
             </div>

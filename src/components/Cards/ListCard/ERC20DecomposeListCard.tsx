@@ -10,14 +10,14 @@ export interface Props {
 
 export default function ERC20DecomposeListCard(props: Props) {
   return (
-    <div className="flex gap-3 w-[400px] md:w-[80%] h-[80px] justify-between items-center md:px-[40px] py-2 border bg-[#09F5D8]/10 border-[#09F5D8] rounded-3xl text-white text-base">
+    <div className="flex gap-3 w-[350px] sm:w-[400px] md:w-[80%] h-[80px] justify-between items-center md:px-[40px] py-2 border bg-[#09F5D8]/10 border-[#09F5D8] rounded-3xl text-white text-base">
       <div id="icon" className="flex justify-center w-[64px] py-2">
         <img src={props.uri} className=" h-[68px] rounded-full" />
       </div>
 
       <div
         id="type"
-        className="flex text-white justify-center items-center w-[15%] text-2xl"
+        className="hidden md:flex text-white justify-center items-center w-[15%] text-2xl"
       >
         {props.type}
       </div>

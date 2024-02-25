@@ -12,7 +12,7 @@ export interface Props {
 export default function ProductListCard(props: Props) {
   return (
     <div
-      className={`flex gap-0 md:gap-3 w-[400px] md:w-[85%] h-[80px] justify-between items-center md:px-[40px] py-2 border bg-[#6469875]/10 rounded-3xl text-white text-base`}
+      className={`flex gap-0 md:gap-3 w-[350px] md:w-[85%] h-[80px] justify-between items-center md:px-[40px] py-2 border bg-[#6469875]/10 rounded-3xl text-white text-base`}
     >
       <div id="icon" className="flex justify-center w-[64px] py-2">
         <img src={props.uri} className="block h-[64px] rounded-full" />

@@ -53,7 +53,7 @@ export default function DecomposeProductModal() {
   ];
 
   return (
-    <div className="flex flex-col overflow-hidden items-center w-[450px] sm:w-[60%] h-[1070px] !bg-[#000000] rounded-[48px] text-white">
+    <div className="flex flex-col overflow-hidden items-center w-[360px] sm:w-[450px] md:w-[60%] h-[1070px] !bg-[#000000] rounded-[48px] text-white">
       <div className="flex justify-center py-8 border-b border-[#858584] w-full bg-[#040404]">
         <p id="header" className="text-[32px] ">
           Decompose Product
@@ -71,9 +71,12 @@ export default function DecomposeProductModal() {
           id={3}
           balance={100}
         />
-        <div id="amountForm" className="flex justify-between gap-3 w-[85%]">
-          <input className="border border-[#858584] bg-[#000000] px-5 py-3 w-3/4 rounded-xl" />
-          <button className="px-11 py-2 bg-primary rounded-xl w-1/4">
+        <div
+          id="amountForm"
+          className="flex justify-center lg:justify-between gap-3 w-[85%]"
+        >
+          <input className="border border-[#858584] bg-[#000000] px-5 py-3 w-[180px] sm:w-3/4 rounded-xl" />
+          <button className="px-11 py-2 bg-primary rounded-xl w-[160px] ">
             Approve
           </button>
         </div>

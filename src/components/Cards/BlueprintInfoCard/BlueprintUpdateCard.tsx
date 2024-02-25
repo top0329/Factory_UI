@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import pickAxe from '../../../assets/images/pickaxe_iron_wood_ERC1155.webp';
 
 export default function BlueprintUpdateCard() {
   const [editable, setEditable] = useState(false);
@@ -31,10 +32,7 @@ export default function BlueprintUpdateCard() {
           )}
         </button>
       </div>
-      <img
-        src="https://s3-alpha-sig.figma.com/img/1227/9881/7c4f8936a4246f91674d47fe40c14d63?Expires=1709510400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fZMf1NLUXLBL0whpRBoxaxVmW~CSdZJ8D~LVlqsDrc6XExG6tYQVfbqM-1jdBugVikABU9UhpX4TBpOzZRdPLK-UEmNMi4ELL6ooAgbNeG5Wa05zvsrgUxJE-2fd1Wjd2zCfjKKjBktjtLX3Rt~8GIUQHyepvdI-TGdbURvn4Rw8WLQFhosDE433k~OHyEr0npRUQEYAfjUfOucLD6uoe2yge9pMUTZA~Ati6FqR1m11LGVWJK9SSZjxS3O1IPZTtHu-S~u~29qJTwtpHmThgxzfZ7gk3Kf7G3Wne3hlmYLeQ-n6rtTPPWve3-k5MkF7oHoP2XhL86nKV2eNj1ba7g__"
-        className="w-full h-[202px] overflow-hidden	"
-      />
+      <img src={pickAxe} className="w-full h-[202px] overflow-hidden	" />
 
       <div className="flex flex-col items-center px-[32px] gap-y-2 text-white">
         <div className="flex flex-col w-full gap-y-1 ">
@@ -124,7 +122,7 @@ export default function BlueprintUpdateCard() {
           />
         </div>
         <div className="flex flex-col w-full gap-y-1">
-          <p className="text-xs text-[#858584]">Mint Limit</p>
+          <p className="text-xs text-[#858584]">Creator</p>
           <input
             type="input"
             disabled={!editable}

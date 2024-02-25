@@ -118,7 +118,10 @@ export default function BlueprintInfoCard() {
                 : 'bg-[#010B10] border-[#191313]'
             }`}
             />
-            <select className="!bg-[#4A4A4A]/20 rounded-r-lg text-sm">
+            <select
+              disabled={!editable || !mintPriceChecked}
+              className="!bg-[#4A4A4A]/20 rounded-r-lg text-sm"
+            >
               <option value="ETH" className="!bg-[#4A4A4A] !text-sm">
                 ETH
               </option>

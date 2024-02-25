@@ -15,6 +15,8 @@ import copper from './assets/images/copper_ERC20.webp';
 import key721 from './assets/images/key_ERC721.webp';
 import axeIron from './assets/images/axe_iron_wood_ERC1155.webp';
 import pickAxe from './assets/images/pickaxe_iron_wood_ERC1155.webp';
+import woodShield from './assets/images/Shield_wood_ERC1155.webp';
+import ironShield from './assets/images/Shield_iron_ERC1155.webp';
 import ApproveBlueprintModal from './components/Modals/ApproveBlueprintModal';
 import MintProductModal from './components/Modals/MintProductModal';
 import DecomposeProductModal from './components/Modals/DecomposeProductModal';
@@ -31,8 +33,6 @@ function App() {
       <DecomposeProductModal />
 
       <MintProductModal />
-
-      <ApproveBlueprintModal />
 
       <ERC20DecomposeListCard
         uri={pickAxe}
@@ -86,32 +86,32 @@ function App() {
       <BlueprintInfoCard />
       <AdvancedFilter />
       <ProductBlueprintCard
-        imageLink="https://s3-alpha-sig.figma.com/img/1227/9881/7c4f8936a4246f91674d47fe40c14d63?Expires=1709510400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=fZMf1NLUXLBL0whpRBoxaxVmW~CSdZJ8D~LVlqsDrc6XExG6tYQVfbqM-1jdBugVikABU9UhpX4TBpOzZRdPLK-UEmNMi4ELL6ooAgbNeG5Wa05zvsrgUxJE-2fd1Wjd2zCfjKKjBktjtLX3Rt~8GIUQHyepvdI-TGdbURvn4Rw8WLQFhosDE433k~OHyEr0npRUQEYAfjUfOucLD6uoe2yge9pMUTZA~Ati6FqR1m11LGVWJK9SSZjxS3O1IPZTtHu-S~u~29qJTwtpHmThgxzfZ7gk3Kf7G3Wne3hlmYLeQ-n6rtTPPWve3-k5MkF7oHoP2XhL86nKV2eNj1ba7g__"
-        name="Robot"
+        imageLink={woodShield}
+        name="WoodShield"
         blueprintid={28}
         tsupply={100}
         address="0x55d398326f99059ff775485246999027b3197955"
       />
 
       <MyOwnBlueprintCard
-        imageLink={robot}
-        name="Robot"
+        imageLink={ironShield}
+        name="IronShield"
         blueprintid={28}
         tsupply={100}
         address="0x55d398326f99059ff775485246999027b3197955"
       />
 
       <OwnBlueprintCard
-        imageLink={robot}
-        name="Robot"
+        imageLink={woodShield}
+        name="WoodShield"
         blueprintid={28}
         tsupply={100}
         address="0x55d398326f99059ff775485246999027b3197955"
       />
 
       <DefaultBlueprintCard
-        imageLink={robot}
-        name="Robot"
+        imageLink={woodShield}
+        name="WoodShield"
         blueprintid={28}
         tsupply={100}
         mintPrice={0.001}
@@ -119,8 +119,8 @@ function App() {
       />
 
       <MyBlueprintCard
-        imageLink={robot}
-        name="Robot"
+        imageLink={ironShield}
+        name="IronShield"
         blueprintid={28}
         tsupply={100}
         mintPrice={0.001}
@@ -128,8 +128,8 @@ function App() {
       />
 
       <UserBlueprintCard
-        imageLink={robot}
-        name="Robot"
+        imageLink={woodShield}
+        name="WoodShield"
         blueprintid={28}
         tsupply={100}
         mintPrice={0.001}
