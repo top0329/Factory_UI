@@ -1,31 +1,30 @@
 import CoreRoutes from './routes';
-import DefaultBlueprintCard from './components/Cards/BlueprintCard/default';
-import { MyBlueprintCard } from './components/Cards/BlueprintCard/mycard';
-import { MyOwnBlueprintCard } from './components/Cards/BlueprintCard/myown';
-import { OwnBlueprintCard } from './components/Cards/BlueprintCard/own';
-import { ProductBlueprintCard } from './components/Cards/BlueprintCard/product';
-import { UserBlueprintCard } from './components/Cards/BlueprintCard/user';
+import DefaultBlueprintCard from './components/Cards/BlueprintCard/DefaultBlueprintCard';
 import BlueprintInfoCard from './components/Cards/BlueprintInfoCard/BlueprintInfoCard';
 import BlueprintUpdateCard from './components/Cards/BlueprintInfoCard/BlueprintUpdateCard';
 import AdvancedFilter from './components/SearchBar/AdvancedFilter';
 import SortBy from './components/SearchBar/SortBy';
-
-import robot from './assets/svg/robot.svg';
-import copper from './assets/images/copper_ERC20.webp';
-import key721 from './assets/images/key_ERC721.webp';
-import axeIron from './assets/images/axe_iron_wood_ERC1155.webp';
-import pickAxe from './assets/images/pickaxe_iron_wood_ERC1155.webp';
-import woodShield from './assets/images/Shield_wood_ERC1155.webp';
-import ironShield from './assets/images/Shield_iron_ERC1155.webp';
 import ApproveBlueprintModal from './components/Modals/ApproveBlueprintModal';
 import MintProductModal from './components/Modals/MintProductModal';
 import DecomposeProductModal from './components/Modals/DecomposeProductModal';
-import ERC20DecomposeListCard from './components/Cards/ListCard/ERC20DecomposeListCard';
-import ERC721DecomposeListCard from './components/Cards/ListCard/ERC721DecomposeListCard';
-import ERC1155DecomposeListCard from './components/Cards/ListCard/ERC1155DecomposeListCard';
-import ERC20MintListCard from './components/Cards/ListCard/ERC20MintListCard';
-import ERC721MintListCard from './components/Cards/ListCard/ERC721MintListCard';
-import ERC1155MintListCard from './components/Cards/ListCard/ERC1155MintListCard';
+import { MyBlueprintCard } from './components/Cards/BlueprintCard/MyBlueprintCard';
+import { MyOwnBlueprintCard } from './components/Cards/BlueprintCard/MyOwnBlueprintCard';
+import { OwnBlueprintCard } from './components/Cards/BlueprintCard/OwnBlueprintCard';
+import { ProductBlueprintCard } from './components/Cards/BlueprintCard/ProductBlueprintCard';
+import { UserBlueprintCard } from './components/Cards/BlueprintCard/UserBlueprintCard';
+import { ERC20DecomposeListCard } from './components/Cards/ListCard/ERC20ListCard';
+import { ERC721DecomposeListCard } from './components/Cards/ListCard/ERC721ListCard';
+import { ERC1155DecomposeListCard } from './components/Cards/ListCard/ERC1155ListCard';
+import { ERC20MintListCard } from './components/Cards/ListCard/ERC20ListCard';
+import { ERC721MintListCard } from './components/Cards/ListCard/ERC721ListCard';
+import { ERC1155MintListCard } from './components/Cards/ListCard/ERC1155ListCard';
+
+import copper from './assets/images/development/copper_ERC20.webp';
+import key721 from './assets/images/development/key_ERC721.webp';
+import axeIron from './assets/images/development/axe_iron_wood_ERC1155.webp';
+import pickAxe from './assets/images/development/pickaxe_iron_wood_ERC1155.webp';
+import woodShield from './assets/images/development/Shield_wood_ERC1155.webp';
+import ironShield from './assets/images/development/Shield_iron_ERC1155.webp';
 function App() {
   return (
     <div className="flex flex-col gap-2 justify-center items-center">

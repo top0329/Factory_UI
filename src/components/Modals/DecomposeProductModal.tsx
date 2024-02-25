@@ -1,10 +1,10 @@
-import copper from '../../assets/images/copper_ERC20.webp';
-import key721 from '../../assets/images/key_ERC721.webp';
-import axeIron from '../../assets/images/axe_iron_wood_ERC1155.webp';
+import copper from '../../assets/images/development/copper_ERC20.webp';
+import key721 from '../../assets/images/development/key_ERC721.webp';
+import axeIron from '../../assets/images/development/axe_iron_wood_ERC1155.webp';
 import ProductListCard from '../Cards/ListCard/ProductListCard';
-import ERC20DecomposeListCard from '../Cards/ListCard/ERC20DecomposeListCard';
-import ERC721DecomposeListCard from '../Cards/ListCard/ERC721DecomposeListCard';
-import ERC1155DecomposeListCard from '../Cards/ListCard/ERC1155DecomposeListCard';
+import { ERC20DecomposeListCard } from '../Cards/ListCard/ERC20ListCard';
+import { ERC721DecomposeListCard } from '../Cards/ListCard/ERC721ListCard';
+import { ERC1155DecomposeListCard } from '../Cards/ListCard/ERC1155ListCard';
 
 export default function DecomposeProductModal() {
   const ERC20Data = [

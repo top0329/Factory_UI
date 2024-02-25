@@ -1,7 +1,7 @@
 import { Meta, Story } from '@storybook/react';
 import robot from '../../assets/svg/robot.svg';
 
-import { MyBlueprintCard, Props } from './mycard';
+import { MyBlueprintCard, Props } from './MyBlueprintCard';
 
 const meta: Meta = {
   title: 'Atoms/DefaultBlueprintCard',

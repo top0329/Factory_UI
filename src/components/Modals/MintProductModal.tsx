@@ -1,9 +1,9 @@
-import copper from '../../assets/images/copper_ERC20.webp';
-import key721 from '../../assets/images/key_ERC721.webp';
-import axeIron from '../../assets/images/axe_iron_wood_ERC1155.webp';
-import ERC20MintListCard from '../Cards/ListCard/ERC20MintListCard';
-import ERC721MintListCard from '../Cards/ListCard/ERC721MintListCard';
-import ERC1155MintListCard from '../Cards/ListCard/ERC1155MintListCard';
+import copper from '../../assets/images/development/copper_ERC20.webp';
+import key721 from '../../assets/images/development/key_ERC721.webp';
+import axeIron from '../../assets/images/development/axe_iron_wood_ERC1155.webp';
+import { ERC20MintListCard } from '../Cards/ListCard/ERC20ListCard';
+import { ERC721MintListCard } from '../Cards/ListCard/ERC721ListCard';
+import { ERC1155MintListCard } from '../Cards/ListCard/ERC1155ListCard';
 
 export default function MintProductModal() {
   const ERC20Data = [
