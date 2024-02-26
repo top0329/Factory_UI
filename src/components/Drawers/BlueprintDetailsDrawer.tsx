@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../Button';
@@ -15,6 +15,8 @@ import Iron from '../../assets/images/development/iron_ERC20.webp';
 // import WoodSheild from '../../assets/images/development/Shield_wood_ERC1155.webp';
 import Picaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
 import { WindowSize } from '../../types';
+import { useAtom } from 'jotai';
+import { isMintBlueprintModalAtom } from '../../jotai/atoms';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -30,11 +32,14 @@ const BlueprintDetailDrawer: FC<Props> = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }) => {
+  const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState<number>(1);
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: undefined,
     height: undefined,
   });
+  const [, setIsAddComponentModalOpen] = useAtom(isMintBlueprintModalAtom);
 
   useEffect(() => {
     // Handler to call on window resize
@@ -126,6 +131,11 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 <Button
                   className="truncate text-base !py-1 !px-2"
                   text="Mint Blueprint"
+                  onClick={() => {
+                    navigate('/blueprint/mint');
+                    sideDrawerClosedHandler();
+                    // setIsAddComponentModalOpen(true);
+                  }}
                   variant="outline"
                 />
               </div>

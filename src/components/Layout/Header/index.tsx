@@ -82,6 +82,7 @@ function Header() {
                   <Link
                     to={'/blueprint'}
                     className="block my-1 px-4 py-3 rounded text-white bg-secondary"
+                    onClick={() => setIsListButtonClicked(false)}
                   >
                     Blueprint
                   </Link>
@@ -90,6 +91,7 @@ function Header() {
                   <Link
                     to={'/product'}
                     className="block my-1 px-4 py-3 rounded text-light-gray"
+                    onClick={() => setIsListButtonClicked(false)}
                   >
                     Product
                   </Link>
@@ -98,6 +100,7 @@ function Header() {
                   <Link
                     to={'/decompose'}
                     className="block my-1 px-4 py-3 rounded text-light-gray"
+                    onClick={() => setIsListButtonClicked(false)}
                   >
                     Decompose
                   </Link>
@@ -106,6 +109,7 @@ function Header() {
                   <Link
                     to={'#'}
                     className="block my-1 px-4 py-3 rounded text-light-gray"
+                    onClick={() => setIsListButtonClicked(false)}
                   >
                     Whitepaper
                   </Link>
@@ -115,6 +119,7 @@ function Header() {
               <Link
                 to={'#'}
                 className="block m-4 px-4 py-3 rounded text-base text-light-gray"
+                onClick={() => setIsListButtonClicked(false)}
               >
                 Connect Wallet
               </Link>
