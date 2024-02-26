@@ -1,14 +1,24 @@
+import { FC } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 export interface Props {
-  imageLink: string;
+  uri: string;
   name: string;
   blueprintid: number;
-  tsupply: number;
+  totalSupply: number;
   address: string;
+  myCardBadge?: boolean;
 }
 
-export function OwnBlueprintCard(props: Props) {
+// export function OwnBlueprintCard(props: Props) {
+const OwnBlueprintCard: FC<Props> = ({
+  uri,
+  name,
+  blueprintid,
+  totalSupply,
+  address,
+  myCardBadge,
+}) => {
   return (
     <div
       id="container"
@@ -24,7 +34,7 @@ export function OwnBlueprintCard(props: Props) {
         </div>
         <div className="w-[176px] h-[176px] sm:w-[280px] sm:h-[335px] overflow-hidden">
           <img
-            src={props.imageLink}
+            src={uri}
             className="w-[280px] xs:w-[176px] sm:w-[280px] sm:h-[335px]"
             alt="okoko"
           />
@@ -33,23 +43,39 @@ export function OwnBlueprintCard(props: Props) {
           id="gradient"
           className="absolute top-[258px] bg-gradient-to-t from-[#011018] bg-opacity-100 to-[#000407]/0 w-[280px]  xs:w-[176px] h-[82px]"
         ></div>
+        <p
+          className={`absolute ${
+            myCardBadge ? 'sm:hidden' : 'hidden'
+          } flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+        >
+          My Blueprint
+        </p>
         <div
           id="infor"
           className="relative flex justify-between sm:flex-col gap-y-1 top-[2px] sm:top-[-8px] px-6 sm:w-[280px] w-[176px] box-border"
         >
           <div id="name" className="text-white">
             <p className="text-xs font-mono text-[#858584]">Name</p>
-            <p className="text-lg font-mono">{props.name}</p>
+            <div className="flex justify-between py-[3px]">
+              <p className="text-lg font-mono">{name}</p>
+              <p
+                className={`${
+                  myCardBadge ? 'hidden sm:block' : 'hidden'
+                } font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+              >
+                My Blueprint
+              </p>
+            </div>
           </div>
 
           <div id="id_supply" className="flex justify-between text-white">
             <div id="id" className="">
               <p className="text-xs font-mono text-[#858584]">ID</p>
-              <p className="text-lg font-mono">{props.blueprintid}</p>
+              <p className="text-lg font-mono">{blueprintid}</p>
             </div>
             <div id="id" className="text-end hidden sm:block">
               <p className="text-xs font-mono text-[#858584]">Balance</p>
-              <p className="text-lg font-mono">{props.tsupply}</p>
+              <p className="text-lg font-mono">{totalSupply}</p>
             </div>
           </div>
 
@@ -62,7 +88,7 @@ export function OwnBlueprintCard(props: Props) {
                     icon="logos:ethereum"
                     className="hidden sm:block item-center my-auto"
                   />
-                  {props.address.substring(0, 7)} ... {props.address.slice(-5)}
+                  {address.substring(0, 7)} ... {address.slice(-5)}
                 </div>
                 <button>
                   <Icon
@@ -77,4 +103,6 @@ export function OwnBlueprintCard(props: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default OwnBlueprintCard;

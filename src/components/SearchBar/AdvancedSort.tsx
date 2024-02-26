@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
-export default function SortBy() {
+export default function AdvancedSort() {
   const [showOptions, setShowOptions] = useState(false);
   const [selectedItem, setSelectedItem] = useState('Sort By');
   const handleClick = () => {

@@ -1,17 +1,13 @@
 import CoreRoutes from './routes';
-import DefaultBlueprintCard from './components/Cards/BlueprintCard/DefaultBlueprintCard';
 import BlueprintInfoCard from './components/Cards/BlueprintInfoCard/BlueprintInfoCard';
 import BlueprintUpdateCard from './components/Cards/BlueprintInfoCard/BlueprintUpdateCard';
 import AdvancedFilter from './components/SearchBar/AdvancedFilter';
-import SortBy from './components/SearchBar/SortBy';
+import SortBy from './components/SearchBar/AdvancedSort';
 import ApproveBlueprintModal from './components/Modals/ApproveBlueprintModal';
 import MintProductModal from './components/Modals/MintProductModal';
 import DecomposeProductModal from './components/Modals/DecomposeProductModal';
-import { MyBlueprintCard } from './components/Cards/BlueprintCard/MyBlueprintCard';
-import { MyOwnBlueprintCard } from './components/Cards/BlueprintCard/MyOwnBlueprintCard';
-import { OwnBlueprintCard } from './components/Cards/BlueprintCard/OwnBlueprintCard';
+import OwnBlueprintCard from './components/Cards/BlueprintCard/OwnBlueprintCard';
 import { ProductBlueprintCard } from './components/Cards/BlueprintCard/ProductBlueprintCard';
-import { UserBlueprintCard } from './components/Cards/BlueprintCard/UserBlueprintCard';
 import { ERC20DecomposeListCard } from './components/Cards/ListCard/ERC20ListCard';
 import { ERC721DecomposeListCard } from './components/Cards/ListCard/ERC721ListCard';
 import { ERC1155DecomposeListCard } from './components/Cards/ListCard/ERC1155ListCard';
@@ -25,9 +21,21 @@ import axeIron from './assets/images/development/axe_iron_wood_ERC1155.webp';
 import pickAxe from './assets/images/development/pickaxe_iron_wood_ERC1155.webp';
 import woodShield from './assets/images/development/Shield_wood_ERC1155.webp';
 import ironShield from './assets/images/development/Shield_iron_ERC1155.webp';
+import BlueprintCard from './components/Cards/BlueprintCard/BlueprintCard';
 function App() {
   return (
     <div className="flex flex-col gap-2 justify-center items-center">
+      <BlueprintCard
+        uri={copper}
+        name="copper"
+        blueprintid={5}
+        totalSupply={10000}
+        mintPrice={1000}
+        mintLimit={100}
+        myCardBadge={true}
+        button={true}
+      />
+
       <ApproveBlueprintModal />
       <DecomposeProductModal />
 
@@ -92,48 +100,15 @@ function App() {
         address="0x55d398326f99059ff775485246999027b3197955"
       />
 
-      <MyOwnBlueprintCard
-        imageLink={ironShield}
-        name="IronShield"
-        blueprintid={28}
-        tsupply={100}
-        address="0x55d398326f99059ff775485246999027b3197955"
-      />
-
       <OwnBlueprintCard
-        imageLink={woodShield}
+        uri={ironShield}
         name="WoodShield"
         blueprintid={28}
-        tsupply={100}
+        totalSupply={100}
         address="0x55d398326f99059ff775485246999027b3197955"
+        myCardBadge={true}
       />
 
-      <DefaultBlueprintCard
-        imageLink={woodShield}
-        name="WoodShield"
-        blueprintid={28}
-        tsupply={100}
-        mintPrice={0.001}
-        mintLimit={100}
-      />
-
-      <MyBlueprintCard
-        imageLink={ironShield}
-        name="IronShield"
-        blueprintid={28}
-        tsupply={100}
-        mintPrice={0.001}
-        mintLimit={100}
-      />
-
-      <UserBlueprintCard
-        imageLink={woodShield}
-        name="WoodShield"
-        blueprintid={28}
-        tsupply={100}
-        mintPrice={0.001}
-        mintLimit={100}
-      />
       <CoreRoutes />
     </div>
   );
