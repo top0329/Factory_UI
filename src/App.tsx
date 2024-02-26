@@ -20,7 +20,7 @@ import key721 from './assets/images/development/key_ERC721.webp';
 import axeIron from './assets/images/development/axe_iron_wood_ERC1155.webp';
 import pickAxe from './assets/images/development/pickaxe_iron_wood_ERC1155.webp';
 import woodShield from './assets/images/development/Shield_wood_ERC1155.webp';
-import ironShield from './assets/images/  development/Shield_iron_ERC1155.webp';
+import ironShield from './assets/images/development/Shield_iron_ERC1155.webp';
 import BlueprintCard from './components/Cards/BlueprintCard/BlueprintCard';
 function App() {
   return (
