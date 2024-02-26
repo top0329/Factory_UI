@@ -15,8 +15,8 @@ import Iron from '../../assets/images/development/iron_ERC20.webp';
 // import WoodSheild from '../../assets/images/development/Shield_wood_ERC1155.webp';
 import Picaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
 import { WindowSize } from '../../types';
-import { useAtom } from 'jotai';
-import { isMintBlueprintModalAtom } from '../../jotai/atoms';
+// import { useAtom } from 'jotai';
+// import { isMintBlueprintModalAtom } from '../../jotai/atoms';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -39,7 +39,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
     width: undefined,
     height: undefined,
   });
-  const [, setIsAddComponentModalOpen] = useAtom(isMintBlueprintModalAtom);
+  // const [, setIsAddComponentModalOpen] = useAtom(isMintBlueprintModalAtom);
 
   useEffect(() => {
     // Handler to call on window resize

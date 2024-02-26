@@ -32,12 +32,12 @@ const LandingPage = () => {
             <div className="flex justify-start items-center gap-1 border-b-2 w-96 pt-28 ml-4">
               <Icon className="w-6 h-6" icon="ion:search-outline" />
               <input
-                className="w-full bg-transparent px-2 py-2 outline-none"
+                className="z-20 w-full bg-transparent px-2 py-2 outline-none"
                 type="text"
                 placeholder="Search for Blueprint ID, Name and Creator"
               />
             </div>
-            <ScrollButton className="mt-20 ml-4" />
+            <ScrollButton className="z-20 mt-20 ml-4" />
           </div>
           <div className="col-span-6"></div>
         </div>

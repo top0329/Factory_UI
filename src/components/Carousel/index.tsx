@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import './index.css';
 import { CarouselModel } from '../../types';
 import { useAtom } from 'jotai';
@@ -37,27 +37,32 @@ export const Carousel = ({
   );
   const [onDragState, setOnDragState] = useState(0);
 
+  const handleNextSlide = useCallback(
+    (increase: boolean) => {
+      if (increase) {
+        if (activeItem + 1 > data.length - 1) {
+          setActiveItem(0);
+        } else {
+          setActiveItem(activeItem + 1);
+        }
+      } else {
+        if (activeItem === 0) {
+          setActiveItem(data.length - 1);
+        } else {
+          setActiveItem(activeItem - 1);
+        }
+      }
+    },
+    [activeItem, data.length, setActiveItem]
+  );
+
+
   useEffect(() => {
     autoPlay &&
       setTimeout(() => {
         handleNextSlide(true);
       }, animationDuration * 1000);
-  }, [activeItem]);
-  const handleNextSlide = (increase: boolean) => {
-    if (increase) {
-      if (activeItem + 1 > data.length - 1) {
-        setActiveItem(0);
-      } else {
-        setActiveItem(activeItem + 1);
-      }
-    } else {
-      if (activeItem === 0) {
-        setActiveItem(data.length - 1);
-      } else {
-        setActiveItem(activeItem - 1);
-      }
-    }
-  };
+  }, [activeItem, animationDuration, autoPlay, handleNextSlide]);
 
   const onDragEnded = (e: React.DragEvent) => {
     if (e.clientX - onDragState < 150) {
