@@ -138,8 +138,8 @@ function Header() {
             />
             <div
               className={`z-20 ${
-                isListButtonClicked ? '' : 'hidden'
-              } bg-black shadow w-full absolute top-14 right-0 text-light-gray`}
+                isListButtonClicked ? 'translate-y-0' : 'translate-y-[-400px]'
+              } bg-black shadow w-full absolute top-14 right-0 text-light-gray delay-400 duration-500 ease-in-out transition-all transform`}
             >
               <ul
                 className="p-4 text-base text-light-gray"
