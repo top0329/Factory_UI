@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { WindowSize } from '../../types';
 import Button from '../../components/Button';
-import MintBlueprintModal from '../../components/Modals/MintBlueprintModal';
+// import MintBlueprintModal from '../../components/Modals/MintBlueprintModal';
 import BatteringRam from '../../assets/images/development/battering_ram.png';
 
 const MintBlueprintPage = () => {
