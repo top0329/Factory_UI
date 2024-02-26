@@ -40,18 +40,20 @@ export default function ApproveBlueprintModal() {
           <p className="font-mono text-white">Blueprint Amount</p>
           <div className="flex gap-3 col-span-2">
             <input className="bg-[#03070F] border border-[#5C5252] rounded-xl lg:w-1/2 w-3/4 text-white px-2" />
-            <input type="checkbox" className="hidden lg:block" />
-            <p className="hidden lg:block text-[#6C6969]">Max Amount</p>
+            <div className="flex items-center gap-1">
+              <input type="checkbox" className="hidden lg:block" />
+              <p className="hidden lg:block text-[#6C6969]">Max Amount</p>
+            </div>
           </div>
         </div>
-        <div className="flex justify-between !text-cente w-3/4 gap-10 my-2">
-          <button className="flex py-2 px-5 rounded-2xl gap-3 items-center w-full !text-center !justify-center bg-[#353535] text-white">
-            Cancel
-          </button>
-          <button className="flex py-2 px-5 rounded-2xl gap-3 items-center w-full !text-center !justify-center bg-primary text-white">
-            Update
-          </button>
-        </div>
+      </div>
+      <div className="flex justify-between !text-cente sm:px-12 px-4 gap-10 my-2">
+        <button className="flex py-2 px-5 rounded-2xl gap-3 items-center w-full !text-center !justify-center bg-[#353535] text-white">
+          Cancel
+        </button>
+        <button className="flex py-2 px-5 rounded-2xl gap-3 items-center w-full !text-center !justify-center bg-primary text-white">
+          Update
+        </button>
       </div>
     </div>
   );

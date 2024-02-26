@@ -98,7 +98,7 @@ export default function DecomposeProductModal() {
           <ERC1155DecomposeListCard key={index} {...data} />
         ))}
       </div>
-      <div className="flex justify-between !text-cente w-1/3 gap-10 my-2">
+      <div className="flex justify-between !text-cente gap-10 my-2">
         <button className="flex py-2 px-5 rounded-2xl gap-3 items-center w-full !text-center !justify-center bg-[#353535] text-white">
           Cancel
         </button>

@@ -7,7 +7,7 @@ import ApproveBlueprintModal from './components/Modals/ApproveBlueprintModal';
 import MintProductModal from './components/Modals/MintProductModal';
 import DecomposeProductModal from './components/Modals/DecomposeProductModal';
 import OwnBlueprintCard from './components/Cards/BlueprintCard/OwnBlueprintCard';
-import { ProductBlueprintCard } from './components/Cards/BlueprintCard/ProductBlueprintCard';
+import { ProductBlueprintCard } from './components/Cards/BlueprintCard/ProductCard';
 import { ERC20DecomposeListCard } from './components/Cards/ListCard/ERC20ListCard';
 import { ERC721DecomposeListCard } from './components/Cards/ListCard/ERC721ListCard';
 import { ERC1155DecomposeListCard } from './components/Cards/ListCard/ERC1155ListCard';
