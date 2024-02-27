@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import EthLineSvg from '../../../assets/images/CurrencyEth.png';
+import EthLineSvg from '../../../assets/images/currency-eth.png';
 import Button from '../../Button';
 
 export interface Props {
