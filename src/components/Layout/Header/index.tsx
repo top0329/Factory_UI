@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-// import walletConnectModule from '@web3-onboard/walletconnect';
-
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Logo from '../../Logo';
@@ -10,68 +8,10 @@ import LogoImage from '../../../assets/images/blueprint-logo.png';
 import EthereumImage from '../../../assets/images/ethereum.png';
 import AvatarImage from '../../../assets/images/avatar.png';
 
-const MAINNET_RPC_URL =
-  'https://mainnet.infura.io/v3/71350a20335e42efa177c71fd873589d';
-const BSCMINNET_RPC_URL = 'https://rpc.ankr.com/bsc';
-const SEPOLIA_RPC_URL =
-  'https://sepolia.infura.io/v3/e14e866418594599bf7faa569a05b75b';
-const BSCTESTNET_RPC_URL =
-  'https://endpoints.omniatech.io/v1/bsc/testnet/public';
-
-// const wcInitOptions = {
-//   projectId: '3070123cded233b935f75e5531756a6a',
-//   requiredChains: [1, 56],
-//   optionalChains: [42161, 8453, 10, 137, 56],
-// };
-// const injected = injectedModule();
-// const walletConnect = walletConnectModule(wcInitOptions);
-
 function Header() {
   const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false);
   const [isListButtonClicked, setIsListButtonClicked] =
     useState<boolean>(false);
-
-  // const onboard = Onboard({
-  //   theme: 'dark',
-  //   wallets: [injected],
-  //   chains: [
-  //     {
-  //       id: '0x1', // chain ID must be in hexadecimel
-  //       token: 'ETH', // main chain token
-  //       namespace: 'evm',
-  //       label: 'Ethereum Mainnet',
-  //       rpcUrl: MAINNET_RPC_URL,
-  //     },
-  //     {
-  //       id: '0x38', // chain ID must be in hexadecimel
-  //       token: 'BNB', // main chain token
-  //       namespace: 'evm',
-  //       label: 'BNB Smart Chain Mainnet',
-  //       rpcUrl: BSCMINNET_RPC_URL,
-  //     },
-  //     {
-  //       id: '0xaa36a7', // chain ID must be in hexadecimel
-  //       token: 'Sepolia', // main chain token
-  //       namespace: 'evm',
-  //       label: 'Ethereum Sepolia Testnet',
-  //       rpcUrl: SEPOLIA_RPC_URL,
-  //     },
-  //     {
-  //       id: '0x61', // chain ID must be in hexadecimel
-  //       token: 'tBNB', // main chain token
-  //       namespace: 'evm',
-  //       label: 'BSC Testnet',
-  //       rpcUrl: BSCTESTNET_RPC_URL,
-  //     },
-  //   ],
-  // });
-
-  // async function connect() {
-  //   console.log('Here is the Wallet Connect Part>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
-
-  //   await onboard.connectWallet();
-  //   setIsWalletConnected(true);
-  // }
 
   return (
     <div className="flex px-6 py-3 bg-[#05050a] h-14 items-center 2xl:px-24 xl:px-20 lg:px-16 lg:h-24 md:h-20 md:px-12 sm:h-16 sm:px-10">
@@ -118,12 +58,7 @@ function Header() {
                   className="hidden truncate text-base lg:text-lg sm:text-sm sm:block"
                   variant="outline"
                   text="Connect Wallet"
-                  // onClick={() => {
-                  //   async () => {
-                  //     await connect();
-                  //   };
-                  // }}
-                  // onClick={() => connect()}
+                  onClick={() => setIsWalletConnected(true)}
                 />
               </React.Fragment>
             )}
@@ -181,15 +116,13 @@ function Header() {
                 </li>
               </ul>
               <hr className="mx-1" />
-              <Button
+              <Link
+                to={'#'}
                 className="block m-4 px-4 py-3 rounded text-base text-light-gray"
-                text="Connect Wallet"
-                onClick={() => {
-                  async () => {
-                    // await connect();
-                  };
-                }}
-              />
+                onClick={() => setIsListButtonClicked(false)}
+              >
+                Connect Wallet
+              </Link>
             </div>
             <div
               className={`fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center z-10 ${
