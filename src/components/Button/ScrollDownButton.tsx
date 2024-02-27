@@ -13,12 +13,12 @@ const ScrollButton: FC<Props> = ({ onClick }) => {
       onClick={onClick}
     >
       <img
-        className="z-10 absolute inset-0 p-1.5 w-20 h-20 rotate"
+        className="absolute inset-0 p-1.5 w-20 h-20 rotate"
         src={ScrollRoundImage}
         alt="scroll-round"
       />
       <img
-        className="z-20 w-8 h-8 hover:animate-bounce"
+        className="z-10 w-8 h-8 hover:animate-bounce"
         src={ArrowDownIcon}
         alt="arrow-down"
       />

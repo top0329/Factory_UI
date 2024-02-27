@@ -13,6 +13,10 @@ function Header() {
   const [isListButtonClicked, setIsListButtonClicked] =
     useState<boolean>(false);
 
+  async function connect() {
+    setIsWalletConnected(true);
+  }
+
   return (
     <div className="flex px-6 py-3 bg-[#05050a] h-14 items-center 2xl:px-24 xl:px-20 lg:px-16 lg:h-24 md:h-20 md:px-12 sm:h-16 sm:px-10">
       <div className="flex flex-grow justify-between items-center">
@@ -58,7 +62,7 @@ function Header() {
                   className="hidden truncate text-base lg:text-lg sm:text-sm sm:block"
                   variant="outline"
                   text="Connect Wallet"
-                  onClick={() => setIsWalletConnected(true)}
+                  onClick={() => connect()}
                 />
               </React.Fragment>
             )}
@@ -71,8 +75,8 @@ function Header() {
             />
             <div
               className={`z-20 ${
-                isListButtonClicked ? '' : 'hidden'
-              } bg-black shadow w-full absolute top-14 right-0 text-light-gray`}
+                isListButtonClicked ? 'translate-y-0' : 'translate-y-[-400px]'
+              } bg-black shadow w-full absolute top-14 right-0 text-light-gray delay-400 duration-500 ease-in-out transition-all transform`}
             >
               <ul
                 className="p-4 text-base text-light-gray"
@@ -112,12 +116,15 @@ function Header() {
                 </li>
               </ul>
               <hr className="mx-1" />
-              <Link
-                to={'#'}
+              <Button
                 className="block m-4 px-4 py-3 rounded text-base text-light-gray"
-              >
-                Connect Wallet
-              </Link>
+                text="Connect Wallet"
+                onClick={() => {
+                  async () => {
+                    await connect();
+                  };
+                }}
+              />
             </div>
             <div
               className={`fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center z-10 ${

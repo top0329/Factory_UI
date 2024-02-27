@@ -2,7 +2,7 @@ import CoreRoutes from './routes';
 
 function App() {
   return (
-      <CoreRoutes />
+    <CoreRoutes />
   );
 }
 
