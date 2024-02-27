@@ -8,10 +8,13 @@ import ScrollButton from '../../components/Button/ScrollDownButton';
 import FAQ from '../../components/FAQ';
 import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
+import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
+import { searchValueAtom } from '../../jotai/atoms';
+
 import Union from '../../assets/images/Union.png';
 import CardFront from '../../assets/images/card-front.png';
 import SmallBlueprintCardImage from '../../assets/images/small-blueprint-card.png';
-import { searchValueAtom } from '../../jotai/atoms';
+import IronPickaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -159,7 +162,7 @@ const LandingPage = () => {
       </div>
       <div
         id="carousel"
-        className="h-96 px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10"
+        className="h-[700px] px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10"
       >
         <h1 className="text-3xl font-semibold pt-6">Most Minted Blueprints</h1>
         <div className="absolute inset-x-0 z-30 flex justify-center items-center bg-transparent px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10">
@@ -167,49 +170,61 @@ const LandingPage = () => {
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides overflow-hidden">
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl duration-300 ease-in-out">
+                  <BlueprintCard
+                    blueprintid={95}
+                    mintLimit={10000}
+                    mintPrice={0.001}
+                    totalSupply={100000000}
+                    name="Iron Pickaxe"
+                    uri={IronPickaxe}
+                  />
+                  {/* <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
                     <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
                       A
                     </span>
                     <span className="text-red-200 font-bold">BLOCK A</span>
-                  </div>
+                  </div> */}
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl">
-                    <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
-                    <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
-                      B
-                    </span>
-                    <span className="text-red-200 font-bold">BLOCK B</span>
-                  </div>
+                  <BlueprintCard
+                    blueprintid={95}
+                    mintLimit={10000}
+                    mintPrice={0.001}
+                    totalSupply={100000000}
+                    name="Iron Pickaxe"
+                    uri={IronPickaxe}
+                  />
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl">
-                    <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
-                    <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
-                      C
-                    </span>
-                    <span className="text-red-200 font-bold">BLOCK C</span>
-                  </div>
+                  <BlueprintCard
+                    blueprintid={95}
+                    mintLimit={10000}
+                    mintPrice={0.001}
+                    totalSupply={100000000}
+                    name="Iron Pickaxe"
+                    uri={IronPickaxe}
+                  />
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl">
-                    <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
-                    <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
-                      D
-                    </span>
-                    <span className="text-red-200 font-bold">BLOCK D</span>
-                  </div>
+                  <BlueprintCard
+                    blueprintid={95}
+                    mintLimit={10000}
+                    mintPrice={0.001}
+                    totalSupply={100000000}
+                    name="Iron Pickaxe"
+                    uri={IronPickaxe}
+                  />
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl">
-                    <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
-                    <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
-                      E
-                    </span>
-                    <span className="text-red-200 font-bold">BLOCK E</span>
-                  </div>
+                  <BlueprintCard
+                    blueprintid={95}
+                    mintLimit={10000}
+                    mintPrice={0.001}
+                    totalSupply={100000000}
+                    name="Iron Pickaxe"
+                    uri={IronPickaxe}
+                  />
                 </li>
               </ul>
             </div>
