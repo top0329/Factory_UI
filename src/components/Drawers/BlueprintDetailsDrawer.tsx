@@ -1,20 +1,14 @@
 import { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../Button';
-import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-// import ERC721Card from '../Cards/ComponentCard/ERC721Card';
-// import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
-// import IronSheild from '../../assets/images/development/Shield_iron_ERC1155.webp';
-import Wood from '../../assets/images/development/wood_ERC20.webp';
-// import Copper from '../../assets/images/development/copper_ERC20.webp';
-import Iron from '../../assets/images/development/iron_ERC20.webp';
-// import Key from '../../assets/images/development/key_ERC721.webp';
-// import Axe from '../../assets/images/development/axe_iron_wood_ERC1155.webp';
-// import WoodSheild from '../../assets/images/development/Shield_wood_ERC1155.webp';
-import Picaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
 import { WindowSize } from '../../types';
+
+import ERC20Card from '../Cards/ComponentCard/ERC20Card';
+import Wood from '../../assets/images/development/wood_ERC20.webp';
+import Iron from '../../assets/images/development/iron_ERC20.webp';
+import Picaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -30,6 +24,8 @@ const BlueprintDetailDrawer: FC<Props> = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }) => {
+  const navigate = useNavigate();
+
   const [activeTab, setActiveTab] = useState<number>(1);
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: undefined,
@@ -126,6 +122,10 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 <Button
                   className="truncate text-base !py-1 !px-2"
                   text="Mint Blueprint"
+                  onClick={() => {
+                    navigate('/blueprint/mint');
+                    sideDrawerClosedHandler();
+                  }}
                   variant="outline"
                 />
               </div>
@@ -226,21 +226,16 @@ const BlueprintDetailDrawer: FC<Props> = ({
           <div className="px-12 py-10 h-auto">
             {activeTab === 1 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
-                {/* <ERC20Card imageUrl={Copper} /> */}
                 <ERC20Card imageUrl={Iron} />
                 <ERC20Card imageUrl={Wood} />
               </div>
             )}
             {activeTab === 2 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
-                {/* <ERC721Card imageUrl={Key} /> */}
               </div>
             )}
             {activeTab === 3 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
-                {/* <ERC1155Card imageUrl={Axe} />
-                <ERC1155Card imageUrl={IronSheild} />
-                <ERC1155Card imageUrl={WoodSheild} /> */}
               </div>
             )}
           </div>
