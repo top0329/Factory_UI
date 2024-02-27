@@ -13,10 +13,6 @@ function Header() {
   const [isListButtonClicked, setIsListButtonClicked] =
     useState<boolean>(false);
 
-  async function connect() {
-    setIsWalletConnected(true);
-  }
-
   return (
     <div className="flex px-6 py-3 bg-[#05050a] h-14 items-center 2xl:px-24 xl:px-20 lg:px-16 lg:h-24 md:h-20 md:px-12 sm:h-16 sm:px-10">
       <div className="flex flex-grow justify-between items-center">
@@ -62,7 +58,7 @@ function Header() {
                   className="hidden truncate text-base lg:text-lg sm:text-sm sm:block"
                   variant="outline"
                   text="Connect Wallet"
-                  onClick={() => connect()}
+                  onClick={() => setIsWalletConnected(true)}
                 />
               </React.Fragment>
             )}
@@ -86,6 +82,7 @@ function Header() {
                   <Link
                     to={'/blueprint'}
                     className="block my-1 px-4 py-3 rounded text-white bg-secondary"
+                    onClick={() => setIsListButtonClicked(false)}
                   >
                     Blueprint
                   </Link>
@@ -94,6 +91,7 @@ function Header() {
                   <Link
                     to={'/product'}
                     className="block my-1 px-4 py-3 rounded text-light-gray"
+                    onClick={() => setIsListButtonClicked(false)}
                   >
                     Product
                   </Link>
@@ -102,6 +100,7 @@ function Header() {
                   <Link
                     to={'/decompose'}
                     className="block my-1 px-4 py-3 rounded text-light-gray"
+                    onClick={() => setIsListButtonClicked(false)}
                   >
                     Decompose
                   </Link>
@@ -110,21 +109,20 @@ function Header() {
                   <Link
                     to={'#'}
                     className="block my-1 px-4 py-3 rounded text-light-gray"
+                    onClick={() => setIsListButtonClicked(false)}
                   >
                     Whitepaper
                   </Link>
                 </li>
               </ul>
               <hr className="mx-1" />
-              <Button
+              <Link
+                to={'#'}
                 className="block m-4 px-4 py-3 rounded text-base text-light-gray"
-                text="Connect Wallet"
-                onClick={() => {
-                  async () => {
-                    await connect();
-                  };
-                }}
-              />
+                onClick={() => setIsListButtonClicked(false)}
+              >
+                Connect Wallet
+              </Link>
             </div>
             <div
               className={`fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center z-10 ${

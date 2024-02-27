@@ -2,12 +2,17 @@ import { FC } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../Button';
+import { useAtom } from 'jotai';
+import { isAddComponentModalAtom, searchValueAtom } from '../../jotai/atoms';
 
 export interface Props {
   value?: string;
 }
 
-const SearchBar: FC<Props> = ({ value }) => {
+const SearchBar: FC<Props> = () => {
+  const [searchValue, setSearchValue] = useAtom(searchValueAtom);
+  const [, setAddComponentModalOpen] = useAtom(isAddComponentModalAtom);
+
   return (
     <div className="flex flex-1 items-center justify-center">
       <div className="w-full">
@@ -26,10 +31,11 @@ const SearchBar: FC<Props> = ({ value }) => {
             <input
               id="search"
               name="search"
-              className="inline w-full rounded-lg border border-light-gray text-white bg-black py-2 pl-12 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+              className="inline w-full rounded-lg border border-light-gray text-white bg-black py-2 pl-12 pr-3 leading-5 placeholder-gray-500 focus:border-slate-600 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-slate-600 sm:text-sm"
               placeholder="Search for Blueprint ID, Name and Creator"
               type="search"
-              value={value}
+              value={searchValue}
+              onChange={(e) => setSearchValue(e.target.value)}
             />
           </div>
           <div className="flex gap-3 mt-2 sm:gap-0 sm:mt-0">
@@ -45,9 +51,10 @@ const SearchBar: FC<Props> = ({ value }) => {
               />
             </button>
             <Button
+              className="truncate flex justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36"
               text="New Blueprint"
               variant="primary"
-              className="truncate flex justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36"
+              onClick={() => setAddComponentModalOpen(true)}
             />
           </div>
         </div>

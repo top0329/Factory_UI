@@ -1,5 +1,5 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
-import shield from '../../assets/images/development/shield_wood_ERC1155.webp';
+import shield from '../../assets/images/Shield_wood_ERC1155.webp';
 
 export default function ApproveBlueprintModal() {
   return (

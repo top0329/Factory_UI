@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import pickAxe from '../../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
+import pickAxe from '../../../assets/images/pickaxe_iron_wood_ERC1155.webp';
 
 export default function BlueprintUpdateCard() {
   const [editable, setEditable] = useState(false);

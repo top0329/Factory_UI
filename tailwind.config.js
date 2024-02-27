@@ -6,6 +6,7 @@ export default {
       colors: {
         // add colors
         primary: '#1774FF',
+        'primary-light': '#2563eb',
         secondary: '#353535',
         black: '#090909',
         white: '#FFFFFF',

@@ -1,10 +1,10 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 export interface Props {
-  uri: string;
+  imageLink: string;
   name: string;
-  blueprintId: number;
-  totalSupply: number;
+  blueprintid: number;
+  tsupply: number;
   address: string;
 }
 
@@ -24,7 +24,7 @@ export function ProductBlueprintCard(props: Props) {
         </div>
         <div className="w-[176px] h-[176px] sm:w-[280px] sm:h-[335px] overflow-hidden">
           <img
-            src={props.uri}
+            src={props.imageLink}
             className="w-[280px] xs:w-[176px] sm:w-[280px] sm:h-[335px]"
             alt="okoko"
           />
@@ -45,11 +45,11 @@ export function ProductBlueprintCard(props: Props) {
           <div id="id_supply" className="flex justify-between text-white">
             <div id="id" className="">
               <p className="text-xs font-mono text-[#858584]">ID</p>
-              <p className="text-lg font-mono">{props.blueprintId}</p>
+              <p className="text-lg font-mono">{props.blueprintid}</p>
             </div>
             <div id="id" className="text-end hidden sm:block">
               <p className="text-xs font-mono text-[#858584]">Balance</p>
-              <p className="text-lg font-mono">{props.totalSupply}</p>
+              <p className="text-lg font-mono">{props.tsupply}</p>
             </div>
           </div>
 

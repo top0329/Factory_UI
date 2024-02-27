@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 export interface Props {
   uri: string;
   name: string;
-  blueprintId: number;
+  blueprintid: number;
   totalSupply: number;
   address: string;
   myCardBadge?: boolean;
@@ -14,7 +14,7 @@ export interface Props {
 const OwnBlueprintCard: FC<Props> = ({
   uri,
   name,
-  blueprintId,
+  blueprintid,
   totalSupply,
   address,
   myCardBadge,
@@ -71,7 +71,7 @@ const OwnBlueprintCard: FC<Props> = ({
           <div id="id_supply" className="flex justify-between text-white">
             <div id="id" className="">
               <p className="text-xs font-mono text-[#858584]">ID</p>
-              <p className="text-lg font-mono">{blueprintId}</p>
+              <p className="text-lg font-mono">{blueprintid}</p>
             </div>
             <div id="id" className="text-end hidden sm:block">
               <p className="text-xs font-mono text-[#858584]">Balance</p>

@@ -3,13 +3,14 @@ import ArrowDownIcon from '../../assets/images/arrow-down.png';
 import ScrollRoundImage from '../../assets/images/scroll-round.png';
 
 export interface Props {
+  className?: string;
   onClick?: () => void;
 }
 
-const ScrollButton: FC<Props> = ({ onClick }) => {
+const ScrollButton: FC<Props> = ({ className, onClick }) => {
   return (
     <button
-      className="flex justify-center items-center bg-[#080808] w-20 h-20 rounded-full relative"
+      className={`flex justify-center items-center bg-[#080808] w-20 h-20 rounded-full relative ${className}`}
       onClick={onClick}
     >
       <img

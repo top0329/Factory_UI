@@ -1,9 +1,7 @@
 import CoreRoutes from './routes';
 
 function App() {
-  return (
-    <CoreRoutes />
-  );
+  return <CoreRoutes />;
 }
 
 export default App;

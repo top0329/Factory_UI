@@ -6,16 +6,14 @@ import Button from '../Button';
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
-// import IronSheild from '../../assets/images/development/shield_iron_ERC1155.webp';
+import { WindowSize } from '../../types';
+
 import Wood from '../../assets/images/development/wood_ERC20.webp';
 import Copper from '../../assets/images/development/copper_ERC20.webp';
 import Iron from '../../assets/images/development/iron_ERC20.webp';
 import Key from '../../assets/images/development/key_ERC721.webp';
 import Axe from '../../assets/images/development/axe_iron_wood_ERC1155.webp';
-// import WoodSheild from '../../assets/images/development/shield_wood_ERC1155.webp';
-// import Picaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
 import Door from '../../assets/images/development/door.png';
-import { WindowSize } from '../../types';
 
 export interface Props {
   isDrawerOpen?: boolean;
