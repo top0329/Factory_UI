@@ -6,7 +6,7 @@ import Button from '../../Button';
 export interface Props {
   uri: string;
   name: string;
-  blueprintid: number;
+  blueprintId: number;
   totalSupply: number;
   mintPrice: number;
   mintLimit: number;
@@ -18,7 +18,7 @@ export interface Props {
 const BlueprintCard: FC<Props> = ({
   uri,
   name,
-  blueprintid,
+  blueprintId,
   totalSupply,
   mintPrice,
   mintLimit,
@@ -76,7 +76,7 @@ const BlueprintCard: FC<Props> = ({
           <div id="id_supply" className="flex justify-between text-white">
             <div id="id" className="">
               <p className="text-xs font-mono text-[#858584]">ID</p>
-              <p className="text-lg font-mono">{blueprintid}</p>
+              <p className="text-lg font-mono">{blueprintId}</p>
             </div>
             <div id="id" className="text-end hidden sm:block">
               <p className="text-xs font-mono text-[rgb(133,133,132)]">
