@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+// import { useEffect, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { WindowSize } from '../../types';
+// import { WindowSize } from '../../types';
 import Button from '../../components/Button';
 // import MintBlueprintModal from '../../components/Modals/MintBlueprintModal';
 import BatteringRam from '../../assets/images/development/battering_ram.png';
@@ -10,30 +10,30 @@ import BatteringRam from '../../assets/images/development/battering_ram.png';
 const MintBlueprintPage = () => {
   const naviage = useNavigate();
 
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: undefined,
-    height: undefined,
-  });
+  // const [windowSize, setWindowSize] = useState<WindowSize>({
+  //   width: undefined,
+  //   height: undefined,
+  // });
 
-  useEffect(() => {
-    // Handler to call on window resize
-    function handleResize() {
-      // Set window width/height to state
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    }
+  // useEffect(() => {
+  //   // Handler to call on window resize
+  //   function handleResize() {
+  //     // Set window width/height to state
+  //     setWindowSize({
+  //       width: window.innerWidth,
+  //       height: window.innerHeight,
+  //     });
+  //   }
 
-    // Add event listener
-    window.addEventListener('resize', handleResize);
+  //   // Add event listener
+  //   window.addEventListener('resize', handleResize);
 
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
+  //   // Call handler right away so state gets updated with initial window size
+  //   handleResize();
 
-    // Remove event listener on cleanup
-    return () => window.removeEventListener('resize', handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  //   // Remove event listener on cleanup
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []); // Empty array ensures that effect is only run on mount and unmount
 
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-20">
@@ -42,31 +42,34 @@ const MintBlueprintPage = () => {
           Blueprint Mint
         </header>
         <img
-          className="w-full h-56 sm:h-96"
+          className="w-full h-60 sm:h-96"
           src={BatteringRam}
           alt="blueprint"
         />
-        <div className="z-10 absolute top-[172px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 sm:top-[349px]"></div>
+        <div className="z-10 absolute top-[188px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 sm:top-[349px]"></div>
         <div className="flex flex-col gap-4 sm:px-8">
-          <h1 className="z-20 font-semibold text-lg mt-[-36px] sm:text-xl">
+          <h1 className="z-20 font-semibold text-lg mt-[-36px] pl-4 sm:text-xl">
             Battering Ram
           </h1>
-          <div className="flex flex-col gap-3">
-            <div className="grid grid-cols-2">
+          <div className="flex flex-col gap-3 px-2">
+            <div className="grid grid-cols-2 gap-3">
               <p className="col-span-1 text-light-gray">Blueprint ID</p>
               <p className="col-span-1">45</p>
             </div>
-            <div className="flex justify-between items-center">
+            <div className="flex flex-col justify-between items-start gap-2 sm:flex-row sm:items-center">
               <p className="text-light-gray">Creator</p>
               <div className="flex items-center gap-1">
-                <Icon className="w-4 h-6" icon="logos:ethereum" />
-                <Link className="underline text-base" to={'#'}>
+                <Icon className="w-6 h-6 sm:w-4 sm:h-5" icon="logos:ethereum" />
+                {/* <Link className="underline text-base" to={'#'}>
                   {windowSize.width !== undefined && windowSize.width > 640
                     ? '0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'
                     : '0x48C281DB...A235d8fc'}
+                </Link> */}
+                <Link className="underline text-base break-all" to={'#'}>
+                  0x48C281DB38eAD8050bBd821d195FaE85A235d8fc
                 </Link>
                 <Icon
-                  className="w-4 h-4 cursor-pointer"
+                  className="w-6 h-6 cursor-pointer sm:w-4 sm:h-4"
                   icon="solar:copy-outline"
                 />
               </div>

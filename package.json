@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",
+    "@glidejs/glide": "^3.6.0",
     "dotenv": "^16.4.4",
     "ethers": "^6.11.0",
     "jotai": "^2.6.5",
@@ -32,6 +33,7 @@
     "@storybook/react": "^7.6.16",
     "@storybook/react-vite": "^7.6.16",
     "@storybook/test": "^7.6.16",
+    "@types/glidejs__glide": "^3.6.5",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^6.21.0",

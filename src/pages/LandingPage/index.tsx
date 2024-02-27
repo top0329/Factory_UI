@@ -1,3 +1,7 @@
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
+import Glide from '@glidejs/glide';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import ScrollButton from '../../components/Button/ScrollDownButton';
@@ -7,10 +11,94 @@ import PlatformUsage from '../../components/PlatformUsage';
 import Union from '../../assets/images/Union.png';
 import CardFront from '../../assets/images/card-front.png';
 import SmallBlueprintCardImage from '../../assets/images/small-blueprint-card.png';
+import { searchValueAtom } from '../../jotai/atoms';
 
 const LandingPage = () => {
+  const navigate = useNavigate();
+
+  const [searchValue, setSearchValue] = useAtom(searchValueAtom);
+
+  useEffect(() => {
+    const config = {
+      type: 'carousel',
+      startAt: 0,
+      perView: 5,
+      autoplay: 10000,
+      gap: 32,
+      breakpoints: {
+        1536: {
+          perView: 5,
+        },
+        1280: {
+          perView: 4,
+        },
+        1024: {
+          perView: 3,
+        },
+        768: {
+          perView: 2,
+        },
+        640: {
+          perView: 1.5,
+        },
+      },
+    };
+
+    const glide = new Glide('.glide', {
+      ...config,
+      type: 'carousel',
+    });
+    glide.mount();
+    return () => {
+      glide.destroy();
+    };
+  }, []);
+
+  const smoothScrollTo = (endY: number, duration: number) => {
+    const startY = window.scrollY;
+    const distanceY = endY - startY;
+    let startTime: number = 0;
+
+    // Easing function: easeInOutCubic
+    // Use different easing functions if desired
+    const easeInOutCubic = (time: number) =>
+      time < 0.5 ? 4 * time * time * time : 1 - Math.pow(-2 * time + 2, 3) / 2;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const time = timestamp - startTime;
+      const percent = Math.min(time / duration, 1);
+      const easedPercent = easeInOutCubic(percent);
+
+      window.scrollTo(0, startY + easedPercent * distanceY);
+
+      if (time < duration) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  // Scroll to one viewport height down with a duration of 1000ms (1 second)
+  const scrollToSection = () => {
+    smoothScrollTo(window.innerHeight, 1000);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(event.target.value);
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    // Check if Enter key was pressed
+    if (event.key === 'Enter') {
+      // Execute any additional code when Enter key is pressed
+      navigate('/blueprint');
+    }
+  };
+
   return (
-    <div className="text-white bg-landing overflow-hidden relative">
+    <div className="relative text-white bg-landing overflow-hidden">
       <img
         className="absolute w-[1000px] z-10 top-[-220px] rotate-[-30deg] overflow-hidden"
         src={Union}
@@ -21,7 +109,10 @@ const LandingPage = () => {
         src={Union}
         alt="union"
       />
-      <div className="px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10">
+      <div
+        id="hero"
+        className="px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10"
+      >
         <div className="grid grid-cols-12 pt-2 md:pt-4 lg:pt-8">
           <div className="col-span-12 md:col-span-6">
             <h1 className="mt-4 font-bold text-[30px] leading-[40px] xl:text-[66px] xl:leading-[80px] lg:text-[50px] lg:mt-10 md:text-[38px] md:mt-4 sm:text-[40px] sm:leading-[60px]">
@@ -38,6 +129,9 @@ const LandingPage = () => {
                 className="z-20 w-full bg-transparent px-0 py-2 outline-none text-sm sm:text-lg sm:px-2"
                 type="text"
                 placeholder="Search for Blueprint ID, Name and Creator"
+                value={searchValue}
+                onKeyDown={handleKeyDown}
+                onChange={handleSearchChange}
               />
             </div>
           </div>
@@ -57,10 +151,95 @@ const LandingPage = () => {
               </div>
             </div>
           </div>
-          <ScrollButton className="z-20 !mt-[-60px] mb-4 ml-1 sm:ml-4 sm:w-20 sm:h-20" />
+          <ScrollButton
+            className="z-20 !mt-[-60px] mb-4 ml-1 sm:ml-4 sm:w-20 sm:h-20"
+            onClick={scrollToSection}
+          />
         </div>
       </div>
-      <p className="mt-10">This is landing page!</p>
+      <div
+        id="carousel"
+        className="h-96 px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10"
+      >
+        <h1 className="text-3xl font-semibold pt-6">Most Minted Blueprints</h1>
+        <div className="absolute inset-x-0 z-30 flex justify-center items-center bg-transparent px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10">
+          <div className="glide w-full py-8 rounded-3xl">
+            <div className="glide__track" data-glide-el="track">
+              <ul className="glide__slides overflow-hidden">
+                <li className="glide__slide">
+                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl duration-300 ease-in-out">
+                    <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
+                    <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
+                      A
+                    </span>
+                    <span className="text-red-200 font-bold">BLOCK A</span>
+                  </div>
+                </li>
+                <li className="glide__slide">
+                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl">
+                    <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
+                    <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
+                      B
+                    </span>
+                    <span className="text-red-200 font-bold">BLOCK B</span>
+                  </div>
+                </li>
+                <li className="glide__slide">
+                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl">
+                    <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
+                    <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
+                      C
+                    </span>
+                    <span className="text-red-200 font-bold">BLOCK C</span>
+                  </div>
+                </li>
+                <li className="glide__slide">
+                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl">
+                    <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
+                    <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
+                      D
+                    </span>
+                    <span className="text-red-200 font-bold">BLOCK D</span>
+                  </div>
+                </li>
+                <li className="glide__slide">
+                  <div className="relative flex flex-col text-center bg-gray-800 h-40 items-center justify-center rounded-3xl">
+                    <span className="absolute w-4 h-4 rounded-full bg-red-200 right-4 top-4"></span>
+                    <span className="text-5xl font-semibold px-6 py-4 bg-red-200 text-gray-800 rounded-full mb-4">
+                      E
+                    </span>
+                    <span className="text-red-200 font-bold">BLOCK E</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div className="glide__arrows" data-glide-el="controls">
+              <button
+                className="glide__arrow glide__arrow--left left-[-28px] border-none"
+                data-glide-dir="<"
+              >
+                <div className="h-9 w-9 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out">
+                  <Icon
+                    className="w-10 h-10 text-light-gray"
+                    icon="material-symbols:keyboard-arrow-left"
+                  />
+                </div>
+              </button>
+              <button
+                className="glide__arrow glide__arrow--right right-[-28px] border-none"
+                data-glide-dir=">"
+              >
+                <div className="h-9 w-9 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out">
+                  <Icon
+                    className="w-10 h-10 text-light-gray"
+                    icon="material-symbols:keyboard-arrow-right"
+                  />
+                </div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <PlatformStatus
         blueprints={112}
         creators={91}

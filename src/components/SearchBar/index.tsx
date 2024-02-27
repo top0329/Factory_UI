@@ -31,7 +31,7 @@ const SearchBar: FC<Props> = () => {
             <input
               id="search"
               name="search"
-              className="inline w-full rounded-lg border border-light-gray text-white bg-black py-2 pl-12 pr-3 leading-5 placeholder-gray-500 focus:border-indigo-500 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+              className="inline w-full rounded-lg border border-light-gray text-white bg-black py-2 pl-12 pr-3 leading-5 placeholder-gray-500 focus:border-slate-600 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-slate-600 sm:text-sm"
               placeholder="Search for Blueprint ID, Name and Creator"
               type="search"
               value={searchValue}

@@ -28,10 +28,14 @@ body {
   animation: spin 20s linear infinite;
 }
 
-/* * {
-  scrollbar-width: thin;
-  scrollbar-color: #888 #f1f1f1;
-} */
+.glide__arrow {
+  position: absolute;
+  display: block;
+  top: 50%;
+  z-index: 2;
+  opacity: 1;
+  transform: translateY(-50%);
+}
 
 ::-webkit-scrollbar {
   width: 16px;
