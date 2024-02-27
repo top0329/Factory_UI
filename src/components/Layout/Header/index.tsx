@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Onboard from '@web3-onboard/core';
-import injectedModule from '@web3-onboard/injected-wallets';
 // import walletConnectModule from '@web3-onboard/walletconnect';
 
 import { Icon } from '@iconify/react/dist/iconify.js';
@@ -25,7 +23,7 @@ const BSCTESTNET_RPC_URL =
 //   requiredChains: [1, 56],
 //   optionalChains: [42161, 8453, 10, 137, 56],
 // };
-const injected = injectedModule();
+// const injected = injectedModule();
 // const walletConnect = walletConnectModule(wcInitOptions);
 
 function Header() {
@@ -33,47 +31,47 @@ function Header() {
   const [isListButtonClicked, setIsListButtonClicked] =
     useState<boolean>(false);
 
-  const onboard = Onboard({
-    theme: 'dark',
-    wallets: [injected],
-    chains: [
-      {
-        id: '0x1', // chain ID must be in hexadecimel
-        token: 'ETH', // main chain token
-        namespace: 'evm',
-        label: 'Ethereum Mainnet',
-        rpcUrl: MAINNET_RPC_URL,
-      },
-      {
-        id: '0x38', // chain ID must be in hexadecimel
-        token: 'BNB', // main chain token
-        namespace: 'evm',
-        label: 'BNB Smart Chain Mainnet',
-        rpcUrl: BSCMINNET_RPC_URL,
-      },
-      {
-        id: '0xaa36a7', // chain ID must be in hexadecimel
-        token: 'Sepolia', // main chain token
-        namespace: 'evm',
-        label: 'Ethereum Sepolia Testnet',
-        rpcUrl: SEPOLIA_RPC_URL,
-      },
-      {
-        id: '0x61', // chain ID must be in hexadecimel
-        token: 'tBNB', // main chain token
-        namespace: 'evm',
-        label: 'BSC Testnet',
-        rpcUrl: BSCTESTNET_RPC_URL,
-      },
-    ],
-  });
+  // const onboard = Onboard({
+  //   theme: 'dark',
+  //   wallets: [injected],
+  //   chains: [
+  //     {
+  //       id: '0x1', // chain ID must be in hexadecimel
+  //       token: 'ETH', // main chain token
+  //       namespace: 'evm',
+  //       label: 'Ethereum Mainnet',
+  //       rpcUrl: MAINNET_RPC_URL,
+  //     },
+  //     {
+  //       id: '0x38', // chain ID must be in hexadecimel
+  //       token: 'BNB', // main chain token
+  //       namespace: 'evm',
+  //       label: 'BNB Smart Chain Mainnet',
+  //       rpcUrl: BSCMINNET_RPC_URL,
+  //     },
+  //     {
+  //       id: '0xaa36a7', // chain ID must be in hexadecimel
+  //       token: 'Sepolia', // main chain token
+  //       namespace: 'evm',
+  //       label: 'Ethereum Sepolia Testnet',
+  //       rpcUrl: SEPOLIA_RPC_URL,
+  //     },
+  //     {
+  //       id: '0x61', // chain ID must be in hexadecimel
+  //       token: 'tBNB', // main chain token
+  //       namespace: 'evm',
+  //       label: 'BSC Testnet',
+  //       rpcUrl: BSCTESTNET_RPC_URL,
+  //     },
+  //   ],
+  // });
 
-  async function connect() {
-    console.log('Here is the Wallet Connect Part>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
+  // async function connect() {
+  //   console.log('Here is the Wallet Connect Part>>>>>>>>>>>>>>>>>>>>>>>>>>>>>');
 
-    await onboard.connectWallet();
-    setIsWalletConnected(true);
-  }
+  //   await onboard.connectWallet();
+  //   setIsWalletConnected(true);
+  // }
 
   return (
     <div className="flex px-6 py-3 bg-[#05050a] h-14 items-center 2xl:px-24 xl:px-20 lg:px-16 lg:h-24 md:h-20 md:px-12 sm:h-16 sm:px-10">
@@ -125,7 +123,7 @@ function Header() {
                   //     await connect();
                   //   };
                   // }}
-                  onClick={() => connect()}
+                  // onClick={() => connect()}
                 />
               </React.Fragment>
             )}
@@ -188,7 +186,7 @@ function Header() {
                 text="Connect Wallet"
                 onClick={() => {
                   async () => {
-                    await connect();
+                    // await connect();
                   };
                 }}
               />
