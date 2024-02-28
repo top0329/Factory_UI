@@ -1,17 +1,19 @@
 import { FC } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../Button';
-import { useAtom } from 'jotai';
-import { isAddComponentModalAtom, searchValueAtom } from '../../jotai/atoms';
+import { searchValueAtom } from '../../jotai/atoms';
 
 export interface Props {
   value?: string;
 }
 
 const SearchBar: FC<Props> = () => {
+  const navigate = useNavigate();
+
   const [searchValue, setSearchValue] = useAtom(searchValueAtom);
-  const [, setAddComponentModalOpen] = useAtom(isAddComponentModalAtom);
 
   return (
     <div className="flex flex-1 items-center justify-center">
@@ -19,8 +21,8 @@ const SearchBar: FC<Props> = () => {
         <div className="my-5 sm:flex sm:items-center">
           <div className="flex w-full relative">
             <Icon
+              className="absolute z-10 text-light-gray min-w-6 min-h-6 m-2 cursor-pointer"
               icon="icon-park-outline:setting-config"
-              className="text-light-gray min-w-5 min-h-5 m-2"
             />
             <div className="absolute left-0 inset-y-0 flex items-center">
               <Icon
@@ -31,7 +33,7 @@ const SearchBar: FC<Props> = () => {
             <input
               id="search"
               name="search"
-              className="inline w-full rounded-lg border border-light-gray text-white bg-black py-2 pl-12 pr-3 leading-5 placeholder-gray-500 focus:border-slate-600 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-slate-600 sm:text-sm"
+              className="inline w-full rounded-lg border border-light-gray text-white bg-black py-2 ml-10 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-slate-600 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-slate-600 sm:text-sm"
               placeholder="Search for Blueprint ID, Name and Creator"
               type="search"
               value={searchValue}
@@ -54,7 +56,7 @@ const SearchBar: FC<Props> = () => {
               className="truncate flex justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36"
               text="New Blueprint"
               variant="primary"
-              onClick={() => setAddComponentModalOpen(true)}
+              onClick={() => navigate('/blueprint/new')}
             />
           </div>
         </div>
