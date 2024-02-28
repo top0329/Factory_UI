@@ -13,18 +13,15 @@ import { searchValueAtom } from '../../jotai/atoms';
 import { WindowSize } from '../../types';
 
 import Union from '../../assets/images/union.png';
-// import CardFront from '../../assets/images/card-front.png';
 import CardFront from '../../assets/svg/card-front.svg';
-// import SmallBlueprintCardImage from '../../assets/images/small-blueprint-card.png';
 import SmallBlueprintCardImage from '../../assets/svg/small-blueprint-card.svg';
-// import IronPickaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
-import IronSword from '../../assets/images/development/iron sword.webp';
-import BlackTea from '../../assets/images/development/black_tea_1155.webp';
-import Spear from '../../assets/images/development/spear_1155.webp';
-import GoldCoin from '../../assets/images/development/gold_coin_1155.webp';
-import MilkTea from '../../assets/images/development/milk_tea_1155.webp';
-import Coffee from '../../assets/images/development/coffee_1155.webp';
-import SilverCoin from '../../assets/images/development/siliver_coin_1155.webp';
+import IronSword from '../../assets/images/development/iron-sword.webp';
+import BlackTea from '../../assets/images/development/black-tea-erc1155.webp';
+import Spear from '../../assets/images/development/spear-erc1155.webp';
+import GoldCoin from '../../assets/images/development/gold-coin-erc1155.webp';
+import MilkTea from '../../assets/images/development/milk-tea-erc1155.webp';
+import Coffee from '../../assets/images/development/coffee-erc1155.webp';
+import SilverCoin from '../../assets/images/development/siliver-coin-erc1155.webp';
 
 const LandingPage = () => {
   const navigate = useNavigate();
