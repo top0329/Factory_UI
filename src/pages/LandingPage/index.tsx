@@ -67,10 +67,10 @@ const LandingPage = () => {
         1535: {
           perView: 4,
         },
-        1281: {
+        1279: {
           perView: 3,
         },
-        1024: {
+        1023: {
           perView: 2,
         },
         768: {
