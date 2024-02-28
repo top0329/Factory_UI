@@ -40,7 +40,7 @@ interface ProvidersProps {
 
 const queryClient = new QueryClient();
 
-const RainbowKitProvider: React.FC<ProvidersProps> = ({ children }) => (
+const WalletConnectProvider: React.FC<ProvidersProps> = ({ children }) => (
   <WagmiProvider config={config}>
     <QueryClientProvider client={queryClient}>
       <RainbowKitProvider>{children}</RainbowKitProvider>
@@ -48,4 +48,4 @@ const RainbowKitProvider: React.FC<ProvidersProps> = ({ children }) => (
   </WagmiProvider>
 );
 
-export default RainbowKitProvider;
+export default WalletConnectProvider;
