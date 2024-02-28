@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import Glide from '@glidejs/glide';
@@ -10,16 +10,51 @@ import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
 import { searchValueAtom } from '../../jotai/atoms';
+import { WindowSize } from '../../types';
 
 import Union from '../../assets/images/union.png';
-import CardFront from '../../assets/images/card-front.png';
-import SmallBlueprintCardImage from '../../assets/images/small-blueprint-card.png';
-import IronPickaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
+// import CardFront from '../../assets/images/card-front.png';
+import CardFront from '../../assets/svg/card-front.svg';
+// import SmallBlueprintCardImage from '../../assets/images/small-blueprint-card.png';
+import SmallBlueprintCardImage from '../../assets/svg/small-blueprint-card.svg';
+// import IronPickaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
+import IronSword from '../../assets/images/development/iron sword.webp';
+import BlackTea from '../../assets/images/development/black_tea_1155.webp';
+import Spear from '../../assets/images/development/spear_1155.webp';
+import GoldCoin from '../../assets/images/development/gold_coin_1155.webp';
+import MilkTea from '../../assets/images/development/milk_tea_1155.webp';
+import Coffee from '../../assets/images/development/coffee_1155.webp';
+import SilverCoin from '../../assets/images/development/siliver_coin_1155.webp';
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom(searchValueAtom);
+
+  const [windowSize, setWindowSize] = useState<WindowSize>({
+    width: undefined,
+    height: undefined,
+  });
+
+  useEffect(() => {
+    // Handler to call on window resize
+    function handleResize() {
+      // Set window width/height to state
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    }
+
+    // Add event listener
+    window.addEventListener('resize', handleResize);
+
+    // Call handler right away so state gets updated with initial window size
+    handleResize();
+
+    // Remove event listener on cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []); // Empty array ensures that effect is only run on mount and unmount
 
   useEffect(() => {
     const config = {
@@ -29,20 +64,26 @@ const LandingPage = () => {
       autoplay: 10000,
       gap: 32,
       breakpoints: {
-        1536: {
-          perView: 5,
-        },
-        1280: {
+        1535: {
           perView: 4,
         },
-        1024: {
+        1281: {
           perView: 3,
+        },
+        1024: {
+          perView: 2,
         },
         768: {
           perView: 2,
+          gap: 16,
         },
         640: {
+          perView: 2,
+          gap: 2,
+        },
+        389: {
           perView: 1.5,
+          gap: 2,
         },
       },
     };
@@ -142,7 +183,7 @@ const LandingPage = () => {
             <div className="relative">
               <div className="flex flex-row-reverse justify-center mt-20 ml-0 items-center z-30 rounded-3xl px-1 top-[170px] right-[116px] xl:mt-20 md:mt-10 md:ml-32">
                 <img
-                  className="mt-[100px] max-w-[120px] max-h-[250px] rotate-[35deg] lg:max-w-[170px] lg:max-h-[320px] lg:mt-[120px] sm:max-w-[150px] sm:max-h-[280px]"
+                  className="mt-[100px] max-w-[120px] max-h-[250px] rotate-[35deg] opacity-50 lg:max-w-[170px] lg:max-h-[320px] lg:mt-[120px] sm:max-w-[150px] sm:max-h-[280px]"
                   src={SmallBlueprintCardImage}
                   alt="card-front"
                 />
@@ -162,11 +203,20 @@ const LandingPage = () => {
       </div>
       <div
         id="carousel"
-        className="h-[700px] px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10"
+        className="relative h-[400px] px-auto sm:h-[650px] xl:h-[680px]"
       >
-        <h1 className="text-3xl font-semibold pt-6">Most Minted Blueprints</h1>
-        <div className="absolute inset-x-0 z-30 flex justify-center items-center bg-transparent px-6 2xl:px-auto 2xl:max-w-[1750px] xl:px-20 lg:px-16 md:px-12 sm:px-10">
-          <div className="glide w-full py-8 rounded-3xl">
+        <h1 className="text-center text-xl font-semibold pt-6 sm:text-3xl">
+          Most Minted Blueprints
+        </h1>
+        <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent px-0 2xl:px-6">
+          <div
+            className={`glide w-full py-1 sm:py-8 ${
+              windowSize.width !== undefined && windowSize.width >= 390
+                ? 'max-w-[382px]'
+                : 'max-w-[282px]'
+            }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
+          >
+            {/* <div className="glide w-full py-8 max-w-[282px] 2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px] xs:max-w-[382px]"> */}
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides overflow-hidden">
                 <li className="glide__slide">
@@ -176,8 +226,8 @@ const LandingPage = () => {
                       mintLimit={10000}
                       mintPrice={0.001}
                       totalSupply={100000000}
-                      name="Iron Pickaxe"
-                      uri={IronPickaxe}
+                      name="Iron Sword"
+                      uri={IronSword}
                     />
                   </div>
                 </li>
@@ -188,8 +238,8 @@ const LandingPage = () => {
                       mintLimit={10000}
                       mintPrice={0.001}
                       totalSupply={100000000}
-                      name="Iron Pickaxe"
-                      uri={IronPickaxe}
+                      name="Black Tea"
+                      uri={BlackTea}
                     />
                   </div>
                 </li>
@@ -200,8 +250,8 @@ const LandingPage = () => {
                       mintLimit={10000}
                       mintPrice={0.001}
                       totalSupply={100000000}
-                      name="Iron Pickaxe"
-                      uri={IronPickaxe}
+                      name="Spear"
+                      uri={Spear}
                     />
                   </div>
                 </li>
@@ -212,8 +262,8 @@ const LandingPage = () => {
                       mintLimit={10000}
                       mintPrice={0.001}
                       totalSupply={100000000}
-                      name="Iron Pickaxe"
-                      uri={IronPickaxe}
+                      name="Gold Coin"
+                      uri={GoldCoin}
                     />
                   </div>
                 </li>
@@ -224,8 +274,32 @@ const LandingPage = () => {
                       mintLimit={10000}
                       mintPrice={0.001}
                       totalSupply={100000000}
-                      name="Iron Pickaxe"
-                      uri={IronPickaxe}
+                      name="Milk Tea"
+                      uri={MilkTea}
+                    />
+                  </div>
+                </li>
+                <li className="glide__slide">
+                  <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                    <BlueprintCard
+                      blueprintId={95}
+                      mintLimit={10000}
+                      mintPrice={0.001}
+                      totalSupply={100000000}
+                      name="Coffee"
+                      uri={Coffee}
+                    />
+                  </div>
+                </li>
+                <li className="glide__slide">
+                  <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                    <BlueprintCard
+                      blueprintId={95}
+                      mintLimit={10000}
+                      mintPrice={0.001}
+                      totalSupply={100000000}
+                      name="Silver Coin"
+                      uri={SilverCoin}
                     />
                   </div>
                 </li>
