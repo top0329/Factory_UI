@@ -2,7 +2,7 @@ import Accordion from './Accordion';
 
 export default function FAQ() {
   return (
-    <div className="px-4 py-8 rounded-t-[65px] bg-[#000000] sm:px-10 md:px-15 md:py-8 lg:px-20">
+    <div className="relative z-20 px-4 py-8 rounded-t-[65px] bg-[#000000] sm:px-10 md:px-15 md:py-8 lg:px-20">
       <h1 className="px-2 pt-16 text-white text-[22px] md:text-[30px] lg:text-3xl font-medium pb-9">
         Frequently Asked Questions
       </h1>

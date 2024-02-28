@@ -33,7 +33,7 @@ const Button: FC<Props> = ({
 const buttonClasses: Array<IButtonClass> = [
   {
     name: 'primary',
-    style: 'text-white bg-primary',
+    style: 'text-white bg-primary hover:bg-primary-light shadow',
   },
   {
     name: 'secondary',
