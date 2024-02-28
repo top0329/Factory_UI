@@ -6,16 +6,16 @@ import { DevTools } from 'jotai-devtools';
 import App from './App.tsx';
 import './index.css';
 import { StoreProvider, store } from './jotai/store.ts';
-import Providers from './contexts/RainbowKitProviders.jsx';
+import RainbowKitProvider from './contexts/RainbowKitProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <StoreProvider>
-        <Providers>
+        <RainbowKitProvider>
           <DevTools store={store} />
           <App />
-        </Providers>
+        </RainbowKitProvider>
         </StoreProvider>
     </BrowserRouter>
   </React.StrictMode>
