@@ -38,7 +38,7 @@ export const WalletConnectButton = () => {
                   <button
                     onClick={openConnectModal}
                     type="button"
-                    className="text-white"
+                    className="text-white justify-center truncate text-base lg:text-lg sm:text-sm sm:block border-2 border-white bg-opacity-100 py-2 px-5 rounded-2xl flex gap-3 items-center"
                   >
                     Connect Wallet
                   </button>
@@ -57,7 +57,11 @@ export const WalletConnectButton = () => {
                 <div style={{ display: 'flex', gap: 12 }}>
                   <button
                     onClick={openChainModal}
-                    style={{ display: 'flex', alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      color: 'white',
+                    }}
                     type="button"
                   >
                     {chain.hasIcon && (
@@ -65,8 +69,8 @@ export const WalletConnectButton = () => {
                         className="text-white text-lg"
                         style={{
                           background: chain.iconBackground,
-                          width: 12,
-                          height: 12,
+                          width: 24,
+                          height: 24,
                           borderRadius: 999,
                           overflow: 'hidden',
                           marginRight: 4,
@@ -76,7 +80,7 @@ export const WalletConnectButton = () => {
                           <img
                             alt={chain.name ?? 'Chain icon'}
                             src={chain.iconUrl}
-                            style={{ width: 12, height: 12 }}
+                            style={{ width: 24, height: 24 }}
                           />
                         )}
                       </div>

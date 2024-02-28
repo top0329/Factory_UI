@@ -15,10 +15,6 @@ function Header() {
   const [isListButtonClicked, setIsListButtonClicked] =
     useState<boolean>(false);
 
-  const handleClick = () => {
-    // setIsWalletConnected(true);
-    return <WalletConnectButton />;
-  };
   return (
     <div className="flex px-6 py-3 bg-[#05050a] h-14 items-center 2xl:px-24 xl:px-20 lg:px-16 lg:h-24 md:h-20 md:px-12 sm:h-16 sm:px-10">
       <div className="flex flex-grow justify-between items-center">
@@ -120,7 +116,7 @@ function Header() {
               <Link
                 to={'#'}
                 className="block m-4 px-4 py-3 rounded text-base text-light-gray"
-                onClick={handleClick}
+                onClick={() => setIsListButtonClicked(false)}
               >
                 Connect Wallet
               </Link>
