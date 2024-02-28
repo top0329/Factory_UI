@@ -6,9 +6,9 @@ import Button from '../Button';
 import { WindowSize } from '../../types';
 
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-import Wood from '../../assets/images/development/wood_ERC20.webp';
-import Iron from '../../assets/images/development/iron_ERC20.webp';
-import Picaxe from '../../assets/images/development/pickaxe_iron_wood_ERC1155.webp';
+import Wood from '../../assets/images/development/wood-erc20.webp';
+import Iron from '../../assets/images/development/iron-erc20.webp';
+import Picaxe from '../../assets/images/development/pickaxe-iron-wood-erc1155.webp';
 
 export interface Props {
   isDrawerOpen?: boolean;

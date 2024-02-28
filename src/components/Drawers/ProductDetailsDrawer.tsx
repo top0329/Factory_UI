@@ -8,12 +8,12 @@ import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 import { WindowSize } from '../../types';
 
-import Wood from '../../assets/images/development/wood_ERC20.webp';
-import Copper from '../../assets/images/development/copper_ERC20.webp';
-import Iron from '../../assets/images/development/iron_ERC20.webp';
-import Key from '../../assets/images/development/key_ERC721.webp';
-import Axe from '../../assets/images/development/axe_iron_wood_ERC1155.webp';
-import Door from '../../assets/images/development/door.png';
+import Wood from '../../assets/images/development/wood-erc20.webp';
+import Copper from '../../assets/images/development/copper-erc20.webp';
+import Iron from '../../assets/images/development/iron-erc20.webp';
+import Key from '../../assets/images/development/key-erc721.webp';
+import Axe from '../../assets/images/development/axe-iron-wood-erc1155.webp';
+import Door from '../../assets/images/development/door-erc1155.png';
 
 export interface Props {
   isDrawerOpen?: boolean;

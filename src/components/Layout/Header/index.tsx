@@ -67,7 +67,7 @@ function Header() {
               onClick={() => setIsListButtonClicked(!isListButtonClicked)}
             />
             <div
-              className={`z-20 ${
+              className={`z-30 ${
                 isListButtonClicked ? 'translate-y-0' : 'translate-y-[-400px]'
               } bg-black shadow w-full absolute top-14 right-0 text-light-gray delay-400 duration-500 ease-in-out transition-all transform`}
             >
@@ -112,7 +112,7 @@ function Header() {
                   </Link>
                 </li>
               </ul>
-              <hr className="mx-1" />
+              <hr className="mx-4" />
               <Link
                 to={'#'}
                 className="block m-4 px-4 py-3 rounded text-base text-light-gray"
