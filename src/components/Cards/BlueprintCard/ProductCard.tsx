@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 export interface Props {
@@ -6,14 +8,22 @@ export interface Props {
   blueprintId: number;
   totalSupply: number;
   address: string;
+  onClick?: () => void;
 }
 
-export function ProductBlueprintCard(props: Props) {
+const BlueprintCard: FC<Props> = ({
+  uri,
+  name,
+  blueprintId,
+  totalSupply,
+  address,
+  onClick,
+}) => {
   return (
     <div
       id="container"
-      className="w-[176px] sm:w-[280px]  border border-black bg-[#011018] rounded-3xl border-block"
-      style={{ overflow: 'hidden' }}
+      className="w-[176px] sm:w-[280px]  border border-black bg-[#011018] rounded-3xl border-block overflow-hidden"
+      onClick={onClick}
     >
       <div className="relative w-[176px] sm:w-[280px]">
         <div
@@ -24,7 +34,7 @@ export function ProductBlueprintCard(props: Props) {
         </div>
         <div className="w-[176px] h-[176px] sm:w-[280px] sm:h-[335px] overflow-hidden">
           <img
-            src={props.uri}
+            src={uri}
             className="w-[280px] xs:w-[176px] sm:w-[280px] sm:h-[335px]"
             alt="okoko"
           />
@@ -39,17 +49,17 @@ export function ProductBlueprintCard(props: Props) {
         >
           <div id="name" className="text-white">
             <p className="text-xs font-mono text-[#858584]">Name</p>
-            <p className="text-lg font-mono">{props.name}</p>
+            <p className="text-lg font-mono">{name}</p>
           </div>
 
           <div id="id_supply" className="flex justify-between text-white">
             <div id="id" className="">
               <p className="text-xs font-mono text-[#858584]">ID</p>
-              <p className="text-lg font-mono">{props.blueprintId}</p>
+              <p className="text-lg font-mono">{blueprintId}</p>
             </div>
             <div id="id" className="text-end hidden sm:block">
               <p className="text-xs font-mono text-[#858584]">Balance</p>
-              <p className="text-lg font-mono">{props.totalSupply}</p>
+              <p className="text-lg font-mono">{totalSupply}</p>
             </div>
           </div>
 
@@ -62,7 +72,7 @@ export function ProductBlueprintCard(props: Props) {
                     icon="logos:ethereum"
                     className="hidden sm:block item-center my-auto"
                   />
-                  {props.address.substring(0, 7)} ... {props.address.slice(-5)}
+                  {address.substring(0, 7)} ... {address.slice(-5)}
                 </div>
                 <button>
                   <Icon
@@ -77,4 +87,6 @@ export function ProductBlueprintCard(props: Props) {
       </div>
     </div>
   );
-}
+};
+
+export default BlueprintCard;

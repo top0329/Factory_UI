@@ -8,6 +8,7 @@ export interface Props {
   totalSupply: number;
   address: string;
   myCardBadge?: boolean;
+  onClick?: () => void;
 }
 
 // export function OwnBlueprintCard(props: Props) {
@@ -18,12 +19,14 @@ const OwnBlueprintCard: FC<Props> = ({
   totalSupply,
   address,
   myCardBadge,
+  onClick,
 }) => {
   return (
     <div
       id="container"
       className="w-[176px] sm:w-[280px]  border border-black bg-[#011018] rounded-3xl border-block"
       style={{ overflow: 'hidden' }}
+      onClick={onClick}
     >
       <div className="relative w-[176px] sm:w-[280px]">
         <div
