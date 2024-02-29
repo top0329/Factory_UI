@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
@@ -13,14 +13,26 @@ export interface Props {
   isNewButton?: boolean;
 }
 
-const SearchBar: FC<Props> = ({
-  isFilterbar,
-  isSortBar,
-  isNewButton,
-}) => {
+const SearchBar: FC<Props> = ({ isFilterbar, isSortBar, isNewButton }) => {
   const navigate = useNavigate();
 
-  const [searchValue, setSearchValue] = useAtom(searchValueAtom);
+  const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
+
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
+
+  const invalidChars = /['"`\\;%&!@#$%^?~]/;
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    if (invalidChars.test(value)) {
+      setShowTooltip(true);
+      setTimeout(() => setShowTooltip(false), 3000);
+      return;
+    } else {
+      setSearchValue(value);
+    }
+  };
 
   return (
     <div className="flex flex-1 items-center justify-center">
@@ -48,8 +60,16 @@ const SearchBar: FC<Props> = ({
               placeholder="Search for Blueprint ID, Name and Creator"
               type="search"
               value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
+              onChange={handleSearchChange}
             />
+            {showTooltip && (
+              <div
+                className="absolute -bottom-12 left-16 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                style={{ transition: 'opacity 0.3s' }}
+              >
+                Special characters are not allowed!
+              </div>
+            )}
           </div>
           <div
             className={`${

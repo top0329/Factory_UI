@@ -26,12 +26,15 @@ import SilverCoin from '../../assets/images/development/siliver-coin-erc1155.web
 const LandingPage = () => {
   const navigate = useNavigate();
 
-  const [searchValue, setSearchValue] = useAtom(searchValueAtom);
+  const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
 
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: undefined,
     height: undefined,
   });
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
+
+  const invalidChars = /['"`\\;%&!@#$%^?~]/;
 
   useEffect(() => {
     // Handler to call on window resize
@@ -58,7 +61,7 @@ const LandingPage = () => {
       type: 'carousel',
       startAt: 0,
       perView: 5,
-      autoplay: 10000,
+      autoplay: 3000,
       gap: 32,
       breakpoints: {
         1535: {
@@ -127,7 +130,15 @@ const LandingPage = () => {
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchValue(event.target.value);
+    const { value } = event.target;
+
+    if (invalidChars.test(value)) {
+      setShowTooltip(true);
+      setTimeout(() => setShowTooltip(false), 3000);
+      return;
+    } else {
+      setSearchValue(value);
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -164,7 +175,7 @@ const LandingPage = () => {
               The Easiest Way To Create Your <br />
               Own Tokens ...
             </h2>
-            <div className="flex justify-start items-center gap-1 border-b-2 w-auto pt-8 mx-0 md:w-96 lg:pt-16 sm:pt-14 sm:mx-4">
+            <div className="relative flex justify-start items-center gap-1 border-b-2 w-auto pt-8 mx-0 md:w-96 lg:pt-16 sm:pt-14 sm:mx-4">
               <Icon className="w-6 h-6" icon="ion:search-outline" />
               <input
                 className="z-20 w-full bg-transparent px-0 py-2 outline-none text-sm sm:text-lg sm:px-2"
@@ -174,6 +185,14 @@ const LandingPage = () => {
                 onKeyDown={handleKeyDown}
                 onChange={handleSearchChange}
               />
+              {showTooltip && (
+                <div
+                  className="absolute -bottom-12 left-8 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                  style={{ transition: 'opacity 0.3s' }}
+                >
+                  Special characters are not allowed!
+                </div>
+              )}
             </div>
           </div>
           <div className="col-span-12 md:col-span-6">
