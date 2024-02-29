@@ -34,7 +34,7 @@ const LandingPage = () => {
   });
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
-  const invalidChars = /['"`\\;%&!@#$%^?~]/;
+  const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 
   useEffect(() => {
     // Handler to call on window resize

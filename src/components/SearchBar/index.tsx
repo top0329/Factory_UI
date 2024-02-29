@@ -18,7 +18,7 @@ const SearchBar: FC<Props> = ({ isNewButton }) => {
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
-  const invalidChars = /['"`\\;%&!@#$%^?~]/;
+  const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
