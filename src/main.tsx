@@ -6,13 +6,16 @@ import { DevTools } from 'jotai-devtools';
 import App from './App.tsx';
 import './index.css';
 import { StoreProvider, store } from './jotai/store.ts';
+import WalletConnectProvider from './contexts/WalletConnectProvider.tsx';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
       <StoreProvider>
-        <DevTools store={store} />
-        <App />
+        <WalletConnectProvider>
+          <DevTools store={store} />
+          <App />
+        </WalletConnectProvider>
       </StoreProvider>
     </BrowserRouter>
   </React.StrictMode>

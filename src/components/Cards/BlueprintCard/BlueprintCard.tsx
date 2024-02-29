@@ -12,6 +12,7 @@ export interface Props {
   mintLimit: number;
   myCardBadge?: boolean;
   button?: boolean;
+  onClick?: () => void;
 }
 
 // export default function BlueprintCard(props: Props) {
@@ -24,11 +25,13 @@ const BlueprintCard: FC<Props> = ({
   mintLimit,
   myCardBadge,
   button,
+  onClick,
 }) => {
   return (
     <div
       id="container"
       className="w-[176px] sm:w-[280px]  border border-black bg-[#000000] rounded-3xl border-block overflow-hidden"
+      onClick={onClick}
     >
       <div className="relative w-[176px] sm:w-[280px]">
         <div

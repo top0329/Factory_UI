@@ -8,9 +8,16 @@ import { searchValueAtom } from '../../jotai/atoms';
 
 export interface Props {
   value?: string;
+  isFilterbar?: boolean;
+  isSortBar?: boolean;
+  isNewButton?: boolean;
 }
 
-const SearchBar: FC<Props> = () => {
+const SearchBar: FC<Props> = ({
+  isFilterbar,
+  isSortBar,
+  isNewButton,
+}) => {
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom(searchValueAtom);
@@ -19,7 +26,11 @@ const SearchBar: FC<Props> = () => {
     <div className="flex flex-1 items-center justify-center">
       <div className="w-full">
         <div className="my-5 sm:flex sm:items-center">
-          <div className="flex w-full relative">
+          <div
+            className={`${
+              isFilterbar == false ? 'hidden' : 'flex'
+            } w-full relative`}
+          >
             <Icon
               className="absolute z-10 text-light-gray min-w-6 min-h-6 m-2 cursor-pointer"
               icon="icon-park-outline:setting-config"
@@ -40,7 +51,11 @@ const SearchBar: FC<Props> = () => {
               onChange={(e) => setSearchValue(e.target.value)}
             />
           </div>
-          <div className="flex gap-3 mt-2 sm:gap-0 sm:mt-0">
+          <div
+            className={`${
+              isSortBar == false ? 'hidden' : 'flex'
+            }mt-2 sm:gap-0 sm:mt-0`}
+          >
             <button className="flex justify-between gap-0 items-center px-1 search-button-width py-1.5 rounded-lg border border-light-gray bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36 sm:gap-3">
               <Icon
                 icon="iconamoon:sorting-left"
@@ -52,6 +67,12 @@ const SearchBar: FC<Props> = () => {
                 className="text-light-gray w-6 h-6"
               />
             </button>
+          </div>
+          <div
+            className={`${
+              isNewButton == false ? 'hidden' : 'flex'
+            } mt-2 sm:gap-0 sm:mt-0`}
+          >
             <Button
               className="truncate flex justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36"
               text="New Blueprint"

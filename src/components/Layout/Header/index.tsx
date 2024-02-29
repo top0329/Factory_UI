@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
+// import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { WalletConnectButton } from '../../Button/WalletConnectButton';
 
 import Logo from '../../Logo';
 import Button from '../../Button';
@@ -9,7 +11,7 @@ import EthereumImage from '../../../assets/images/ethereum.png';
 import AvatarImage from '../../../assets/images/avatar.png';
 
 function Header() {
-  const [isWalletConnected, setIsWalletConnected] = useState<boolean>(false);
+  const [isWalletConnected] = useState<boolean>(false);
   const [isListButtonClicked, setIsListButtonClicked] =
     useState<boolean>(false);
 
@@ -54,12 +56,7 @@ function Header() {
               </div>
             ) : (
               <React.Fragment>
-                <Button
-                  className="hidden truncate text-base lg:text-lg sm:text-sm sm:block"
-                  variant="outline"
-                  text="Connect Wallet"
-                  onClick={() => setIsWalletConnected(true)}
-                />
+                <WalletConnectButton />
               </React.Fragment>
             )}
             <Button
