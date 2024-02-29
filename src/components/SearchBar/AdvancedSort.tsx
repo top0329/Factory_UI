@@ -19,6 +19,10 @@ export default function AdvancedSort() {
           className="text-light-gray w-6 h-6"
         />
         {selectedItem}
+        <Icon
+          icon="icon-park-solid:down-one"
+          className="text-light-gray w-6 h-6"
+        />
       </button>
       <div
         className={`flex flex-col cursor-pointer transition-all duration-300 bg-[#000000] text-white/30 px-4 py-2 gap-y-2 text-[10px] ${

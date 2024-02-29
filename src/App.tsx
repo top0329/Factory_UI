@@ -1,7 +1,13 @@
+import AdvancedSort from './components/SearchBar/AdvancedSort';
 import CoreRoutes from './routes';
 
 function App() {
-  return <CoreRoutes />;
+  return (
+    <>
+      <AdvancedSort />
+      <CoreRoutes />
+    </>
+  );
 }
 
 export default App;
