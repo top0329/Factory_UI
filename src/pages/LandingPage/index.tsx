@@ -232,7 +232,6 @@ const LandingPage = () => {
                 : 'max-w-[282px]'
             }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
           >
-            {/* <div className="glide w-full py-8 max-w-[282px] 2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px] xs:max-w-[382px]"> */}
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides overflow-hidden">
                 <li className="glide__slide">
@@ -323,10 +322,10 @@ const LandingPage = () => {
             </div>
             <div className="glide__arrows" data-glide-el="controls">
               <button
-                className="glide__arrow glide__arrow--left left-[-28px] border-none"
+                className="glide__arrow glide__arrow--left -left-2 border-none p-0 sm:-left-3"
                 data-glide-dir="<"
               >
-                <div className="h-9 w-9 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out">
+                <div className="h-7 w-7 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out hover:bg-default sm:h-9 sm:w-9">
                   <Icon
                     className="w-10 h-10 text-light-gray"
                     icon="material-symbols:keyboard-arrow-left"
@@ -334,10 +333,10 @@ const LandingPage = () => {
                 </div>
               </button>
               <button
-                className="glide__arrow glide__arrow--right right-[-28px] border-none"
+                className="glide__arrow glide__arrow--right -right-2 border-none p-0 sm:-right-3"
                 data-glide-dir=">"
               >
-                <div className="h-9 w-9 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out">
+                <div className="h-7 w-7 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out hover:bg-default sm:h-9 sm:w-9">
                   <Icon
                     className="w-10 h-10 text-light-gray"
                     icon="material-symbols:keyboard-arrow-right"
