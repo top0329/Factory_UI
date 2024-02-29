@@ -3,7 +3,7 @@ import '@rainbow-me/rainbowkit/styles.css';
 import { bsc, sepolia } from 'wagmi/chains';
 
 import { createConfig, WagmiProvider, http } from 'wagmi';
-import { RainbowKitProvider } from '@rainbow-me/rainbowkit';
+import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
@@ -44,7 +44,7 @@ const queryClient = new QueryClient();
 const WalletConnectProvider: React.FC<ProvidersProps> = ({ children }) => (
   <WagmiProvider config={config}>
     <QueryClientProvider client={queryClient}>
-      <RainbowKitProvider>{children}</RainbowKitProvider>
+      <RainbowKitProvider theme={darkTheme()}>{children}</RainbowKitProvider>
     </QueryClientProvider>
   </WagmiProvider>
 );
