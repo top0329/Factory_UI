@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import Button from '../../components/Button';
+// import Button from '../../components/Button';
 import pickAxe from '../../assets/images/development/pickaxe-iron-wood-erc1155.webp';
 import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
+import SearchBar from '../../components/SearchBar';
 import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
 
 const ProductPage = () => {
@@ -18,8 +19,11 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="text-white">
-      <div className="grid grid-cols-4">
+    <div className="flex flex-col gap-5 text-white my-12">
+      <div>
+        <SearchBar isNewButton={false} />
+      </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <OwnBlueprintCard
           uri={pickAxe}
           name="PickAxe"
@@ -27,6 +31,7 @@ const ProductPage = () => {
           totalSupply={1000}
           address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
           myCardBadge={false}
+          onClick={showSidebar}
         />
         <OwnBlueprintCard
           uri={pickAxe}
@@ -35,6 +40,7 @@ const ProductPage = () => {
           totalSupply={1000}
           address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
           myCardBadge={false}
+          onClick={showSidebar}
         />
         <OwnBlueprintCard
           uri={pickAxe}
@@ -43,6 +49,7 @@ const ProductPage = () => {
           totalSupply={1000}
           address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
           myCardBadge={false}
+          onClick={showSidebar}
         />
         <OwnBlueprintCard
           uri={pickAxe}
@@ -51,13 +58,14 @@ const ProductPage = () => {
           totalSupply={1000}
           address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
           myCardBadge={false}
+          onClick={showSidebar}
         />
       </div>
-      <Button
+      {/* <Button
         text="Click here to see OwnBlueprintDetailsDrawer"
         className="my-6"
         onClick={showSidebar}
-      />
+      /> */}
       <OwnBlueprintDetailsDrawer
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}

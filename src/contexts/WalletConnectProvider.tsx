@@ -10,18 +10,19 @@ import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
   walletConnectWallet,
   ledgerWallet,
+  coinbaseWallet,
 } from '@rainbow-me/rainbowkit/wallets';
 
 const connectors = connectorsForWallets(
   [
     {
       groupName: 'Recommended',
-      wallets: [ledgerWallet, walletConnectWallet],
+      wallets: [ledgerWallet, coinbaseWallet, walletConnectWallet],
     },
   ],
   {
     appName: 'Factory',
-    projectId: 'YOUR_PROJECT_ID',
+    projectId: '3070123cded233b935f75e5531756a6a',
   }
 );
 
