@@ -21,7 +21,7 @@ const ProductPage = () => {
   return (
     <div className="flex flex-col gap-5 text-white my-12">
       <div>
-        <SearchBar isNewButton={false} />
+        <SearchBar />
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <OwnBlueprintCard

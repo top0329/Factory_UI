@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
@@ -8,28 +8,36 @@ import { searchValueAtom } from '../../jotai/atoms';
 
 export interface Props {
   value?: string;
-  isFilterbar?: boolean;
-  isSortBar?: boolean;
   isNewButton?: boolean;
 }
 
-const SearchBar: FC<Props> = ({
-  isFilterbar,
-  isSortBar,
-  isNewButton,
-}) => {
+const SearchBar: FC<Props> = ({ isNewButton }) => {
   const navigate = useNavigate();
 
-  const [searchValue, setSearchValue] = useAtom(searchValueAtom);
+  const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
+
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
+
+  const invalidChars = /['"`\\;%&!@#$%^?~]/;
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    if (invalidChars.test(value)) {
+      setShowTooltip(true);
+      setTimeout(() => setShowTooltip(false), 3000);
+      return;
+    } else {
+      setSearchValue(value);
+    }
+  };
 
   return (
     <div className="flex flex-1 items-center justify-center">
       <div className="w-full">
         <div className="my-5 sm:flex sm:items-center">
           <div
-            className={`${
-              isFilterbar == false ? 'hidden' : 'flex'
-            } w-full relative`}
+            className='flex w-full relative'
           >
             <Icon
               className="absolute z-10 text-light-gray min-w-6 min-h-6 m-2 cursor-pointer"
@@ -48,14 +56,18 @@ const SearchBar: FC<Props> = ({
               placeholder="Search for Blueprint ID, Name and Creator"
               type="search"
               value={searchValue}
-              onChange={(e) => setSearchValue(e.target.value)}
+              onChange={handleSearchChange}
             />
+            {showTooltip && (
+              <div
+                className="absolute -bottom-12 left-16 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                style={{ transition: 'opacity 0.3s' }}
+              >
+                Special characters are not allowed!
+              </div>
+            )}
           </div>
-          <div
-            className={`${
-              isSortBar == false ? 'hidden' : 'flex'
-            }mt-2 sm:gap-0 sm:mt-0`}
-          >
+          <div className="flex justify-between mt-2 sm:gap-0 sm:mt-0">
             <button className="flex justify-between gap-0 items-center px-1 search-button-width py-1.5 rounded-lg border border-light-gray bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36 sm:gap-3">
               <Icon
                 icon="iconamoon:sorting-left"
@@ -67,14 +79,8 @@ const SearchBar: FC<Props> = ({
                 className="text-light-gray w-6 h-6"
               />
             </button>
-          </div>
-          <div
-            className={`${
-              isNewButton == false ? 'hidden' : 'flex'
-            } mt-2 sm:gap-0 sm:mt-0`}
-          >
             <Button
-              className="truncate flex justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36"
+              className={`${isNewButton === true ? 'flex' : 'hidden'} truncate justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36`}
               text="New Blueprint"
               variant="primary"
               onClick={() => navigate('/blueprint/new')}

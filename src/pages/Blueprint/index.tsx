@@ -28,7 +28,7 @@ const BlueprintPage = () => {
 
   return (
     <React.Fragment>
-      <SearchBar />
+      <SearchBar isNewButton />
       <Button
         text="Click here to see BlueprintDetailsDrawer"
         className="my-6"
