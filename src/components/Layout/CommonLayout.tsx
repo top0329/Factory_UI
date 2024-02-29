@@ -16,7 +16,7 @@ const CommonLayout = ({ layout }: { layout?: string }) => {
       ) : (
         <Suspense>
           <Header />
-          <div className="px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10">
+          <div className="px-4 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10">
             <Outlet />
           </div>
           <Footer />

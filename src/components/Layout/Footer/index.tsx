@@ -7,7 +7,7 @@ function getCurrentYear() {
 
 function Footer() {
   return (
-    <div className="px-6 py-7 bg-[#000000] h-[350px] object-contain relative xl:px-32 xl:h-44 sm:h-40 lg:px-28 md:px-16 sm:px-12">
+    <div className="px-4 py-7 bg-[#000000] h-[350px] object-contain relative xl:px-32 xl:h-44 sm:h-40 lg:px-28 md:px-16 sm:px-12">
       <div className="flex flex-col-reverse justify-between sm:flex-row">
         <div className="flex flex-col items-center px-2 sm:items-start">
           <div className="flex justify-start text-light-gray items-center gap-6 py-3 lg:gap-8 md:gap-3.5 sm:gap-2">
