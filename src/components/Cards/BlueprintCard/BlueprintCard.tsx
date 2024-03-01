@@ -30,7 +30,7 @@ const BlueprintCard: FC<Props> = ({
   return (
     <div
       id="container"
-      className="w-[176px] sm:w-[280px]  border border-black bg-[#000000] rounded-3xl border-block overflow-hidden"
+      className="w-[176px] sm:w-[24%]  border border-black bg-[#000000] rounded-3xl border-block overflow-hidden pt-[75%]"
       onClick={onClick}
     >
       <div className="relative w-[176px] sm:w-[280px]">

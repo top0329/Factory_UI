@@ -19,11 +19,57 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="flex flex-col gap-5 text-white my-12">
+    <div className="flex flex-col min-w-[320px] gap-5 text-white my-12">
       <div>
         <SearchBar />
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 lg:grid-cols-3 xl:grid-cols-5">
+        <OwnBlueprintCard
+          uri={pickAxe}
+          name="PickAxe"
+          blueprintId={5}
+          totalSupply={1000}
+          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+          myCardBadge={false}
+          onClick={showSidebar}
+        />
+        <OwnBlueprintCard
+          uri={pickAxe}
+          name="PickAxe"
+          blueprintId={5}
+          totalSupply={1000}
+          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+          myCardBadge={false}
+          onClick={showSidebar}
+        />
+        <OwnBlueprintCard
+          uri={pickAxe}
+          name="PickAxe"
+          blueprintId={5}
+          totalSupply={1000}
+          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+          myCardBadge={false}
+          onClick={showSidebar}
+        />
+        <OwnBlueprintCard
+          uri={pickAxe}
+          name="PickAxe"
+          blueprintId={5}
+          totalSupply={1000}
+          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+          myCardBadge={false}
+          onClick={showSidebar}
+        />
+
+        <OwnBlueprintCard
+          uri={pickAxe}
+          name="PickAxe"
+          blueprintId={5}
+          totalSupply={1000}
+          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+          myCardBadge={false}
+          onClick={showSidebar}
+        />
         <OwnBlueprintCard
           uri={pickAxe}
           name="PickAxe"

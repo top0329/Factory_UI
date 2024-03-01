@@ -24,27 +24,26 @@ const OwnBlueprintCard: FC<Props> = ({
   return (
     <div
       id="container"
-      className="w-[176px] sm:w-[280px]  border border-black bg-[#011018] rounded-3xl border-block"
-      style={{ overflow: 'hidden' }}
+      className="w-[176px] sm:w-full border border-black bg-[#011018] rounded-3xl border-block overflow-clip"
       onClick={onClick}
     >
-      <div className="relative w-[176px] sm:w-[280px]">
+      <div className="relative w-[176px] sm:w-full overflow-hidden">
         <div
           id="badge"
-          className="absolute left-[52px] sm:left-[152px] top-[20px] sm:top-[26px] w-[175.5px] h-[20px] sm:h-[30px] bg-[#0047FF] text-white text-center text-[14px] sm:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+          className="absolute right-[-38px] sm:right-[-38px] top-[20px] sm:top-[26px] w-[175.5px] h-[20px] sm:h-[30px] bg-[#0047FF] text-white text-center text-[14px] sm:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
         >
           Blueprint
         </div>
-        <div className="w-[176px] h-[176px] sm:w-[280px] sm:h-[335px] overflow-hidden">
+        <div className="w-[176px] h-[176px] sm:w-full sm:h-full overflow-hidden object-cover">
           <img
             src={uri}
-            className="w-[280px] xs:w-[176px] sm:w-[280px] sm:h-[335px]"
+            className="w-full sm:w-full md:w-full lg:w-full aspect-auto object-cover"
             alt="okoko"
           />
         </div>
         <div
           id="gradient"
-          className="absolute top-[258px] bg-gradient-to-t from-[#011018] bg-opacity-100 to-[#000407]/0 w-[280px]  xs:w-[176px] h-[82px]"
+          className="relative top-[-45px] bg-gradient-to-t from-[#011018] bg-opacity-100 to-[#000407]/0 sm:w-full h-[82px]"
         ></div>
         <p
           className={`absolute ${
@@ -55,7 +54,7 @@ const OwnBlueprintCard: FC<Props> = ({
         </p>
         <div
           id="infor"
-          className="relative flex justify-between sm:flex-col gap-y-1 top-[2px] sm:top-[-8px] px-6 sm:w-[280px] w-[176px] box-border"
+          className="relative flex justify-between sm:flex-col gap-y-1 top-[-80px] sm:top-[-80px] px-6 w-[176px] sm:w-full  box-border"
         >
           <div id="name" className="text-white">
             <p className="text-xs font-mono text-[#858584]">Name</p>
