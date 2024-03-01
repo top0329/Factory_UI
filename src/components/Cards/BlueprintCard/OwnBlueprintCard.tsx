@@ -24,7 +24,7 @@ const OwnBlueprintCard: FC<Props> = ({
   return (
     <div
       id="container"
-      className="w-[176px] sm:w-full border border-black bg-[#011018] rounded-3xl border-block overflow-clip"
+      className="w-[176px] sm:w-full border-2 border-[#00F0FF]/30 bg-[#011018] rounded-3xl border-block overflow-clip"
       onClick={onClick}
     >
       <div className="relative w-[176px] sm:w-full overflow-hidden">
@@ -57,7 +57,9 @@ const OwnBlueprintCard: FC<Props> = ({
           className="relative flex justify-between sm:flex-col gap-y-1 top-[-80px] sm:top-[-80px] px-6 w-[176px] sm:w-full  box-border"
         >
           <div id="name" className="text-white">
-            <p className="text-xs font-mono text-[#858584]">Name</p>
+            <p className="flex justify-start text-xs font-mono text-[#858584]">
+              Name
+            </p>
             <div className="flex justify-between py-[3px]">
               <p className="text-lg font-mono">{name}</p>
               <p
@@ -72,7 +74,9 @@ const OwnBlueprintCard: FC<Props> = ({
 
           <div id="id_supply" className="flex justify-between text-white">
             <div id="id" className="">
-              <p className="text-xs font-mono text-[#858584]">ID</p>
+              <p className="flex justify-start text-xs font-mono text-[#858584]">
+                ID
+              </p>
               <p className="text-lg font-mono">{blueprintId}</p>
             </div>
             <div id="id" className="text-end hidden sm:block">
