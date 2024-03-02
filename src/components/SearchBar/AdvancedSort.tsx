@@ -1,13 +1,6 @@
-import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 export default function AdvancedSort() {
-  // const [selectedValue, setSelectedValue] = useState('ok');
-
-  // const onChange = (e) => {
-  //   setSelectedValue(e.target.value);
-  // };
-
   return (
     <div className="relative">
       <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2 text-gray-700">

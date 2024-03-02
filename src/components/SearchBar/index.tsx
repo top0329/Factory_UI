@@ -6,6 +6,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import Button from '../Button';
 import { searchValueAtom } from '../../jotai/atoms';
 import AdvancedSort from './AdvancedSort';
+import AdvancedFilter from './AdvancedFilter';
 
 export interface Props {
   value?: string;
@@ -18,6 +19,8 @@ const SearchBar: FC<Props> = ({ isNewButton }) => {
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
+
+  const [showFilterOption, setShowFilterOption] = useState<boolean>(false);
 
   const invalidChars = /['"`\\;%&!@#$%^?~]/;
 
@@ -33,15 +36,28 @@ const SearchBar: FC<Props> = ({ isNewButton }) => {
     }
   };
 
+  const handleFilterChange = () => {
+    setShowFilterOption(!showFilterOption);
+  };
+
   return (
     <div className="flex flex-1 items-center justify-center">
       <div className="w-full">
         <div className="my-5 gap-3 sm:flex sm:items-center">
           <div className="flex w-full relative">
-            <Icon
-              className="absolute z-10 text-light-gray min-w-6 min-h-6 m-2 cursor-pointer"
-              icon="icon-park-outline:setting-config"
-            />
+            <div className="relative">
+              <Icon
+                className="absolute z-10 text-light-gray min-w-6 min-h-6 m-2 cursor-pointer"
+                icon="icon-park-outline:setting-config"
+                onClick={handleFilterChange}
+              />
+            </div>
+            {showFilterOption && (
+              <div className="absolute top-0 left-0 mt-10 z-30">
+                <AdvancedFilter />
+              </div>
+            )}
+
             <div className="absolute left-0 inset-y-0 flex items-center">
               <Icon
                 icon="ic:baseline-search"
