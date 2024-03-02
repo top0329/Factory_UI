@@ -2,88 +2,33 @@ import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 export default function AdvancedSort() {
-  const [showOptions, setShowOptions] = useState(false);
-  const [selectedItem, setSelectedItem] = useState('Sort By');
-  const handleClick = () => {
-    setShowOptions(true);
-  };
+  // const [selectedValue, setSelectedValue] = useState('ok');
+
+  // const onChange = (e) => {
+  //   setSelectedValue(e.target.value);
+  // };
 
   return (
-    <div>
-      <button
-        onClick={handleClick}
-        className="flex gap-2 items-center text-center w-[132px] bg-[#000000] text-[#FFFFFF]/30 border-[0.5px] border-[#B1B1B1] rounded-lg py-1 px-2 text-xs"
-      >
+    <div className="relative">
+      <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center px-2 text-gray-700">
         <Icon
           icon="iconamoon:sorting-left"
           className="text-light-gray w-6 h-6"
         />
-        {selectedItem}
+      </div>
+      <select className="block appearance-none inset-y-0 left-2 bg-black border border-gray-400 hover:border-gray-500 px-10 py-2 pr-8 rounded-lg shadow leading-tight focus:outline-none focus:shadow-outline text-white/30">
+        <option value="Blueprint ID">Blueprint ID</option>
+        <option value="Blueprint Name">Blueprint Name</option>
+        <option value="Total Supply">Total Supply</option>
+        <option value="Mint Limit">Mint Limit</option>
+        <option value="Mint Price">Mint Price</option>
+        <option value="Minted Amount">Minted Amount</option>
+      </select>
+      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
         <Icon
           icon="icon-park-solid:down-one"
           className="text-light-gray w-6 h-6"
         />
-      </button>
-      <div
-        className={`flex flex-col cursor-pointer transition-all duration-300 bg-[#000000] text-white/30 px-4 py-2 gap-y-2 text-[10px] ${
-          showOptions ? 'h-auto opacity-100' : 'h-0 opacity-0'
-        }`}
-      >
-        <p
-          onClick={() => {
-            setShowOptions(false);
-            setSelectedItem('Blueprint Id');
-          }}
-          className={`${
-            selectedItem == 'Blueprint Id' ? 'bg-[#232323]' : 'bg-[#000000]'
-          }`}
-        >
-          Blueprint Id
-        </p>
-        <p
-          onClick={() => {
-            setShowOptions(false);
-            setSelectedItem('Blueprint Name');
-          }}
-          className={`${
-            selectedItem == 'Blueprint Name' ? 'bg-[#232323]' : 'bg-[#000000]'
-          }`}
-        >
-          Blueprint Name
-        </p>
-        <p
-          onClick={() => {
-            setShowOptions(false);
-            setSelectedItem('Total Supply');
-          }}
-          className={`${
-            selectedItem == 'Total Supply' ? 'bg-[#232323]' : 'bg-[#000000]'
-          }`}
-        >
-          Total Supply
-        </p>
-        <p
-          onClick={() => {
-            setShowOptions(false);
-            setSelectedItem('Mint Limit');
-          }}
-          className={`${
-            selectedItem == 'Mint Limit' ? 'bg-[#232323]' : 'bg-[#000000]'
-          }`}
-        >
-          Mint Limit
-        </p>
-        <p
-          onClick={() => {
-            setShowOptions(false);
-            setSelectedItem('Mint Price');
-          }}
-          className={`${
-            selectedItem == 'Mint Price' ? 'bg-[#232323]' : 'bg-[#000000]'
-          }`}
-        >
-          Mint Price
-        </p>
       </div>
     </div>
   );
