@@ -176,14 +176,14 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="relative text-white bg-landing overflow-hidden">
+    <div className="relative text-white bg-landing overflow-hidden 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full">
       <img
         className="absolute w-[1000px] z-10 top-[-220px] rotate-[-30deg] overflow-hidden"
         src={Union}
         alt="union"
       />
       <img
-        className="absolute w-[1000px] z-10 top-[900px] left-[400px] rotate-[-30deg]"
+        className="absolute w-[1000px] z-10 top-[900px] left-[calc((100vw)/2)] rotate-[-30deg]"
         src={Union}
         alt="union"
       />
