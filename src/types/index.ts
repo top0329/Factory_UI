@@ -1,3 +1,5 @@
+import { Contract } from 'ethers';
+
 export interface IButtonClass {
   name: string;
   style: string;
@@ -13,3 +15,19 @@ export type CarouselModel = {
   subText?: string | null;
   image: string;
 };
+
+export type Web3ContextType = {
+  factoryContract: Contract;
+  blueprintContract: Contract;
+};
+
+export type BlueprintTuple = [
+  bigint,
+  string,
+  bigint,
+  string,
+  string,
+  bigint,
+  bigint,
+  []
+];

@@ -10,7 +10,7 @@ import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
 import { searchValueAtom } from '../../jotai/atoms';
-import { WindowSize } from '../../types';
+import { BlueprintTuple, WindowSize } from '../../types';
 
 import Union from '../../assets/images/union.png';
 import CardFront from '../../assets/svg/card-front.svg';
@@ -22,8 +22,10 @@ import GoldCoin from '../../assets/images/development/gold-coin-erc1155.webp';
 import MilkTea from '../../assets/images/development/milk-tea-erc1155.webp';
 import Coffee from '../../assets/images/development/coffee-erc1155.webp';
 import SilverCoin from '../../assets/images/development/siliver-coin-erc1155.webp';
+import useWeb3 from '../../hooks/useWeb3';
 
 const LandingPage = () => {
+  const { blueprintContract } = useWeb3();
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
@@ -33,6 +35,8 @@ const LandingPage = () => {
     height: undefined,
   });
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
+  const [totalBlueprintID, setTotalBlueprintID] = useState<number>(0);
+  const [blueprintArray, setBlueprintArray] = useState<BlueprintTuple[]>([]);
 
   const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 
@@ -97,6 +101,28 @@ const LandingPage = () => {
       glide.destroy();
     };
   }, []);
+
+  useEffect(() => {
+    async function fetchData() {
+      const temp = [];
+      const _totalBlueprintID = await blueprintContract.totalBlueprintIDs();
+      setTotalBlueprintID(_totalBlueprintID.length);
+      for (let i = 3; i <= totalBlueprintID; i++) {
+        const id: bigint = BigInt(i);
+        const data = await blueprintContract.getBlueprintNFTData(id);
+        console.log(data);
+        temp.push(data);
+      }
+      setBlueprintArray(temp);
+      console.log(temp);
+    }
+    fetchData();
+  }, [blueprintContract, totalBlueprintID]);
+
+  useEffect(
+    () => console.log('blueprintarray', blueprintArray),
+    [blueprintArray]
+  );
 
   const smoothScrollTo = (endY: number, duration: number) => {
     const startY = window.scrollY;
