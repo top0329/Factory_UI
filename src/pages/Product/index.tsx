@@ -33,99 +33,118 @@ const ProductPage = () => {
       <div>
         <SearchBar />
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 gap-4 lg:grid-cols-3 xl:grid-cols-5">
-        <OwnBlueprintCard
-          uri={SilverCoin}
-          name="Silver Coin"
-          blueprintId={5}
-          totalSupply={1000}
-          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-          myCardBadge={true}
-          onClick={showSidebar}
-        />
-        <OwnBlueprintCard
-          uri={MilkTea}
-          name="Milk Tea"
-          blueprintId={5}
-          totalSupply={1000}
-          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-          myCardBadge={false}
-          onClick={showSidebar}
-        />
-        <BlueprintCard
-          blueprintId={95}
-          mintLimit={10000}
-          mintPrice={0.001}
-          totalSupply={100000000}
-          name="Iron Sword"
-          uri={pickAxe}
-          onClick={showSidebar}
-        />
-        <OwnBlueprintCard
-          uri={Coffee}
-          name="Coffee"
-          blueprintId={5}
-          totalSupply={1000}
-          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-          myCardBadge={true}
-          onClick={showSidebar}
-        />
-        <OwnBlueprintCard
-          uri={lemonTea}
-          name="Lemon Tea"
-          blueprintId={5}
-          totalSupply={1000}
-          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-          myCardBadge={false}
-          onClick={showSidebar}
-        />
-
-        <OwnBlueprintCard
-          uri={OatMilkLatte}
-          name="Oat Milk Latte"
-          blueprintId={5}
-          totalSupply={1000}
-          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-          myCardBadge={false}
-          onClick={showSidebar}
-        />
-        <OwnBlueprintCard
-          uri={PlasticCup}
-          name="Plastic Cup"
-          blueprintId={5}
-          totalSupply={1000}
-          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-          myCardBadge={false}
-          onClick={showSidebar}
-        />
-        <OwnBlueprintCard
-          uri={Oats}
-          name="Oats"
-          blueprintId={5}
-          totalSupply={1000}
-          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-          myCardBadge={true}
-          onClick={showSidebar}
-        />
-        <BlueprintCard
-          blueprintId={95}
-          mintLimit={10000}
-          mintPrice={0.001}
-          totalSupply={100000000}
-          name="Gold Coins"
-          myCardBadge={true}
-          uri={GoldCoins}
-          onClick={showSidebar}
-        />
-        <OwnBlueprintCard
-          uri={USDT}
-          name="USDT"
-          blueprintId={5}
-          totalSupply={1000}
-          address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-          myCardBadge={true}
-          onClick={showSidebar}
-        />
+      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 lg:grid-cols-4 xl:grid-cols-5">
+        <div className="flex justify-center">
+          <OwnBlueprintCard
+            uri={SilverCoin}
+            name="Silver Coin"
+            blueprintId={5}
+            totalSupply={1000}
+            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+            myCardBadge={true}
+            onClick={showSidebar}
+          />
+        </div>
+        <div className="flex justify-center">
+          <OwnBlueprintCard
+            uri={MilkTea}
+            name="Milk Tea"
+            blueprintId={5}
+            totalSupply={1000}
+            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+            myCardBadge={false}
+            onClick={showSidebar}
+          />
+        </div>
+        <div className="flex justify-center">
+          <BlueprintCard
+            blueprintId={95}
+            mintLimit={10000}
+            mintPrice={0.001}
+            totalSupply={100000000}
+            name="Iron Sword"
+            uri={pickAxe}
+            onClick={showSidebar}
+          />{' '}
+        </div>
+        <div className="flex justify-center">
+          <OwnBlueprintCard
+            uri={Coffee}
+            name="Coffee"
+            blueprintId={5}
+            totalSupply={1000}
+            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+            myCardBadge={true}
+            onClick={showSidebar}
+          />
+        </div>
+        <div className="flex justify-center">
+          <OwnBlueprintCard
+            uri={lemonTea}
+            name="Lemon Tea"
+            blueprintId={5}
+            totalSupply={1000}
+            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+            myCardBadge={false}
+            onClick={showSidebar}
+          />
+        </div>
+        <div className="flex justify-center">
+          <OwnBlueprintCard
+            uri={OatMilkLatte}
+            name="Oat Milk Latte"
+            blueprintId={5}
+            totalSupply={1000}
+            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+            myCardBadge={false}
+            onClick={showSidebar}
+          />
+        </div>
+        <div className="flex justify-center">
+          <OwnBlueprintCard
+            uri={PlasticCup}
+            name="Plastic Cup"
+            blueprintId={5}
+            totalSupply={1000}
+            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+            myCardBadge={false}
+            onClick={showSidebar}
+          />
+        </div>
+        <div className="flex justify-center">
+          <OwnBlueprintCard
+            uri={Oats}
+            name="Oats"
+            blueprintId={5}
+            totalSupply={1000}
+            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+            myCardBadge={true}
+            onClick={showSidebar}
+          />
+        </div>
+        <div className="flex justify-center">
+          <BlueprintCard
+            blueprintId={95}
+            mintLimit={10000}
+            mintPrice={0.001}
+            totalSupply={100000000}
+            name="Gold Coins"
+            myCardBadge={true}
+            uri={GoldCoins}
+            onClick={showSidebar}
+          />
+        </div>
+        <div className="flex justify-center">
+          <OwnBlueprintCard
+            uri={USDT}
+            name="USDT"
+            blueprintId={5}
+            totalSupply={1000}
+            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+            myCardBadge={true}
+            onClick={showSidebar}
+          />
+        </div>
       </div>
       <OwnBlueprintDetailsDrawer
         isDrawerOpen={isDrawerOpen}
