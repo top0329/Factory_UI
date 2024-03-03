@@ -15,15 +15,11 @@ const CommonLayout = ({ layout }: { layout?: string }) => {
         </Suspense>
       ) : (
         <Suspense>
-          <div>
-            <Header />
-          </div>
-          <div className="px-4 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10">
+          <Header />
+          <div className="bg-layout px-4 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full xl:px-20 lg:px-16 md:px-12 sm:px-10">
             <Outlet />
           </div>
-          <div className="bg-black w-screen">
-            <Footer />
-          </div>
+          <Footer />
         </Suspense>
       )}
     </React.Fragment>
