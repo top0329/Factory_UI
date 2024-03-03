@@ -36,7 +36,7 @@ const BlueprintCard: FC<Props> = ({
       <div className="relative w-[176px] md:w-full overflow-hidden">
         <div
           id="badge"
-          className="absolute right-[-38px] md:right-[-38px] top-[20px] md:top-[26px] w-[175.5px] h-[20px] md:h-[30px] bg-[#0047FF] text-white text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+          className="absolute flex justify-center right-[-38px] md:right-[-38px] top-[20px] md:top-[26px] w-[175.5px] h-[25px] md:h-[30px] bg-[#0047FF] text-white text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
         >
           Blueprint
         </div>
@@ -50,8 +50,8 @@ const BlueprintCard: FC<Props> = ({
 
         <div
           id="gradient"
-          className="relative top-[-45px] bg-gradient-to-t from-[#011018] bg-opacity-100 to-[#000407]/0 md:w-full h-[82px]"
-        ></div>
+          className="relative top-[-45px] bg-gradient-to-t from-[#011018] from-40% bg-opacity-100 to-[#000407]/0 md:w-full h-[82px]"
+        />
         <div className="z-20 absolute top-[0px] left-0 bg-gradient-to-r from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
         <div className="z-20 absolute top-[0px] right-0 rounded-l-3xl bg-gradient-to-l from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
         <div className="absolute bottom-0 left-0 rounded-l-3xl bg-gradient-to-t from-slate-800 gray via-transparent to-transparent w-full h-[20px] rounded-b-[-24px]"></div>
@@ -60,7 +60,7 @@ const BlueprintCard: FC<Props> = ({
         <p
           className={`absolute ${
             myCardBadge ? 'md:hidden' : 'hidden'
-          } flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+          } flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
         >
           My Blueprint
         </p>
@@ -79,7 +79,7 @@ const BlueprintCard: FC<Props> = ({
               <p
                 className={`${
                   myCardBadge ? 'md:block hidden' : 'hidden'
-                } font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+                } font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
               >
                 My Blueprint
               </p>

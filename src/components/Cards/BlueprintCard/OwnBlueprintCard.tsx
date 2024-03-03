@@ -30,7 +30,7 @@ const OwnBlueprintCard: FC<Props> = ({
       <div className="relative w-[176px] md:w-full overflow-hidden">
         <div
           id="badge"
-          className="absolute flex right-[-38px] items-center justify-center md:right-[-38px] top-[20px] md:top-[26px] w-[175.5px] h-[20px] md:h-[30px] bg-[#0047FF] text-white text-center text-[14px] xl:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+          className="absolute  right-[-38px] md:right-[-38px] top-[20px] md:top-[26px] w-[175.5px] h-[25px] md:h-[30px] bg-[#0047FF] text-white text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
         >
           Blueprint
         </div>
@@ -43,12 +43,12 @@ const OwnBlueprintCard: FC<Props> = ({
         </div>
         <div
           id="gradient"
-          className="relative top-[-45px] bg-gradient-to-t from-[#011018] bg-opacity-100 to-[#000407]/0 md:w-full h-[82px]"
+          className="relative top-[-45px] bg-gradient-to-t from-[#011018] from-40% bg-opacity-100 to-[#000407]/0 md:w-full h-[82px]"
         ></div>
         <p
           className={`absolute ${
             myCardBadge ? 'md:hidden' : 'hidden'
-          } flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+          } flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
         >
           My Blueprint
         </p>
@@ -67,7 +67,7 @@ const OwnBlueprintCard: FC<Props> = ({
               <p
                 className={`${
                   myCardBadge ? 'hidden md:block' : 'hidden'
-                } font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+                } font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
               >
                 My Blueprint
               </p>

@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import blueprintInfoImage from '../../../assets/images/bluetoken 1.png';
+import blueprintInfoImage from '../../../assets/images/blueprint.png';
 
 export default function BlueprintInfoCard() {
-  const [editable, setEditable] = useState(false);
+  const [editable, setEditable] = useState(true);
   const [uriChecked, setUriChecked] = useState(false);
   const [mintPriceChecked, setMintPriceChecked] = useState(false);
   const [mintLimitChecked, setMintLimitChecked] = useState(false);
@@ -85,16 +85,19 @@ export default function BlueprintInfoCard() {
             />
             <p className="text-xs text-[#858584]">URI</p>
           </div>
-          <input
-            type="input"
-            disabled={!editable || !uriChecked}
-            className={`border-[0.5px] w-full py-1 px-2 rounded-lg
+          <div className="flex justify-between">
+            <input
+              type="input"
+              disabled={!editable || !uriChecked}
+              className={`border-[0.5px] w-full py-1 px-2 rounded-lg
             ${
               editable && uriChecked
                 ? 'bg-[#03070F] border-[#8B8B8B]'
                 : 'bg-[#010B10] border-[#191313]'
             }`}
-          />
+            />
+            <button value="Open" />
+          </div>
         </div>
         <div className="flex flex-col w-full gap-y-1">
           <div className="flex justify-start gap-2">
@@ -115,7 +118,7 @@ export default function BlueprintInfoCard() {
             ${
               editable && mintPriceChecked
                 ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
+                : 'bg-[#010B10] border-[#2e1313]'
             }`}
             />
             <select
