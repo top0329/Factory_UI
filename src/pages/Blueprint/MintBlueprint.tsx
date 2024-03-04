@@ -52,19 +52,14 @@ const MintBlueprintPage = () => {
             Battering Ram
           </h1>
           <div className="flex flex-col gap-3 px-2">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint ID</p>
               <p className="col-span-1">45</p>
             </div>
-            <div className="flex flex-col justify-between items-start gap-2 sm:flex-row sm:items-center">
+            <div className="flex flex-col justify-between items-start gap-2 font-mono sm:flex-row sm:items-center">
               <p className="text-light-gray">Creator</p>
               <div className="flex items-center gap-1">
                 <Icon className="w-6 h-6 sm:w-4 sm:h-5" icon="logos:ethereum" />
-                {/* <Link className="underline text-base" to={'#'}>
-                  {windowSize.width !== undefined && windowSize.width > 640
-                    ? '0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'
-                    : '0x48C281DB...A235d8fc'}
-                </Link> */}
                 <Link className="underline text-base break-all" to={'#'}>
                   0x48C281DB38eAD8050bBd821d195FaE85A235d8fc
                 </Link>
@@ -74,7 +69,7 @@ const MintBlueprintPage = () => {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-2 items-center gap-3">
+            <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">
                 Blueprint Mint Amount
               </p>
@@ -86,17 +81,17 @@ const MintBlueprintPage = () => {
                 defaultValue={100000}
               />
             </div>
-            <div className="grid grid-cols-2 items-center gap-3">
+            <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">
                 Blueprint Creation Fee
               </p>
               <p className="col-span-1">0.1 ETH</p>
             </div>
-            <div className="grid grid-cols-2 items-center gap-3">
+            <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint Mint Price</p>
               <p className="col-span-1">1 USDT</p>
             </div>
-            <div className="grid grid-cols-2 items-center gap-3">
+            <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Total Mint fee</p>
               <p className="col-span-1">0.1 ETH + 100000 * 1 USDT</p>
             </div>
