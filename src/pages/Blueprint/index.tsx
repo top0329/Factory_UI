@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import { useAtom } from 'jotai';
 
 import SearchBar from '../../components/SearchBar';
 import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
+import { selectedBlueprintAtom } from '../../jotai/atoms';
 
 import blueprintData from '../../../blueprint-data.json';
 
 const BlueprintPage = () => {
+  const [, setSelectedBlueprint] = useAtom(selectedBlueprintAtom);
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isCreatorMode, setIsCreatorMode] = useState<boolean>(false);
 
@@ -22,6 +26,11 @@ const BlueprintPage = () => {
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsCreatorMode(event.target.checked);
+  };
+
+  const handleBlueprintCardClicked = (blueprint: any) => {
+    setSelectedBlueprint(blueprint);
+    showSidebar();
   };
 
   return (
@@ -70,7 +79,7 @@ const BlueprintPage = () => {
                   mintLimit={blueprint.mintLimit}
                   myCardBadge={blueprint.myBlueprint}
                   button={isCreatorMode}
-                  onClick={showSidebar}
+                  onClick={() => handleBlueprintCardClicked(blueprint)}
                 />
               </div>
             );

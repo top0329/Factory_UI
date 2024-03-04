@@ -1,17 +1,30 @@
 import { FC } from 'react';
-import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 export interface Props {
-  imageUrl: string;
+  id: number;
+  name: string;
+  uri: string;
+  amount: number;
+  address: string;
   icon?: boolean;
-  // name: string;
-  // tokenAddress: string;
-  // tokenId: number;
-  // amount: number;
 }
 
-const ERC1155Card: FC<Props> = ({ imageUrl, icon = false }) => {
+const ERC1155Card: FC<Props> = ({
+  id,
+  name,
+  uri,
+  amount,
+  address,
+  icon = false,
+}) => {
+  const shortenAddress = (addr: string) => {
+    if (!addr || addr.length <= 12) return addr;
+    const start = addr.slice(0, 12); // Keep the starting characters
+    const end = addr.slice(-10); // Keep the last characters
+    return `${start}...${end}`; // Combine with the ellipsis
+  };
+
   return (
     <div className="group relative w-[272px] h-[300px] overflow-hidden border border-black rounded-3xl">
       <div
@@ -24,7 +37,7 @@ const ERC1155Card: FC<Props> = ({ imageUrl, icon = false }) => {
         className={`z-20 flex justify-center items-center w-[272px] h-44 rounded-t-3xl object-cover ${
           icon && 'transition duration-300 ease-in-out group-hover:blur-sm'
         }`}
-        src={imageUrl}
+        src={uri}
         alt="erc-20"
       />
       {icon && (
@@ -39,29 +52,33 @@ const ERC1155Card: FC<Props> = ({ imageUrl, icon = false }) => {
           />
         </div>
       )}
-      <div className="z-10 absolute top-[164px] bg-gradient-to-t from-black via-black to-transparent w-full h-[20px]"></div>
+      <div className="z-10 absolute top-[164px] bg-gradient-to-t from-[#011018] via-[#011018] to-transparent w-full h-[20px]"></div>
       <div className="z-20 absolute top-[172px] left-0 bg-gradient-to-r from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
       <div className="z-20 absolute top-[172px] right-0 rounded-l-3xl bg-gradient-to-l from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
       <div className="absolute bottom-0 left-0 rounded-l-3xl bg-gradient-to-t from-slate-800 gray via-transparent to-transparent w-full h-[20px] rounded-b-[-24px]"></div>
       <div className="flex flex-col gap-1 px-4 pt-0 pb-2 text-white">
-        <p className="z-20 text-lg font-medium mt-[-12px]">Copper</p>
+        <p className="z-20 text-lg font-medium mt-[-12px]">{name}</p>
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm text-light-gray">ID</p>
-            <p>387</p>
+            <p>{id}</p>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col items-end">
             <p className="text-sm text-light-gray">Amount</p>
-            <p>2000</p>
+            <p>{amount}</p>
           </div>
         </div>
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">Adress</p>
           <div className="flex items-center gap-1">
             <Icon className="w-4 h-6" icon="logos:ethereum" />
-            <Link className="underline text-base" to={'#'}>
-              0x48C281DB38...85A235d8fc
-            </Link>
+            <a
+              className="underline text-base"
+              href={`https://sepolia.etherscan.io/address/${address}`}
+              target="_blank"
+            >
+              {shortenAddress(address)}
+            </a>
             <Icon
               className="w-4 h-4 cursor-pointer"
               icon="solar:copy-outline"
