@@ -2,7 +2,7 @@ import Button from '../Button';
 
 export default function AdvancedFilter() {
   return (
-    <div className="flex flex-col py-4 px-2 bg-[#000000] w-[282px] gap-y-4">
+    <div className="flex flex-col py-4 px-4 bg-[#000000]/90 w-[282px] gap-y-4 border rounded-b-lg">
       <div className="flex flex-col gap-y-2">
         <div className="flex justify-between items-center  px-3 py-1 text-[#FFFFFF] bg-black rounded-lg w-full">
           <p className="text-base font-mono">Blueprint ID</p>

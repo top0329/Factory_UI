@@ -91,7 +91,7 @@ const OwnBlueprintCard: FC<Props> = ({
 
           <div id="id_supply" className="w-full hidden md:block">
             <div id="address" className="text-white">
-              <p className="text-xs font-mono text-[#858584]">Address</p>
+              <p className="text-xs font-mono text-[#858584]">Creator</p>
               <div id="id_supply" className="flex justify-between text-white">
                 <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
                   <Icon

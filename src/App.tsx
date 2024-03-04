@@ -4,7 +4,6 @@ import CoreRoutes from './routes';
 function App() {
   return (
     <>
-      <BlueprintInfoCard />
       <CoreRoutes />
     </>
   );
