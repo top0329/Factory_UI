@@ -2,19 +2,19 @@
   {
     "id": 46,
     "name": "Iron Sword",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
     "mintPriceUnit": 0,
     "mintLimit": 100,
-    "myBlueprint": false,
+    "myBlueprint": true,
     "data": [
       {
         "erc20Data": [
           {
             "name": "Iron",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron_20.webp",
             "amount": 5,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -27,7 +27,7 @@
   {
     "id": 37,
     "name": "Black Tea",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/black_tea_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/black_tea_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -39,13 +39,13 @@
         "erc20Data": [
           {
             "name": "Water",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Tea Leaf",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/tea_leaf_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/tea_leaf_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -55,7 +55,7 @@
           {
             "id": 98,
             "name": "Glass Cup",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/glass_cup_1155.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/glass_cup_1155.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -66,7 +66,7 @@
   {
     "id": 65,
     "name": "Lemon Tea",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/Lemon_tea_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/Lemon_tea_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -78,19 +78,19 @@
         "erc20Data": [
           {
             "name": "Water",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Tea Leaf",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/tea_leaf_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/tea_leaf_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Suger",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/suger_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/suger_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -100,14 +100,14 @@
           {
             "id": 98,
             "name": "Glass Cup",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/glass_cup_1155.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/glass_cup_1155.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "id": 82,
             "name": "Lemon",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/lemon_1155.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/lemon_1155.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -118,7 +118,7 @@
   {
     "id": 21,
     "name": "Milk Tea",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/Lemon_tea_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_tea_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -130,25 +130,25 @@
         "erc20Data": [
           {
             "name": "Water",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Tea Leaf",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/tea_leaf_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/tea_leaf_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Suger",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/suger_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/suger_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Milk",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -158,7 +158,7 @@
           {
             "id": 98,
             "name": "Glass Cup",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/glass_cup_1155.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/glass_cup_1155.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -169,7 +169,7 @@
   {
     "id": 14,
     "name": "Coffee",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
     "mintPriceUnit": 0,
@@ -180,31 +180,31 @@
         "erc20Data": [
           {
             "name": "Pottery Clay",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/pottery%20clay_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/pottery%20clay_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Water",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Coffee Beans",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee%20beans_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee%20beans_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Suger",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/suger_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/suger_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Milk",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -217,7 +217,7 @@
   {
     "id": 25,
     "name": "Oat Milk Latte",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/oat%20milk%20latte_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/oat%20milk%20latte_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -229,7 +229,7 @@
         "erc20Data": [
           {
             "name": "Oat",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/oats_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/oats_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -239,7 +239,7 @@
           {
             "id": 14,
             "name": "Coffee",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -250,7 +250,7 @@
   {
     "id": 184,
     "name": "Copper Coin",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/copper_coin_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/copper_coin_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -262,13 +262,13 @@
         "erc20Data": [
           {
             "name": "Copper",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/copper_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/copper_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "USDT",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/usdt_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/usdt_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -281,7 +281,7 @@
   {
     "id": 185,
     "name": "Silver Coin",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_coin_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_coin_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -293,13 +293,13 @@
         "erc20Data": [
           {
             "name": "Silver",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "USDT",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/usdt_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/usdt_20.webp",
             "amount": 10,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -310,9 +310,9 @@
     ]
   },
   {
-    "id": 184,
+    "id": 186,
     "name": "Gold Coin",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -324,13 +324,13 @@
         "erc20Data": [
           {
             "name": "Gold",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "USDT",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/usdt_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/usdt_20.webp",
             "amount": 100,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -343,7 +343,7 @@
   {
     "id": 92,
     "name": "Axe",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/axe_iron_wood_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/axe_iron_wood_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -355,13 +355,13 @@
         "erc20Data": [
           {
             "name": "Iron",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron_20.webp",
             "amount": 2,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Wood",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/wood_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/wood_20.webp",
             "amount": 2,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -374,7 +374,7 @@
   {
     "id": 99,
     "name": "Pickaxe",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/pickaxe_iron_wood_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/pickaxe_iron_wood_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -386,13 +386,13 @@
         "erc20Data": [
           {
             "name": "Iron",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron_20.webp",
             "amount": 2,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Wood",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/wood_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/wood_20.webp",
             "amount": 3,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
@@ -405,7 +405,7 @@
   {
     "id": 91,
     "name": "Spear",
-    "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/spear_1155.webp",
+    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/spear_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -417,13 +417,13 @@
         "erc20Data": [
           {
             "name": "Iron",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron_20.webp",
             "amount": 1,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           },
           {
             "name": "Wood",
-            "url": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/wood_20.webp",
+            "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/wood_20.webp",
             "amount": 4,
             "address": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
           }
