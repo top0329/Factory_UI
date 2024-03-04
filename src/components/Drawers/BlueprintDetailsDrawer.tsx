@@ -101,8 +101,8 @@ const BlueprintDetailDrawer: FC<Props> = ({
             Iron Sheild
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
-          <div className="bg-[#011018] py-6 px-8 h-80 md:h-60">
-            <div className="flex flex-col-reverse justify-between items-center gap-4 md:flex-row md:justify-beteen">
+          <div className="bg-[#011018] py-6 px-8 h-80 sm:h-60">
+            <div className="flex flex-col-reverse justify-between items-center gap-4 sm:flex-row sm:justify-beteen">
               <div className="flex justify-start w-full gap-16">
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="text-light-gray text-sm">Blueprint ID</p>
@@ -113,7 +113,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                   <p>1000000</p>
                 </div>
               </div>
-              <div className="flex justify-end gap-8 mb-2 md:gap-3">
+              <div className="flex justify-end gap-8 mb-2 sm:gap-3">
                 <Button
                   className="text-base !py-1 !px-7"
                   text="Recreate"
@@ -130,7 +130,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 />
               </div>
             </div>
-            <div className="flex justify-start items-start mt-5 md:justify-between">
+            <div className="flex justify-start items-start mt-5 sm:justify-between">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Creator</p>
                 <div className="flex items-center gap-1">
@@ -223,18 +223,18 @@ const BlueprintDetailDrawer: FC<Props> = ({
               </button>
             </div>
           </div>
-          <div className="px-12 py-10 h-auto">
+          <div className="px-12 py-10 h-auto md:px-12 sm:px-8">
             {activeTab === 1 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
+              <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4">
                 <ERC20Card imageUrl={Iron} />
                 <ERC20Card imageUrl={Wood} />
               </div>
             )}
             {activeTab === 2 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4"></div>
+              <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4"></div>
             )}
             {activeTab === 3 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4"></div>
+              <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4"></div>
             )}
           </div>
         </article>
