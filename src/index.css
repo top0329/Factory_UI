@@ -15,6 +15,24 @@ body {
   width: calc((100% - 12px) / 2);
 }
 
+@layer utilities {
+  @media (min-width: 1536px) {
+    .min-px-96 {
+      padding-left: max(96px, calc((100vw - 1536px) / 2));
+      padding-right: max(96px, calc((100vw - 1536px) / 2));
+    }
+  }
+}
+
+@layer utilities {
+  @media (min-width: 1536px) {
+    .min-px-132 {
+      padding-left: max(132px, calc((100vw - 1536px) / 2));
+      padding-right: max(132px, calc((100vw - 1536px) / 2));
+    }
+  }
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);

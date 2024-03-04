@@ -64,8 +64,6 @@ const AddComponentModal = () => {
       ></div>
       <div
         ref={modal}
-        // onFocus={() => setIsAddComponentModalOpen(true)}
-        // onBlur={() => setIsAddComponentModalOpen(false)}
         className="z-30 w-full max-w-[600px] rounded-3xl bg-[#040a0f] text-white pt-4 pb-6 text-center sm:py-12 sm:rounded-[48px] md:py-[40px]"
       >
         <h3 className="pb-4 text-base font-semibold text-white px-4 sm:pb-10 sm:text-2xl sm:px-8 md:px-[60px]">
@@ -74,9 +72,18 @@ const AddComponentModal = () => {
         <div className="z-40 overflow-x-hidden overflow-y-auto flex justify-center items-center">
           <Carousel
             data={CarouselData}
-            rightItem={<Icon icon="ep:arrow-right-bold" />}
-            leftItem={<Icon icon="ep:arrow-left-bold" />}
-            // animationDuration={3000}
+            rightItem={
+              <Icon
+                className="bg-default rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
+                icon="ep:arrow-right-bold"
+              />
+            }
+            leftItem={
+              <Icon
+                className="bg-default rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
+                icon="ep:arrow-left-bold"
+              />
+            }
             size="normal"
           />
         </div>

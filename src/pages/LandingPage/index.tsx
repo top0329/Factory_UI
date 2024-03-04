@@ -10,7 +10,7 @@ import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
 import { searchValueAtom } from '../../jotai/atoms';
-import { WindowSize } from '../../types';
+import { BlueprintTuple, WindowSize } from '../../types';
 
 import Union from '../../assets/images/union.png';
 import CardFront from '../../assets/svg/card-front.svg';
@@ -22,8 +22,10 @@ import GoldCoin from '../../assets/images/development/gold-coin-erc1155.webp';
 import MilkTea from '../../assets/images/development/milk-tea-erc1155.webp';
 import Coffee from '../../assets/images/development/coffee-erc1155.webp';
 import SilverCoin from '../../assets/images/development/siliver-coin-erc1155.webp';
+import useWeb3 from '../../hooks/useWeb3';
 
 const LandingPage = () => {
+  const { blueprintContract } = useWeb3();
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
@@ -33,8 +35,10 @@ const LandingPage = () => {
     height: undefined,
   });
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
+  const [totalBlueprintID, setTotalBlueprintID] = useState<number>(0);
+  const [blueprintArray, setBlueprintArray] = useState<BlueprintTuple[]>([]);
 
-  const invalidChars = /['"`\\;%&!@#$%^?~]/;
+  const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 
   useEffect(() => {
     // Handler to call on window resize
@@ -98,6 +102,28 @@ const LandingPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    async function fetchData() {
+      const temp = [];
+      const _totalBlueprintID = await blueprintContract.totalBlueprintIDs();
+      setTotalBlueprintID(_totalBlueprintID.length);
+      for (let i = 3; i <= totalBlueprintID; i++) {
+        const id: bigint = BigInt(i);
+        const data = await blueprintContract.getBlueprintNFTData(id);
+        console.log(data);
+        temp.push(data);
+      }
+      setBlueprintArray(temp);
+      console.log(temp);
+    }
+    fetchData();
+  }, [blueprintContract, totalBlueprintID]);
+
+  useEffect(
+    () => console.log('blueprintarray', blueprintArray),
+    [blueprintArray]
+  );
+
   const smoothScrollTo = (endY: number, duration: number) => {
     const startY = window.scrollY;
     const distanceY = endY - startY;
@@ -150,14 +176,14 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="relative text-white bg-landing overflow-hidden">
+    <div className="relative text-white bg-landing overflow-hidden 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full">
       <img
         className="absolute w-[1000px] z-10 top-[-220px] rotate-[-30deg] overflow-hidden"
         src={Union}
         alt="union"
       />
       <img
-        className="absolute w-[1000px] z-10 top-[900px] left-[400px] rotate-[-30deg]"
+        className="absolute w-[1000px] z-10 top-[900px] left-[calc((100vw)/2)] rotate-[-30deg]"
         src={Union}
         alt="union"
       />
@@ -232,7 +258,6 @@ const LandingPage = () => {
                 : 'max-w-[282px]'
             }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
           >
-            {/* <div className="glide w-full py-8 max-w-[282px] 2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px] xs:max-w-[382px]"> */}
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides overflow-hidden">
                 <li className="glide__slide">
@@ -323,10 +348,10 @@ const LandingPage = () => {
             </div>
             <div className="glide__arrows" data-glide-el="controls">
               <button
-                className="glide__arrow glide__arrow--left left-[-28px] border-none"
+                className="glide__arrow glide__arrow--left -left-2 border-none p-0 sm:-left-3"
                 data-glide-dir="<"
               >
-                <div className="h-9 w-9 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out">
+                <div className="h-7 w-7 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out hover:bg-default sm:h-9 sm:w-9">
                   <Icon
                     className="w-10 h-10 text-light-gray"
                     icon="material-symbols:keyboard-arrow-left"
@@ -334,10 +359,10 @@ const LandingPage = () => {
                 </div>
               </button>
               <button
-                className="glide__arrow glide__arrow--right right-[-28px] border-none"
+                className="glide__arrow glide__arrow--right -right-2 border-none p-0 sm:-right-3"
                 data-glide-dir=">"
               >
-                <div className="h-9 w-9 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out">
+                <div className="h-7 w-7 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out hover:bg-default sm:h-9 sm:w-9">
                   <Icon
                     className="w-10 h-10 text-light-gray"
                     icon="material-symbols:keyboard-arrow-right"
