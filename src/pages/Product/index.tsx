@@ -29,11 +29,11 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-w-[320px] gap-5 text-white my-12">
+    <div className="flex flex-col min-w-[320px] gap-2 text-white my-12">
       <div>
         <SearchBar />
       </div>
-      <div className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-4 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2 lg:grid-cols-4 xl:grid-cols-5">
         <div className="flex justify-center">
           <OwnBlueprintCard
             uri={SilverCoin}

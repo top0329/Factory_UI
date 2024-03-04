@@ -24,17 +24,17 @@ const OwnBlueprintCard: FC<Props> = ({
   return (
     <div
       id="container"
-      className="w-[176px] md:w-full border-2 border-[#00F0FF]/30 bg-[#011018] rounded-3xl border-block overflow-clip"
+      className="w-[140px] md:w-full border-2 border-[#00F0FF]/30 bg-[#011018] rounded-3xl border-block overflow-clip"
       onClick={onClick}
     >
-      <div className="relative w-[176px] md:w-full overflow-hidden">
+      <div className="relative w-[140px] md:w-full overflow-hidden">
         <div
           id="badge"
           className="absolute  right-[-38px] md:right-[-38px] top-[20px] md:top-[26px] w-[175.5px] h-[25px] md:h-[30px] bg-[#0047FF] text-white text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
         >
           Blueprint
         </div>
-        <div className="w-[176px] h-[176px] md:w-full md:h-full overflow-hidden object-cover">
+        <div className="w-[140px] h-[140px] md:w-full md:h-full overflow-hidden object-cover">
           <img
             src={uri}
             className="w-full md:w-full lg:w-full aspect-auto object-cover"
@@ -48,13 +48,13 @@ const OwnBlueprintCard: FC<Props> = ({
         <p
           className={`absolute ${
             myCardBadge ? 'md:hidden' : 'hidden'
-          } flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+          } flex top-[108px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
         >
           My Blueprint
         </p>
         <div
           id="infor"
-          className="relative flex justify-between md:flex-col gap-y-1 top-[-80px] md:top-[-80px] px-6 w-[176px] md:w-full box-border"
+          className="relative flex justify-between md:flex-col gap-y-1 top-[-80px] md:top-[-80px] px-6 w-[140px] md:w-full box-border"
         >
           <div id="name" className="text-white">
             <p className="flex justify-start text-xs font-mono text-[#858584]">
