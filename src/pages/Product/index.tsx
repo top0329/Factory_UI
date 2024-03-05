@@ -83,7 +83,7 @@ const ProductPage = () => {
         <div className="flex justify-center">
           <OwnBlueprintCard
             uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/oat%20milk%20latte_1155.webp"
-            name="Oat Milk Latte"
+            name="Oat Milk"
             blueprintId={5}
             balance={1000}
             address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"

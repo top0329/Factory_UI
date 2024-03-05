@@ -64,7 +64,7 @@ const BlueprintCard: FC<Props> = ({
               button
                 ? "lg:bottom-[210px] md:bottom-[198px] sm:bottom-[186px]"
                 : "lg:bottom-[158px] md:bottom-[146px] sm:bottom-[134px]"
-            } bg-gradient-to-t from-[#000] sm:from-0% bg-opacity-100 to-[#000407]/1 w-full bottom-[58px] h-[45px]`}
+            } bg-gradient-to-t from-[#000] sm:from-0% bg-opacity-100 to-[#000407]/1 w-full bottom-[57px] h-[45px]`}
           ></div>
           <div className="z-20 absolute top-[0px] left-0 bg-gradient-to-r from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
           <div className="z-20 absolute top-[0px] right-0 rounded-l-3xl bg-gradient-to-l from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
@@ -86,8 +86,8 @@ const BlueprintCard: FC<Props> = ({
             <p className="flex justify-start text-xs font-mono text-[#858584]">
               Name
             </p>
-            <div className="flex justify-between items-center py-[3px]">
-              <p className="lg:md:w-full xs:w-[75px] sm:w-full truncate text-sm md:text-base lg:text-lg font-mono">
+            <div className="flex justify-between w-full items-center py-[3px]">
+              <p className=" truncate text-sm md:text-base lg:text-lg font-mono">
                 {name}
               </p>
               <p
