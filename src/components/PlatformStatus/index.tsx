@@ -14,7 +14,7 @@ const PlatformStatus: FC<Props> = ({
   products,
 }) => {
   return (
-    <div className="relative z-20 grid grid-cols-2 px-4 py-12 bg-[#05090c] md:px-10 lg:px-14 xl:px-[86px] xl:py-16 2xl:py-20 md:flex md:justify-between 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full">
+    <div className="relative z-20 grid grid-cols-2 px-4 py-12 bg-[#05090c] md:px-10 lg:px-14 xl:px-[86px] xl:py-16 2xl:py-20 md:flex md:justify-between 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full">
       <div className="col-span-1  py-4 px-4 xl:px-8 lg:px-6 md:flex md:flex-col md:justify-center md:gap-4">
         <p className="text-3xl mb-2 text-white text-center font-bold 2xl:text-7xl xl:text-6xl lg:text-5xl md:text-4xl md:mb-0 sm:text-5xl">
           {blueprints}
