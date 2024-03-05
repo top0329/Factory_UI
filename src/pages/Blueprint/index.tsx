@@ -4,15 +4,15 @@ import { useAtom } from 'jotai';
 import SearchBar from '../../components/SearchBar';
 import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
-import { selectedBlueprintAtom } from '../../jotai/atoms';
+import { isCreatorModeAtom, selectedBlueprintAtom } from '../../jotai/atoms';
 
 import blueprintData from '../../../blueprint-data.json';
 
 const BlueprintPage = () => {
   const [, setSelectedBlueprint] = useAtom(selectedBlueprintAtom);
+  const [isCreatorMode, setIsCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [isCreatorMode, setIsCreatorMode] = useState<boolean>(false);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -78,7 +78,7 @@ const BlueprintPage = () => {
                   mintPrice={blueprint.mintPrice}
                   mintLimit={blueprint.mintLimit}
                   myCardBadge={blueprint.myBlueprint}
-                  button={isCreatorMode}
+                  button={!isCreatorMode}
                   onClick={() => handleBlueprintCardClicked(blueprint)}
                 />
               </div>

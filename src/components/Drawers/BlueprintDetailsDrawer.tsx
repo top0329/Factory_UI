@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
@@ -7,7 +7,7 @@ import Button from '../Button';
 import { WindowSize } from '../../types';
 
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-import { selectedBlueprintAtom } from '../../jotai/atoms';
+import { isCreatorModeAtom, selectedBlueprintAtom } from '../../jotai/atoms';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 
@@ -28,6 +28,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
   const navigate = useNavigate();
 
   const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
+  const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
   const [activeTab, setActiveTab] = useState<number>(1);
   const [windowSize, setWindowSize] = useState<WindowSize>({
@@ -124,18 +125,22 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 </div>
               </div>
               <div className="flex justify-end gap-8 mb-2 sm:gap-3">
-                {selectedBlueprint.myBlueprint === true && (
-                  <Button
-                    className="text-base !py-1 !px-7 !bg-black"
-                    text="Update"
-                    variant="secondary"
-                  />
+                {isCreatorMode === true && (
+                  <React.Fragment>
+                    {selectedBlueprint.myBlueprint === true && (
+                      <Button
+                        className="text-base !py-1 !px-7 !bg-black"
+                        text="Update"
+                        variant="secondary"
+                      />
+                    )}
+                    <Button
+                      className="text-base !py-1 !px-7 !bg-black"
+                      text="Recreate"
+                      variant="secondary"
+                    />
+                  </React.Fragment>
                 )}
-                <Button
-                  className="text-base !py-1 !px-7 !bg-black"
-                  text="Recreate"
-                  variant="secondary"
-                />
                 <Button
                   className="truncate text-base !py-1 !px-2"
                   text="Mint Blueprint"
@@ -178,7 +183,14 @@ const BlueprintDetailDrawer: FC<Props> = ({
             <div className="flex justify-between items-start mt-5">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Mint Price</p>
-                <p>{selectedBlueprint.mintPrice} {selectedBlueprint.mintPriceUnit === 0 ? "ETH" : selectedBlueprint.mintPriceUnit === 1 ? "USDT" : "USDC"}</p>
+                <p>
+                  {selectedBlueprint.mintPrice}{' '}
+                  {selectedBlueprint.mintPriceUnit === 0
+                    ? 'ETH'
+                    : selectedBlueprint.mintPriceUnit === 1
+                    ? 'USDT'
+                    : 'USDC'}
+                </p>
               </div>
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Mint Limit</p>
