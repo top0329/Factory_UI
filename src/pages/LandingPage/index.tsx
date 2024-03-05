@@ -176,9 +176,9 @@ const LandingPage = () => {
   };
 
   return (
-    <div className="relative text-white bg-landing overflow-hidden 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full">
+    <div className="relative text-white bg-landing overflow-hidden">
       <img
-        className="absolute w-[1000px] z-10 top-[-220px] rotate-[-30deg] overflow-hidden"
+        className="absolute w-[1000px] z-10 top-[-220px] rotate-[-30deg] overflow-hidden 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full"
         src={Union}
         alt="union"
       />
@@ -189,7 +189,7 @@ const LandingPage = () => {
       />
       <div
         id="hero"
-        className="px-6 2xl:px-24 xl:px-20 lg:px-16 md:px-12 sm:px-10"
+        className="px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full"
       >
         <div className="grid grid-cols-12 pt-2 md:pt-4 lg:pt-8">
           <div className="col-span-12 md:col-span-6">

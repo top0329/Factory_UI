@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../Button';
-import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
+// import ERC20Card from '../Cards/ComponentCard/ERC20Card';
+// import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 import { WindowSize } from '../../types';
 
-import Wood from '../../assets/images/development/wood-erc20.webp';
-import Iron from '../../assets/images/development/iron-erc20.webp';
-import Axe from '../../assets/images/development/axe-iron-wood-erc1155.webp';
-import Picaxe from '../../assets/images/development/pickaxe-iron-wood-erc1155.webp';
+// import Wood from '../../assets/images/development/wood-erc20.webp';
+// import Iron from '../../assets/images/development/iron-erc20.webp';
+// import Axe from '../../assets/images/development/axe-iron-wood-erc1155.webp';
+// import Picaxe from '../../assets/images/development/pickaxe-iron-wood-erc1155.webp';
 import BatteringRam from '../../assets/images/development/battering-ram-erc1155.png';
 
 export interface Props {
@@ -223,8 +223,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             {activeTab === 1 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
                 {/* <ERC20Card imageUrl={Copper} /> */}
-                <ERC20Card imageUrl={Iron} />
-                <ERC20Card imageUrl={Wood} />
+                {/* <ERC20Card imageUrl={Iron} />
+                <ERC20Card imageUrl={Wood} /> */}
               </div>
             )}
             {activeTab === 2 && (
@@ -234,8 +234,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             )}
             {activeTab === 3 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
-                <ERC1155Card imageUrl={Axe} />
-                <ERC1155Card imageUrl={Picaxe} />
+                {/* <ERC1155Card imageUrl={Axe} />
+                <ERC1155Card imageUrl={Picaxe} /> */}
                 {/* <ERC1155Card imageUrl={IronSheild} />
                 <ERC1155Card imageUrl={WoodSheild} /> */}
               </div>
