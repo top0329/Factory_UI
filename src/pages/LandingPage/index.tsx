@@ -189,7 +189,7 @@ const LandingPage = () => {
       />
       <div
         id="hero"
-        className="px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full"
+        className="px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
       >
         <div className="grid grid-cols-12 pt-2 md:pt-4 lg:pt-8">
           <div className="col-span-12 md:col-span-6">
