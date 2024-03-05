@@ -39,7 +39,7 @@ const OwnBlueprintCard: FC<Props> = ({
             className="w-full xs:w-full sm:w-full lg:w-full aspect-auto object-cover"
             alt="okoko"
           />
-          <div className="absolute md:bottom-[146px] lg:bottom-[158px] sm:bottom-[134px] bg-gradient-to-t from-[#011018] from-0% sm:from-0% bg-opacity-100 to-[#000407]/0 bottom-[58px] w-full h-[45px]"></div>
+          <div className="absolute md:bottom-[146px] lg:bottom-[158px] sm:bottom-[134px] bg-gradient-to-t from-[#011018] from-0% sm:from-0% bg-opacity-100 to-[#000407]/0 bottom-[57px] w-full h-[45px]"></div>
         </div>
         <p
           className={`absolute ${
@@ -50,14 +50,14 @@ const OwnBlueprintCard: FC<Props> = ({
         </p>
         <div
           id="infor"
-          className="flex justify-between p-4 pt-0 sm:flex-col gap-y-0 top-[-80px] md:top-[-80px] w-full box-border"
+          className="flex justify-between p-4 pt-0 sm:flex-col xs:px-4 gap-y-0 top-[-80px] md:top-[-80px] w-full box-border"
         >
           <div id="name" className="text-white">
             <p className="flex justify-start text-xs font-mono text-[#858584]">
               Name
             </p>
             <div className="flex justify-between items-center py-[3px]">
-              <p className="lg:md:w-full xs:w-[90px] sm:w-full  truncate text-sm md:text-base lg:text-lg font-mono">
+              <p className="w-auto truncate text-sm md:text-base lg:text-lg font-mono">
                 {name}
               </p>
               <p
