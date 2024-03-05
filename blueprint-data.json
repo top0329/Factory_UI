@@ -162,6 +162,7 @@
     "id": 14,
     "name": "Coffee",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp",
+    "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
     "mintPriceUnit": 0,

@@ -1,12 +1,11 @@
-// import { useEffect, useState } from 'react';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
+import copy from 'copy-to-clipboard';
 
-// import { WindowSize } from '../../types';
 import Button from '../../components/Button';
 import { selectedBlueprintAtom } from '../../jotai/atoms';
-import { useState } from 'react';
 
 const MintBlueprintPage = () => {
   const naviage = useNavigate();
@@ -15,6 +14,8 @@ const MintBlueprintPage = () => {
 
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
     useState<string>('');
+  const [isApproved, setIsApproved] = useState<boolean>(false);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Allow only integer values
@@ -25,34 +26,25 @@ const MintBlueprintPage = () => {
     }
   };
 
-  // const [windowSize, setWindowSize] = useState<WindowSize>({
-  //   width: undefined,
-  //   height: undefined,
-  // });
+  const handleApproveClick = () => {
+    setIsApproved(true);
+  };
 
-  // useEffect(() => {
-  //   // Handler to call on window resize
-  //   function handleResize() {
-  //     // Set window width/height to state
-  //     setWindowSize({
-  //       width: window.innerWidth,
-  //       height: window.innerHeight,
-  //     });
-  //   }
-
-  //   // Add event listener
-  //   window.addEventListener('resize', handleResize);
-
-  //   // Call handler right away so state gets updated with initial window size
-  //   handleResize();
-
-  //   // Remove event listener on cleanup
-  //   return () => window.removeEventListener('resize', handleResize);
-  // }, []); // Empty array ensures that effect is only run on mount and unmount
+  const handleCopyButtonClicked = () => {
+    try {
+      setIsCopied(true);
+      copy(selectedBlueprint.creator);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.log('failed to copy', err);
+    }
+  };
 
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-20">
-      <div className="relative rounded-3xl bg-default w-full pb-10 sm:w-[614px] sm:bg-[#060606]">
+      <div className="relative rounded-3xl bg-[#060606] w-full pb-10 sm:w-[614px] sm:bg-[#060606] border-2 border-[#1f1f1f]">
         <header className="flex justify-start items-center pl-4 py-4 text-xl sm:text-3xl sm:justify-center">
           Blueprint Mint
         </header>
@@ -66,14 +58,14 @@ const MintBlueprintPage = () => {
           <h1 className="z-20 font-semibold text-lg mt-[-36px] pl-4 sm:text-xl">
             {selectedBlueprint.name}
           </h1>
-          <div className="flex flex-col gap-3 px-2">
+          <div className="flex flex-col gap-3 px-4">
             <div className="grid grid-cols-2 gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint ID</p>
               <p className="col-span-1">{selectedBlueprint.id}</p>
             </div>
             <div className="flex flex-col justify-between items-start gap-2 font-mono sm:flex-row sm:items-center">
               <p className="text-light-gray">Creator</p>
-              <div className="flex items-center gap-1">
+              <div className="relative flex items-center gap-1">
                 <Icon className="w-6 h-6 sm:w-4 sm:h-5" icon="logos:ethereum" />
                 <a
                   className="underline text-base break-all"
@@ -85,7 +77,16 @@ const MintBlueprintPage = () => {
                 <Icon
                   className="w-6 h-6 cursor-pointer sm:w-4 sm:h-4"
                   icon="solar:copy-outline"
+                  onClick={handleCopyButtonClicked}
                 />
+                {isCopied && (
+                  <div
+                    className="absolute -bottom-12 right-0 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                    style={{ transition: 'opacity 0.3s' }}
+                  >
+                    Copied to clipboard!
+                  </div>
+                )}
               </div>
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
@@ -111,24 +112,50 @@ const MintBlueprintPage = () => {
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint Mint Price</p>
-              <p className="col-span-1">1 USDT</p>
+              <p className="col-span-1">
+                1{' '}
+                {selectedBlueprint.mintPriceUnit === 0
+                  ? 'ETH'
+                  : selectedBlueprint.mintPriceUnit === 1
+                  ? 'USDT'
+                  : 'USDC'}
+              </p>
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Total Mint fee</p>
               <p className="col-span-1">0.1 ETH + 100000 * 1 USDT</p>
             </div>
-            <div className="flex justify-center items-center gap-4 pt-0 sm:gap-28 sm:pt-8">
+            <div className="flex justify-center items-center gap-8 pt-0 sm:gap-28 sm:pt-8">
               <Button
                 className="flex justify-center !w-28"
                 text="Cancel"
                 variant="secondary"
                 onClick={() => naviage('/blueprint')}
               />
-              <Button
-                className="truncate !px-3"
-                text="Mint Blueprint"
-                variant="primary"
-              />
+              {selectedBlueprint.mintPriceUnit === 0 ? (
+                <Button
+                  className="truncate !px-3"
+                  text="Mint Blueprint"
+                  variant="primary"
+                />
+              ) : (
+                <React.Fragment>
+                  {isApproved ? (
+                    <Button
+                      className="truncate !px-3"
+                      text="Mint Blueprint"
+                      variant="primary"
+                    />
+                  ) : (
+                    <Button
+                      className="truncate !px-8"
+                      text="Approve"
+                      variant="primary"
+                      onClick={handleApproveClick}
+                    />
+                  )}
+                </React.Fragment>
+              )}
             </div>
           </div>
         </div>
