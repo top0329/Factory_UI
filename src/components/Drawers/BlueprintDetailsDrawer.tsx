@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
+import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
 import { WindowSize } from '../../types';
@@ -31,6 +32,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
   const [activeTab, setActiveTab] = useState<number>(1);
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: undefined,
     height: undefined,
@@ -58,6 +60,18 @@ const BlueprintDetailDrawer: FC<Props> = ({
 
   const handleTabClick = (id: number) => {
     setActiveTab(id);
+  };
+
+  const handleCopyButtonClicked = () => {
+    try {
+      setIsCopied(true);
+      copy(selectedBlueprint.creator);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.log('failed to copy', err);
+    }
   };
 
   const sideDrawerClosedHandler = () => {
@@ -104,14 +118,14 @@ const BlueprintDetailDrawer: FC<Props> = ({
             Blueprint
           </div>
           <img
-            className="max-h-[235px] object-cover md:max-h-[435px]"
+            className="max-h-[235px] object-cover md:max-h-[435px] xs:max-h-[335px]"
             src={selectedBlueprint.uri}
             alt="drawer"
           />
           <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px]">
             {selectedBlueprint.name}
           </p>
-          <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
+          <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px] xs:top-[224px]"></div>
           <div className="bg-[#011018] py-6 px-8 h-80 sm:h-60">
             <div className="flex flex-col-reverse justify-between items-center gap-4 sm:flex-row sm:justify-beteen">
               <div className="flex justify-start w-full gap-10">
@@ -132,14 +146,18 @@ const BlueprintDetailDrawer: FC<Props> = ({
                         className="text-base !py-1 !px-7 !bg-black"
                         text="Update"
                         variant="secondary"
-                        onClick={() => navigate(`/blueprint/update/${selectedBlueprint.id}`)}
+                        onClick={() =>
+                          navigate(`/blueprint/update/${selectedBlueprint.id}`)
+                        }
                       />
                     )}
                     <Button
                       className="text-base !py-1 !px-7 !bg-black"
                       text="Recreate"
                       variant="secondary"
-                      onClick={()=> navigate(`/blueprint/recreate/${selectedBlueprint.id}`)}
+                      onClick={() =>
+                        navigate(`/blueprint/recreate/${selectedBlueprint.id}`)
+                      }
                     />
                   </React.Fragment>
                 )}
@@ -164,7 +182,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                     </p>
                   )}
                 </div>
-                <div className="flex items-center gap-1">
+                <div className="relative flex items-center gap-1">
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <a
                     className="underline text-base"
@@ -178,7 +196,16 @@ const BlueprintDetailDrawer: FC<Props> = ({
                   <Icon
                     className="w-4 h-4 cursor-pointer"
                     icon="solar:copy-outline"
+                    onClick={handleCopyButtonClicked}
                   />
+                  {isCopied && (
+                    <div
+                      className="absolute -bottom-12 right-0 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                      style={{ transition: 'opacity 0.3s' }}
+                    >
+                      Copied to clipboard!
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

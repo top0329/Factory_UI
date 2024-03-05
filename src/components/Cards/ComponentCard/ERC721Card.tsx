@@ -1,5 +1,6 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import copy from 'copy-to-clipboard';
 
 export interface Props {
   id: number;
@@ -10,6 +11,20 @@ export interface Props {
 }
 
 const ERC721Card: FC<Props> = ({ id, name, uri, address, icon = false }) => {
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+
+  const handleCopyButtonClicked = () => {
+    try {
+      setIsCopied(true);
+      copy(address);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.log('failed to copy', err);
+    }
+  };
+
   const shortenAddress = (addr: string) => {
     if (!addr || addr.length <= 12) return addr;
     const start = addr.slice(0, 12); // Keep the starting characters
@@ -56,8 +71,8 @@ const ERC721Card: FC<Props> = ({ id, name, uri, address, icon = false }) => {
         </div>
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">Address</p>
-          <div className="flex items-center gap-1">
-            <Icon className="w-4 h-6" icon="logos:ethereum" />
+          <div className="relative flex items-center gap-1">
+            <Icon className="w-4 h-5" icon="logos:ethereum" />
             <a
               className="underline text-base"
               href={`https://sepolia.etherscan.io/address/${address}`}
@@ -68,7 +83,16 @@ const ERC721Card: FC<Props> = ({ id, name, uri, address, icon = false }) => {
             <Icon
               className="w-4 h-4 cursor-pointer"
               icon="solar:copy-outline"
+              onClick={handleCopyButtonClicked}
             />
+            {isCopied && (
+              <div
+                className="absolute -top-8 right-0 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                style={{ transition: 'opacity 0.3s' }}
+              >
+                Copied to clipboard!
+              </div>
+            )}
           </div>
         </div>
       </div>
