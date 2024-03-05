@@ -4,7 +4,7 @@ import ImageForPlatformUsage from '../../assets/images/image-for-platform-usage.
 
 const PlatformUsage: FC = () => {
   return (
-    <div className="relative z-20 px-6 pb-28 pt-20 mt-2 shadow-light-gray sm:px-10 sm:py-30 sm:mt-4 md:px-15 md:py-8 md:mt-6 lg:px-20 lg:py-12 lg:mt-8">
+    <div className="relative z-20 px-6 pb-28 pt-20 mt-2 shadow-light-gray sm:px-10 sm:py-30 sm:mt-4 md:px-15 md:py-8 md:mt-6 lg:px-20 lg:py-12 lg:mt-8 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full">
       <h1 className="text-light-gray font-bold text-xl mb-10 sm:mb-14 sm:text-2xl md:mb-12 md:text-3xl lg:mb-12 lg:text-4xl">
         For <span className="text-white">NFT</span> people,
         <br className="inline-block md:hidden" /> By{' '}

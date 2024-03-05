@@ -1,14 +1,15 @@
 import { FC, useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useAtom } from 'jotai';
 
 import Button from '../Button';
 import { WindowSize } from '../../types';
 
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-import Wood from '../../assets/images/development/wood-erc20.webp';
-import Iron from '../../assets/images/development/iron-erc20.webp';
-import Picaxe from '../../assets/images/development/pickaxe-iron-wood-erc1155.webp';
+import { selectedBlueprintAtom } from '../../jotai/atoms';
+import ERC721Card from '../Cards/ComponentCard/ERC721Card';
+import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -25,6 +26,8 @@ const BlueprintDetailDrawer: FC<Props> = ({
   setIsDrawerOpen,
 }) => {
   const navigate = useNavigate();
+
+  const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
 
   const [activeTab, setActiveTab] = useState<number>(1);
   const [windowSize, setWindowSize] = useState<WindowSize>({
@@ -65,10 +68,17 @@ const BlueprintDetailDrawer: FC<Props> = ({
     document.body.style.overflow = 'unset';
   };
 
+  const shortenAddress = (addr: string) => {
+    if (!addr || addr.length <= 12) return addr;
+    const start = addr.slice(0, 12); // Keep the starting characters
+    const end = addr.slice(-10); // Keep the last characters
+    return `${start}...${end}`; // Combine with the ellipsis
+  };
+
   return (
     <main
       className={
-        'fixed overflow-hidden z-20 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
+        'fixed overflow-hidden z-50 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
         (isDrawerOpen
           ? 'transition-opacity opacity-100 duration-500 translate-x-0'
           : 'transition-all delay-500 opacity-0 translate-x-full')
@@ -94,28 +104,35 @@ const BlueprintDetailDrawer: FC<Props> = ({
           </div>
           <img
             className="max-h-[235px] object-cover md:max-h-[435px]"
-            src={Picaxe}
+            src={selectedBlueprint.uri}
             alt="drawer"
           />
           <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px]">
-            Iron Sheild
+            {selectedBlueprint.name}
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
           <div className="bg-[#011018] py-6 px-8 h-80 sm:h-60">
             <div className="flex flex-col-reverse justify-between items-center gap-4 sm:flex-row sm:justify-beteen">
-              <div className="flex justify-start w-full gap-16">
+              <div className="flex justify-start w-full gap-10">
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="text-light-gray text-sm">Blueprint ID</p>
-                  <p>8465</p>
+                  <p>{selectedBlueprint.id}</p>
                 </div>
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="text-light-gray text-sm">Total Supply</p>
-                  <p>1000000</p>
+                  <p>{selectedBlueprint.totalSupply}</p>
                 </div>
               </div>
               <div className="flex justify-end gap-8 mb-2 sm:gap-3">
+                {selectedBlueprint.myBlueprint === true && (
+                  <Button
+                    className="text-base !py-1 !px-7 !bg-black"
+                    text="Update"
+                    variant="secondary"
+                  />
+                )}
                 <Button
-                  className="text-base !py-1 !px-7"
+                  className="text-base !py-1 !px-7 !bg-black"
                   text="Recreate"
                   variant="secondary"
                 />
@@ -132,14 +149,25 @@ const BlueprintDetailDrawer: FC<Props> = ({
             </div>
             <div className="flex justify-start items-start mt-5 sm:justify-between">
               <div className="flex flex-col items-start text-white gap-2">
-                <p className="text-light-gray text-sm">Creator</p>
+                <div className="flex gap-3">
+                  <p className="text-light-gray text-sm">Creator</p>
+                  {selectedBlueprint.myBlueprint === true && (
+                    <p className="flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
+                      My Blueprint
+                    </p>
+                  )}
+                </div>
                 <div className="flex items-center gap-1">
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
-                  <Link className="underline text-base" to={'#'}>
+                  <a
+                    className="underline text-base"
+                    href={`https://sepolia.etherscan.io/address/${selectedBlueprint.creator}`}
+                    target="_blank"
+                  >
                     {windowSize.width !== undefined && windowSize.width > 472
-                      ? '0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'
-                      : '0x48C281DB38...85A235d8fc'}
-                  </Link>
+                      ? `${selectedBlueprint.creator}`
+                      : `${shortenAddress(selectedBlueprint.creator)}`}
+                  </a>
                   <Icon
                     className="w-4 h-4 cursor-pointer"
                     icon="solar:copy-outline"
@@ -150,11 +178,11 @@ const BlueprintDetailDrawer: FC<Props> = ({
             <div className="flex justify-between items-start mt-5">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Mint Price</p>
-                <p>0 ETH</p>
+                <p>{selectedBlueprint.mintPrice} {selectedBlueprint.mintPriceUnit === 0 ? "ETH" : selectedBlueprint.mintPriceUnit === 1 ? "USDT" : "USDC"}</p>
               </div>
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Mint Limit</p>
-                <p>100</p>
+                <p>{selectedBlueprint.mintLimit}</p>
               </div>
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Minted Amount</p>
@@ -180,7 +208,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium me-2 px-2.5 rounded-xl opacity-90`}
                 >
-                  2
+                  {selectedBlueprint.data.erc20Data.length}
                 </p>
               </button>
               <button
@@ -199,7 +227,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium me-2 px-2.5 rounded-xl opacity-90`}
                 >
-                  0
+                  {selectedBlueprint.data.erc721Data.length}
                 </p>
               </button>
               <button
@@ -218,7 +246,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium me-2 px-2.5 rounded-xl opacity-90`}
                 >
-                  0
+                  {selectedBlueprint.data.erc1155Data.length}
                 </p>
               </button>
             </div>
@@ -226,15 +254,52 @@ const BlueprintDetailDrawer: FC<Props> = ({
           <div className="px-12 py-10 h-auto md:px-12 sm:px-8">
             {activeTab === 1 && (
               <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4">
-                <ERC20Card imageUrl={Iron} />
-                <ERC20Card imageUrl={Wood} />
+                {selectedBlueprint.data.erc20Data.length > 0 &&
+                  selectedBlueprint.data.erc20Data.map((erc20, idx) => {
+                    return (
+                      <ERC20Card
+                        key={idx}
+                        name={erc20.name}
+                        uri={erc20.uri}
+                        amount={erc20.amount}
+                        address={erc20.address}
+                      />
+                    );
+                  })}
               </div>
             )}
             {activeTab === 2 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4"></div>
+              <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4">
+                {selectedBlueprint.data.erc721Data.length > 0 &&
+                  selectedBlueprint.data.erc721Data.map((erc721) => {
+                    return (
+                      <ERC721Card
+                        key={erc721.id}
+                        id={erc721.id}
+                        name={erc721.name}
+                        uri={erc721.uri}
+                        address={erc721.address}
+                      />
+                    );
+                  })}
+              </div>
             )}
             {activeTab === 3 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4"></div>
+              <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4">
+                {selectedBlueprint.data.erc1155Data.length > 0 &&
+                  selectedBlueprint.data.erc1155Data.map((erc1155) => {
+                    return (
+                      <ERC1155Card
+                        key={erc1155.id}
+                        id={erc1155.id}
+                        name={erc1155.name}
+                        uri={erc1155.uri}
+                        amount={erc1155.amount}
+                        address={erc1155.address}
+                      />
+                    );
+                  })}
+              </div>
             )}
           </div>
         </article>

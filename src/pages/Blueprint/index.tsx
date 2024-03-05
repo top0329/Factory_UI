@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
+import { useAtom } from 'jotai';
 
 import SearchBar from '../../components/SearchBar';
 import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
+import { selectedBlueprintAtom } from '../../jotai/atoms';
+
+import blueprintData from '../../../blueprint-data.json';
 
 const BlueprintPage = () => {
+  const [, setSelectedBlueprint] = useAtom(selectedBlueprintAtom);
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [isCreatorMode, setIsCreatorMode] = useState<boolean>(false);
 
@@ -20,6 +26,11 @@ const BlueprintPage = () => {
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsCreatorMode(event.target.checked);
+  };
+
+  const handleBlueprintCardClicked = (blueprint: any) => {
+    setSelectedBlueprint(blueprint);
+    showSidebar();
   };
 
   return (
@@ -54,106 +65,25 @@ const BlueprintPage = () => {
         </div>
       </div>
       <SearchBar isNewButton />
-      <div className="grid grid-cols-5 py-8 gap-8">
-        <div className="col-span-1">
-          <BlueprintCard
-            blueprintId={1}
-            mintLimit={100}
-            mintPrice={0.001}
-            name="Sword"
-            totalSupply={100000000}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp"
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="col-span-1">
-          <BlueprintCard
-            blueprintId={1}
-            mintLimit={100}
-            mintPrice={0.001}
-            name="Lemon Tea"
-            totalSupply={100000000}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/Lemon_tea_1155.webp"
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="col-span-1">
-          <BlueprintCard
-            blueprintId={1}
-            mintLimit={100}
-            mintPrice={0.001}
-            name="Black Tea"
-            totalSupply={100000000}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/black_tea_1155.webp"
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="col-span-1">
-          <BlueprintCard
-            blueprintId={1}
-            mintLimit={100}
-            mintPrice={0.001}
-            name="Coffee"
-            totalSupply={100000000}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp"
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="col-span-1">
-          <BlueprintCard
-            blueprintId={1}
-            mintLimit={100}
-            mintPrice={0.001}
-            name="Copper Coin"
-            totalSupply={100000000}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/copper_coin_1155.webp"
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="col-span-1">
-          <BlueprintCard
-            blueprintId={1}
-            mintLimit={100}
-            mintPrice={0.001}
-            name="Gold Coin"
-            totalSupply={100000000}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp"
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="col-span-1">
-          <BlueprintCard
-            blueprintId={1}
-            mintLimit={100}
-            mintPrice={0.001}
-            name="Milk Tea"
-            totalSupply={100000000}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_tea_1155.webp"
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="col-span-1">
-          <BlueprintCard
-            blueprintId={1}
-            mintLimit={100}
-            mintPrice={0.001}
-            name="Oat Milk Latte"
-            totalSupply={100000000}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/oat%20milk%20latte_1155.webp"
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="col-span-1">
-          <BlueprintCard
-            blueprintId={1}
-            mintLimit={100}
-            mintPrice={0.001}
-            name="Silver Coin"
-            totalSupply={100000000}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_coin_1155.webp"
-            onClick={showSidebar}
-          />
-        </div>
+      <div className="grid grid-cols-5 pt-8 pb-20 gap-8">
+        {blueprintData.length > 0 &&
+          blueprintData.map((blueprint) => {
+            return (
+              <div className="col-span-1" key={blueprint.id}>
+                <BlueprintCard
+                  blueprintId={blueprint.id}
+                  name={blueprint.name}
+                  uri={blueprint.uri}
+                  totalSupply={blueprint.totalSupply}
+                  mintPrice={blueprint.mintPrice}
+                  mintLimit={blueprint.mintLimit}
+                  myCardBadge={blueprint.myBlueprint}
+                  button={isCreatorMode}
+                  onClick={() => handleBlueprintCardClicked(blueprint)}
+                />
+              </div>
+            );
+          })}
       </div>
       <BlueprintDetailDrawer
         isDrawerOpen={isDrawerOpen}
