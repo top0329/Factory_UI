@@ -226,11 +226,10 @@ const LandingPage = () => {
         </h1>
         <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent px-0 2xl:px-6">
           <div
-            className={`glide w-full py-1 sm:py-8 ${
-              windowSize.width !== undefined && windowSize.width >= 390
+            className={`glide w-full py-1 sm:py-8 ${windowSize.width !== undefined && windowSize.width >= 390
                 ? 'max-w-[382px]'
                 : 'max-w-[282px]'
-            }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
+              }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
           >
             {/* <div className="glide w-full py-8 max-w-[282px] 2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px] xs:max-w-[382px]"> */}
             <div className="glide__track" data-glide-el="track">

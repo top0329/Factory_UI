@@ -29,17 +29,17 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="flex flex-col min-w-[320px] gap-2 text-white my-12">
+    <div className="flex flex-col min-w-[320px] gap-2 text-white">
       <div>
         <SearchBar />
       </div>
-      <div className="grid grid-cols-2 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-3 gap-2 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-2 lg:grid-cols-4 xl:grid-cols-5">
         <div className="flex justify-center">
           <OwnBlueprintCard
             uri={SilverCoin}
-            name="Silver Coin"
+            name="Silversssssssssssss Coin"
             blueprintId={5}
-            totalSupply={1000}
+            balance={1000}
             address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
             myCardBadge={true}
             onClick={showSidebar}
@@ -50,7 +50,7 @@ const ProductPage = () => {
             uri={MilkTea}
             name="Milk Tea"
             blueprintId={5}
-            totalSupply={1000}
+            balance={1000}
             address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
             myCardBadge={false}
             onClick={showSidebar}
@@ -62,7 +62,7 @@ const ProductPage = () => {
             mintLimit={10000}
             mintPrice={0.001}
             totalSupply={100000000}
-            name="Iron Sword"
+            name="Ironn Sword"
             uri={pickAxe}
             onClick={showSidebar}
           />{' '}
@@ -72,7 +72,7 @@ const ProductPage = () => {
             uri={Coffee}
             name="Coffee"
             blueprintId={5}
-            totalSupply={1000}
+            balance={1000}
             address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
             myCardBadge={true}
             onClick={showSidebar}
@@ -83,7 +83,7 @@ const ProductPage = () => {
             uri={lemonTea}
             name="Lemon Tea"
             blueprintId={5}
-            totalSupply={1000}
+            balance={1000}
             address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
             myCardBadge={false}
             onClick={showSidebar}
@@ -94,7 +94,7 @@ const ProductPage = () => {
             uri={OatMilkLatte}
             name="Oat Milk Latte"
             blueprintId={5}
-            totalSupply={1000}
+            balance={1000}
             address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
             myCardBadge={false}
             onClick={showSidebar}
@@ -105,7 +105,7 @@ const ProductPage = () => {
             uri={PlasticCup}
             name="Plastic Cup"
             blueprintId={5}
-            totalSupply={1000}
+            balance={1000}
             address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
             myCardBadge={false}
             onClick={showSidebar}
@@ -116,7 +116,7 @@ const ProductPage = () => {
             uri={Oats}
             name="Oats"
             blueprintId={5}
-            totalSupply={1000}
+            balance={1000}
             address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
             myCardBadge={true}
             onClick={showSidebar}
@@ -139,7 +139,7 @@ const ProductPage = () => {
             uri={USDT}
             name="USDT"
             blueprintId={5}
-            totalSupply={1000}
+            balance={1000}
             address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
             myCardBadge={true}
             onClick={showSidebar}
