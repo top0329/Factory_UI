@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 
 import SearchBar from '../../components/SearchBar';
@@ -13,6 +14,8 @@ const BlueprintPage = () => {
   const [isCreatorMode, setIsCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+
+  const navigate = useNavigate();
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -65,11 +68,11 @@ const BlueprintPage = () => {
         </div>
       </div>
       <SearchBar isNewButton />
-      <div className="grid grid-cols-5 pt-8 pb-20 gap-8">
+      <div className="grid grid-cols-2 py-8 gap-2 xs:grid-cols-3 sm:grid-cols-3 sm:gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {blueprintData.length > 0 &&
           blueprintData.map((blueprint) => {
             return (
-              <div className="col-span-1" key={blueprint.id}>
+              <div className="flex justify-center" key={blueprint.id}>
                 <BlueprintCard
                   blueprintId={blueprint.id}
                   name={blueprint.name}
@@ -81,6 +84,9 @@ const BlueprintPage = () => {
                   myCardBadge={blueprint.myBlueprint}
                   button={!isCreatorMode}
                   onClick={() => handleBlueprintCardClicked(blueprint)}
+                  onClickMint={() =>
+                    navigate(`/blueprint/mint/${blueprint.id}`)
+                  }
                 />
               </div>
             );

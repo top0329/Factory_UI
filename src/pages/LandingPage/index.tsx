@@ -10,7 +10,7 @@ import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
 import { searchValueAtom } from '../../jotai/atoms';
-import { BlueprintTuple, WindowSize } from '../../types';
+import { BlueprintTuple } from '../../types';
 
 import Union from '../../assets/images/union.png';
 import CardFront from '../../assets/svg/card-front.svg';
@@ -23,10 +23,6 @@ const LandingPage = () => {
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
 
-  const [windowSize, setWindowSize] = useState<WindowSize>({
-    width: undefined,
-    height: undefined,
-  });
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [totalBlueprintID, setTotalBlueprintID] = useState<number>(0);
   const [blueprintArray, setBlueprintArray] = useState<BlueprintTuple[]>([]);
@@ -34,49 +30,29 @@ const LandingPage = () => {
   const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 
   useEffect(() => {
-    // Handler to call on window resize
-    function handleResize() {
-      // Set window width/height to state
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    }
-
-    // Add event listener
-    window.addEventListener('resize', handleResize);
-
-    // Call handler right away so state gets updated with initial window size
-    handleResize();
-
-    // Remove event listener on cleanup
-    return () => window.removeEventListener('resize', handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
-
-  useEffect(() => {
     const config = {
       type: 'carousel',
       startAt: 0,
       perView: 5,
       autoplay: 3000,
-      gap: 32,
+      gap: 16,
       breakpoints: {
         1535: {
           perView: 4,
         },
         1279: {
+          perView: 4,
+        },
+        1100: {
           perView: 3,
         },
-        1023: {
-          perView: 2,
-        },
-        768: {
-          perView: 2,
-          gap: 16,
-        },
         640: {
+          perView: 3,
+          gap: 8,
+        },
+        459: {
           perView: 2,
-          gap: 2,
+          gap: 8,
         },
         389: {
           perView: 1.5,
@@ -238,19 +214,13 @@ const LandingPage = () => {
       </div>
       <div
         id="carousel"
-        className="relative h-[400px] px-auto sm:h-[650px] xl:h-[680px]"
+        className="relative h-[400px] sm:h-[550px] md:h-[620px] lg:h-[650px] xl:h-[680px]"
       >
         <h1 className="text-center text-xl font-semibold pt-6 sm:text-3xl">
           Most Minted Blueprints
         </h1>
-        <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent px-0 2xl:px-6">
-          <div
-            className={`glide w-full py-1 sm:py-8 ${
-              windowSize.width !== undefined && windowSize.width >= 390
-                ? 'max-w-[382px]'
-                : 'max-w-[282px]'
-            }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
-          >
+        <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent w-full px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full">
+          <div className="glide w-full">
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides overflow-hidden">
                 <li className="glide__slide">
