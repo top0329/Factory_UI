@@ -158,7 +158,7 @@ const LandingPage = () => {
       />
       <div
         id="hero"
-        className="px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
+        className="px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-w-full"
       >
         <div className="grid grid-cols-12 pt-2 md:pt-4 lg:pt-8">
           <div className="col-span-12 md:col-span-6">
@@ -219,7 +219,7 @@ const LandingPage = () => {
         <h1 className="text-center text-xl font-semibold pt-6 sm:text-3xl">
           Most Minted Blueprints
         </h1>
-        <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent w-full px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full">
+        <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent w-full px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-w-full">
           <div className="glide w-full">
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides overflow-hidden">

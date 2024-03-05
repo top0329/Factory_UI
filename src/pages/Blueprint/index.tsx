@@ -36,6 +36,11 @@ const BlueprintPage = () => {
     showSidebar();
   };
 
+  const handleMintNowButtonClicked = (blueprint: any) => {
+    setSelectedBlueprint(blueprint);
+    navigate(`/blueprint/mint/${blueprint.id}`);
+  };
+
   return (
     <React.Fragment>
       <div className="flex justify-between items-center py-3">
@@ -84,9 +89,7 @@ const BlueprintPage = () => {
                   myCardBadge={blueprint.myBlueprint}
                   button={!isCreatorMode}
                   onClick={() => handleBlueprintCardClicked(blueprint)}
-                  onClickMint={() =>
-                    navigate(`/blueprint/mint/${blueprint.id}`)
-                  }
+                  onClickMint={() => handleMintNowButtonClicked(blueprint)}
                 />
               </div>
             );
