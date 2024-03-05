@@ -30,7 +30,7 @@ const BlueprintCard: FC<Props> = ({
   return (
     <div
       id="container"
-      className="w-[140px] h-min xs:w-full sm:w-full md:w-full border-2 border-[#00F0FF]/30 bg-[#011018] rounded-3xl border-block overflow-clip"
+      className="w-[140px] h-min xs:w-full sm:w-full md:w-full border-2 border-[#00F0FF]/30 bg-[#080809] rounded-3xl border-block overflow-clip"
       onClick={onClick}
     >
       <div className="relative w-[140px] xs:w-full sm:w-full md:w-full overflow-hidden">
@@ -46,7 +46,11 @@ const BlueprintCard: FC<Props> = ({
             className="w-full xs:w-full sm:w-full lg:w-full aspect-auto object-cover"
             alt="okoko"
           />
-          <div className="absolute md:lg:bottom-[160px] sm:bottom-[150px] bg-gradient-to-t from-[#011018] from-30% sm:from-0% bg-opacity-100 to-[#000407]/0 sm:w-full md:w-full h-[82px]"></div>
+          <div className="absolute md:lg:bottom-[160px] sm:bottom-[150px] bg-gradient-to-t from-[#080809] from-30% sm:from-0% bg-opacity-100 to-[#000407]/0 sm:w-full md:w-full h-[82px]"></div>
+          <div className="z-20 absolute top-[0px] left-0 bg-gradient-to-r from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
+          <div className="z-20 absolute top-[0px] right-0 rounded-l-3xl bg-gradient-to-l from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
+          <div className="absolute bottom-0 left-0 rounded-l-3xl bg-gradient-to-t from-slate-800 gray via-transparent to-transparent w-full h-[20px] rounded-b-[24px]"></div>
+          <div className="absolute top-0 left-0 rounded-l-3xl bg-gradient-to-b from-slate-800 gray via-transparent to-transparent w-full h-[20px] rounded-b-[-24px]"></div>
         </div>
         <p
           className={`absolute ${myCardBadge ? 'sm:hidden' : 'hidden'
