@@ -16,7 +16,7 @@ export interface Props {
   onClick?: () => void;
   onClickMint?: () => void;
 }
-const Button: FC<{ text: string; variant: string; onClick: (e: React.MouseEvent<HTMLButtonElement>) => void; className: string }> = ({ text, variant, onClick, className }) => (
+const Button: FC<{ text: string; onClick: (e: React.MouseEvent<HTMLButtonElement>) => void; className: string }> = ({ text, onClick, className }) => (
   <button className={className} onClick={onClick}>
     {text}
   </button>
@@ -127,7 +127,6 @@ const BlueprintCard: FC<Props> = ({
           </div>
           <Button
             text="Mint Now"
-            variant="primary"
             onClick={(e) => {
               e.stopPropagation();
               if (onClickMint) {
