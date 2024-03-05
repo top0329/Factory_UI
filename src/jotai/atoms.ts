@@ -38,3 +38,4 @@ export const selectedBlueprintAtom = atom<SelectedBlueprint>({
     }],
   },
 });
+export const isCreatorModeAtom = atom<boolean>(false);
