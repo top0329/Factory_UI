@@ -132,12 +132,14 @@ const BlueprintDetailDrawer: FC<Props> = ({
                         className="text-base !py-1 !px-7 !bg-black"
                         text="Update"
                         variant="secondary"
+                        onClick={() => navigate(`/blueprint/update/${selectedBlueprint.id}`)}
                       />
                     )}
                     <Button
                       className="text-base !py-1 !px-7 !bg-black"
                       text="Recreate"
                       variant="secondary"
+                      onClick={()=> navigate(`/blueprint/recreate/${selectedBlueprint.id}`)}
                     />
                   </React.Fragment>
                 )}
@@ -145,7 +147,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                   className="truncate text-base !py-1 !px-2"
                   text="Mint Blueprint"
                   onClick={() => {
-                    navigate('/blueprint/mint');
+                    navigate(`/blueprint/mint/${selectedBlueprint.id}`);
                     sideDrawerClosedHandler();
                   }}
                   variant="outline"

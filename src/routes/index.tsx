@@ -5,14 +5,22 @@ import CommonLayout from '../components/Layout/CommonLayout';
 
 const LandingPage = lazy(() => import('../pages/LandingPage'));
 const BlueprintPage = lazy(() => import('../pages/Blueprint'));
-const MintBlueprintPage = lazy(() => import('../pages/Blueprint/MintBlueprint'));
+const MintBlueprintPage = lazy(
+  () => import('../pages/Blueprint/MintBlueprint')
+);
 const NewBlueprintPage = lazy(() => import('../pages/Blueprint/NewBlueprint'));
-const RecreateBlueprintPage = lazy(() => import('../pages/Blueprint/RecreateBlueprint'));
-const UpdateBlueprintPage = lazy(() => import('../pages/Blueprint/UpdateBlueprint'));
+const RecreateBlueprintPage = lazy(
+  () => import('../pages/Blueprint/RecreateBlueprint')
+);
+const UpdateBlueprintPage = lazy(
+  () => import('../pages/Blueprint/UpdateBlueprint')
+);
 const ProductPage = lazy(() => import('../pages/Product'));
 const MintProductPage = lazy(() => import('../pages/Product/MintProduct'));
 const DecomposePage = lazy(() => import('../pages/Decompose'));
-const DecomposeProductPage = lazy(() => import('../pages/Decompose/DecomposeProduct'));
+const DecomposeProductPage = lazy(
+  () => import('../pages/Decompose/DecomposeProduct')
+);
 
 // project import
 const LandingRoute = {
@@ -36,7 +44,7 @@ const CommonRoutes = {
               element: <BlueprintPage />,
             },
             {
-              path: 'mint',
+              path: 'mint/:id',
               element: <MintBlueprintPage />,
             },
             {
@@ -44,11 +52,11 @@ const CommonRoutes = {
               element: <NewBlueprintPage />,
             },
             {
-              path: 'recreate',
+              path: 'recreate/:id',
               element: <RecreateBlueprintPage />,
             },
             {
-              path: 'update',
+              path: 'update/:id',
               element: <UpdateBlueprintPage />,
             },
           ],
