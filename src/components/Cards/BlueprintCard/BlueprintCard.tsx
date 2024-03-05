@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import EthLineSvg from '../../../assets/images/currency-eth.png';
-import Button from '../../Button';
+// import Button from '../../Button';
 
 export interface Props {
   uri: string;
@@ -16,6 +16,11 @@ export interface Props {
   onClick?: () => void;
   onClickMint?: () => void;
 }
+const Button: FC<{ text: string; variant: string; onClick: (e: React.MouseEvent<HTMLButtonElement>) => void; className: string }> = ({ text, variant, onClick, className }) => (
+  <button className={className} onClick={onClick}>
+    {text}
+  </button>
+);
 
 // export default function BlueprintCard(props: Props) {
 const BlueprintCard: FC<Props> = ({
@@ -50,7 +55,7 @@ const BlueprintCard: FC<Props> = ({
             className="w-full xs:w-full sm:w-full lg:w-full aspect-auto object-cover"
             alt="okoko"
           />
-          <div className={`absolute ${button ? 'md:lg:bottom-[222px]' : 'md:lg:bottom-[182px]'} md:bottom-[170px] sm:bottom-[158px] bg-gradient-to-t from-[#000] from-30% sm:from-0% bg-opacity-100 to-[#000407]/0 sm:w-full md:w-full h-[45px]`}></div>
+          <div className={`absolute ${button ? 'lg:bottom-[192px] md:bottom-[182px] sm:bottom-[174px]' : 'lg:bottom-[158px] md:bottom-[146px] sm:bottom-[134px]'} bg-gradient-to-t from-[#000] sm:from-0% bg-opacity-100 to-[#000407]/0 w-full bottom-[58px] h-[45px]`}></div>
           <div className="z-20 absolute top-[0px] left-0 bg-gradient-to-r from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
           <div className="z-20 absolute top-[0px] right-0 rounded-l-3xl bg-gradient-to-l from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
           <div className="absolute bottom-0 left-0 rounded-l-3xl bg-gradient-to-t from-slate-800 gray via-transparent to-transparent w-full h-[20px] rounded-b-[24px]"></div>
@@ -58,13 +63,13 @@ const BlueprintCard: FC<Props> = ({
         </div>
         <p
           className={`absolute ${myCardBadge ? 'sm:hidden' : 'hidden'
-            } flex bottom-[77px]  right-[10px]  block-content font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+            } flex bottom-[67px]  right-[10px]  block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center`}
         >
           My Blueprint
         </p>
         <div
           id="infor"
-          className="flex justify-between sm:flex-col gap-y-1 top-[-80px] md:top-[-80px] py-4 px-4 xs:w-full sm:w-full md:w-full box-border"
+          className="flex justify-between sm:flex-col gap-y-0 top-[-80px] md:top-[-80px] p-4 pt-0 xs:w-full sm:w-full md:w-full box-border"
         >
           <div id="name" className="text-white">
             <p className="flex justify-start text-xs font-mono text-[#858584]">
@@ -76,7 +81,7 @@ const BlueprintCard: FC<Props> = ({
               </p>
               <p
                 className={`${myCardBadge ? 'hidden sm:block' : 'hidden'
-                  } truncate font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center w-[87px]`}
+                  } truncate font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center w-[87px]`}
               >
                 My Blueprint
               </p>
@@ -123,9 +128,14 @@ const BlueprintCard: FC<Props> = ({
           <Button
             text="Mint Now"
             variant="primary"
-            onClick={onClickMint}
-            className={`${button ? 'block' : 'hidden'
-              } flex w-full h-[36px] mt-1 md:mt-0 rounded-lg justify-center`}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onClickMint) {
+                onClickMint();
+              }
+            }}
+            className={`${button ? 'sm:block' : ''
+              } hidden w-full text-white bg-blue-600 h-[36px] mt-1 md:mt-0 rounded-lg justify-center`}
           />
         </div>
       </div>
