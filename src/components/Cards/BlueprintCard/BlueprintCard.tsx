@@ -106,7 +106,7 @@ const BlueprintCard: FC<Props> = ({
               <p className="flex justify-start text-xs font-mono text-[#858584]">
                 Mint Price
               </p>
-              <p className="flex gap-2 md:text-base lg:text-lg font-mono text-xs">
+              <p className="flex gap-2 md:text-base lg:text-lg font-mono text-xs text-white">
                 <span className="items-center my-auto">
                   <img src={EthLineSvg} />
                 </span>{' '}
@@ -115,7 +115,7 @@ const BlueprintCard: FC<Props> = ({
             </div>
             <div id="id" className="text-end hidden md:block">
               <p className="text-xs font-mono text-[#858584]">Mint Limit</p>
-              <p className="md:text-base lg:text-lg font-mono">{mintLimit}</p>
+              <p className="md:text-base lg:text-lg font-mono text-white">{mintLimit}</p>
             </div>
           </div>
         </div>
