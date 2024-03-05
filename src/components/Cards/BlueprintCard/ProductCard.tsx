@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC } from "react";
 
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { Icon } from "@iconify/react/dist/iconify.js";
 
 export interface Props {
   uri: string;
