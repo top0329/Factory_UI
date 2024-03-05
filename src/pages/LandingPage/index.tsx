@@ -15,13 +15,6 @@ import { BlueprintTuple, WindowSize } from '../../types';
 import Union from '../../assets/images/union.png';
 import CardFront from '../../assets/svg/card-front.svg';
 import SmallBlueprintCardImage from '../../assets/svg/small-blueprint-card.svg';
-import IronSword from '../../assets/images/development/iron-sword.webp';
-import BlackTea from '../../assets/images/development/black-tea-erc1155.webp';
-import Spear from '../../assets/images/development/spear-erc1155.webp';
-import GoldCoin from '../../assets/images/development/gold-coin-erc1155.webp';
-import MilkTea from '../../assets/images/development/milk-tea-erc1155.webp';
-import Coffee from '../../assets/images/development/coffee-erc1155.webp';
-import SilverCoin from '../../assets/images/development/siliver-coin-erc1155.webp';
 import useWeb3 from '../../hooks/useWeb3';
 
 const LandingPage = () => {
@@ -252,10 +245,11 @@ const LandingPage = () => {
         </h1>
         <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent px-0 2xl:px-6">
           <div
-            className={`glide w-full py-1 sm:py-8 ${windowSize.width !== undefined && windowSize.width >= 390
+            className={`glide w-full py-1 sm:py-8 ${
+              windowSize.width !== undefined && windowSize.width >= 390
                 ? 'max-w-[382px]'
                 : 'max-w-[282px]'
-              }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
+            }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
           >
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides overflow-hidden">
@@ -268,7 +262,7 @@ const LandingPage = () => {
                       mintUnit={1}
                       totalSupply={100000000}
                       name="Iron Sword"
-                      uri={IronSword}
+                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp"
                     />
                   </div>
                 </li>
@@ -281,7 +275,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Black Tea"
-                      uri={BlackTea}
+                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/black_tea_1155.webp"
                     />
                   </div>
                 </li>
@@ -294,7 +288,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Spear"
-                      uri={Spear}
+                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/spear_1155.webp"
                     />
                   </div>
                 </li>
@@ -307,7 +301,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Gold Coin"
-                      uri={GoldCoin}
+                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp"
                     />
                   </div>
                 </li>
@@ -320,7 +314,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Milk Tea"
-                      uri={MilkTea}
+                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_tea_1155.webp"
                     />
                   </div>
                 </li>
@@ -333,7 +327,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Coffee"
-                      uri={Coffee}
+                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp"
                     />
                   </div>
                 </li>
@@ -346,7 +340,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Silver Coin"
-                      uri={SilverCoin}
+                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_coin_1155.webp"
                     />
                   </div>
                 </li>

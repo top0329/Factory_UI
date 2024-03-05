@@ -3,15 +3,7 @@ import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../Button';
-// import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-// import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 import { WindowSize } from '../../types';
-
-// import Wood from '../../assets/images/development/wood-erc20.webp';
-// import Iron from '../../assets/images/development/iron-erc20.webp';
-// import Axe from '../../assets/images/development/axe-iron-wood-erc1155.webp';
-// import Picaxe from '../../assets/images/development/pickaxe-iron-wood-erc1155.webp';
-import BatteringRam from '../../assets/images/development/battering-ram-erc1155.png';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -95,11 +87,11 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
           </div>
           <img
             className="min-h-[235px] object-cover md:min-h-[435px]"
-            src={BatteringRam}
+            src="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp"
             alt="drawer"
           />
           <p className="z-30 absolute top-[192px] left-6 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px]">
-            Iron Sheild
+            Iron Sword
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
           <div className="bg-[#011018] py-6 px-6 h-80 md:h-[272px] md:px-8">
