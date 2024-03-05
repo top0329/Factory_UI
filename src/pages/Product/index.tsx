@@ -59,6 +59,7 @@ const ProductPage = () => {
         <div className="flex justify-center">
           <BlueprintCard
             blueprintId={95}
+            mintUnit={0}
             mintLimit={10000}
             mintPrice={0.001}
             totalSupply={100000000}
@@ -126,6 +127,7 @@ const ProductPage = () => {
           <BlueprintCard
             blueprintId={95}
             mintLimit={10000}
+            mintUnit={2}
             mintPrice={0.001}
             totalSupply={100000000}
             name="Gold Coins"

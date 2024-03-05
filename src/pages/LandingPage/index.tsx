@@ -265,6 +265,7 @@ const LandingPage = () => {
                       blueprintId={95}
                       mintLimit={10000}
                       mintPrice={0.001}
+                      mintUnit={1}
                       totalSupply={100000000}
                       name="Iron Sword"
                       uri={IronSword}
@@ -276,6 +277,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={2}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Black Tea"
@@ -288,6 +290,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={0}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Spear"
@@ -300,6 +303,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={1}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Gold Coin"
@@ -312,6 +316,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={0}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Milk Tea"
@@ -324,6 +329,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={1}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Coffee"
@@ -335,6 +341,7 @@ const LandingPage = () => {
                   <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <BlueprintCard
                       blueprintId={95}
+                      mintUnit={0}
                       mintLimit={10000}
                       mintPrice={0.001}
                       totalSupply={100000000}

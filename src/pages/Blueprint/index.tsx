@@ -74,6 +74,7 @@ const BlueprintPage = () => {
                   blueprintId={blueprint.id}
                   name={blueprint.name}
                   uri={blueprint.uri}
+                  mintUnit={blueprint.mintPriceUnit}
                   totalSupply={blueprint.totalSupply}
                   mintPrice={blueprint.mintPrice}
                   mintLimit={blueprint.mintLimit}

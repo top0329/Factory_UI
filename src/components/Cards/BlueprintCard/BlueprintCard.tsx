@@ -10,6 +10,7 @@ export interface Props {
   totalSupply: number;
   mintPrice: number;
   mintLimit: number;
+  mintUnit: number;
   myCardBadge?: boolean;
   button?: boolean;
   onClick?: () => void;
@@ -23,6 +24,7 @@ const BlueprintCard: FC<Props> = ({
   totalSupply,
   mintPrice,
   mintLimit,
+  mintUnit,
   myCardBadge,
   button,
   onClick,
@@ -30,7 +32,7 @@ const BlueprintCard: FC<Props> = ({
   return (
     <div
       id="container"
-      className="w-[140px] h-min xs:w-full sm:w-full md:w-full border-2 border-[#00F0FF]/30 bg-[#080809] rounded-3xl border-block overflow-clip"
+      className="w-[140px] h-min xs:w-full sm:w-full md:w-full border-2 border-slate-800 bg-[#080809] rounded-3xl border-block overflow-clip"
       onClick={onClick}
     >
       <div className="relative w-[140px] xs:w-full sm:w-full md:w-full overflow-hidden">
@@ -108,7 +110,7 @@ const BlueprintCard: FC<Props> = ({
                 <span className="items-center my-auto">
                   <img src={EthLineSvg} />
                 </span>{' '}
-                {mintPrice} <span className="text-[#F3AC19]">ETH</span>
+                {mintPrice} <span className="text-[#F3AC19]">{mintUnit === 0 ? 'ETH' : mintUnit === 1 ? 'USDT' : 'USDC'}</span>
               </p>
             </div>
             <div id="id" className="text-end hidden md:block">
