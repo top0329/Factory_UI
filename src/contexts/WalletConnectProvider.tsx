@@ -30,7 +30,7 @@ const config = createConfig({
   chains: [bsc, sepolia],
   transports: {
     [bsc.id]: http('https://rpc.ankr.com/bsc'),
-    [sepolia.id]: http('https://sepolia.infura.io/v3/'),
+    [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com/'),
   },
   connectors,
 });

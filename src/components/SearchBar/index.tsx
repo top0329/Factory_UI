@@ -22,7 +22,7 @@ const SearchBar: FC<Props> = ({ isNewButton }) => {
 
   const [showFilterOption, setShowFilterOption] = useState<boolean>(false);
 
-  const invalidChars = /['"`\\;%&!@#$%^?~]/;
+  const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;

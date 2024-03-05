@@ -103,7 +103,7 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
           <div className="bg-[#011018] py-6 px-8 h-80 md:h-h-[172px]">
             <div className="flex flex-col-reverse justify-between items-center gap-4 md:flex-row md:justify-beteen">
-              <div className="flex justify-start w-full gap-8">
+              <div className="flex justify-start w-full gap-16">
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="text-light-gray text-sm">Blueprint ID</p>
                   <p>492</p>
@@ -128,7 +128,7 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
                 <div className="flex items-center gap-1">
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <Link className="underline text-base" to={'#'}>
-                    {windowSize.width !== undefined && windowSize.width > 768
+                    {windowSize.width !== undefined && windowSize.width > 472
                       ? '0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'
                       : '0x48C281DB38...85A235d8fc'}
                   </Link>
