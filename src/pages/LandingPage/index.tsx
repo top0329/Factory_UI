@@ -252,11 +252,10 @@ const LandingPage = () => {
         </h1>
         <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent px-0 2xl:px-6">
           <div
-            className={`glide w-full py-1 sm:py-8 ${
-              windowSize.width !== undefined && windowSize.width >= 390
+            className={`glide w-full py-1 sm:py-8 ${windowSize.width !== undefined && windowSize.width >= 390
                 ? 'max-w-[382px]'
                 : 'max-w-[282px]'
-            }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
+              }  2xl:max-w-[1536px] xl:max-w-[1248px] lg:max-w-[936px] md:max-w-[624px] sm:max-w-[596px]`}
           >
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides overflow-hidden">
@@ -266,6 +265,7 @@ const LandingPage = () => {
                       blueprintId={95}
                       mintLimit={10000}
                       mintPrice={0.001}
+                      mintUnit={1}
                       totalSupply={100000000}
                       name="Iron Sword"
                       uri={IronSword}
@@ -277,6 +277,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={2}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Black Tea"
@@ -289,6 +290,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={0}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Spear"
@@ -301,6 +303,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={1}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Gold Coin"
@@ -313,6 +316,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={0}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Milk Tea"
@@ -325,6 +329,7 @@ const LandingPage = () => {
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
+                      mintUnit={1}
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Coffee"
@@ -336,6 +341,7 @@ const LandingPage = () => {
                   <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <BlueprintCard
                       blueprintId={95}
+                      mintUnit={0}
                       mintLimit={10000}
                       mintPrice={0.001}
                       totalSupply={100000000}

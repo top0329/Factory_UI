@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import blueprintInfoImage from '../../../assets/images/bluetoken 1.png';
+import blueprintInfoImage from '../../../assets/images/blueprint.png';
 
 export default function BlueprintInfoCard() {
-  const [editable, setEditable] = useState(false);
+  const [editable, setEditable] = useState(true);
   const [uriChecked, setUriChecked] = useState(false);
   const [mintPriceChecked, setMintPriceChecked] = useState(false);
   const [mintLimitChecked, setMintLimitChecked] = useState(false);
@@ -81,20 +81,28 @@ export default function BlueprintInfoCard() {
               disabled={!editable}
               checked={uriChecked}
               onChange={handleUriCheckedChange}
-              className="!border-0 !bg-[#03070F] py-1 px-2"
+              className={`!border-2 rounded-sm border-[#1F2937] appearance-none !bg-[#03070F]/0 py-1 px-2`}
             />
             <p className="text-xs text-[#858584]">URI</p>
           </div>
-          <input
-            type="input"
-            disabled={!editable || !uriChecked}
-            className={`border-[0.5px] w-full py-1 px-2 rounded-lg
+          <div className="flex justify-between">
+            <input
+              type="input"
+              disabled={!editable || !uriChecked}
+              className={`border-[0.5px] w-full py-1 px-2 rounded-l-lg
             ${
               editable && uriChecked
                 ? 'bg-[#03070F] border-[#8B8B8B]'
                 : 'bg-[#010B10] border-[#191313]'
             }`}
-          />
+            />
+            <button
+              onClick={() => console.log('uploading')}
+              className="flex w-1/4 justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg text-sm"
+            >
+              <Icon icon="icomoon-free:upload" className="text-[#939393] w-6" />
+            </button>
+          </div>
         </div>
         <div className="flex flex-col w-full gap-y-1">
           <div className="flex justify-start gap-2">
@@ -120,7 +128,7 @@ export default function BlueprintInfoCard() {
             />
             <select
               disabled={!editable || !mintPriceChecked}
-              className="!bg-[#4A4A4A]/20 rounded-r-lg text-sm"
+              className="!bg-[#4A4A4A]/20 rounded-r-lg text-sm  w-1/4"
             >
               <option value="ETH" className="!bg-[#4A4A4A] !text-sm">
                 ETH

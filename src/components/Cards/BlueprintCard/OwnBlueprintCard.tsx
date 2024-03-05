@@ -5,18 +5,123 @@ export interface Props {
   uri: string;
   name: string;
   blueprintId: number;
-  totalSupply: number;
+  balance: number;
   address: string;
   myCardBadge?: boolean;
   onClick?: () => void;
 }
 
-// export function OwnBlueprintCard(props: Props) {
+// const OwnBlueprintCard: FC<Props> = ({
+//   uri,
+//   name,
+//   blueprintId,
+//   balance,
+//   address,
+//   myCardBadge,
+//   onClick,
+// }) => {
+//   return (
+//     <div
+//       id="container"
+//       className="w-[140px] xs:w-full sm:w-full md:w-full border-2 border-[#00F0FF]/30 bg-[#011018] rounded-3xl border-block overflow-clip"
+//       onClick={onClick}
+//     >
+//       <div className="relative w-[140px] xs:w-full sm:w-full md:w-full overflow-hidden">
+//         <div
+//           id="badge"
+//           className="absolute  right-[-38px] md:right-[-38px] top-[20px] md:top-[26px] w-[175.5px] h-[25px] md:h-[30px] bg-[#0047FF] text-white text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+//         >
+//           Blueprint
+//         </div>
+//         <div className="w-[140px] h-[140px] xs:w-full sm:w-full md:w-full md:h-full overflow-hidden object-cover">
+//           <img
+//             src={uri}
+//             className="w-full xs:w-full sm:w-full lg:w-full aspect-auto object-cover"
+//             alt="okoko"
+//           />
+//         </div>
+//         <div
+//           id="gradient"
+//           className="relative top-[-45px] bg-gradient-to-t from-[#011018] from-40% bg-opacity-100 to-[#000407]/0 sm:w-full md:w-full h-[82px]"
+//         ></div>
+//         <p
+//           className={`absolute ${myCardBadge ? 'md:hidden' : 'hidden'
+//             } flex top-[108px] right-[10px] block-content font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+//         >
+//           My Blueprint
+//         </p>
+//         <div
+//           id="infor"
+//           className="relative flex justify-between sm:flex-col gap-y-1 top-[-80px] md:top-[-80px] px-6 w-[140px] xs:w-full sm:w-full md:w-full box-border"
+//         >
+//           <div id="name" className="text-white">
+//             <p className="flex justify-start text-xs font-mono text-[#858584]">
+//               Name
+//             </p>
+//             <div className="flex justify-between py-[3px]">
+//               <p className="truncate text-sm md:text-base lg:text-lg font-mono">
+//                 {name}
+//               </p>
+//               <p
+//                 className={`${myCardBadge ? 'hidden md:block' : 'hidden'
+//                   } truncate font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center w-[87px]`}
+//               >
+//                 My Blueprint
+//               </p>
+//             </div>
+//           </div>
+//           <div id="id_supply" className="flex justify-between text-white">
+//             <div id="id" className="">
+//               <p className="flex justify-start text-xs font-mono text-[#858584]">
+//                 ID
+//               </p>
+//               <p className="text-sm md:text-base lg:text-lg items-center font-mono">
+//                 {blueprintId}
+//               </p>
+//             </div>
+//             <div id="id" className="text-end hidden sm:block">
+//               <p className="text-xs font-mono text-[#858584]">Balance</p>
+//               <p className="md:text-base lg:text-lg font-mono">{balance}</p>
+//             </div>
+//           </div>
+
+//           <div id="id_supply" className="relative w-full hidden sm:block">
+//             <div id="address" className="text-white">
+//               <p className="text-xs font-mono text-[#858584]">Creator</p>
+//               <div id="id_supply" className="flex justify-between text-white">
+//                 <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
+//                   <Icon
+//                     icon="logos:ethereum"
+//                     className="hidden md:block item-center my-auto"
+//                   />
+//                   <p className="sm:hidden lg:block">
+//                     {address.substring(0, 7)}...{address.slice(-5)}
+//                   </p>
+
+//                   <p className="sm:block lg:hidden">
+//                     {address.substring(0, 5)}...{address.slice(-3)}
+//                   </p>
+//                 </div>
+//                 <button>
+//                   <Icon
+//                     icon="solar:copy-outline"
+//                     className="item-center my-auto"
+//                   />
+//                 </button>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
 const OwnBlueprintCard: FC<Props> = ({
   uri,
   name,
   blueprintId,
-  totalSupply,
+  balance,
   address,
   myCardBadge,
   onClick,
@@ -24,74 +129,81 @@ const OwnBlueprintCard: FC<Props> = ({
   return (
     <div
       id="container"
-      className="w-[176px] sm:w-[280px]  border border-black bg-[#011018] rounded-3xl border-block"
-      style={{ overflow: 'hidden' }}
+      className="w-[140px] h-min xs:w-full sm:w-full md:w-full border-2 border-[#00F0FF]/30 bg-[#011018] rounded-3xl border-block overflow-clip"
       onClick={onClick}
     >
-      <div className="relative w-[176px] sm:w-[280px]">
+      <div className="relative w-[140px] xs:w-full sm:w-full md:w-full overflow-hidden">
         <div
           id="badge"
-          className="absolute left-[52px] sm:left-[152px] top-[20px] sm:top-[26px] w-[175.5px] h-[20px] sm:h-[30px] bg-[#0047FF] text-white text-center text-[14px] sm:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+          className="absolute  right-[-38px] md:right-[-38px] top-[20px] md:top-[26px] w-[175.5px] h-[25px] md:h-[30px] bg-[#0047FF] text-white text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
         >
           Blueprint
         </div>
-        <div className="w-[176px] h-[176px] sm:w-[280px] sm:h-[335px] overflow-hidden">
+        <div className="w-[140px]   xs:w-full sm:w-full md:w-full md:h-full overflow-hidden object-cover">
           <img
             src={uri}
-            className="w-[280px] xs:w-[176px] sm:w-[280px] sm:h-[335px]"
+            className="w-full xs:w-full sm:w-full lg:w-full aspect-auto object-cover"
             alt="okoko"
           />
+          <div className="absolute md:lg:bottom-[160px] sm:bottom-[150px] bg-gradient-to-t from-[#011018] from-30% sm:from-0% bg-opacity-100 to-[#000407]/0 sm:w-full md:w-full h-[82px]"></div>
         </div>
-        <div
-          id="gradient"
-          className="absolute top-[258px] bg-gradient-to-t from-[#011018] bg-opacity-100 to-[#000407]/0 w-[280px]  xs:w-[176px] h-[82px]"
-        ></div>
         <p
-          className={`absolute ${
-            myCardBadge ? 'sm:hidden' : 'hidden'
-          } flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+          className={`absolute ${myCardBadge ? 'sm:hidden' : 'hidden'
+            } flex bottom-[77px] right-[10px] block-content font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
         >
           My Blueprint
         </p>
         <div
           id="infor"
-          className="relative flex justify-between sm:flex-col gap-y-1 top-[2px] sm:top-[-8px] px-6 sm:w-[280px] w-[176px] box-border"
+          className="flex justify-between py-4 sm:flex-col gap-y-1 top-[-80px] md:top-[-80px] px-4 w-[140px] xs:w-full sm:w-full md:w-full box-border"
         >
           <div id="name" className="text-white">
-            <p className="text-xs font-mono text-[#858584]">Name</p>
-            <div className="flex justify-between py-[3px]">
-              <p className="text-lg font-mono">{name}</p>
+            <p className="flex justify-start text-xs font-mono text-[#858584]">
+              Name
+            </p>
+            <div className="flex justify-between items-center py-[3px]">
+              <p className="w-[80px] lg:md:sm:w-[130px] truncate text-sm md:text-base lg:text-lg font-mono">
+                {name}
+              </p>
               <p
-                className={`${
-                  myCardBadge ? 'hidden sm:block' : 'hidden'
-                } font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center`}
+                className={`${myCardBadge ? 'hidden sm:block' : 'hidden'
+                  } truncate font-mono items-center rounded-2xl bg-[#2e1313]/60 text-[11px] my-[3px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center w-[87px]`}
               >
                 My Blueprint
               </p>
             </div>
           </div>
-
           <div id="id_supply" className="flex justify-between text-white">
             <div id="id" className="">
-              <p className="text-xs font-mono text-[#858584]">ID</p>
-              <p className="text-lg font-mono">{blueprintId}</p>
+              <p className="flex justify-start text-xs font-mono text-[#858584]">
+                ID
+              </p>
+              <p className="text-sm md:text-base lg:text-lg items-center font-mono mt-[4px] ">
+                {blueprintId}
+              </p>
             </div>
             <div id="id" className="text-end hidden sm:block">
               <p className="text-xs font-mono text-[#858584]">Balance</p>
-              <p className="text-lg font-mono">{totalSupply}</p>
+              <p className="md:text-base lg:text-lg font-mono mt-[4px]">{balance}</p>
             </div>
           </div>
 
-          <div id="id_supply" className="w-full hidden sm:block">
+          <div id="id_supply" className="relative w-full hidden sm:block">
             <div id="address" className="text-white">
-              <p className="text-xs font-mono text-[#858584]">Address</p>
+              <p className="text-xs font-mono text-[#858584]">Creator</p>
               <div id="id_supply" className="flex justify-between text-white">
-                <div className="flex justify-center gap-1 item-center sm:text-lg font-mono text-xs">
+                <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
                   <Icon
                     icon="logos:ethereum"
-                    className="hidden sm:block item-center my-auto"
+                    className="hidden md:block item-center my-auto"
                   />
-                  {address.substring(0, 7)} ... {address.slice(-5)}
+                  <p className="">
+                    {address.substring(0, 7)}...{address.slice(-5)}
+                  </p>
+
+                  {/* <p className="sm:block lg:hidden">
+                    {address.substring(0, 5)}...{address.slice(-3)}
+                  </p> */}
                 </div>
                 <button>
                   <Icon
@@ -107,5 +219,4 @@ const OwnBlueprintCard: FC<Props> = ({
     </div>
   );
 };
-
 export default OwnBlueprintCard;
