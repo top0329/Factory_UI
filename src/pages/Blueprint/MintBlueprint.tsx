@@ -19,8 +19,9 @@ const MintBlueprintPage = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // Allow only integer values
     const newValue = event.target.value;
-    if (/^[0-9]*$/.test(newValue)) {
-      setBlueprintMintAmountValue(newValue);
+    // Check if the input value is either empty or an integer
+    if (newValue === '' || /^\d+$/.test(newValue)) {
+      setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
     }
   };
 

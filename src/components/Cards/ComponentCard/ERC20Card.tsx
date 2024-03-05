@@ -55,7 +55,7 @@ const ERC20Card: FC<Props> = ({ name, amount, address, uri, icon = false }) => {
           <p>{amount}</p>
         </div>
         <div className="flex flex-col">
-          <p className="text-sm text-light-gray">Adress</p>
+          <p className="text-sm text-light-gray">Address</p>
           <div className="flex items-center gap-1">
             <Icon className="w-4 h-6" icon="logos:ethereum" />
             <a

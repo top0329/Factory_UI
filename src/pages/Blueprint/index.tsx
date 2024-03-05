@@ -65,7 +65,7 @@ const BlueprintPage = () => {
         </div>
       </div>
       <SearchBar isNewButton />
-      <div className="grid grid-cols-5 py-8 gap-8">
+      <div className="grid grid-cols-5 pt-8 pb-20 gap-8">
         {blueprintData.length > 0 &&
           blueprintData.map((blueprint) => {
             return (

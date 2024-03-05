@@ -113,7 +113,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
           <div className="bg-[#011018] py-6 px-8 h-80 sm:h-60">
             <div className="flex flex-col-reverse justify-between items-center gap-4 sm:flex-row sm:justify-beteen">
-              <div className="flex justify-start w-full gap-16">
+              <div className="flex justify-start w-full gap-10">
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="text-light-gray text-sm">Blueprint ID</p>
                   <p>{selectedBlueprint.id}</p>
@@ -124,8 +124,15 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 </div>
               </div>
               <div className="flex justify-end gap-8 mb-2 sm:gap-3">
+                {selectedBlueprint.myBlueprint === true && (
+                  <Button
+                    className="text-base !py-1 !px-7 !bg-black"
+                    text="Update"
+                    variant="secondary"
+                  />
+                )}
                 <Button
-                  className="text-base !py-1 !px-7"
+                  className="text-base !py-1 !px-7 !bg-black"
                   text="Recreate"
                   variant="secondary"
                 />
@@ -142,7 +149,14 @@ const BlueprintDetailDrawer: FC<Props> = ({
             </div>
             <div className="flex justify-start items-start mt-5 sm:justify-between">
               <div className="flex flex-col items-start text-white gap-2">
-                <p className="text-light-gray text-sm">Creator</p>
+                <div className="flex gap-3">
+                  <p className="text-light-gray text-sm">Creator</p>
+                  {selectedBlueprint.myBlueprint === true && (
+                    <p className="flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
+                      My Blueprint
+                    </p>
+                  )}
+                </div>
                 <div className="flex items-center gap-1">
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <a
@@ -164,7 +178,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
             <div className="flex justify-between items-start mt-5">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Mint Price</p>
-                <p>{selectedBlueprint.mintPrice} ETH</p>
+                <p>{selectedBlueprint.mintPrice} {selectedBlueprint.mintPriceUnit === 0 ? "ETH" : selectedBlueprint.mintPriceUnit === 1 ? "USDT" : "USDC"}</p>
               </div>
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Mint Limit</p>
