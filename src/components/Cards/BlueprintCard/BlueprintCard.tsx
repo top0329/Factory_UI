@@ -101,7 +101,7 @@ const BlueprintCard: FC<Props> = ({
           </div>
           <div
             id="id_supply"
-            className="relativeb flex justify-between text-white"
+            className="relative flex justify-between text-white"
           >
             <div id="id" className="pl-1">
               <p className="flex justify-start text-xs font-mono text-[#858584]">
