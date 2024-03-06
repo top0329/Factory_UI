@@ -71,7 +71,41 @@ export type SelectedBlueprint = {
     ];
   };
 };
-
+export type SelectedOwnBlueprint = {
+  id: number;
+  name: string;
+  uri: string;
+  creator: string;
+  balance: number;
+  myBlueprint: boolean;
+  data: {
+    erc20Data: [
+      {
+        name: string;
+        uri: string;
+        amount: number;
+        address: string;
+      }
+    ];
+    erc721Data: [
+      {
+        id: number;
+        name: string;
+        uri: string;
+        address: string;
+      }
+    ];
+    erc1155Data: [
+      {
+        id: number;
+        name: string;
+        uri: string;
+        amount: number;
+        address: string;
+      }
+    ];
+  };
+};
 export type CreateBlueprint = {
   name: string;
   uri: string;

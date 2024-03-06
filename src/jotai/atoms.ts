@@ -1,6 +1,6 @@
 import { atom } from 'jotai';
 
-import { CreateBlueprint, SelectedBlueprint } from '../types';
+import { CreateBlueprint, SelectedBlueprint, SelectedOwnBlueprint } from '../types';
 
 export const isAddComponentModalAtom = atom<boolean>(false);
 // export const isMintBlueprintModalAtom = atom<boolean>(false);
@@ -45,7 +45,41 @@ export const selectedBlueprintAtom = atom<SelectedBlueprint>({
     ],
   },
 });
-
+export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
+  id: 0,
+  name: "",
+  uri: "",
+  creator: "",
+  balance: 0,
+  myBlueprint: false,
+  data: {
+    erc20Data: [
+      {
+        name: "",
+        uri: "",
+        amount: 0,
+        address: "",
+      },
+    ],
+    erc721Data: [
+      {
+        id: 0,
+        name: "",
+        uri: "",
+        address: "",
+      },
+    ],
+    erc1155Data: [
+      {
+        id: 0,
+        name: "",
+        uri: "",
+        amount: 0,
+        address: "",
+      },
+    ],
+  },
+});
 const localStorageEffect = (key: string) => (atomWithStorage: any) => {
   const getInitialValue = () => {
     const item = localStorage.getItem(key);
