@@ -61,7 +61,7 @@ const ProductPage = () => {
             mintPrice={0.001}
             totalSupply={100000000}
             name="Gold Coins"
-            myCardBadge={true}
+            myBlueprint={true}
             uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp"
             onClick={showSidebar}
           />

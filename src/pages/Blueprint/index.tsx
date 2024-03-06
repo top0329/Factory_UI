@@ -92,7 +92,7 @@ const BlueprintPage = () => {
                   totalSupply={blueprint.totalSupply}
                   mintPrice={blueprint.mintPrice}
                   mintLimit={blueprint.mintLimit}
-                  myCardBadge={blueprint.myBlueprint}
+                  myBlueprint={blueprint.myBlueprint}
                   button={!isCreatorMode}
                   onClick={() => handleBlueprintCardClicked(blueprint)}
                   onClickMint={() => handleMintNowButtonClicked(blueprint)}

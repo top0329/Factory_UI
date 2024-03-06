@@ -11,7 +11,7 @@ export interface Props {
   mintPrice: number;
   mintLimit: number;
   mintUnit: number;
-  myCardBadge?: boolean;
+  myBlueprint?: boolean;
   button?: boolean;
   onClick?: () => void;
   onClickMint?: () => void;
@@ -35,7 +35,7 @@ const BlueprintCard: FC<Props> = ({
   mintPrice,
   mintLimit,
   mintUnit,
-  myCardBadge,
+  myBlueprint,
   button,
   onClick,
   onClickMint,
@@ -73,7 +73,7 @@ const BlueprintCard: FC<Props> = ({
         </div>
         <p
           className={`absolute ${
-            myCardBadge ? "sm:hidden" : "hidden"
+            myBlueprint ? "sm:hidden" : "hidden"
           } flex bottom-[67px]  right-[10px]  block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center`}
         >
           My Blueprint
@@ -92,7 +92,7 @@ const BlueprintCard: FC<Props> = ({
               </p>
               <p
                 className={`${
-                  myCardBadge ? "hidden sm:block" : "hidden"
+                  myBlueprint ? "hidden sm:block" : "hidden"
                 } truncate font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center w-[87px]`}
               >
                 My Blueprint
