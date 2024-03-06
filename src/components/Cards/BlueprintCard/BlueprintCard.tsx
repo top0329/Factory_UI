@@ -111,9 +111,9 @@ const BlueprintCard: FC<Props> = ({
                 {blueprintId}
               </p>
             </div>
-            <div id="id" className="text-end hidden sm:block">
+            <div id="id" className="text-end hidden sm:block truncate">
               <p className="text-xs font-mono text-[#858584] truncate">Total Supply</p>
-              <p className="md:text-base lg:text-lg font-mono mt-[4px]">
+              <p className="md:text-base lg:text-lg font-mono mt-[4px] truncate">
                 {totalSupply}
               </p>
             </div>
