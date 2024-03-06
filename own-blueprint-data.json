@@ -4,11 +4,8 @@
     "name": "Iron Sword",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": true,
     "data": {
       "erc20Data": [
@@ -28,11 +25,8 @@
     "name": "Black Tea",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/black_tea_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -66,11 +60,8 @@
     "name": "Lemon Tea",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/Lemon_tea_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -117,11 +108,8 @@
     "name": "Milk Tea",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_tea_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -167,11 +155,8 @@
     "name": "Coffee",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -215,11 +200,8 @@
     "name": "Oat Milk Latte",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/oat%20milk%20latte_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -247,11 +229,8 @@
     "name": "Copper Coin",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/copper_coin_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -277,11 +256,8 @@
     "name": "Silver Coin",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_coin_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -307,11 +283,8 @@
     "name": "Gold Coin",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -337,11 +310,8 @@
     "name": "Axe",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/axe_iron_wood_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -367,11 +337,8 @@
     "name": "Pickaxe",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/pickaxe_iron_wood_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [
@@ -397,11 +364,8 @@
     "name": "Spear",
     "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/spear_1155.webp",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
-    "totalSupply": 100000000,
-    "mintPrice": 0.001,
-    "mintPriceUnit": 0,
-    "mintLimit": 100,
-    "mintedAmount": 10000,
+    "balance": 1000,
+    "blueprintAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "myBlueprint": false,
     "data": {
       "erc20Data": [

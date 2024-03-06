@@ -170,7 +170,7 @@ const LandingPage = () => {
               The Easiest Way To Create Your <br />
               Own Tokens ...
             </h2>
-            <div className="relative flex justify-start items-center gap-1 border-b-2 max-w-[296px] pt-8 mx-0 md:w-96 lg:pt-16 sm:pt-14 sm:mx-4 sm:w-96">
+            <div className="relative flex justify-start items-center gap-1 border-b-2 max-w-[296px] pt-8 pl-1 mx-0 md:w-96 lg:pt-16 sm:pt-14 sm:mx-4 sm:w-96 sm:max-w-96">
               <Icon className="w-6 h-6" icon="ion:search-outline" />
               <input
                 className="z-20 w-full bg-transparent px-0 py-2 outline-none text-sm sm:text-lg sm:px-2"
