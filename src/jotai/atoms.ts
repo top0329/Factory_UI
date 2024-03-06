@@ -15,6 +15,7 @@ export const selectedBlueprintAtom = atom<SelectedBlueprint>({
   mintPrice: 0,
   mintPriceUnit: 0,
   mintLimit: 0,
+  mintedAmount: 0,
   myBlueprint: false,
   data: {
     erc20Data: [
