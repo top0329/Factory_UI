@@ -10,11 +10,6 @@ export interface Props {
   setIsDrawerOpen?: (isOpen: boolean) => void;
 }
 
-export interface Props {
-  isDrawerOpen?: boolean;
-  setIsDrawerOpen?: (isOpen: boolean) => void;
-}
-
 const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
   const [activeTab, setActiveTab] = useState<number>(1);
   const [windowSize, setWindowSize] = useState<WindowSize>({

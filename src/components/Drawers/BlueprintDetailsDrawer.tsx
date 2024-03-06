@@ -6,16 +6,11 @@ import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
 import { WindowSize } from '../../types';
+import { isCreatorModeAtom, selectedBlueprintAtom } from '../../jotai/atoms';
 
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-import { isCreatorModeAtom, selectedBlueprintAtom } from '../../jotai/atoms';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
-
-export interface Props {
-  isDrawerOpen?: boolean;
-  setIsDrawerOpen?: (isOpen: boolean) => void;
-}
 
 export interface Props {
   isDrawerOpen?: boolean;

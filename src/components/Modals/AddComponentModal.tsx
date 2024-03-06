@@ -9,10 +9,6 @@ import {
 } from '../../jotai/atoms';
 import Button from '../Button';
 
-import ERC20 from '../../assets/images/erc20.png';
-import ERC721 from '../../assets/images/erc721.png';
-import ERC1155 from '../../assets/images/erc1155.png';
-
 export interface Props {
   text: string;
 }
@@ -22,17 +18,20 @@ const AddComponentModal = () => {
     {
       headerText: null,
       subText: null,
-      image: ERC20,
+      image:
+        'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/Qme8EoD9DXyH5axFVxMu8XuwReHPcQFHM1LtkGA3xkCt88',
     },
     {
       headerText: null,
       subText: null,
-      image: ERC721,
+      image:
+        'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmPqXLh5nwpRXzarBajaD7NG5hctwYoEkWjRiHdQGfhpQu',
     },
     {
       headerText: null,
       subText: null,
-      image: ERC1155,
+      image:
+        'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmRYYxbao8N9z3L8kPDYQnC5JQggj3pzTr6GwDBuYTpvAq',
     },
   ];
 

@@ -31,7 +31,6 @@ export const Carousel = ({
   leftItem,
   rightItem,
 }: Props) => {
-  // const [activeItem, setActiveItem] = useState<number>(data.length > 2 ? 1 : 0);
   const [activeItem, setActiveItem] = useAtom<number>(
     activeAddComponentTokenAtom
   );
