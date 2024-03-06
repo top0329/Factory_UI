@@ -1,13 +1,16 @@
 import { useState } from "react";
-// import Button from '../../components/Button';
+import { useAtom } from "jotai";
 import OwnBlueprintCard from "../../components/Cards/BlueprintCard/OwnBlueprintCard";
 import SearchBar from "../../components/SearchBar";
 import OwnBlueprintDetailsDrawer from "../../components/Drawers/OwnBlueprintDetailsDrawer";
 // import BlueprintCard from "../../components/Cards/BlueprintCard/BlueprintCard";
 import BlueprintInfoCard from "../../components/Cards/BlueprintInfoCard/BlueprintInfoCard";
+import productData from "../../../own-blueprint-data.json";
+import { selectedOwnBlueprintAtom } from "../../jotai/atoms";
 
 const ProductPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -18,91 +21,35 @@ const ProductPage = () => {
       document.body.style.overflow = "hidden";
     }
   };
-
+  const handleBlueprintCardClicked = (blueprint: any) => {
+    setSelectedBlueprint(blueprint);
+    showSidebar();
+  };
   return (
     <div className="flex flex-col min-w-[320px] gap-2 text-white">
+      <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
+        Own Blueprints
+      </h1>
       <div>
         <SearchBar />
       </div>
-      <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-2 lg:grid-cols-4 xl:grid-cols-5">
-        <div className="flex justify-center">
-          <OwnBlueprintCard
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_coin_1155.webp"
-            name="Silver Coin"
-            blueprintId={5}
-            balance={1000}
-            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-            myCardBadge={true}
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="flex justify-center">
-          <OwnBlueprintCard
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_tea_1155.webp"
-            name="Milk Tea"
-            blueprintId={5}
-            balance={1000}
-            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-            myCardBadge={false}
-            onClick={showSidebar}
-          />
-        </div>
-        {/* <div className="flex justify-center">
-          <BlueprintCard
-            blueprintId={95}
-            mintUnit={0}
-            mintLimit={10000}
-            mintPrice={0.001}
-            totalSupply={100000000}
-            name="Ironn Sword"
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/pickaxe_iron_wood_1155.webp"
-            onClick={showSidebar}
-          />{' '}
-        </div> */}
-        <div className="flex justify-center">
-          <OwnBlueprintCard
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp"
-            name="Coffee"
-            blueprintId={5}
-            balance={1000}
-            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-            myCardBadge={true}
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="flex justify-center">
-          <OwnBlueprintCard
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/Lemon_tea_1155.webp"
-            name="Lemon Tea"
-            blueprintId={5}
-            balance={1000}
-            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-            myCardBadge={false}
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="flex justify-center">
-          <OwnBlueprintCard
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/oat%20milk%20latte_1155.webp"
-            name="Oat Milk Latte"
-            blueprintId={5}
-            balance={1000}
-            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-            myCardBadge={false}
-            onClick={showSidebar}
-          />
-        </div>
-        <div className="flex justify-center">
-          <OwnBlueprintCard
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp"
-            name="Coffee"
-            blueprintId={5}
-            balance={1000}
-            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
-            myCardBadge={true}
-            onClick={showSidebar}
-          />
-        </div>
+      <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
+        {productData.length > 0 &&
+          productData.map((product) => {
+            return (
+              <div className="flex justify-center" key={product.id}>
+                <OwnBlueprintCard
+                  blueprintId={product.id}
+                  name={product.name}
+                  uri={product.uri}
+                  balance={product.balance}
+                  address={product.blueprintAddress}
+                  myBlueprint={product.myBlueprint}
+                  onClick={() => handleBlueprintCardClicked(product)}
+                />
+              </div>
+            );
+          })}
         <BlueprintInfoCard />
         {/* <BlueprintInfoCard /> */}
         {/* <BlueprintInfoCard /> */}
@@ -114,7 +61,7 @@ const ProductPage = () => {
             mintPrice={0.001}
             totalSupply={100000000}
             name="Gold Coins"
-            myCardBadge={true}
+            myBlueprint={true}
             uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp"
             onClick={showSidebar}
           />
