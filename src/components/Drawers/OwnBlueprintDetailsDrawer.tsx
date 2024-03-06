@@ -10,11 +10,6 @@ export interface Props {
   setIsDrawerOpen?: (isOpen: boolean) => void;
 }
 
-export interface Props {
-  isDrawerOpen?: boolean;
-  setIsDrawerOpen?: (isOpen: boolean) => void;
-}
-
 const OwnBlueprintDetailsDrawer: FC<Props> = ({
   isDrawerOpen,
   setIsDrawerOpen,

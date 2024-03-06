@@ -219,12 +219,12 @@ const LandingPage = () => {
         <h1 className="text-center text-xl font-semibold pt-6 sm:text-3xl">
           Most Minted Blueprints
         </h1>
-        <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent w-full px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full">
+        <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent w-full px-6 pt-4 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full">
           <div className="glide w-full">
             <div className="glide__track" data-glide-el="track">
               <ul className="glide__slides overflow-hidden">
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
@@ -237,7 +237,7 @@ const LandingPage = () => {
                   </div>
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
@@ -250,7 +250,7 @@ const LandingPage = () => {
                   </div>
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
@@ -263,7 +263,7 @@ const LandingPage = () => {
                   </div>
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
@@ -276,7 +276,7 @@ const LandingPage = () => {
                   </div>
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
@@ -289,7 +289,7 @@ const LandingPage = () => {
                   </div>
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <BlueprintCard
                       blueprintId={95}
                       mintLimit={10000}
@@ -302,7 +302,7 @@ const LandingPage = () => {
                   </div>
                 </li>
                 <li className="glide__slide">
-                  <div className="relative flex flex-col text-center bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                     <BlueprintCard
                       blueprintId={95}
                       mintUnit={0}
