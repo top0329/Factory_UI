@@ -41,7 +41,7 @@ const ERC1155Card: FC<Props> = ({
   };
 
   return (
-    <div className="group relative w-[272px] h-[300px] overflow-hidden border border-black rounded-3xl">
+    <div className="group relative w-auto h-[300px] overflow-hidden border border-black rounded-3xl">
       <div
         id="badge"
         className="absolute left-[152px] top-[17px] w-[150px] h-[30px] bg-[#db00ff] text-white text-center text-[18px] rotate-[38.86deg] py-auto pl-[12px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
