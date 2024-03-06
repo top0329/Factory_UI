@@ -222,7 +222,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
               </div>
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Minted Amount</p>
-                <p>10000</p>
+                <p>{selectedBlueprint.mintedAmount}</p>
               </div>
             </div>
           </div>
