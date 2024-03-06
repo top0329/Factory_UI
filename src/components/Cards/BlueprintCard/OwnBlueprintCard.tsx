@@ -56,7 +56,7 @@ const OwnBlueprintCard: FC<Props> = ({
             <p className="flex justify-start text-xs font-mono text-[#858584]">
               Name
             </p>
-            <div className="flex justify-between items-center py-[3px]">
+            <div className="sm:flex sm:justify-between grid items-center py-[3px]">
               <p className="w-auto truncate text-sm md:text-base lg:text-lg font-mono">
                 {name}
               </p>

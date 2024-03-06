@@ -86,7 +86,7 @@ const BlueprintCard: FC<Props> = ({
             <p className="flex justify-start text-xs font-mono text-[#858584]">
               Name
             </p>
-            <div className="flex justify-between w-full items-center py-[3px]">
+            <div className="sm:flex sm:justify-between grid w-full items-center py-[3px]">
               <p className=" truncate text-sm md:text-base lg:text-lg font-mono">
                 {name}
               </p>
@@ -107,13 +107,13 @@ const BlueprintCard: FC<Props> = ({
               <p className="flex justify-start text-xs font-mono text-[#858584]">
                 ID
               </p>
-              <p className="text-sm md:text-base lg:text-lg items-center font-mono mt-[4px]">
+              <p className="text-sm md:text-base lg:text-lg items-center font-mono mt-[4px] sm:mt-[3px] sm:w-[80px]">
                 {blueprintId}
               </p>
             </div>
-            <div id="id" className="text-end hidden sm:block">
-              <p className="text-xs font-mono text-[#858584]">Total Supply</p>
-              <p className="md:text-base lg:text-lg font-mono mt-[4px]">
+            <div id="id" className="text-end hidden sm:block truncate">
+              <p className="text-xs font-mono text-[#858584] truncate">Total Supply</p>
+              <p className="md:text-base lg:text-lg font-mono mt-[4px] truncate">
                 {totalSupply}
               </p>
             </div>
