@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState } from "react";
 // import Button from '../../components/Button';
-import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
-import SearchBar from '../../components/SearchBar';
-import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
-import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
+import OwnBlueprintCard from "../../components/Cards/BlueprintCard/OwnBlueprintCard";
+import SearchBar from "../../components/SearchBar";
+import OwnBlueprintDetailsDrawer from "../../components/Drawers/OwnBlueprintDetailsDrawer";
+// import BlueprintCard from "../../components/Cards/BlueprintCard/BlueprintCard";
+import BlueprintInfoCard from "../../components/Cards/BlueprintInfoCard/BlueprintInfoCard";
 
 const ProductPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -13,8 +14,8 @@ const ProductPage = () => {
     setIsDrawerOpen(true);
 
     // Disables Background Scrolling whilst the SideDrawer/Modal is open
-    if (typeof window != 'undefined' && window.document) {
-      document.body.style.overflow = 'hidden';
+    if (typeof window != "undefined" && window.document) {
+      document.body.style.overflow = "hidden";
     }
   };
 
@@ -23,7 +24,7 @@ const ProductPage = () => {
       <div>
         <SearchBar />
       </div>
-      <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-2 lg:grid-cols-4 xl:grid-cols-5">
+      <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-2 lg:grid-cols-4 xl:grid-cols-5">
         <div className="flex justify-center">
           <OwnBlueprintCard
             uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_coin_1155.webp"
@@ -46,7 +47,7 @@ const ProductPage = () => {
             onClick={showSidebar}
           />
         </div>
-        <div className="flex justify-center">
+        {/* <div className="flex justify-center">
           <BlueprintCard
             blueprintId={95}
             mintUnit={0}
@@ -57,7 +58,7 @@ const ProductPage = () => {
             uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/pickaxe_iron_wood_1155.webp"
             onClick={showSidebar}
           />{' '}
-        </div>
+        </div> */}
         <div className="flex justify-center">
           <OwnBlueprintCard
             uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp"
@@ -92,6 +93,20 @@ const ProductPage = () => {
           />
         </div>
         <div className="flex justify-center">
+          <OwnBlueprintCard
+            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp"
+            name="Coffee"
+            blueprintId={5}
+            balance={1000}
+            address="0xdE336E2d7c8E875a7E73fB6Ccf23cfDA96135D22"
+            myCardBadge={true}
+            onClick={showSidebar}
+          />
+        </div>
+        <BlueprintInfoCard />
+        {/* <BlueprintInfoCard /> */}
+        {/* <BlueprintInfoCard /> */}
+        {/* <div className="flex justify-center">
           <BlueprintCard
             blueprintId={95}
             mintLimit={10000}
@@ -103,7 +118,7 @@ const ProductPage = () => {
             uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp"
             onClick={showSidebar}
           />
-        </div>
+        </div> */}
       </div>
       <OwnBlueprintDetailsDrawer
         isDrawerOpen={isDrawerOpen}
