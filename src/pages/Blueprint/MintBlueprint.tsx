@@ -5,12 +5,12 @@ import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 
 import Button from '../../components/Button';
-import { selectedBlueprintAtom } from '../../jotai/atoms';
+import { blueprintSelectionState } from '../../jotai/atoms';
 
 const MintBlueprintPage = () => {
   const naviage = useNavigate();
 
-  const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
+  const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
     useState<string>('');
@@ -43,8 +43,8 @@ const MintBlueprintPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center py-10 text-white sm:py-20">
-      <div className="relative rounded-3xl bg-[#060606] w-full pb-10 sm:w-[614px] sm:bg-[#060606] border-2 border-[#1f1f1f]">
+    <div className="flex justify-center items-center py-10 text-white sm:py-10">
+      <div className="relative rounded-3xl bg-[#060606] w-full pb-6 sm:w-[614px] sm:bg-[#060606] border-2 border-[#1f1f1f]">
         <header className="flex justify-start items-center pl-4 py-4 text-xl sm:text-3xl sm:justify-center">
           Blueprint Mint
         </header>
@@ -84,7 +84,7 @@ const MintBlueprintPage = () => {
                     className="absolute -bottom-12 right-0 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
                     style={{ transition: 'opacity 0.3s' }}
                   >
-                    Copied to clipboard!
+                    Copied!
                   </div>
                 )}
               </div>
@@ -125,7 +125,7 @@ const MintBlueprintPage = () => {
               <p className="col-span-1 text-light-gray">Total Mint fee</p>
               <p className="col-span-1">0.1 ETH + 100000 * 1 USDT</p>
             </div>
-            <div className="flex justify-center items-center gap-8 pt-0 sm:gap-28 sm:pt-8">
+            <div className="flex justify-center items-center gap-8 pt-0 xs:gap-28 sm:pt-2">
               <Button
                 className="flex justify-center !w-28"
                 text="Cancel"

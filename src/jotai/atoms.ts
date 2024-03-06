@@ -45,6 +45,29 @@ export const selectedBlueprintAtom = atom<SelectedBlueprint>({
     ],
   },
 });
+
+const localStorageEffect = (key: string) => (atomWithStorage: any) => {
+  const getInitialValue = () => {
+    const item = localStorage.getItem(key);
+    if (item !== null) {
+      return JSON.parse(item);
+    }
+    return atomWithStorage;
+  };
+
+  const anAtom = atom(getInitialValue(), (get, set, update) => {
+    const nextValue =
+      typeof update === 'function' ? update(get(anAtom)) : update;
+    set(anAtom, nextValue);
+    localStorage.setItem(key, JSON.stringify(nextValue));
+  });
+  return anAtom;
+};
+
+export const blueprintSelectionState = localStorageEffect('selected-blueprint')(
+  selectedBlueprintAtom
+);
+
 export const isCreatorModeAtom = atom<boolean>(false);
 export const createBlueprintAtom = atom<CreateBlueprint>({
   name: '',
