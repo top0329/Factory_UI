@@ -5,12 +5,17 @@ import { useAtom } from 'jotai';
 import SearchBar from '../../components/SearchBar';
 import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
-import { isCreatorModeAtom, selectedBlueprintAtom } from '../../jotai/atoms';
+import {
+  blueprintSelectionState,
+  isCreatorModeAtom,
+  selectedBlueprintAtom,
+} from '../../jotai/atoms';
 
 import blueprintData from '../../../blueprint-data.json';
 
 const BlueprintPage = () => {
   const [, setSelectedBlueprint] = useAtom(selectedBlueprintAtom);
+  const [, setBlueprintSelectionState] = useAtom(blueprintSelectionState);
   const [isCreatorMode, setIsCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -38,11 +43,12 @@ const BlueprintPage = () => {
 
   const handleMintNowButtonClicked = (blueprint: any) => {
     setSelectedBlueprint(blueprint);
+    setBlueprintSelectionState(blueprint);
     navigate(`/blueprint/mint/${blueprint.id}`);
   };
 
   return (
-    <React.Fragment>
+    <div className="min-w-[320px]">
       <div className="flex justify-between items-center py-3">
         <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl">
           Blueprint
@@ -99,7 +105,7 @@ const BlueprintPage = () => {
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />
-    </React.Fragment>
+    </div>
   );
 };
 

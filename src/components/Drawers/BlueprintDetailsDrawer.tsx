@@ -6,7 +6,11 @@ import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
 import { WindowSize } from '../../types';
-import { isCreatorModeAtom, selectedBlueprintAtom } from '../../jotai/atoms';
+import {
+  blueprintSelectionState,
+  isCreatorModeAtom,
+  selectedBlueprintAtom,
+} from '../../jotai/atoms';
 
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
@@ -24,6 +28,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
   const navigate = useNavigate();
 
   const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
+  const [, setBlueprintSelectionState] = useAtom(blueprintSelectionState);
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
   const [activeTab, setActiveTab] = useState<number>(1);
@@ -162,6 +167,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                   onClick={() => {
                     navigate(`/blueprint/mint/${selectedBlueprint.id}`);
                     sideDrawerClosedHandler();
+                    setBlueprintSelectionState(selectedBlueprint);
                   }}
                   variant="outline"
                 />
@@ -291,50 +297,75 @@ const BlueprintDetailDrawer: FC<Props> = ({
             {activeTab === 1 && (
               <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4">
                 {selectedBlueprint.data.erc20Data.length > 0 &&
-                  selectedBlueprint.data.erc20Data.map((erc20, idx) => {
-                    return (
-                      <ERC20Card
-                        key={idx}
-                        name={erc20.name}
-                        uri={erc20.uri}
-                        amount={erc20.amount}
-                        address={erc20.address}
-                      />
-                    );
-                  })}
+                  selectedBlueprint.data.erc20Data.map(
+                    (
+                      erc20: {
+                        name: string;
+                        uri: string;
+                        amount: number;
+                        address: string;
+                      },
+                      idx: React.Key | null | undefined
+                    ) => {
+                      return (
+                        <ERC20Card
+                          key={idx}
+                          name={erc20.name}
+                          uri={erc20.uri}
+                          amount={erc20.amount}
+                          address={erc20.address}
+                        />
+                      );
+                    }
+                  )}
               </div>
             )}
             {activeTab === 2 && (
               <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4">
                 {selectedBlueprint.data.erc721Data.length > 0 &&
-                  selectedBlueprint.data.erc721Data.map((erc721) => {
-                    return (
-                      <ERC721Card
-                        key={erc721.id}
-                        id={erc721.id}
-                        name={erc721.name}
-                        uri={erc721.uri}
-                        address={erc721.address}
-                      />
-                    );
-                  })}
+                  selectedBlueprint.data.erc721Data.map(
+                    (erc721: {
+                      id: number;
+                      name: string;
+                      uri: string;
+                      address: string;
+                    }) => {
+                      return (
+                        <ERC721Card
+                          key={erc721.id}
+                          id={erc721.id}
+                          name={erc721.name}
+                          uri={erc721.uri}
+                          address={erc721.address}
+                        />
+                      );
+                    }
+                  )}
               </div>
             )}
             {activeTab === 3 && (
               <div className="grid grid-cols-1 gap-4 place-items-center sm:grid-cols-2 sm:gap-2 sm:gap-y-4">
                 {selectedBlueprint.data.erc1155Data.length > 0 &&
-                  selectedBlueprint.data.erc1155Data.map((erc1155) => {
-                    return (
-                      <ERC1155Card
-                        key={erc1155.id}
-                        id={erc1155.id}
-                        name={erc1155.name}
-                        uri={erc1155.uri}
-                        amount={erc1155.amount}
-                        address={erc1155.address}
-                      />
-                    );
-                  })}
+                  selectedBlueprint.data.erc1155Data.map(
+                    (erc1155: {
+                      id: number;
+                      name: string;
+                      uri: string;
+                      amount: number;
+                      address: string;
+                    }) => {
+                      return (
+                        <ERC1155Card
+                          key={erc1155.id}
+                          id={erc1155.id}
+                          name={erc1155.name}
+                          uri={erc1155.uri}
+                          amount={erc1155.amount}
+                          address={erc1155.address}
+                        />
+                      );
+                    }
+                  )}
               </div>
             )}
           </div>

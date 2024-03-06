@@ -5,12 +5,12 @@ import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 
 import Button from '../../components/Button';
-import { selectedBlueprintAtom } from '../../jotai/atoms';
+import { blueprintSelectionState } from '../../jotai/atoms';
 
 const MintBlueprintPage = () => {
   const naviage = useNavigate();
 
-  const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
+  const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
     useState<string>('');
