@@ -75,11 +75,12 @@ export default function BlueprintInfoCard({ onClick }: Props) {
     if (event.target.files && event.target.files.length > 0) {
       const fileName = event.target.files[0].name;
       setFileText(fileName);
+      setImageSrc(blueprintInfoImage);
     }
   };
 
   const handleClick = () => {
-    const hiddenFileInput = document.getElementById("hiddenFileInput");
+    const hiddenFileInput = document.getElementById("fimeName");
     if (hiddenFileInput instanceof HTMLElement) {
       hiddenFileInput.click();
     }
@@ -98,9 +99,18 @@ export default function BlueprintInfoCard({ onClick }: Props) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageSrc(reader.result as string);
+        setFileText("");
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const triggerFileInputClick = () => {
+    const fileInputElement = document.getElementById("hiddenFileInput");
+    if (fileInputElement) {
+      fileInputElement.click();
+    }
+
   };
 
   return (
@@ -121,14 +131,35 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           )}
         </button>
       </div>
-      <img src={blueprintInfoImage} />
-      <div>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
+      {/* <img src={blueprintInfoImage} /> */}
+      <div className="flex flex-col gap-0 justify-center">
+        {/* <input type="file" accept="image/*" onChange={handleImageChange} /> */}
+        <button
+          onClick={triggerFileInputClick}
+          className={`flex justify-center z-0 ${
+            !editable || buttonEnable ? "hidden" : "-mb-20 mt-[48px]"
+          }`}
+          disabled={!editable || buttonEnable} // You can adjust the disabling condition according to your requirements
+        >
+          <Icon
+            icon="line-md:cloud-upload-loop"
+            className="text-[#939393] w-8 h-8"
+          />
+        </button>
+
+        {/* The actual file input, hidden from view */}
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleImageChange}
+          style={{ display: "none" }}
+          id="hiddenFileInput"
+        />
         {imageSrc && (
           <img
             src={imageSrc}
             alt="Uploaded"
-            style={{ maxWidth: "100%", height: "auto" }}
+            style={{ maxWidth: "100%", height: "140px" }}
           />
         )}
       </div>
@@ -169,9 +200,10 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           </div>
           <div className="flex justify-between">
             <input
+              // id="fimeName"
               type="text"
               value={fileText}
-              disabled={!editable || !uriChecked}
+              disabled={!editable || !uriChecked || buttonEnable}
               onChange={handleFileNameChange}
               className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-l-lg
             ${
@@ -188,8 +220,9 @@ export default function BlueprintInfoCard({ onClick }: Props) {
               <Icon icon="icomoon-free:upload" className="text-[#939393]" />
             </button>
             <input
-              id="hiddenFileInput"
-              type="file"
+              id="fimeName"
+              // type="file"
+              // disabled={!editable || !mintPriceChecked || buttonEnable}
               onChange={handleFileChange}
               style={{ display: "none" }} // Hide the file input
             />
