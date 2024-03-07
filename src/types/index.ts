@@ -76,7 +76,7 @@ export type SelectedOwnBlueprint = {
   id: number;
   name: string;
   uri: string;
-  creator: string;
+  address: string;
   balance: number;
   blueprintAddress: string;
   myBlueprint: boolean;
