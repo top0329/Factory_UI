@@ -55,7 +55,6 @@ export const Carousel = ({
     [activeItem, data.length, setActiveItem]
   );
 
-
   useEffect(() => {
     autoPlay &&
       setTimeout(() => {
@@ -106,19 +105,22 @@ export const Carousel = ({
             <img
               src={item.image}
               width="100%"
-              className={`max-h-32 min-w-[240px] image rounded-xl sm:max-h-56 sm:min-w-[380px] md:max-h-60 md:min-w-[400px] ${size === 'normal' ? 'image-normal' : 'image-large'
-                }`}
+              className={`max-h-32 min-w-[240px] image rounded-xl xs:max-h-44 sm:max-h-56 sm:min-w-[380px] md:max-h-60 md:min-w-[400px] ${
+                size === 'normal' ? 'image-normal' : 'image-large'
+              }`}
             />
             {item.headerText && (
               <p
-                className={`header-text ${headerTextType === 'white'
+                className={`header-text ${
+                  headerTextType === 'white'
                     ? 'header-text-white'
                     : 'header-text-black'
-                  }
-               ${size === 'normal'
-                    ? 'header-text-normal-size'
-                    : ' header-text-large-size'
-                  }
+                }
+               ${
+                 size === 'normal'
+                   ? 'header-text-normal-size'
+                   : ' header-text-large-size'
+               }
               `}
               >
                 {item.headerText}
@@ -126,12 +128,14 @@ export const Carousel = ({
             )}
             {item.subText && (
               <p
-                className={`sub-text ${subTextType === 'white' ? 'sub-text-white' : 'sub-text-black'
-                  }
-                 ${size === 'normal'
-                    ? 'sub-text-normal-size'
-                    : 'sub-text-large-size'
-                  }`}
+                className={`sub-text ${
+                  subTextType === 'white' ? 'sub-text-white' : 'sub-text-black'
+                }
+                 ${
+                   size === 'normal'
+                     ? 'sub-text-normal-size'
+                     : 'sub-text-large-size'
+                 }`}
               >
                 {item.subText}
               </p>
@@ -171,7 +175,7 @@ export const Carousel = ({
               </div>
             )}
           </div>
-        )
+        );
       })}
     </div>
   );

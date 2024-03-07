@@ -66,7 +66,7 @@ const MintBlueprintPage = () => {
             <div className="flex flex-col justify-between items-start gap-2 font-mono sm:flex-row sm:items-center">
               <p className="text-light-gray">Creator</p>
               <div className="relative flex items-center gap-1">
-                <Icon className="w-6 h-6 sm:w-4 sm:h-5" icon="logos:ethereum" />
+                <Icon className="w-6 h-6 xs:w-4 xs:h-5" icon="logos:ethereum" />
                 <a
                   className="underline text-base break-all"
                   href={`https://sepolia.etherscan.io/address/${selectedBlueprint.creator}`}
@@ -75,7 +75,7 @@ const MintBlueprintPage = () => {
                   {selectedBlueprint.creator}
                 </a>
                 <Icon
-                  className="w-6 h-6 cursor-pointer sm:w-4 sm:h-4"
+                  className="w-6 h-6 cursor-pointer xs:w-4 xs:h-4"
                   icon="solar:copy-outline"
                   onClick={handleCopyButtonClicked}
                 />

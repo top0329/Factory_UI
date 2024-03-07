@@ -53,7 +53,7 @@ const AddComponentModal = () => {
 
   return (
     <div
-      className={`absolute left-0 top-0 flex h-full min-h-screen w-full items-center justify-center px-4 py-5 ${
+      className={`fixed right-0 bottom-0 top-0 left-0 z-30 flex h-full min-h-screen w-full items-center justify-center px-4 py-5 ${
         isAddComponentModalOpen ? 'block' : 'hidden'
       }`}
     >
@@ -63,9 +63,9 @@ const AddComponentModal = () => {
       ></div>
       <div
         ref={modal}
-        className="z-30 w-full max-w-[600px] rounded-3xl bg-[#040a0f] text-white pt-4 pb-6 text-center sm:py-12 sm:rounded-[48px] md:py-[40px]"
+        className="z-30 w-full max-w-[400px] rounded-3xl bg-[#040a0f] text-white pt-4 pb-6 text-center sm:w-[560px] sm:py-8 sm:rounded-[48px] md:py-[40px] sm:max-w-[600px]"
       >
-        <h3 className="pb-4 text-base font-semibold text-white px-4 sm:pb-10 sm:text-2xl sm:px-8 md:px-[60px]">
+        <h3 className="pb-4 text-lg font-semibold text-white px-4 sm:pb-8 sm:text-2xl sm:px-8 md:px-[60px]">
           Add Component to Your Blueprint
         </h3>
         <div className="z-40 overflow-x-hidden overflow-y-auto flex justify-center items-center">
@@ -73,13 +73,13 @@ const AddComponentModal = () => {
             data={CarouselData}
             rightItem={
               <Icon
-                className="bg-default rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
+                className="rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
                 icon="ep:arrow-right-bold"
               />
             }
             leftItem={
               <Icon
-                className="bg-default rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
+                className="rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
                 icon="ep:arrow-left-bold"
               />
             }
@@ -87,10 +87,10 @@ const AddComponentModal = () => {
           />
         </div>
         <div
-          className={`flex flex-col gap-5 py-8 px-4 text-base md:text-lg justify-center sm:px-[70px]`}
+          className={`flex flex-col gap-3 py-8 px-6 text-base md:text-lg justify-center sm:px-[70px] xs:px-10 xs:gap-5`}
         >
-          <div className="grid grid-cols-4">
-            <p className="items-center col-span-1 flex text-light-gray">
+          <div className="grid grid-cols-4 gap-2">
+            <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
               Address
             </p>
             <input
@@ -102,7 +102,9 @@ const AddComponentModal = () => {
           </div>
           {activeItem !== 0 && (
             <div className="grid grid-cols-4">
-              <p className="items-center col-span-1 flex text-light-gray">ID</p>
+              <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
+                ID
+              </p>
               <input
                 id="address"
                 name="address"
@@ -113,7 +115,9 @@ const AddComponentModal = () => {
           )}
           {activeItem !== 1 && (
             <div className="items-center grid grid-cols-4">
-              <p className="col-span-1 flex text-light-gray">Amount</p>
+              <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
+                Amount
+              </p>
               <input
                 id="address"
                 name="address"
@@ -123,15 +127,15 @@ const AddComponentModal = () => {
             </div>
           )}
         </div>
-        <div className="flex justify-center items-center gap-6 px-8 sm:gap-16 md:gap-28 md:px-[70px]">
+        <div className="flex justify-center items-center gap-6 px-8 xs:gap-16 sm:gap-28 md:px-[70px]">
           <Button
-            className="flex justify-center !w-32"
+            className="flex justify-center !w-32 text-sm xs:text-base"
             text="Cancel"
             variant="secondary"
             onClick={() => setIsAddComponentModalOpen(false)}
           />
           <Button
-            className="flex justify-center !w-32"
+            className="flex justify-center !w-32 text-sm xs:text-base"
             text="Add"
             variant="primary"
           />
