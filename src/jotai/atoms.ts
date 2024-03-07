@@ -54,7 +54,7 @@ export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
   id: 0,
   name: "",
   uri: "",
-  address: "",
+  creator: "",
   balance: 0,
   blueprintAddress: "",
   myBlueprint: false,
