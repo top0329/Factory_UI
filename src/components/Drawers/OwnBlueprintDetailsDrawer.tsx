@@ -149,26 +149,22 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px] xs:top-[224px]"></div>
           <div className="bg-[#011018] py-6 px-6 h-80 md:h-[252px] md:px-8">
-            <div className="flex flex-col-reverse justify-between items-center gap-4 md:flex-row md:justify-beteen">
-              <div className="flex justify-start w-full gap-16">
-                <div className="flex flex-col items-start text-white gap-2">
-                  <p className="text-light-gray text-sm">Blueprint ID</p>
-                  <p>{selectedOwnBlueprint.id}</p>
-                </div>
-                <div className="flex flex-col items-start text-white gap-2">
-                  <p className="text-light-gray text-sm">Balance</p>
-                  <p>{selectedOwnBlueprint.balance}</p>
-                </div>
+            <div className="flex justify-between items-center w-full">
+              <div className="flex flex-col items-start text-white gap-2">
+                <p className="truncate text-light-gray text-sm">Blueprint ID</p>
+                <p>{selectedOwnBlueprint.id}</p>
               </div>
-              <div className="flex justify-end gap-8 w-full mb-2 md:gap-3">
-                <Button
-                  className="truncate text-base !py-1 !px-2"
-                  text="Mint Product"
-                  variant="outline"
-                  icon={<Icon className="w-6 h-6" icon="clarity:deploy-line" />}
-                  onClick={handleMintProductButtonClicked}
-                />
+              <div className="flex flex-col items-start text-white gap-2">
+                <p className="truncate text-light-gray text-sm">Balance</p>
+                <p>{selectedOwnBlueprint.balance}</p>
               </div>
+              <Button
+                className="truncate text-base rounded-full h-9 !py-1 !px-2 !gap-1"
+                text="Mint Product"
+                variant="outline"
+                icon={<Icon className="w-6 h-6" icon="clarity:deploy-line" />}
+                onClick={handleMintProductButtonClicked}
+              />
             </div>
             <div className="flex justify-start items-start mt-5 md:justify-between">
               <div className="flex flex-col items-start text-white gap-2">
