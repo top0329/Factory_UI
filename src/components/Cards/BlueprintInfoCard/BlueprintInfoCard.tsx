@@ -1,6 +1,9 @@
-import { useState } from "react";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import blueprintInfoImage from "../../../assets/images/blueprint.png";
+import { useState } from 'react';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import blueprintInfoImage from '../../../assets/images/blueprint.png';
+import { useAtom } from 'jotai';
+import { createBlueprintAtom } from '../../../jotai/atoms';
+
 interface CustomCheckboxProps {
   editable: boolean;
   checked: boolean;
@@ -22,30 +25,37 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
       checked={checked}
       onChange={onChange}
       style={{
-        WebkitAppearance: "none",
-        MozAppearance: "none",
-        appearance: "none",
-        border: "1px solid #858584",
-        borderRadius: "2px",
-        backgroundColor: checked ? "#011018" : "transparent", // Change the background color when checked/unchecked
+        WebkitAppearance: 'none',
+        MozAppearance: 'none',
+        appearance: 'none',
+        border: '1px solid #858584',
+        borderRadius: '2px',
+        backgroundColor: checked ? '#011018' : 'transparent', // Change the background color when checked/unchecked
         backgroundImage: checked
           ? `url('data:image/svg+xml;base64,${CheckboxIcon}')`
-          : "",
-        backgroundPosition: "center",
-        backgroundSize: "98%",
-        width: "14px",
-        height: "14px",
-        cursor: !editable ? "pointer" : "not-allowed", // Change the cursor based on the editable state
+          : '',
+        backgroundPosition: 'center',
+        backgroundSize: '98%',
+        width: '14px',
+        height: '14px',
+        cursor: !editable ? 'pointer' : 'not-allowed', // Change the cursor based on the editable state
       }}
     />
   );
 }
 export default function BlueprintInfoCard({ onClick }: Props) {
+  const [, setCreateInfo] = useAtom(createBlueprintAtom);
   const [editable, setEditable] = useState(false);
   const [uriChecked, setUriChecked] = useState(false);
   const [mintPriceChecked, setMintPriceChecked] = useState(false);
   const [mintLimitChecked, setMintLimitChecked] = useState(false);
   const [buttonEnable, setButtonEnable] = useState(false);
+  const [fileText, setFileText] = useState('');
+
+  const [name, setName] = useState('');
+  const [totalSupply, setTotalSupply] = useState<number | ''>('');
+  const [mintPrice, setMintPrice] = useState<number | ''>('');
+  const [mintPriceLimit, setMintPriceLimit] = useState<number | ''>('');
 
   const handleEditable = () => {
     setEditable(true);
@@ -67,8 +77,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
     setButtonEnable(true);
   };
 
-  const [fileText, setFileText] = useState("");
-
   const handleFileChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
@@ -80,7 +88,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
   };
 
   const handleClick = () => {
-    const hiddenFileInput = document.getElementById("fimeName");
+    const hiddenFileInput = document.getElementById('fimeName');
     if (hiddenFileInput instanceof HTMLElement) {
       hiddenFileInput.click();
     }
@@ -99,25 +107,24 @@ export default function BlueprintInfoCard({ onClick }: Props) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageSrc(reader.result as string);
-        setFileText("");
+        setFileText('');
       };
       reader.readAsDataURL(file);
     }
   };
 
   const triggerFileInputClick = () => {
-    const fileInputElement = document.getElementById("hiddenFileInput");
+    const fileInputElement = document.getElementById('hiddenFileInput');
     if (fileInputElement) {
       fileInputElement.click();
     }
-
   };
 
   return (
     <div className="flex flex-col  w-full rounded-3xl bg-[#011018] border border-[#858584]/30 gap-y-1 pt-[13px] pb-[30px] ">
       <div className="flex justify-between items-center  text-[#AEAEAE] pl-[24px] pr-[12px]">
         <p className="lg:md:sm:text-2xl xs:text-lg truncate">Blueprint Info</p>
-        <button onClick={handleEditable} className="my-[4px]">
+        {/* <button onClick={handleEditable} className="my-[4px]">
           {editable ? (
             buttonEnable ? (
               <Icon icon="line-md:confirm-circle-twotone" className="w-6 h-6" />
@@ -129,15 +136,27 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           ) : (
             <Icon icon="basil:edit-outline" className="w-6 h-6" />
           )}
+        </button> */}
+        <button
+          onClick={editable ? handleButtonEnable : handleEditable}
+          className="my-[4px]"
+        >
+          {editable ? (
+            buttonEnable ? (
+              <Icon icon="line-md:confirm-circle-twotone" className="w-6 h-6" />
+            ) : (
+              <Icon icon="fa6-regular:circle-check" className="w-6 h-6" />
+            )
+          ) : (
+            <Icon icon="basil:edit-outline" className="w-6 h-6" />
+          )}
         </button>
       </div>
-      {/* <img src={blueprintInfoImage} /> */}
       <div className="flex flex-col gap-0 justify-center">
-        {/* <input type="file" accept="image/*" onChange={handleImageChange} /> */}
         <button
           onClick={triggerFileInputClick}
           className={`flex justify-center z-0 ${
-            !editable || buttonEnable ? "hidden" : "-mb-20 mt-[48px]"
+            !editable || buttonEnable ? 'hidden' : '-mb-20 mt-[48px]'
           }`}
           disabled={!editable || buttonEnable} // You can adjust the disabling condition according to your requirements
         >
@@ -146,20 +165,18 @@ export default function BlueprintInfoCard({ onClick }: Props) {
             className="text-[#939393] w-8 h-8"
           />
         </button>
-
-        {/* The actual file input, hidden from view */}
         <input
           type="file"
           accept="image/*"
           onChange={handleImageChange}
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
           id="hiddenFileInput"
         />
         {imageSrc && (
           <img
             src={imageSrc}
             alt="Uploaded"
-            style={{ maxWidth: "100%", height: "140px" }}
+            style={{ maxWidth: '100%', height: '140px' }}
           />
         )}
       </div>
@@ -168,24 +185,42 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           <p className="text-xs text-[#858584]">Name</p>
           <input
             disabled={!editable || buttonEnable}
+            value={name}
             className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
             ${
               editable
-                ? "bg-[#03070F] border-[#8B8B8B]"
-                : "bg-[#010B10] border-[#191313]"
+                ? 'bg-[#03070F] border-[#8B8B8B]'
+                : 'bg-[#010B10] border-[#191313]'
             }`}
+            onChange={(event) => {
+              const newName = event.target.value;
+              setCreateInfo((prevCreateInfo) => ({
+                ...prevCreateInfo,
+                name: newName,
+              }));
+              setName(newName);
+            }}
           />
         </div>
         <div className="flex flex-col w-full gap-y-1">
           <p className="text-xs text-[#858584]">Total Supply</p>
           <input
-            type="input"
+            type="number"
             disabled={!editable || buttonEnable}
+            value={totalSupply}
+            onChange={(event) => {
+              const newSupplyNumber = Number(event.target.value);
+              setCreateInfo((prevCreateInfo) => ({
+                ...prevCreateInfo,
+                totalSupply: newSupplyNumber,
+              }));
+              setTotalSupply(newSupplyNumber);
+            }}
             className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
             ${
               editable
-                ? "bg-[#03070F] border-[#8B8B8B]"
-                : "bg-[#010B10] border-[#191313]"
+                ? 'bg-[#03070F] border-[#8B8B8B]'
+                : 'bg-[#010B10] border-[#191313]'
             }`}
           />
         </div>
@@ -200,31 +235,39 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           </div>
           <div className="flex justify-between">
             <input
-              // id="fimeName"
               type="text"
               value={fileText}
               disabled={!editable || !uriChecked || buttonEnable}
-              onChange={handleFileNameChange}
+              onChange={(event) => {
+                handleFileNameChange;
+                const newUri = event.target.value;
+                setCreateInfo((prevCreateInfo) => ({
+                  ...prevCreateInfo,
+                  uri: newUri,
+                }));
+                setFileText(newUri)
+              }}
+              // onChange={handleFileNameChange}
               className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-l-lg
             ${
               editable && uriChecked
-                ? "bg-[#03070F] border-[#8B8B8B]"
-                : "bg-[#010B10] border-[#191313]"
+                ? 'bg-[#03070F] border-[#8B8B8B]'
+                : 'bg-[#010B10] border-[#191313]'
             }`}
             />
             <button
               onClick={handleClick}
-              disabled={!editable || buttonEnable}
+              disabled={!editable || !uriChecked || buttonEnable}
               className="px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg"
             >
               <Icon icon="icomoon-free:upload" className="text-[#939393]" />
             </button>
             <input
               id="fimeName"
-              // type="file"
+              type="file"
               // disabled={!editable || !mintPriceChecked || buttonEnable}
               onChange={handleFileChange}
-              style={{ display: "none" }} // Hide the file input
+              style={{ display: 'none' }} // Hide the file input
             />
           </div>
         </div>
@@ -239,26 +282,43 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           </div>
           <div className="flex justify-center">
             <input
-              type="input"
+              type="number"
               disabled={!editable || !mintPriceChecked || buttonEnable}
+              value={mintPrice}
+              // value={createInfo.mintPrice}
+              onChange={(event) => {
+                const newMintPrice = Number(event.target.value);
+                setCreateInfo((prevCreateInfo) => ({
+                  ...prevCreateInfo,
+                  mintPrice: newMintPrice,
+                }));
+                setMintPrice(newMintPrice);
+              }}
               className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg
             ${
               editable && mintPriceChecked
-                ? "bg-[#03070F] border-[#8B8B8B]"
-                : "bg-[#010B10] border-[#191313]"
+                ? 'bg-[#03070F] border-[#8B8B8B]'
+                : 'bg-[#010B10] border-[#191313]'
             }`}
             />
             <select
               disabled={!editable || !mintPriceChecked || buttonEnable}
+              onChange={(event) => {
+                const newMintPriceUnit = Number(event.target.value);
+                setCreateInfo((prevCreateInfo) => ({
+                  ...prevCreateInfo,
+                  mintPriceUnit: newMintPriceUnit,
+                }));
+              }}
               className="!bg-[#4A4A4A]/20 rounded-r-lg text-center text-[11px] w-[50px] "
             >
-              <option value="ETH" className="!bg-[#4A4A4A]">
+              <option value={0} className="!bg-[#4A4A4A]">
                 ETH
               </option>
-              <option value="USDT" className="!bg-[#4A4A4A]">
+              <option value={1} className="!bg-[#4A4A4A]">
                 USDT
               </option>
-              <option value="USDC" className="!bg-[#4A4A4A]">
+              <option value={2} className="!bg-[#4A4A4A]">
                 USDC
               </option>
             </select>
@@ -274,24 +334,47 @@ export default function BlueprintInfoCard({ onClick }: Props) {
             <p className="text-xs text-[#858584]">Mint Limit</p>
           </div>
           <input
-            type="input"
+            type="number"
             disabled={!editable || !mintLimitChecked || buttonEnable}
+            value={mintPriceLimit}
+            onChange={(event) => {
+              const newMintPriceLimit = Number(event.target.value);
+              setCreateInfo((prevCreateInfo) => ({
+                ...prevCreateInfo,
+                mintLimit: newMintPriceLimit,
+              }));
+              setMintPriceLimit(newMintPriceLimit);
+            }}
             className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
             ${
               editable && mintLimitChecked
-                ? "bg-[#03070F] border-[#8B8B8B]"
-                : "bg-[#010B10] border-[#191313]"
+                ? 'bg-[#03070F] border-[#8B8B8B]'
+                : 'bg-[#010B10] border-[#191313]'
             }`}
           />
         </div>
         <div className="flex justify-between !text-cente w-full gap-4">
           <button
-            disabled={!editable || buttonEnable}
+            id="cancelButton"
+            disabled={!editable || !buttonEnable}
+            onClick={() => {
+              setEditable(false);
+              setButtonEnable(false);
+              setName('');
+              setTotalSupply('');
+              // setUri('');
+              setMintPrice('');
+              setMintPriceLimit('');
+              setFileText('');
+              setUriChecked(false);
+              setMintPriceChecked(false);
+              setMintLimitChecked(false);
+            }}
             className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
             ${
               editable && buttonEnable
-                ? "bg-[#353535] text-white"
-                : "bg-[#1F2937] text-[#718096]"
+                ? 'bg-[#353535] text-white'
+                : 'bg-[#1F2937] text-[#718096]'
             }`}
           >
             Cancel
@@ -302,8 +385,8 @@ export default function BlueprintInfoCard({ onClick }: Props) {
             className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
             ${
               editable && buttonEnable
-                ? "bg-primary text-white"
-                : "bg-[#1F2937] text-[#718096]"
+                ? 'bg-primary text-white'
+                : 'bg-[#1F2937] text-[#718096]'
             }`}
           >
             Create
