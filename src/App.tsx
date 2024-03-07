@@ -1,4 +1,3 @@
-// import BlueprintInfoCard from "./components/Cards/BlueprintInfoCard/BlueprintInfoCard";
 import { Web3Provider } from "./contexts/web3Context";
 import CoreRoutes from "./routes";
 // import 'dotenv/config';

@@ -98,37 +98,6 @@ const OwnBlueprintCard: FC<Props> = ({
           <div id="id_supply" className="relative w-full hidden sm:block">
             <div id="address" className="text-white">
               <p className="text-xs font-mono text-[#858584]">Creator</p>
-              {/* <div id="id_supply" className="flex justify-between text-white">
-                <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
-                  <Icon
-                    icon="logos:ethereum"
-                    className="hidden md:block item-center my-auto"
-                  />
-                  <p className="">
-                    {address.substring(0, 7)}...{address.slice(-5)}
-                  </p>
-                </div>
-                <button
-                  data-copy-to-clipboard-target="npm-install-copy-button"
-                  data-tooltip-target="tooltip-copy-npm-install-copy-button"
-                >
-                  <Icon
-                    icon="solar:copy-outline"
-                    className="item-center my-auto"
-                  />
-                </button>
-                <div
-                  id="tooltip-copy-npm-install-copy-button"
-                  role="tooltip"
-                  className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
-                >
-                  <span id="default-tooltip-message">Copy to clipboard</span>
-                  <span id="success-tooltip-message" className="hidden">
-                    Copied!
-                  </span>
-                  <div className="tooltip-arrow" data-popper-arrow></div>
-                </div>
-              </div> */}
               <div id="id_supply" className="flex justify-between text-white">
                 {/* Other content */}
                 <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
