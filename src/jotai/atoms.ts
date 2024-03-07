@@ -45,12 +45,14 @@ export const selectedBlueprintAtom = atom<SelectedBlueprint>({
     ],
   },
 });
+
 export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
   id: 0,
   name: "",
   uri: "",
   creator: "",
   balance: 0,
+  blueprintAddress: "",
   myBlueprint: false,
   data: {
     erc20Data: [
@@ -80,6 +82,7 @@ export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
     ],
   },
 });
+
 const localStorageEffect = (key: string) => (atomWithStorage: any) => {
   const getInitialValue = () => {
     const item = localStorage.getItem(key);
@@ -100,6 +103,10 @@ const localStorageEffect = (key: string) => (atomWithStorage: any) => {
 
 export const blueprintSelectionState = localStorageEffect('selected-blueprint')(
   selectedBlueprintAtom
+);
+
+export const ownBlueprintSelectionState = localStorageEffect('selected-own-blueprint')(
+  selectedOwnBlueprintAtom
 );
 
 export const isCreatorModeAtom = atom<boolean>(false);

@@ -5,7 +5,7 @@ import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
-import { WindowSize } from '../../types';
+import { SelectedBlueprint, WindowSize } from '../../types';
 import {
   blueprintSelectionState,
   isCreatorModeAtom,
@@ -27,8 +27,10 @@ const BlueprintDetailDrawer: FC<Props> = ({
 }) => {
   const navigate = useNavigate();
 
-  const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
-  const [, setBlueprintSelectionState] = useAtom(blueprintSelectionState);
+  const [selectedBlueprint] = useAtom<SelectedBlueprint>(selectedBlueprintAtom);
+  const [, setBlueprintSelectionState] = useAtom<SelectedBlueprint>(
+    blueprintSelectionState
+  );
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
   const [activeTab, setActiveTab] = useState<number>(1);
@@ -57,6 +59,12 @@ const BlueprintDetailDrawer: FC<Props> = ({
     // Remove event listener on cleanup
     return () => window.removeEventListener('resize', handleResize);
   }, []); // Empty array ensures that effect is only run on mount and unmount
+
+  const handleMintBlueprintButtonClicked = () => {
+    navigate(`/blueprint/mint/${selectedBlueprint.id}`);
+    sideDrawerClosedHandler();
+    setBlueprintSelectionState(selectedBlueprint);
+  };
 
   const handleTabClick = (id: number) => {
     setActiveTab(id);
@@ -164,11 +172,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 <Button
                   className="truncate text-base !py-1 !px-2"
                   text="Mint Blueprint"
-                  onClick={() => {
-                    navigate(`/blueprint/mint/${selectedBlueprint.id}`);
-                    sideDrawerClosedHandler();
-                    setBlueprintSelectionState(selectedBlueprint);
-                  }}
+                  onClick={handleMintBlueprintButtonClicked}
                   variant="outline"
                 />
               </div>

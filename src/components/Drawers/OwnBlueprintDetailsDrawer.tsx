@@ -1,9 +1,18 @@
 import { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useAtom } from 'jotai';
+import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
-import { WindowSize } from '../../types';
+import { SelectedOwnBlueprint, WindowSize } from '../../types';
+import {
+  ownBlueprintSelectionState,
+  selectedOwnBlueprintAtom,
+} from '../../jotai/atoms';
+import ERC20Card from '../Cards/ComponentCard/ERC20Card';
+import ERC721Card from '../Cards/ComponentCard/ERC721Card';
+import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -14,7 +23,20 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }) => {
+  const navigate = useNavigate();
+
+  const [selectedOwnBlueprint] = useAtom<SelectedOwnBlueprint>(
+    selectedOwnBlueprintAtom
+  );
+  const [, setBlueprintSelectionState] = useAtom<SelectedOwnBlueprint>(
+    ownBlueprintSelectionState
+  );
+
   const [activeTab, setActiveTab] = useState<number>(1);
+  const [isCreatorAddressCopied, setIsCreatorAddressCopied] =
+    useState<boolean>(false);
+  const [isBlueprintAddressCopied, setIsBlueprintAddressCopied] =
+    useState<boolean>(false);
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: undefined,
     height: undefined,
@@ -40,8 +62,38 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
     return () => window.removeEventListener('resize', handleResize);
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
+  const handleMintProductButtonClicked = () => {
+    navigate(`/product/mint/${selectedOwnBlueprint.id}`);
+    sideDrawerClosedHandler();
+    setBlueprintSelectionState(selectedOwnBlueprint);
+  };
+
   const handleTabClick = (id: number) => {
     setActiveTab(id);
+  };
+
+  const handleCopyCreatorAddressButtonClicked = (address: string) => {
+    try {
+      setIsCreatorAddressCopied(true);
+      copy(address);
+      setTimeout(() => {
+        setIsCreatorAddressCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.log('failed to copy', err);
+    }
+  };
+
+  const handleCopyBlueprintAddressButtonClicked = (address: string) => {
+    try {
+      setIsBlueprintAddressCopied(true);
+      copy(address);
+      setTimeout(() => {
+        setIsBlueprintAddressCopied(false);
+      }, 2000);
+    } catch (err) {
+      console.log('failed to copy', err);
+    }
   };
 
   const sideDrawerClosedHandler = () => {
@@ -51,6 +103,13 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
 
     // Unsets Background Scrolling to use when SideDrawer/Modal is closed
     document.body.style.overflow = 'unset';
+  };
+
+  const shortenAddress = (addr: string) => {
+    if (!addr || addr.length <= 12) return addr;
+    const start = addr.slice(0, 12); // Keep the starting characters
+    const end = addr.slice(-10); // Keep the last characters
+    return `${start}...${end}`; // Combine with the ellipsis
   };
 
   return (
@@ -81,24 +140,24 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             Blueprint
           </div>
           <img
-            className="min-h-[235px] object-cover md:min-h-[435px]"
-            src="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp"
+            className="max-h-[235px] object-cover md:max-h-[435px] xs:max-h-[335px]"
+            src={selectedOwnBlueprint.uri}
             alt="drawer"
           />
           <p className="z-30 absolute top-[192px] left-6 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px]">
-            Iron Sword
+            {selectedOwnBlueprint.name}
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
-          <div className="bg-[#011018] py-6 px-6 h-80 md:h-[272px] md:px-8">
+          <div className="bg-[#011018] py-6 px-6 h-80 md:h-[252px] md:px-8">
             <div className="flex flex-col-reverse justify-between items-center gap-4 md:flex-row md:justify-beteen">
               <div className="flex justify-start w-full gap-16">
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="text-light-gray text-sm">Blueprint ID</p>
-                  <p>346</p>
+                  <p>{selectedOwnBlueprint.id}</p>
                 </div>
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="text-light-gray text-sm">Balance</p>
-                  <p>10000</p>
+                  <p>{selectedOwnBlueprint.balance}</p>
                 </div>
               </div>
               <div className="flex justify-end gap-8 w-full mb-2 md:gap-3">
@@ -107,40 +166,77 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                   text="Mint Product"
                   variant="outline"
                   icon={<Icon className="w-6 h-6" icon="clarity:deploy-line" />}
+                  onClick={handleMintProductButtonClicked}
                 />
               </div>
             </div>
             <div className="flex justify-start items-start mt-5 md:justify-between">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Creator</p>
-                <div className="flex items-center gap-1">
+                <div className="relative flex items-center gap-1">
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
-                  <Link className="underline text-base" to={'#'}>
+                  <a
+                    className="underline text-base"
+                    href={`https://sepolia.etherscan.io/address/${selectedOwnBlueprint.creator}`}
+                    target="_blank"
+                  >
                     {windowSize.width !== undefined && windowSize.width > 472
-                      ? '0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'
-                      : '0x48C281DB38...85A235d8fc'}
-                  </Link>
+                      ? `${selectedOwnBlueprint.creator}`
+                      : `${shortenAddress(selectedOwnBlueprint.creator)}`}
+                  </a>
                   <Icon
                     className="w-4 h-4 cursor-pointer"
                     icon="solar:copy-outline"
+                    onClick={() =>
+                      handleCopyCreatorAddressButtonClicked(
+                        selectedOwnBlueprint.creator
+                      )
+                    }
                   />
+                  {isCreatorAddressCopied && (
+                    <div
+                      className="absolute -bottom-12 right-0 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                      style={{ transition: 'opacity 0.3s' }}
+                    >
+                      Copied!
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
             <div className="flex justify-start items-start mt-5 md:justify-between">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Address</p>
-                <div className="flex items-center gap-1">
+                <div className="relative flex items-center gap-1">
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
-                  <Link className="underline text-base" to={'#'}>
+                  <a
+                    className="underline text-base"
+                    href={`https://sepolia.etherscan.io/address/${selectedOwnBlueprint.blueprintAddress}`}
+                    target="_blank"
+                  >
                     {windowSize.width !== undefined && windowSize.width > 472
-                      ? '0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'
-                      : '0x48C281DB38...85A235d8fc'}
-                  </Link>
+                      ? `${selectedOwnBlueprint.blueprintAddress}`
+                      : `${shortenAddress(
+                          selectedOwnBlueprint.blueprintAddress
+                        )}`}
+                  </a>
                   <Icon
                     className="w-4 h-4 cursor-pointer"
                     icon="solar:copy-outline"
+                    onClick={() =>
+                      handleCopyBlueprintAddressButtonClicked(
+                        selectedOwnBlueprint.blueprintAddress
+                      )
+                    }
                   />
+                  {isBlueprintAddressCopied && (
+                    <div
+                      className="absolute -bottom-12 right-0 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                      style={{ transition: 'opacity 0.3s' }}
+                    >
+                      Copied!
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -163,7 +259,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium me-2 px-2.5 rounded-xl opacity-90`}
                 >
-                  2
+                  {selectedOwnBlueprint.data.erc20Data.length}
                 </p>
               </button>
               <button
@@ -182,7 +278,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium me-2 px-2.5 rounded-xl opacity-90`}
                 >
-                  0
+                  {selectedOwnBlueprint.data.erc721Data.length}
                 </p>
               </button>
               <button
@@ -201,7 +297,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium me-2 px-2.5 rounded-xl opacity-90`}
                 >
-                  2
+                  {selectedOwnBlueprint.data.erc1155Data.length}
                 </p>
               </button>
             </div>
@@ -209,22 +305,76 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
           <div className="px-12 py-10 h-auto">
             {activeTab === 1 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
-                {/* <ERC20Card imageUrl={Copper} /> */}
-                {/* <ERC20Card imageUrl={Iron} />
-                <ERC20Card imageUrl={Wood} /> */}
+                {selectedOwnBlueprint.data.erc20Data.length > 0 &&
+                  selectedOwnBlueprint.data.erc20Data.map(
+                    (
+                      erc20: {
+                        name: string;
+                        uri: string;
+                        amount: number;
+                        address: string;
+                      },
+                      idx: React.Key | null | undefined
+                    ) => {
+                      return (
+                        <ERC20Card
+                          key={idx}
+                          name={erc20.name}
+                          uri={erc20.uri}
+                          amount={erc20.amount}
+                          address={erc20.address}
+                        />
+                      );
+                    }
+                  )}
               </div>
             )}
             {activeTab === 2 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
-                {/* <ERC721Card imageUrl={Key} /> */}
+                {selectedOwnBlueprint.data.erc721Data.length > 0 &&
+                  selectedOwnBlueprint.data.erc721Data.map(
+                    (erc721: {
+                      id: number;
+                      name: string;
+                      uri: string;
+                      address: string;
+                    }) => {
+                      return (
+                        <ERC721Card
+                          key={erc721.id}
+                          id={erc721.id}
+                          name={erc721.name}
+                          uri={erc721.uri}
+                          address={erc721.address}
+                        />
+                      );
+                    }
+                  )}
               </div>
             )}
             {activeTab === 3 && (
               <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
-                {/* <ERC1155Card imageUrl={Axe} />
-                <ERC1155Card imageUrl={Picaxe} /> */}
-                {/* <ERC1155Card imageUrl={IronSheild} />
-                <ERC1155Card imageUrl={WoodSheild} /> */}
+                {selectedOwnBlueprint.data.erc1155Data.length > 0 &&
+                  selectedOwnBlueprint.data.erc1155Data.map(
+                    (erc1155: {
+                      id: number;
+                      name: string;
+                      uri: string;
+                      amount: number;
+                      address: string;
+                    }) => {
+                      return (
+                        <ERC1155Card
+                          key={erc1155.id}
+                          id={erc1155.id}
+                          name={erc1155.name}
+                          uri={erc1155.uri}
+                          amount={erc1155.amount}
+                          address={erc1155.address}
+                        />
+                      );
+                    }
+                  )}
               </div>
             )}
           </div>
