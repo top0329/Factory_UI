@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "C": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
@@ -12,11 +12,9 @@
     "build-storybook": "storybook build"
   },
   "dependencies": {
-    "@emotion/react": "^11.11.3",
     "@glidejs/glide": "^3.6.0",
     "@rainbow-me/rainbowkit": "^2.0.1",
     "@tailwindcss/forms": "^0.5.7",
-    "@tanstack/react-query": "^5.24.1",
     "copy-to-clipboard": "^3.3.3",
     "dotenv": "^16.4.4",
     "ethers": "^6.11.0",
@@ -25,13 +23,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.0",
+    "viem": "^2.7.20",
     "wagmi": "^2.5.7",
     "web3": "^4.5.0"
   },
   "devDependencies": {
     "@iconify/react": "^4.1.1",
-    "@metamask/detect-provider": "^2.0.0",
-    "@metamask/providers": "^14.0.2",
     "@storybook/addon-essentials": "^7.6.16",
     "@storybook/addon-interactions": "^7.6.16",
     "@storybook/addon-links": "^7.6.16",

@@ -1,4 +1,5 @@
-import { Contract } from 'ethers';
+import { Contract, ContractRunner } from 'ethers';
+import { Address } from 'viem';
 
 export interface IButtonClass {
   name: string;
@@ -17,8 +18,13 @@ export type CarouselModel = {
 };
 
 export type Web3ContextType = {
+  account?: Address;
+  chainId?: number;
+  isConnected?: boolean;
+  library?: ContractRunner;
   factoryContract: Contract;
   blueprintContract: Contract;
+  productContract: Contract;
 };
 
 export type BlueprintTuple = [

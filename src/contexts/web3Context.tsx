@@ -1,59 +1,107 @@
-import { createContext, useEffect, useState, useCallback } from 'react';
-import { ethers, Contract } from 'ethers';
-// import 'dotenv/config';
+import {
+  createContext,
+  useEffect,
+  useState,
+  useCallback,
+  useMemo,
+} from 'react';
+import { ethers, Contract, ContractRunner } from 'ethers';
+import { useAccount, useChainId } from 'wagmi';
 
+import { Web3ContextType } from '../types';
 import FactoryABI from '../abi/FactoryABI.json';
 import BlueprintABI from '../abi/BlueprintABI.json';
-import { Web3ContextType } from '../types';
+import ProductABI from '../abi/ProductABI.json';
+import { useEthersProvider, useEthersSigner } from '../utils/wagmi-ethers';
+import {
+  defaultRPC,
+  factoryAddress,
+  blueprintAddress,
+  productAddress,
+} from '../constants';
 
 const Web3Context = createContext<Web3ContextType | null>(null);
 
 export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
+  const { address, isConnected } = useAccount();
+  const chainId = useChainId();
+  const signer = useEthersSigner();
+  const provider = useEthersProvider();
+
   const [factoryContract, setFactoryContract] = useState<Contract>(
     {} as Contract
   );
   const [blueprintContract, setBlueprintContract] = useState<Contract>(
     {} as Contract
   );
+  const [productContract, setProductContract] = useState<Contract>(
+    {} as Contract
+  );
 
-  const factoryContractAddress =
-    '0x9709251b4ed6DcbDE95eD1ebADEc1C641b45687E'.toLocaleLowerCase();
-  const blueprintContractAddress =
-    '0xCf72b7659DD7ee7C8c651166721D64120ECF50aa'.toLocaleLowerCase();
+  const value = useMemo(
+    () => ({
+      account: address,
+      chainId,
+      isConnected,
+      library: provider ?? signer,
+      factoryContract,
+      blueprintContract,
+      productContract,
+    }),
+    [
+      address,
+      chainId,
+      isConnected,
+      provider,
+      signer,
+      factoryContract,
+      blueprintContract,
+      productContract,
+    ]
+  );
 
   const init = useCallback(async () => {
-    const provider = new ethers.JsonRpcProvider(
-      'https://ethereum-sepolia-rpc.publicnode.com'
-    );
-
     try {
-      const _factoryContract = new ethers.Contract(
-        factoryContractAddress,
-        FactoryABI,
-        provider
-      ) as Contract;
+      let _provider: ContractRunner;
 
-      const _blueprintContract = new ethers.Contract(
-        blueprintContractAddress,
+      if (!isConnected || !provider) {
+        const defaultProvider = new ethers.JsonRpcProvider(defaultRPC);
+        _provider = defaultProvider;
+        console.log('Not connected wallet');
+      } else {
+        _provider = provider;
+        console.log('Connected wallet');
+      }
+
+      const _factoryContract: Contract = new ethers.Contract(
+        factoryAddress,
+        FactoryABI,
+        _provider
+      );
+      const _blueprintContract: Contract = new ethers.Contract(
+        blueprintAddress,
         BlueprintABI,
-        provider
-      ) as Contract;
+        _provider
+      );
+      const _productContract: Contract = new ethers.Contract(
+        productAddress,
+        ProductABI,
+        _provider
+      );
+
       setFactoryContract(_factoryContract);
       setBlueprintContract(_blueprintContract);
+      setProductContract(_productContract);
     } catch (err) {
       console.log(err);
     }
-  }, [factoryContractAddress, blueprintContractAddress]);
+  }, [isConnected, provider]);
 
   useEffect(() => {
     init();
   }, [init]);
 
-  return (
-    <Web3Context.Provider value={{ factoryContract, blueprintContract }}>
-      {children}
-    </Web3Context.Provider>
-  );
+  return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;
 };
 
 export default Web3Context;
