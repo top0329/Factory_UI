@@ -11,7 +11,7 @@ const NewBlueprintPage = () => {
           Available Component: <span>7</span>
         </h3>
       </div>
-      <div className="grid grid-cols-4 pt-8 pb-16 gap-3">
+      <div className="grid grid-cols-4 pt-6 pb-16 gap-6">
         <div className="col-span-1">
           <BlueprintInfoCard />
         </div>

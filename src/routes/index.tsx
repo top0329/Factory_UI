@@ -69,7 +69,7 @@ const CommonRoutes = {
               element: <ProductPage />,
             },
             {
-              path: 'mint',
+              path: 'mint/:id',
               element: <MintProductPage />,
             },
           ],

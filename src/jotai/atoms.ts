@@ -49,12 +49,14 @@ export const selectedBlueprintAtom = atom<SelectedBlueprint>({
     ],
   },
 });
+
 export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
   id: 0,
   name: "",
   uri: "",
   address: "",
   balance: 0,
+  blueprintAddress: "",
   myBlueprint: false,
   data: {
     erc20Data: [
@@ -84,6 +86,7 @@ export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
     ],
   },
 });
+
 const localStorageEffect = (key: string) => (atomWithStorage: any) => {
   const getInitialValue = () => {
     const item = localStorage.getItem(key);
