@@ -18,9 +18,7 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
   return (
     <input
       type="checkbox"
-      disabled={true}
-      // checked={checked}
-      
+      checked={checked}
       onChange={onChange}
       style={{
         WebkitAppearance: "none",
@@ -42,27 +40,21 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
   );
 }
 const MintProductPage = () => {
-  const naviage = useNavigate();
+  const navigate = useNavigate();
+  const [maxChecked, setMaxChecked] = useState(false);
 
   const [selectedOwnBlueprint] = useAtom(ownBlueprintSelectionState);
 
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
     useState<string>("");
-  // const [isApproved, setIsApproved] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Allow only integer values
     const newValue = event.target.value;
-    // Check if the input value is either empty or an integer
     if (newValue === "" || /^\d+$/.test(newValue)) {
       setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
     }
   };
-
-  // const handleApproveClick = () => {
-  //   setIsApproved(true);
-  // };
 
   const handleCopyButtonClicked = () => {
     try {
@@ -76,7 +68,10 @@ const MintProductPage = () => {
     }
   };
 
-  const fillMaxAmount = () => {};
+  const fillMaxAmount = () => {
+    setMaxChecked(!maxChecked);
+    setBlueprintMintAmountValue(selectedOwnBlueprint.balance);
+  };
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-10">
       <div className="relative rounded-3xl bg-[#011018] w-full pb-6 sm:w-[614px] sm:bg-[#011018] border-2 border-[#1f1f1f]">
@@ -125,12 +120,17 @@ const MintProductPage = () => {
                 <input
                   id="blueprint-mint-amount"
                   name="blueprint-mint-amount"
-                  className="inline h-8 rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
+                  className="inline h-8 w-36 rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
                   onChange={handleInputChange}
                   value={blueprintMintAmountValue}
                 />
-                <CustomCheckbox checked={true} onChange={fillMaxAmount} />
-                {/* <p>Max Amount</p> */}
+                <div className="flex items-center gap-2">
+                  <CustomCheckbox
+                    checked={maxChecked}
+                    onChange={fillMaxAmount}
+                  />
+                  <p className="truncate">Max Amount</p>
+                </div>
               </div>
             </div>
             <div className="flex justify-between pl-[45px] pr-[60px] items-center gap-8 pt-10 xs:gap-4 sm:pt-6">
@@ -138,32 +138,13 @@ const MintProductPage = () => {
                 className="flex justify-center !w-[160px] !h-9 rounded-xl"
                 text="Cancel"
                 variant="secondary"
-                onClick={() => naviage("/blueprint")}
+                onClick={() => navigate("/product")}
               />
-              {/* {selectedOwnBlueprint.mintPriceUnit === 0 ? ( */}
               <Button
                 className="flex justify-center truncate !w-[175px] h-9 rounded-xl"
                 text="Approve Blueprint"
                 variant="primary"
               />
-              {/* ) : (
-                <React.Fragment>
-                  {isApproved ? (
-                    <Button
-                      className="truncate !px-3 h-9 "
-                      text="Approve Blueprint"
-                      variant="primary"
-                    />
-                  ) : (
-                    <Button
-                      className="truncate !px-8 h-9"
-                      text="Approve"
-                      variant="primary"
-                      onClick={handleApproveClick}
-                    />
-                  )}
-                </React.Fragment>
-              )} */}
             </div>
           </div>
         </div>
