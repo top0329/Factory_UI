@@ -33,32 +33,34 @@ const ERC721Card: FC<Props> = ({ id, name, uri, address, icon = false }) => {
   };
 
   return (
-    <div className="group relative w-full min-w-[120px] h-[250px] overflow-hidden bg-[#040a0f] border border-black rounded-3xl sm:h-[290px] sm:min-w-[220px]">
-      <div
-        id="badge"
-        className="absolute -right-10 top-[10px] w-[150px] h-[24px] bg-[#099ef5] text-white text-center text-base rotate-[38.86deg] py-auto pl-[12px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)] sm:h-[30px] sm:text-lg sm:-right-8 sm:top-[17px]"
-      >
-        ERC721
-      </div>
-      <img
-        className={`z-20 flex justify-center items-center w-full h-44 rounded-t-3xl object-cover ${
-          icon && 'transition duration-300 ease-in-out group-hover:blur-sm'
-        }`}
-        src={uri}
-        alt="erc-20"
-      />
-      {icon && (
-        <div className="absolute inset-0 w-full h-44 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:flex">
-          <Icon
-            className="bg-blue-200 w-10 h-10 text-blue-800 text-base font-medium me-2 p-0.5 rounded opacity-90 cursor-pointer"
-            icon="mynaui:edit-one"
-          />
-          <Icon
-            className="bg-blue-200 w-10 h-10 text-blue-800 text-base font-medium me-2 p-0.5 rounded opacity-90 cursor-pointer"
-            icon="heroicons:trash"
-          />
+    <div className="relative w-full min-w-[120px] h-[250px] overflow-hidden bg-[#040a0f] border border-black rounded-3xl sm:h-[290px] sm:min-w-[220px]">
+      <div className="group relative">
+        <div
+          id="badge"
+          className="absolute -right-10 top-[10px] w-[150px] h-[24px] bg-[#099ef5] text-white text-center text-base rotate-[38.86deg] py-auto pl-[12px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)] sm:h-[30px] sm:text-lg sm:-right-8 sm:top-[17px]"
+        >
+          ERC721
         </div>
-      )}
+        <img
+          className={`z-20 flex justify-center items-center w-full h-44 rounded-t-3xl object-cover ${
+            icon && 'transition duration-300 ease-in-out group-hover:blur-sm'
+          }`}
+          src={uri}
+          alt="erc-20"
+        />
+        {icon && (
+          <div className="absolute inset-0 w-full h-44 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:flex">
+            <Icon
+              className="bg-blue-200 w-10 h-10 text-blue-800 text-base font-medium me-2 p-0.5 rounded opacity-90 cursor-pointer"
+              icon="mynaui:edit-one"
+            />
+            <Icon
+              className="bg-blue-200 w-10 h-10 text-blue-800 text-base font-medium me-2 p-0.5 rounded opacity-90 cursor-pointer"
+              icon="heroicons:trash"
+            />
+          </div>
+        )}
+      </div>
       <div className="z-10 absolute top-[164px] bg-gradient-to-t from-[#040a0f] via-[#040a0f] to-transparent w-full h-[20px]"></div>
       <div className="z-20 absolute top-[172px] left-0 bg-gradient-to-r from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
       <div className="z-20 absolute top-[172px] right-0 rounded-l-3xl bg-gradient-to-l from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
