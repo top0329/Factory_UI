@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Icon } from "@iconify/react/dist/iconify.js";
 
 export interface Props {
@@ -20,6 +20,15 @@ const OwnBlueprintCard: FC<Props> = ({
   myBlueprint,
   onClick,
 }) => {
+  const [tooltipMessage, setTooltipMessage] = useState("Copy to clipboard");
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(address).then(() => {
+      setTooltipMessage("Copied!"); // Update tooltip message on success
+      setTimeout(() => {
+        setTooltipMessage("Copy to clipboard"); // Reset tooltip message after delay
+      }, 2000); // Duration before resetting the tooltip message
+    });
+  };
   return (
     <div
       id="container"
@@ -89,7 +98,7 @@ const OwnBlueprintCard: FC<Props> = ({
           <div id="id_supply" className="relative w-full hidden sm:block">
             <div id="address" className="text-white">
               <p className="text-xs font-mono text-[#858584]">Creator</p>
-              <div id="id_supply" className="flex justify-between text-white">
+              {/* <div id="id_supply" className="flex justify-between text-white">
                 <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
                   <Icon
                     icon="logos:ethereum"
@@ -98,17 +107,64 @@ const OwnBlueprintCard: FC<Props> = ({
                   <p className="">
                     {address.substring(0, 7)}...{address.slice(-5)}
                   </p>
-
-                  {/* <p className="sm:block lg:hidden">
-                    {address.substring(0, 5)}...{address.slice(-3)}
-                  </p> */}
                 </div>
-                <button>
+                <button
+                  data-copy-to-clipboard-target="npm-install-copy-button"
+                  data-tooltip-target="tooltip-copy-npm-install-copy-button"
+                >
                   <Icon
                     icon="solar:copy-outline"
                     className="item-center my-auto"
                   />
                 </button>
+                <div
+                  id="tooltip-copy-npm-install-copy-button"
+                  role="tooltip"
+                  className="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700"
+                >
+                  <span id="default-tooltip-message">Copy to clipboard</span>
+                  <span id="success-tooltip-message" className="hidden">
+                    Copied!
+                  </span>
+                  <div className="tooltip-arrow" data-popper-arrow></div>
+                </div>
+              </div> */}
+              <div id="id_supply" className="flex justify-between text-white">
+                {/* Other content */}
+                <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
+                  <Icon
+                    icon="logos:ethereum"
+                    className="hidden md:block item-center my-auto"
+                  />
+                  <p>
+                    {address.substring(0, 7)}...{address.slice(-5)}
+                  </p>
+                </div>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (copyToClipboard) {
+                      copyToClipboard();
+                    }
+                  }}
+                >
+                  <Icon
+                    icon="solar:copy-outline"
+                    className="item-center my-auto"
+                  />
+                </button>
+                <div
+                  role="tooltip"
+                  className={`absolute z-10 inline-block right-0 bottom-7 px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm ${
+                    tooltipMessage === "Copied!"
+                      ? "opacity-100"
+                      : "invisible opacity-0"
+                  }`}
+                >
+                  {tooltipMessage}
+                  <div className="tooltip-arrow" data-popper-arrow></div>
+                </div>
+                {/* Other content */}
               </div>
             </div>
           </div>

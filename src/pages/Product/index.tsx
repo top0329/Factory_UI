@@ -53,19 +53,6 @@ const ProductPage = () => {
         <BlueprintInfoCard />
         {/* <BlueprintInfoCard /> */}
         {/* <BlueprintInfoCard /> */}
-        {/* <div className="flex justify-center">
-          <BlueprintCard
-            blueprintId={95}
-            mintLimit={10000}
-            mintUnit={2}
-            mintPrice={0.001}
-            totalSupply={100000000}
-            name="Gold Coins"
-            myBlueprint={true}
-            uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp"
-            onClick={showSidebar}
-          />
-        </div> */}
       </div>
       <OwnBlueprintDetailsDrawer
         isDrawerOpen={isDrawerOpen}
