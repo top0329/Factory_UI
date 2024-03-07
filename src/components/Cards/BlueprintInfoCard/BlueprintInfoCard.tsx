@@ -6,6 +6,10 @@ interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface Props {
+  onClick?: () => void;
+}
 const CheckboxIcon = btoa(
   '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="white" d="M20.292 6.708a1 1 0 0 0-1.414-1.414l-10.334 10.333-4.25-4.25a1 1 0 1 0-1.415 1.414l5 5a1 1 0 0 0 1.415 0L20.292 6.708z"/></svg>'
 );
@@ -36,7 +40,7 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
     />
   );
 }
-export default function BlueprintInfoCard() {
+export default function BlueprintInfoCard({ onClick }: Props) {
   const [editable, setEditable] = useState(false);
   const [uriChecked, setUriChecked] = useState(false);
   const [mintPriceChecked, setMintPriceChecked] = useState(false);
@@ -85,6 +89,20 @@ export default function BlueprintInfoCard() {
   ) => {
     setFileText(event.target.value); // Update the fileText state with the input value
   };
+
+  const [imageSrc, setImageSrc] = useState<string>(blueprintInfoImage);
+
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <div className="flex flex-col  w-full rounded-3xl bg-[#011018] border border-[#858584]/30 gap-y-1 pt-[13px] pb-[30px] ">
       <div className="flex justify-between items-center  text-[#AEAEAE] pl-[24px] pr-[12px]">
@@ -104,6 +122,16 @@ export default function BlueprintInfoCard() {
         </button>
       </div>
       <img src={blueprintInfoImage} />
+      <div>
+        <input type="file" accept="image/*" onChange={handleImageChange} />
+        {imageSrc && (
+          <img
+            src={imageSrc}
+            alt="Uploaded"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
+        )}
+      </div>
       <div className="flex flex-col items-center lg:px-[16px] px-[10px] gap-2 ">
         <div className="flex flex-col w-full gap-y-1 ">
           <p className="text-xs text-[#858584]">Name</p>
@@ -236,6 +264,7 @@ export default function BlueprintInfoCard() {
             Cancel
           </button>
           <button
+            onClick={onClick}
             disabled={!editable || !buttonEnable}
             className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
             ${

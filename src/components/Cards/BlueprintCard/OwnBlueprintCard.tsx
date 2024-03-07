@@ -155,7 +155,7 @@ const OwnBlueprintCard: FC<Props> = ({
                 </button>
                 <div
                   role="tooltip"
-                  className={`absolute z-10 inline-block right-0 bottom-7 px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm ${
+                  className={`absolute z-10 inline-block right-0 bottom-7 px-3 py-2 text-sm text-white transition-opacity duration-300 bg-gray-700 rounded-lg shadow-sm ${
                     tooltipMessage === "Copied!"
                       ? "opacity-100"
                       : "invisible opacity-0"
