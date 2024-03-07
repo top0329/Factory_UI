@@ -9,7 +9,7 @@ const ComponentButton: FC = () => {
 
   return (
     <button
-      className="z-10 flex justify-center items-center bg-secondary w-auto h-44 rounded-3xl"
+      className="z-10 flex justify-center items-center bg-secondary min-w-[120px] h-[250px] overflow-hidden rounded-3xl sm:h-[290px] sm:min-w-[220px]"
       onClick={() => setIsAddComponentModalOpen(true)}
     >
       <Icon

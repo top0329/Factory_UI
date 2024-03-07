@@ -87,7 +87,7 @@ const BlueprintCard: FC<Props> = ({
               Name
             </p>
             <div className="sm:flex sm:justify-between grid w-full items-center py-[3px]">
-              <p className=" truncate text-sm md:text-base lg:text-lg font-mono">
+              <p className="truncate text-sm md:text-base lg:text-lg font-mono">
                 {name}
               </p>
               <p

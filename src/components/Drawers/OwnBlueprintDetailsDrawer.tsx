@@ -144,10 +144,10 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             src={selectedOwnBlueprint.uri}
             alt="drawer"
           />
-          <p className="z-30 absolute top-[192px] left-6 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px]">
+          <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px] xs:top-[292px]">
             {selectedOwnBlueprint.name}
           </p>
-          <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px]"></div>
+          <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px] xs:top-[224px]"></div>
           <div className="bg-[#011018] py-6 px-6 h-80 md:h-[252px] md:px-8">
             <div className="flex flex-col-reverse justify-between items-center gap-4 md:flex-row md:justify-beteen">
               <div className="flex justify-start w-full gap-16">
@@ -257,7 +257,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                     activeTab === 1
                       ? 'bg-light-gray text-white'
                       : 'bg-secondary text-light-gray'
-                  } font-medium me-2 px-2.5 rounded-xl opacity-90`}
+                  } font-medium px-2.5 rounded-xl opacity-90`}
                 >
                   {selectedOwnBlueprint.data.erc20Data.length}
                 </p>
@@ -276,7 +276,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                     activeTab === 2
                       ? 'bg-light-gray text-white'
                       : 'bg-secondary text-light-gray'
-                  } font-medium me-2 px-2.5 rounded-xl opacity-90`}
+                  } font-medium px-2.5 rounded-xl opacity-90`}
                 >
                   {selectedOwnBlueprint.data.erc721Data.length}
                 </p>
@@ -295,16 +295,16 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                     activeTab === 3
                       ? 'bg-light-gray text-white'
                       : 'bg-secondary text-light-gray'
-                  } font-medium me-2 px-2.5 rounded-xl opacity-90`}
+                  } font-medium px-2.5 rounded-xl opacity-90`}
                 >
                   {selectedOwnBlueprint.data.erc1155Data.length}
                 </p>
               </button>
             </div>
           </div>
-          <div className="px-12 py-10 h-auto">
+          <div className="px-4 py-10 h-auto md:px-12 xs:px-8">
             {activeTab === 1 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
+              <div className="grid grid-cols-2 gap-4 place-items-center">
                 {selectedOwnBlueprint.data.erc20Data.length > 0 &&
                   selectedOwnBlueprint.data.erc20Data.map(
                     (
@@ -330,7 +330,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
               </div>
             )}
             {activeTab === 2 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
+              <div className="grid grid-cols-2 gap-4 place-items-center">
                 {selectedOwnBlueprint.data.erc721Data.length > 0 &&
                   selectedOwnBlueprint.data.erc721Data.map(
                     (erc721: {
@@ -353,7 +353,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
               </div>
             )}
             {activeTab === 3 && (
-              <div className="grid grid-cols-1 gap-4 place-items-center md:grid-cols-2 md:gap-2 md:gap-y-4">
+              <div className="grid grid-cols-2 gap-4 place-items-center">
                 {selectedOwnBlueprint.data.erc1155Data.length > 0 &&
                   selectedOwnBlueprint.data.erc1155Data.map(
                     (erc1155: {
