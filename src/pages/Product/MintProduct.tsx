@@ -101,8 +101,8 @@ const MintProductPage = () => {
             <div className="grid grid-cols-2 items-start gap-2 font-mono sm:flex-row sm:items-center">
               <p className="text-light-gray">Address</p>
               <div className="relative flex justify-start items-center gap-1">
-                {selectedOwnBlueprint.address.substring(0, 7)}...
-                {selectedOwnBlueprint.address.slice(-5)}
+                {selectedOwnBlueprint.creator.substring(0, 7)}...
+                {selectedOwnBlueprint.creator.slice(-5)}
                 {/* {selectedOwnBlueprint.creator} */}
                 <Icon
                   className="w-6 h-6 cursor-pointer sm:w-4 sm:h-4"
@@ -141,11 +141,11 @@ const MintProductPage = () => {
                 onClick={() => naviage("/blueprint")}
               />
               {/* {selectedOwnBlueprint.mintPriceUnit === 0 ? ( */}
-                <Button
-                  className="flex justify-center truncate !w-[175px] h-9 rounded-xl"
-                  text="Approve Blueprint"
-                  variant="primary"
-                />
+              <Button
+                className="flex justify-center truncate !w-[175px] h-9 rounded-xl"
+                text="Approve Blueprint"
+                variant="primary"
+              />
               {/* ) : (
                 <React.Fragment>
                   {isApproved ? (
