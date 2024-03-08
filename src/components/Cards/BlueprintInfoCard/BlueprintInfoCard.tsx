@@ -58,15 +58,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
   const [mintPrice, setMintPrice] = useState<number | ''>('');
   const [mintPriceLimit, setMintPriceLimit] = useState<number | ''>('');
 
-  // const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const value = event.target.id; // Use the 'id' or another attribute that distinguishes the radio buttons
-  //   if (value === 'default-radio-1') {
-  //     setFileText(''); // For "Files" radio button
-  //   } else if (value === 'default-radio-2') {
-  //     setFileText('IPFS://'); // For "IPFS" radio button
-  //   }
-  //   console.log('--------------->radio butn');
-  // };
   const handleRadioClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.id; // Use currentTarget when dealing with mouse events
     if (value === 'default-radio-1') {
@@ -154,18 +145,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
         </button>
       </div>
       <div className="flex flex-col gap-0 justify-center">
-        {/* <button
-          onClick={triggerFileInputClick}
-          className={`flex justify-center z-0 ${
-            !editable || buttonEnable ? 'hidden' : '-mb-20 mt-[48px]'
-          }`}
-          disabled={!editable || buttonEnable} // You can adjust the disabling condition according to your requirements
-        >
-          <Icon
-            icon="line-md:cloud-upload-loop"
-            className="text-[#939393] w-8 h-8"
-          />
-        </button> */}
         <input
           type="file"
           accept="image/*"
@@ -185,7 +164,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
         <div className="flex flex-col w-full gap-y-1 ">
           <p className="text-xs text-[#858584]">Name</p>
           <input
-            disabled={!editable || buttonEnable}
+            disabled={!editable}
             value={name}
             className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
             ${
@@ -207,7 +186,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           <p className="text-xs text-[#858584]">Total Supply</p>
           <input
             type="number"
-            disabled={!editable || buttonEnable}
+            disabled={!editable}
             value={totalSupply}
             onChange={(event) => {
               const newSupplyNumber = Number(event.target.value);
@@ -229,7 +208,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           <div className="flex justify-between items-center gap-2">
             <div className="flex items-center gap-2">
               <CustomCheckbox
-                editable={!editable || buttonEnable}
+                editable={!editable}
                 checked={uriChecked}
                 onChange={handleUriCheckedChange}
               />
@@ -246,7 +225,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                     type="radio"
                     name="default-radio"
                     onChange={handleRadioClick}
-                    disabled={buttonEnable}
                     className="w-4 h-4 !text-black !bg-gray-100 !border-gray-300 !focus:ring-black"
                   />
                   <label className="ms-1 text-xs font-medium text-[#858584]">
@@ -258,7 +236,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                     id="default-radio-2"
                     // defaultChecked={fileText === 'IPFS://'}
                     checked={isIPFSSelected}
-                    disabled={buttonEnable}
                     type="radio"
                     onChange={handleRadioClick}
                     className="w-4 h-4 "
@@ -318,7 +295,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
         <div className="flex flex-col w-full gap-y-1">
           <div className="flex justify-start items-center gap-2">
             <CustomCheckbox
-              editable={!editable || buttonEnable} // Or false, depending on whether you want the checkbox to be editable
+              editable={!editable} // Or false, depending on whether you want the checkbox to be editable
               checked={mintPriceChecked}
               onChange={handleMintPriceChecked}
             />
@@ -327,9 +304,8 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           <div className="flex justify-center">
             <input
               type="text"
-              disabled={!editable || !mintPriceChecked || buttonEnable}
+              disabled={!editable || !mintPriceChecked}
               value={mintPrice}
-              // value={createInfo.mintPrice}
               onChange={(event) => {
                 const newMintPrice = Number(event.target.value);
                 setCreateInfo((prevCreateInfo) => ({
@@ -346,7 +322,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
             }`}
             />
             <select
-              disabled={!editable || !mintPriceChecked || buttonEnable}
+              disabled={!editable || !mintPriceChecked}
               onChange={(event) => {
                 const newMintPriceUnit = Number(event.target.value);
                 setCreateInfo((prevCreateInfo) => ({
@@ -375,7 +351,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
         <div className="flex flex-col w-full gap-y-1">
           <div className="flex justify-start items-center gap-2">
             <CustomCheckbox
-              editable={!editable || buttonEnable} // Or false, depending on whether you want the checkbox to be editable
+              editable={!editable} // Or false, depending on whether you want the checkbox to be editable
               checked={mintLimitChecked}
               onChange={handleMintLimitChecked}
             />
@@ -383,7 +359,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           </div>
           <input
             type="number"
-            disabled={!editable || !mintLimitChecked || buttonEnable}
+            disabled={!editable || !mintLimitChecked}
             value={mintPriceLimit}
             onChange={(event) => {
               const newMintPriceLimit = Number(event.target.value);
@@ -410,7 +386,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
               setButtonEnable(false);
               setName('');
               setTotalSupply('');
-              // setUri('');
               setMintPrice('');
               setMintPriceLimit('');
               setFileText('');
