@@ -6,6 +6,7 @@ export interface Props {
   variant?: 'primary' | 'secondary' | 'black' | 'outline';
   icon?: React.ReactNode;
   className?: string;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
@@ -14,6 +15,7 @@ const Button: FC<Props> = ({
   variant = 'primary',
   icon,
   className,
+  disabled,
   onClick,
 }) => {
   const styling: IButtonClass | undefined = buttonClasses.find((classes) => {
@@ -23,6 +25,7 @@ const Button: FC<Props> = ({
     <button
       className={`py-2 px-5 rounded-2xl flex gap-3 items-center ${styling?.style} ${className}`}
       onClick={onClick}
+      disabled={disabled}
     >
       {icon}
       {text}

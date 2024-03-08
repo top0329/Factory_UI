@@ -17,6 +17,28 @@ export type CarouselModel = {
   image: string;
 };
 
+export interface ERC20Data {
+  name: string;
+  uri: string;
+  amount: number;
+  address: string;
+}
+
+export interface ERC721Data {
+  id: number;
+  name: string;
+  uri: string;
+  address: string;
+}
+
+export interface ERC1155Data {
+  id: number;
+  name: string;
+  uri: string;
+  amount: number;
+  address: string;
+}
+
 export type Web3ContextType = {
   account?: Address;
   chainId?: number;
@@ -50,31 +72,9 @@ export type SelectedBlueprint = {
   mintedAmount: number;
   myBlueprint: boolean;
   data: {
-    erc20Data: [
-      {
-        name: string;
-        uri: string;
-        amount: number;
-        address: string;
-      }
-    ];
-    erc721Data: [
-      {
-        id: number;
-        name: string;
-        uri: string;
-        address: string;
-      }
-    ];
-    erc1155Data: [
-      {
-        id: number;
-        name: string;
-        uri: string;
-        amount: number;
-        address: string;
-      }
-    ];
+    erc20Data: ERC20Data[];
+    erc721Data: ERC721Data[];
+    erc1155Data: ERC1155Data[];
   };
 };
 
@@ -87,31 +87,9 @@ export type SelectedOwnBlueprint = {
   blueprintAddress: string;
   myBlueprint: boolean;
   data: {
-    erc20Data: [
-      {
-        name: string;
-        uri: string;
-        amount: number;
-        address: string;
-      }
-    ];
-    erc721Data: [
-      {
-        id: number;
-        name: string;
-        uri: string;
-        address: string;
-      }
-    ];
-    erc1155Data: [
-      {
-        id: number;
-        name: string;
-        uri: string;
-        amount: number;
-        address: string;
-      }
-    ];
+    erc20Data: ERC20Data[];
+    erc721Data: ERC721Data[];
+    erc1155Data: ERC1155Data[];
   };
 };
 
@@ -124,30 +102,18 @@ export type CreateBlueprint = {
   mintPriceUnit: number;
   mintLimit: number;
   data: {
-    erc20Data: [
-      {
-        name: string;
-        uri: string;
-        amount: number;
-        address: string;
-      }
-    ];
-    erc721Data: [
-      {
-        id: number;
-        name: string;
-        uri: string;
-        address: string;
-      }
-    ];
-    erc1155Data: [
-      {
-        id: number;
-        name: string;
-        uri: string;
-        amount: number;
-        address: string;
-      }
-    ];
+    erc20Data: ERC20Data[];
+    erc721Data: ERC721Data[];
+    erc1155Data: ERC1155Data[];
   };
+};
+
+export type AddComponentModalInputValue = {
+  erc20Address: string;
+  erc20Amount: number | '';
+  erc721Address: string;
+  erc721Id: number | '';
+  erc1155Address: string;
+  erc1155Id: number | '';
+  erc1155Amount: number | '';
 };
