@@ -109,15 +109,15 @@ export type CreateBlueprint = {
 };
 
 
-export interface OwnBlueprintList {
-    isDecompose?: boolean;
-    type: number;
-    subType: number;
-    uri: string;
-    name: string;
-    address: string;
-    id?: number;
-    amount?: number;
+export interface ListCardInterface {
+  isDecompose?: boolean;
+  type: number;
+  subType: number;
+  uri: string;
+  name: string;
+  address: string;
+  id?: number;
+  amount?: number;
 }
 
 export type AddComponentModalInputValue = {
