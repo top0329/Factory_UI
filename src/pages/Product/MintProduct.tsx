@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Icon } from "@iconify/react/dist/iconify.js";
-import { useAtom } from "jotai";
-import copy from "copy-to-clipboard";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { useAtom } from 'jotai';
+import copy from 'copy-to-clipboard';
 
-import Button from "../../components/Button";
-import { ownBlueprintSelectionState } from "../../jotai/atoms";
+import Button from '../../components/Button';
+import { ownBlueprintSelectionState } from '../../jotai/atoms';
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -21,20 +21,20 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
       checked={checked}
       onChange={onChange}
       style={{
-        WebkitAppearance: "none",
-        MozAppearance: "none",
-        appearance: "none",
-        border: "1px solid #858584",
-        borderRadius: "2px",
-        backgroundColor: checked ? "#011018" : "transparent", // Change the background color when checked/unchecked
+        WebkitAppearance: 'none',
+        MozAppearance: 'none',
+        appearance: 'none',
+        border: '1px solid #858584',
+        borderRadius: '2px',
+        backgroundColor: checked ? '#011018' : 'transparent', // Change the background color when checked/unchecked
         backgroundImage: checked
           ? `url('data:image/svg+xml;base64,${CheckboxIcon}')`
-          : "",
-        backgroundPosition: "center",
-        backgroundSize: "98%",
-        width: "14px",
-        height: "14px",
-        cursor: "pointer", // Change the cursor based on the editable state
+          : '',
+        backgroundPosition: 'center',
+        backgroundSize: '98%',
+        width: '14px',
+        height: '14px',
+        cursor: 'pointer', // Change the cursor based on the editable state
       }}
     />
   );
@@ -46,12 +46,12 @@ const MintProductPage = () => {
   const [selectedOwnBlueprint] = useAtom(ownBlueprintSelectionState);
 
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
-    useState<string>("");
+    useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
-    if (newValue === "" || /^\d+$/.test(newValue)) {
+    if (newValue === '' || /^\d+$/.test(newValue)) {
       setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
     }
   };
@@ -64,7 +64,7 @@ const MintProductPage = () => {
         setIsCopied(false);
       }, 2000);
     } catch (err) {
-      console.log("failed to copy", err);
+      console.log('failed to copy', err);
     }
   };
 
@@ -73,7 +73,7 @@ const MintProductPage = () => {
     setBlueprintMintAmountValue(selectedOwnBlueprint.balance);
   };
   return (
-    <div className="flex justify-center items-center py-10 text-white sm:py-10">
+    <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px]">
       <div className="relative rounded-3xl bg-[#011018] w-full pb-6 sm:w-[614px] sm:bg-[#011018] border-2 border-[#1f1f1f]">
         <header className="flex justify-start items-center pl-4 py-4 text-xl sm:text-3xl sm:justify-center">
           Approve Blueprint
@@ -88,7 +88,7 @@ const MintProductPage = () => {
           <h1 className="z-20 font-semibold text-lg mt-[-36px] pl-4 sm:text-xl">
             {selectedOwnBlueprint.name}
           </h1>
-          <div className="flex flex-col gap-3 px-8">
+          <div className="flex flex-col gap-3 px-9">
             <div className="grid grid-cols-2 gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint ID</p>
               <p className="col-span-1">{selectedOwnBlueprint.id}</p>
@@ -96,18 +96,18 @@ const MintProductPage = () => {
             <div className="grid grid-cols-2 items-start gap-2 font-mono sm:flex-row sm:items-center">
               <p className="text-light-gray">Address</p>
               <div className="relative flex justify-start items-center gap-1">
-                {selectedOwnBlueprint.creator.substring(0, 7)}...
+                {selectedOwnBlueprint.creator.substring(0, 5)}...
                 {selectedOwnBlueprint.creator.slice(-5)}
                 {/* {selectedOwnBlueprint.creator} */}
                 <Icon
-                  className="w-6 h-6 cursor-pointer sm:w-4 sm:h-4"
+                  className="w-5 h-5 cursor-pointer"
                   icon="solar:copy-outline"
                   onClick={handleCopyButtonClicked}
                 />
                 {isCopied && (
                   <div
                     className="absolute -bottom-12 right-0 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
-                    style={{ transition: "opacity 0.3s" }}
+                    style={{ transition: 'opacity 0.3s' }}
                   >
                     Copied!
                   </div>
@@ -115,12 +115,12 @@ const MintProductPage = () => {
               </div>
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
-              <p className="col-span-1 text-light-gray">Blueprint Amount</p>
-              <div className="flex items-center gap-2">
+              <p className=" text-light-gray">Blueprint Amount</p>
+              <div className="grid sm:grid-cols-2 grid-cols-1 items-center gap-2">
                 <input
                   id="blueprint-mint-amount"
                   name="blueprint-mint-amount"
-                  className="inline h-8 w-36 rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
+                  className="inline h-8 w-[110px] rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
                   onChange={handleInputChange}
                   value={blueprintMintAmountValue}
                 />
@@ -133,16 +133,16 @@ const MintProductPage = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-between pl-[45px] pr-[60px] items-center gap-8 pt-10 xs:gap-4 sm:pt-6">
+            <div className="flex justify-center sm:px-[45px] px-[50px] items-center gap-10 pt-10 xs:gap-6 sm:pt-6">
               <Button
-                className="flex justify-center !w-[160px] !h-9 rounded-xl"
+                className="flex justify-center w-[160px] !h-9 rounded-xl"
                 text="Cancel"
                 variant="secondary"
-                onClick={() => navigate("/product")}
+                onClick={() => navigate('/product')}
               />
               <Button
-                className="flex justify-center truncate !w-[175px] h-9 rounded-xl"
-                text="Approve Blueprint"
+                className="flex justify-center w-[160px] h-9 rounded-xl"
+                text="Approve"
                 variant="primary"
               />
             </div>
