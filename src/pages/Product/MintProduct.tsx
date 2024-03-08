@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 import Button from '../../components/Button';
-import OwnBlueprintListCard from '../../components/Cards/ListCard/OwnBlueprintListCard';
+import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedOwnBlueprint } from '../../types';
 
 import {
