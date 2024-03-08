@@ -108,6 +108,18 @@ export type CreateBlueprint = {
   };
 };
 
+
+export interface ListCardInterface {
+  isDecompose?: boolean;
+  type: number;
+  subType: number;
+  uri: string;
+  name: string;
+  address: string;
+  id?: number;
+  amount?: number;
+}
+
 export type AddComponentModalInputValue = {
   erc20Address: string;
   erc20Amount: number | '';
@@ -117,3 +129,4 @@ export type AddComponentModalInputValue = {
   erc1155Id: number | '';
   erc1155Amount: number | '';
 };
+

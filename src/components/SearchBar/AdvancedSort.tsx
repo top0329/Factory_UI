@@ -1,22 +1,22 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 function useWindowWidth() {
   const [width, setWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     // Cleanup the event listener on unmount
-    return () => window.removeEventListener("resize", handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   });
 
   return width;
 }
 export default function AdvancedSort() {
-  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedValue, setSelectedValue] = useState('');
   const [sortDown, setSortDown] = useState(false);
   // Inline styles for select element
   // const selectStyles = {
@@ -25,12 +25,12 @@ export default function AdvancedSort() {
 
   const windowWidth = useWindowWidth();
   const selectStyles = {
-    width: windowWidth <= 460 ? "100%" : "200px",
+    width: windowWidth <= 460 ? '100%' : '200px',
   };
   if (window.innerWidth <= 460) {
-    selectStyles.width = "91vw";
+    selectStyles.width = '91vw';
     if (window.innerWidth <= 345) {
-      selectStyles.width = "320px";
+      selectStyles.width = '320px';
     }
   }
   const handleDirection = () => {
@@ -41,7 +41,7 @@ export default function AdvancedSort() {
     <div className="relative">
       <div
         className={`${
-          selectedValue.length != 0 ? "hidden" : "block"
+          selectedValue.length != 0 ? 'hidden' : 'block'
         } pointer-events-auto absolute inset-y-0 left-0 flex items-center px-2 text-gray-700`}
       >
         <Icon
@@ -52,26 +52,27 @@ export default function AdvancedSort() {
       </div>
       <div
         className={`${
-          selectedValue.length == 0 ? "hidden" : "block"
+          selectedValue.length == 0 ? 'hidden' : 'block'
         } pointer-events-auto absolute inset-y-0 left-0 flex items-center px-2 text-gray-700`}
       >
         <Icon
           onClick={handleDirection}
           icon="bi:sort-down"
-          className={`${sortDown ? "block" : "hidden"} text-light-gray w-6 h-6`}
+          className={`${sortDown ? 'block' : 'hidden'} text-light-gray w-6 h-6`}
         />
         <Icon
           onClick={handleDirection}
           icon="bi:sort-up"
-          className={`${sortDown ? "hidden" : "block"} text-light-gray w-6 h-6`}
+          className={`${sortDown ? 'hidden' : 'block'} text-light-gray w-6 h-6`}
         />
       </div>
       <select
         style={selectStyles}
         onChange={(e) => setSelectedValue(e.target.value)}
+        value={selectedValue}
         className="appearance-none inset-y-0 left-2 bg-black border border-gray-400 hover:border-gray-500 px-8 py-2 rounded-lg shadow leading-tight focus:outline-none focus:shadow-outline text-white/30"
       >
-        <option className="pl-2" value="" disabled selected>
+        <option className="pl-2" value="" disabled>
           Sort by
         </option>
         <option value="Blueprint ID">Blueprint ID</option>

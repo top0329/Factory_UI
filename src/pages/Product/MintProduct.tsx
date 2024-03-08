@@ -3,9 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
-
 import Button from '../../components/Button';
-import { ownBlueprintSelectionState } from '../../jotai/atoms';
+import OwnBlueprintListCard from '../../components/Cards/ListCard';
+import { SelectedOwnBlueprint } from '../../types';
+
+import {
+  ownBlueprintSelectionState,
+  selectedOwnBlueprintAtom,
+} from '../../jotai/atoms';
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -40,6 +45,9 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
   );
 }
 const MintProductPage = () => {
+  const [selectedOwnData] = useAtom<SelectedOwnBlueprint>(
+    selectedOwnBlueprintAtom
+  );
   const navigate = useNavigate();
   const [maxChecked, setMaxChecked] = useState(false);
 
@@ -69,12 +77,24 @@ const MintProductPage = () => {
   };
 
   const fillMaxAmount = () => {
-    setMaxChecked(!maxChecked);
-    setBlueprintMintAmountValue(selectedOwnBlueprint.balance);
+    const newMaxChecked = !maxChecked;
+    setMaxChecked(newMaxChecked);
+    if (newMaxChecked) {
+      setBlueprintMintAmountValue(selectedOwnBlueprint.balance.toString());
+    } else {
+      setBlueprintMintAmountValue('');
+    }
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px]">
-      <div className="relative rounded-3xl bg-[#011018] w-full pb-6 sm:w-[614px] sm:bg-[#011018] border-2 border-[#1f1f1f]">
+      <div className="relative rounded-3xl bg-[#011018] w-full pb-6 sm:w-[614px] border-2 border-[#1f1f1f]">
         <header className="flex justify-start items-center pl-4 py-4 text-xl sm:text-3xl sm:justify-center">
           Approve Blueprint
         </header>
@@ -95,23 +115,25 @@ const MintProductPage = () => {
             </div>
             <div className="grid grid-cols-2 items-start gap-2 font-mono sm:flex-row sm:items-center">
               <p className="text-light-gray">Address</p>
-              <div className="relative flex justify-start items-center gap-1">
+              <div className=" flex justify-start items-center gap-1">
                 {selectedOwnBlueprint.creator.substring(0, 5)}...
                 {selectedOwnBlueprint.creator.slice(-5)}
                 {/* {selectedOwnBlueprint.creator} */}
-                <Icon
-                  className="w-5 h-5 cursor-pointer"
-                  icon="solar:copy-outline"
-                  onClick={handleCopyButtonClicked}
-                />
-                {isCopied && (
-                  <div
-                    className="absolute -bottom-12 right-0 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
-                    style={{ transition: 'opacity 0.3s' }}
-                  >
-                    Copied!
-                  </div>
-                )}
+                <div className="relative">
+                  <Icon
+                    className="w-5 h-5 cursor-pointer"
+                    icon="solar:copy-outline"
+                    onClick={handleCopyButtonClicked}
+                  />
+                  {isCopied && (
+                    <div
+                      className="absolute right-0 -top-10 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                      style={{ transition: 'opacity 0.3s' }}
+                    >
+                      Copied!
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
@@ -141,6 +163,7 @@ const MintProductPage = () => {
                 onClick={() => navigate('/product')}
               />
               <Button
+                onClick={toggleModal}
                 className="flex justify-center w-[160px] h-9 rounded-xl"
                 text="Approve"
                 variant="primary"
@@ -149,6 +172,63 @@ const MintProductPage = () => {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <div
+          id="default-modal"
+          aria-hidden="true"
+          // tabIndex={-1}
+          className="fixed top-0 z-50 flex justify-center items-center h-modal md:h-full inset-0 "
+        >
+          <div className="relative p-4 sm:w-[1000px] xs:w-[500px] w-[400px]">
+            <div className="relative bg-[#011018] border border-[#09F5D8]/20 rounded-lg shadow dark:bg-gray-700">
+              <h3 className="text-[32px] py-6 font-semibold text-center text-white">
+                Mint Product
+              </h3>
+              <div className="flex flex-col items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600">
+                {selectedOwnData.data.erc20Data.map((dataItem, index) => (
+                  <OwnBlueprintListCard
+                    key={index}
+                    {...dataItem}
+                    type={0}
+                    subType={0}
+                  />
+                ))}
+                {selectedOwnData.data.erc721Data.map((dataItem, index) => (
+                  <OwnBlueprintListCard
+                    key={index}
+                    {...dataItem}
+                    type={1}
+                    subType={0}
+                  />
+                ))}
+                {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
+                  <OwnBlueprintListCard
+                    key={index}
+                    {...dataItem}
+                    type={2}
+                    subType={0}
+                  />
+                ))}
+
+                <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">
+                  <Button
+                    className="flex justify-center w-[160px] !h-9 rounded-xl"
+                    text="Cancel"
+                    variant="secondary"
+                    onClick={toggleModal}
+                  />
+                  <Button
+                    onClick={toggleModal}
+                    className="flex justify-center w-[160px] h-9 rounded-xl"
+                    text="Mint Product"
+                    variant="primary"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
