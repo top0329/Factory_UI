@@ -1,10 +1,16 @@
+import { useAtom } from 'jotai';
+
 import ComponentButton from '../../components/Button/ComponentButton';
 import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import AddComponentModal from '../../components/Modals/AddComponentModal';
+import { createBlueprintAtom } from '../../jotai/atoms';
+import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 
 const NewBlueprintPage = () => {
+  const [createBlueprint] = useAtom(createBlueprintAtom);
+
   return (
     <div className="text-white">
       <div className="flex justify-between items-center py-3">
@@ -21,71 +27,40 @@ const NewBlueprintPage = () => {
         </div>
         <div className="w-full grid grid-cols-2 gap-4 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 xs:grid-cols-1">
           <ComponentButton />
-          <ERC20Card
-            name={'Tea Leaf'}
-            uri={
-              'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/tea_leaf_20.webp'
-            }
-            amount={1000}
-            address={'0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'}
-            icon
-          />
-          <ERC1155Card
-            id={83}
-            name={'Glass Cup'}
-            uri={
-              'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/glass_cup_1155.webp'
-            }
-            amount={1000}
-            address={'0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'}
-            icon
-          />
-          <ERC20Card
-            name={'Water'}
-            uri={
-              'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp'
-            }
-            amount={1000}
-            address={'0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'}
-            icon
-          />
-          <ERC20Card
-            name={'Water'}
-            uri={
-              'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp'
-            }
-            amount={1000}
-            address={'0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'}
-            icon
-          />
-          <ERC20Card
-            name={'Water'}
-            uri={
-              'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/water_20.webp'
-            }
-            amount={1000}
-            address={'0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'}
-            icon
-          />
-          <ERC20Card
-            name={'Suger'}
-            uri={
-              'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/suger_20.webp'
-            }
-            amount={1000}
-            address={'0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'}
-            icon
-          />
-          <ERC1155Card
-            id={82}
-            name={'Lemon'}
-            uri={
-              'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/lemon_1155.webp'
-            }
-            amount={1000}
-            address={'0x48C281DB38eAD8050bBd821d195FaE85A235d8fc'}
-            icon
-          />
+          {createBlueprint.data.erc20Data.map((erc20) => {
+            return (
+              <ERC20Card
+                name={erc20.name}
+                uri={erc20.uri}
+                amount={erc20.amount}
+                address={erc20.address}
+                icon
+              />
+            );
+          })}
+          {createBlueprint.data.erc721Data.map((erc721) => {
+            return (
+              <ERC721Card
+                id={erc721.id}
+                name={erc721.name}
+                uri={erc721.uri}
+                address={erc721.address}
+                icon
+              />
+            );
+          })}
+          {createBlueprint.data.erc1155Data.map((erc1155) => {
+            return (
+              <ERC1155Card
+                id={erc1155.id}
+                name={erc1155.name}
+                uri={erc1155.uri}
+                amount={erc1155.amount}
+                address={erc1155.address}
+                icon
+              />
+            );
+          })}
         </div>
       </div>
       <AddComponentModal />
