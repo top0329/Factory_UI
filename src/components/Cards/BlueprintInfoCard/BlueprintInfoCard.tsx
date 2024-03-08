@@ -71,16 +71,11 @@ export default function BlueprintInfoCard({ onClick }: Props) {
     const value = event.currentTarget.id; // Use currentTarget when dealing with mouse events
     if (value === 'default-radio-1') {
       setFileText(''); // For "Files" radio button
-      console.log('--------------->radio butn1');
-      // setIsIPFSSelected(true);
     } else if (value === 'default-radio-2') {
       setFileText('IPFS://'); // For "IPFS" radio button
-      console.log('--------------->radio butn2');
-      // setIsIPFSSelected(false);
       setImageSrc(blueprintInfoImage);
     }
     setIsIPFSSelected(value === 'default-radio-2');
-    // Additional conditions...
   };
   const handleEditable = () => {
     setEditable(true);
@@ -112,12 +107,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
     }
   };
 
-  // const handleClick = () => {
-  //   const hiddenFileInput = document.getElementById('fimeName');
-  //   if (hiddenFileInput instanceof HTMLElement) {
-  //     hiddenFileInput.click();
-  //   }
-  // };
   const handleFileNameChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {

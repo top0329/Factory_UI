@@ -151,3 +151,36 @@ export type CreateBlueprint = {
     ];
   };
 };
+
+export interface OwnBlueprintList {
+  // erc20: {
+    isDecompose?: boolean;
+    type: number;
+    subType: number;
+    uri: string;
+    name: string;
+    address: string;
+    id?: number;
+    amount?: number;
+  // };
+  // erc751: {
+  //   isDecompose?: boolean;
+  //   type: number;
+  //   subType: number;
+  //   uri: string;
+  //   name: string;
+  //   address: string;
+  //   id?: number;
+  //   amount?: number;
+  // };
+  // erc1155: {
+  //   isDecompose?: boolean;
+  //   type: number;
+  //   subType: number;
+  //   uri: string;
+  //   name: string;
+  //   address: string;
+  //   id?: number;
+  //   amount?: number;
+  // };
+}

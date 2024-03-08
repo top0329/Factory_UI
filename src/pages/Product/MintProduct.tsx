@@ -3,9 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
-
 import Button from '../../components/Button';
-import { ownBlueprintSelectionState } from '../../jotai/atoms';
+import OwnBlueprintListCard from '../../components/Cards/ListCard/OwnBlueprintListCard';
+import { SelectedOwnBlueprint } from '../../types';
+
+import {
+  ownBlueprintSelectionState,
+  selectedOwnBlueprintAtom,
+} from '../../jotai/atoms';
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -40,6 +45,9 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
   );
 }
 const MintProductPage = () => {
+  const [selectedOwnData] = useAtom<SelectedOwnBlueprint>(
+    selectedOwnBlueprintAtom
+  );
   const navigate = useNavigate();
   const [maxChecked, setMaxChecked] = useState(false);
 
@@ -72,9 +80,16 @@ const MintProductPage = () => {
     setMaxChecked(!maxChecked);
     setBlueprintMintAmountValue(selectedOwnBlueprint.balance);
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+  };
+
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px]">
-      <div className="relative rounded-3xl bg-[#011018] w-full pb-6 sm:w-[614px] sm:bg-[#011018] border-2 border-[#1f1f1f]">
+      <div className="relative rounded-3xl bg-[#011018] w-full pb-6 sm:w-[614px] border-2 border-[#1f1f1f]">
         <header className="flex justify-start items-center pl-4 py-4 text-xl sm:text-3xl sm:justify-center">
           Approve Blueprint
         </header>
@@ -141,6 +156,7 @@ const MintProductPage = () => {
                 onClick={() => navigate('/product')}
               />
               <Button
+                onClick={toggleModal}
                 className="flex justify-center w-[160px] h-9 rounded-xl"
                 text="Approve"
                 variant="primary"
@@ -149,6 +165,74 @@ const MintProductPage = () => {
           </div>
         </div>
       </div>
+      {isModalOpen && (
+        <div
+          id="default-modal"
+          aria-hidden="true"
+          tabIndex={-1}
+          className="overflow-y-auto  fixed top-0 z-50 flex justify-center items-center h-modal md:h-full inset-0 "
+        >
+          <div className="relative p-4 w-[1000px]">
+            <div className="relative bg-[#011018] border border-[#09F5D8]/20 rounded-lg shadow dark:bg-gray-700">
+              <div className="flex items-center justify-between p-4 border-b rounded-t dark:border-gray-600">
+                <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                  Terms of Service
+                </h3>
+                <button
+                  onClick={toggleModal}
+                  type="button"
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  data-modal-hide="default-modal"
+                >
+                  <span className="sr-only">Close modal</span>
+                  &times;
+                </button>
+              </div>
+              <div className="flex flex-col items-center p-4 border-t border-gray-200 rounded-b dark:border-gray-600">
+                {selectedOwnData.data.erc20Data.map((dataItem, index) => (
+                  <OwnBlueprintListCard
+                    key={index}
+                    {...dataItem}
+                    type={0}
+                    subType={0}
+                  />
+                ))}
+                {selectedOwnData.data.erc721Data.map((dataItem, index) => (
+                  <OwnBlueprintListCard
+                    key={index}
+                    {...dataItem}
+                    type={1}
+                    subType={0}
+                  />
+                ))}
+                {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
+                  <OwnBlueprintListCard
+                    key={index}
+                    {...dataItem}
+                    type={2}
+                    subType={0}
+                  />
+                ))}
+
+                <div className="flex justify-center sm:px-[45px] px-[50px] items-center gap-10 pt-10 xs:gap-6 sm:pt-6">
+                  <Button
+                    className="flex justify-center w-[160px] !h-9 rounded-xl"
+                    text="Cancel"
+                    variant="secondary"
+                    onClick={toggleModal}
+                  />
+                  <Button
+                    onClick={toggleModal}
+                    className="flex justify-center w-[160px] h-9 rounded-xl"
+                    text="Mint Product"
+                    variant="primary"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
