@@ -51,12 +51,37 @@ export default function BlueprintInfoCard({ onClick }: Props) {
   const [mintLimitChecked, setMintLimitChecked] = useState(false);
   const [buttonEnable, setButtonEnable] = useState(false);
   const [fileText, setFileText] = useState('');
+  const [isIPFSSelected, setIsIPFSSelected] = useState(false);
 
   const [name, setName] = useState('');
   const [totalSupply, setTotalSupply] = useState<number | ''>('');
   const [mintPrice, setMintPrice] = useState<number | ''>('');
   const [mintPriceLimit, setMintPriceLimit] = useState<number | ''>('');
 
+  // const handleRadioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   const value = event.target.id; // Use the 'id' or another attribute that distinguishes the radio buttons
+  //   if (value === 'default-radio-1') {
+  //     setFileText(''); // For "Files" radio button
+  //   } else if (value === 'default-radio-2') {
+  //     setFileText('IPFS://'); // For "IPFS" radio button
+  //   }
+  //   console.log('--------------->radio butn');
+  // };
+  const handleRadioClick = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.currentTarget.id; // Use currentTarget when dealing with mouse events
+    if (value === 'default-radio-1') {
+      setFileText(''); // For "Files" radio button
+      console.log('--------------->radio butn1');
+      // setIsIPFSSelected(true);
+    } else if (value === 'default-radio-2') {
+      setFileText('IPFS://'); // For "IPFS" radio button
+      console.log('--------------->radio butn2');
+      // setIsIPFSSelected(false);
+      setImageSrc(blueprintInfoImage);
+    }
+    setIsIPFSSelected(value === 'default-radio-2');
+    // Additional conditions...
+  };
   const handleEditable = () => {
     setEditable(true);
   };
@@ -87,12 +112,12 @@ export default function BlueprintInfoCard({ onClick }: Props) {
     }
   };
 
-  const handleClick = () => {
-    const hiddenFileInput = document.getElementById('fimeName');
-    if (hiddenFileInput instanceof HTMLElement) {
-      hiddenFileInput.click();
-    }
-  };
+  // const handleClick = () => {
+  //   const hiddenFileInput = document.getElementById('fimeName');
+  //   if (hiddenFileInput instanceof HTMLElement) {
+  //     hiddenFileInput.click();
+  //   }
+  // };
   const handleFileNameChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
@@ -121,22 +146,9 @@ export default function BlueprintInfoCard({ onClick }: Props) {
   };
 
   return (
-    <div className="flex flex-col  w-full rounded-3xl bg-[#011018] border border-[#858584]/30 gap-y-1 pt-[13px] pb-[30px] ">
-      <div className="flex justify-between items-center  text-[#AEAEAE] pl-[24px] pr-[12px]">
+    <div className="flex flex-col  w-full rounded-3xl bg-[#011018] border border-[#858584]/30 gap-y-1 pb-[30px] ">
+      <div className="flex justify-between items-center py-3 text-[#AEAEAE] pl-[24px] pr-[12px]">
         <p className="lg:md:sm:text-2xl xs:text-lg truncate">Blueprint Info</p>
-        {/* <button onClick={handleEditable} className="my-[4px]">
-          {editable ? (
-            buttonEnable ? (
-              <Icon icon="line-md:confirm-circle-twotone" className="w-6 h-6" />
-            ) : (
-              <button onClick={handleButtonEnable}>
-                <Icon icon="fa6-regular:circle-check" className="w-6 h-6" />
-              </button>
-            )
-          ) : (
-            <Icon icon="basil:edit-outline" className="w-6 h-6" />
-          )}
-        </button> */}
         <button
           onClick={editable ? handleButtonEnable : handleEditable}
           className="my-[4px]"
@@ -145,7 +157,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
             buttonEnable ? (
               <Icon icon="line-md:confirm-circle-twotone" className="w-6 h-6" />
             ) : (
-              <Icon icon="fa6-regular:circle-check" className="w-6 h-6" />
+              <Icon icon="fa6-regular:circle-check" className="w-5 h-5" />
             )
           ) : (
             <Icon icon="basil:edit-outline" className="w-6 h-6" />
@@ -153,7 +165,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
         </button>
       </div>
       <div className="flex flex-col gap-0 justify-center">
-        <button
+        {/* <button
           onClick={triggerFileInputClick}
           className={`flex justify-center z-0 ${
             !editable || buttonEnable ? 'hidden' : '-mb-20 mt-[48px]'
@@ -164,7 +176,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
             icon="line-md:cloud-upload-loop"
             className="text-[#939393] w-8 h-8"
           />
-        </button>
+        </button> */}
         <input
           type="file"
           accept="image/*"
@@ -225,19 +237,57 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           />
         </div>
         <div className="flex flex-col w-full gap-y-1">
-          <div className="flex justify-start items-center gap-2">
-            <CustomCheckbox
-              editable={!editable || buttonEnable}
-              checked={uriChecked}
-              onChange={handleUriCheckedChange}
-            />
-            <p className="text-xs text-[#858584]">URI</p>
+          <div className="flex justify-between items-center gap-2">
+            <div className="flex items-center gap-2">
+              <CustomCheckbox
+                editable={!editable || buttonEnable}
+                checked={uriChecked}
+                onChange={handleUriCheckedChange}
+              />
+              <p className="text-xs text-[#858584]">URI</p>
+            </div>
+            {uriChecked && (
+              <div className="flex gap-2">
+                <div className="flex items-center">
+                  <input
+                    id="default-radio-1"
+                    // checked={true}
+                    // defaultChecked={true}
+                    checked={!isIPFSSelected}
+                    type="radio"
+                    name="default-radio"
+                    onChange={handleRadioClick}
+                    disabled={buttonEnable}
+                    className="w-4 h-4 !text-black !bg-gray-100 !border-gray-300 !focus:ring-black"
+                  />
+                  <label className="ms-1 text-xs font-medium text-[#858584]">
+                    Files
+                  </label>
+                </div>
+                <div className="flex items-center">
+                  <input
+                    id="default-radio-2"
+                    // defaultChecked={fileText === 'IPFS://'}
+                    checked={isIPFSSelected}
+                    disabled={buttonEnable}
+                    type="radio"
+                    onChange={handleRadioClick}
+                    className="w-4 h-4 "
+                  />
+                  <label className="ms-1 text-xs font-medium text-[#858584]">
+                    IPFS
+                  </label>
+                </div>
+              </div>
+            )}
           </div>
           <div className="flex justify-between">
             <input
               type="text"
               value={fileText}
-              disabled={!editable || !uriChecked || buttonEnable}
+              disabled={
+                !editable || !uriChecked || buttonEnable || !isIPFSSelected
+              }
               onChange={(event) => {
                 handleFileNameChange;
                 const newUri = event.target.value;
@@ -245,20 +295,25 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                   ...prevCreateInfo,
                   uri: newUri,
                 }));
-                setFileText(newUri)
+                setFileText(newUri);
               }}
-              // onChange={handleFileNameChange}
-              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-l-lg
-            ${
-              editable && uriChecked
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
-            }`}
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-l-lg  
+                ${
+                  editable && uriChecked && isIPFSSelected
+                    ? 'bg-[#03070F] border-[#8B8B8B] mr-0.5'
+                    : 'bg-[#010B10] border-[#191313] '
+                }`}
             />
             <button
-              onClick={handleClick}
-              disabled={!editable || !uriChecked || buttonEnable}
-              className="px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg"
+              onClick={triggerFileInputClick}
+              disabled={
+                !editable || !uriChecked || buttonEnable || isIPFSSelected
+              }
+              className={`px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg border-[0.5px]       ${
+                editable && uriChecked && !isIPFSSelected
+                  ? 'bg-[#03070F] border-[#8B8B8B] '
+                  : 'bg-[#010B10] border-[#191313]'
+              }`}
             >
               <Icon icon="icomoon-free:upload" className="text-[#939393]" />
             </button>
@@ -282,7 +337,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           </div>
           <div className="flex justify-center">
             <input
-              type="number"
+              type="text"
               disabled={!editable || !mintPriceChecked || buttonEnable}
               value={mintPrice}
               // value={createInfo.mintPrice}
@@ -294,7 +349,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                 }));
                 setMintPrice(newMintPrice);
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg
+              className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg border-r-0 
             ${
               editable && mintPriceChecked
                 ? 'bg-[#03070F] border-[#8B8B8B]'
@@ -310,7 +365,11 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                   mintPriceUnit: newMintPriceUnit,
                 }));
               }}
-              className="!bg-[#4A4A4A]/20 rounded-r-lg text-center text-[11px] w-[50px] "
+              className={`!bg-[#4A4A4A]/20 rounded-r-lg text-center text-[11px] w-[50px] border-[0.5px] border-l-0 ${
+                editable && mintPriceChecked
+                  ? 'bg-[#03070F] border-[#8B8B8B]'
+                  : 'bg-[#010B10] border-[#191313]'
+              }`}
             >
               <option value={0} className="!bg-[#4A4A4A]">
                 ETH
@@ -353,7 +412,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
             }`}
           />
         </div>
-        <div className="flex justify-between !text-cente w-full gap-4">
+        <div className="flex justify-between mt-2 !text-cente w-full gap-4">
           <button
             id="cancelButton"
             disabled={!editable || !buttonEnable}
@@ -369,6 +428,12 @@ export default function BlueprintInfoCard({ onClick }: Props) {
               setUriChecked(false);
               setMintPriceChecked(false);
               setMintLimitChecked(false);
+              setImageSrc(blueprintInfoImage);
+
+              setCreateInfo((prevCreateInfo) => ({
+                ...prevCreateInfo,
+                totalSupply: 0,
+              }));
             }}
             className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
             ${
