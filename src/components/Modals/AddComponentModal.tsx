@@ -69,12 +69,6 @@ const AddComponentModal = () => {
   });
 
   useEffect(() => {
-    setInputValues(initialValues);
-    setIsAddButtonDisabled(true);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeItem]);
-
-  useEffect(() => {
     if (activeItem === 0) {
       if (inputValues.erc20Address !== '' && inputValues.erc20Amount !== '') {
         setIsAddButtonDisabled(false);
@@ -202,12 +196,20 @@ const AddComponentModal = () => {
               <Icon
                 className="rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
                 icon="ep:arrow-right-bold"
+                onClick={() => {
+                  setInputValues(initialValues);
+                  setIsAddButtonDisabled(true);
+                }}
               />
             }
             leftItem={
               <Icon
                 className="rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
                 icon="ep:arrow-left-bold"
+                onClick={() => {
+                  setInputValues(initialValues);
+                  setIsAddButtonDisabled(true);
+                }}
               />
             }
             size="normal"

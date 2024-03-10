@@ -68,8 +68,8 @@ const ERC721Card: FC<Props> = ({ id, name, uri, address, icon = false }) => {
       <div className="flex flex-col gap-1 px-4 pt-0 pb-2 text-white">
         <p className="z-20 text-lg font-medium mt-[-12px]">{name}</p>
         <div className="flex flex-col">
-          <p className="truncate text-sm text-light-gray">ID</p>
-          <p>{id}</p>
+          <p className="text-sm text-light-gray">ID</p>
+          <p className="truncate">{id}</p>
         </div>
         <div className="hidden sm:flex sm:flex-row sm:justify-between">
           <p className="text-sm text-light-gray">Address</p>
