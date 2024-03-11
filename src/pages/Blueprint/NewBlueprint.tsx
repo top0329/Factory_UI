@@ -27,9 +27,10 @@ const NewBlueprintPage = () => {
         </div>
         <div className="w-full grid grid-cols-2 gap-4 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 xs:grid-cols-1">
           <ComponentButton />
-          {createBlueprint.data.erc20Data.map((erc20) => {
+          {createBlueprint.data.erc20Data.map((erc20, idx) => {
             return (
               <ERC20Card
+                key={idx}
                 name={erc20.name}
                 uri={erc20.uri}
                 amount={erc20.amount}
@@ -41,6 +42,7 @@ const NewBlueprintPage = () => {
           {createBlueprint.data.erc721Data.map((erc721) => {
             return (
               <ERC721Card
+                key={erc721.id}
                 id={erc721.id}
                 name={erc721.name}
                 uri={erc721.uri}
@@ -52,6 +54,7 @@ const NewBlueprintPage = () => {
           {createBlueprint.data.erc1155Data.map((erc1155) => {
             return (
               <ERC1155Card
+                key={erc1155.id}
                 id={erc1155.id}
                 name={erc1155.name}
                 uri={erc1155.uri}

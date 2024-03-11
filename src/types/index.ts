@@ -21,14 +21,14 @@ export interface ERC20Data {
   name: string;
   uri: string;
   amount: number;
-  address: string;
+  address: Address;
 }
 
 export interface ERC721Data {
   id: number;
   name: string;
   uri: string;
-  address: string;
+  address: Address;
 }
 
 export interface ERC1155Data {
@@ -36,7 +36,7 @@ export interface ERC1155Data {
   name: string;
   uri: string;
   amount: number;
-  address: string;
+  address: Address;
 }
 
 export type Web3ContextType = {
@@ -64,7 +64,7 @@ export type SelectedBlueprint = {
   id: number;
   name: string;
   uri: string;
-  creator: string;
+  creator: Address;
   totalSupply: number;
   mintPrice: number;
   mintPriceUnit: number;
@@ -82,9 +82,9 @@ export type SelectedOwnBlueprint = {
   id: number;
   name: string;
   uri: string;
-  creator: string;
+  creator: Address;
   balance: number;
-  blueprintAddress: string;
+  blueprintAddress: Address;
   myBlueprint: boolean;
   data: {
     erc20Data: ERC20Data[];
@@ -96,7 +96,7 @@ export type SelectedOwnBlueprint = {
 export type CreateBlueprint = {
   name: string;
   uri: string;
-  creator: string;
+  creator: Address;
   totalSupply: number;
   mintPrice: number;
   mintPriceUnit: number;
@@ -115,18 +115,17 @@ export interface ListCardInterface {
   subType: number;
   uri: string;
   name: string;
-  address: string;
+  address: Address;
   id?: number;
   amount?: number;
 }
 
 export type AddComponentModalInputValue = {
-  erc20Address: string;
+  erc20Address: Address | '';
   erc20Amount: number | '';
-  erc721Address: string;
+  erc721Address: Address | '';
   erc721Id: number | '';
-  erc1155Address: string;
+  erc1155Address: Address | '';
   erc1155Id: number | '';
   erc1155Amount: number | '';
 };
-

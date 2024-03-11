@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { Carousel } from '../Carousel';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { Address } from 'viem';
 
 import {
   activeAddComponentTokenAtom,
@@ -10,6 +11,9 @@ import {
 } from '../../jotai/atoms';
 import Button from '../Button';
 import { AddComponentModalInputValue, CreateBlueprint } from '../../types';
+import isContractAddress from '../../utils/isContractAddress';
+import checkContractType from '../../utils/checkContractType';
+import getERC721Data from '../../utils/getERC721Data';
 
 export interface Props {
   text: string;
@@ -56,6 +60,8 @@ const AddComponentModal = () => {
   const [inputValues, setInputValues] =
     useState<AddComponentModalInputValue>(initialValues);
   const [isAddButtonDisabled, setIsAddButtonDisabled] = useState<boolean>(true);
+  const [error, setError] = useState<string | boolean>(false);
+  const [tokenData, setTokenData] = useState<any>(null);
 
   const modal = useRef<HTMLDivElement>(null);
 
@@ -69,34 +75,65 @@ const AddComponentModal = () => {
   });
 
   useEffect(() => {
-    if (activeItem === 0) {
-      if (inputValues.erc20Address !== '' && inputValues.erc20Amount !== '') {
-        setIsAddButtonDisabled(false);
-      } else setIsAddButtonDisabled(true);
+    async function getContractData() {
+      if (activeItem === 0) {
+        if (error === '' && inputValues.erc20Amount !== '') {
+          setIsAddButtonDisabled(false);
+        } else setIsAddButtonDisabled(true);
+      }
+      if (activeItem === 1) {
+        if (error === '' && inputValues.erc721Id !== '') {
+          const erc721Data = await getERC721Data(
+            inputValues.erc721Address,
+            inputValues.erc721Id
+          );
+          console.log(erc721Data);
+          setTokenData(erc721Data);
+          if (erc721Data === null) setIsAddButtonDisabled(true);
+          else setIsAddButtonDisabled(false);
+        } else setIsAddButtonDisabled(true);
+      }
+      if (activeItem === 2) {
+        if (
+          error === '' &&
+          inputValues.erc1155Amount !== '' &&
+          inputValues.erc1155Id !== ''
+        ) {
+          setIsAddButtonDisabled(false);
+        } else setIsAddButtonDisabled(true);
+      }
     }
-    if (activeItem === 1) {
-      if (inputValues.erc721Address !== '' && inputValues.erc721Id !== '') {
-        setIsAddButtonDisabled(false);
-      } else setIsAddButtonDisabled(true);
-    }
-    if (activeItem === 2) {
-      if (
-        inputValues.erc1155Address !== '' &&
-        inputValues.erc1155Amount !== '' &&
-        inputValues.erc1155Id !== ''
-      ) {
-        setIsAddButtonDisabled(false);
-      } else setIsAddButtonDisabled(true);
-    }
-  }, [activeItem, inputValues]);
+    getContractData();
+  }, [activeItem, inputValues, error]);
 
-  const handleStringChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setInputValues({
-      ...inputValues,
-      [name]: value,
-    });
-    console.log(inputValues);
+  const handleAddressChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    try {
+      const { name, value } = event.target;
+      setInputValues({
+        ...inputValues,
+        [name]: value,
+      });
+      if (!value || (await isContractAddress(value))) {
+        const result = await checkContractType(value as Address | '');
+        if (result.type === 'Unknown')
+          setError('Invalid Smart Contract address.');
+        if (activeItem === 0 && result.type === 'ERC20') {
+          setError('');
+          setTokenData(result.payload);
+        } else if (activeItem === 1 && result.type === 'ERC721') {
+          setError('');
+        } else if (activeItem === 2 && result.type === 'ERC1155') {
+          setError('');
+        } else setError('Invalid Smart Contract address.'); // If there's no input or the input is valid, clear error
+      } else {
+        setError('Invalid Smart Contract address.');
+      }
+    } catch (err) {
+      setError('Invalid Smart Contract address.');
+      console.log(err);
+    }
   };
 
   const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,7 +143,6 @@ const AddComponentModal = () => {
       ...inputValues,
       [name]: value,
     });
-    console.log(inputValues);
   };
 
   const handleAddButtonClicked = () => {
@@ -119,9 +155,11 @@ const AddComponentModal = () => {
             erc20Data: [
               ...prevBlueprint.data.erc20Data,
               {
-                name: 'Tea Leaf',
-                uri: 'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/tea_leaf_20.webp',
-                address: inputValues.erc20Address,
+                name: tokenData.name,
+                uri:
+                  tokenData.logo ||
+                  'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/Qme8EoD9DXyH5axFVxMu8XuwReHPcQFHM1LtkGA3xkCt88',
+                address: inputValues.erc20Address as Address,
                 amount: Number(inputValues.erc20Amount),
               },
             ],
@@ -139,9 +177,9 @@ const AddComponentModal = () => {
               ...prevBlueprint.data.erc721Data,
               {
                 id: Number(inputValues.erc721Id),
-                name: 'Key',
-                uri: 'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/key_721.webp',
-                address: inputValues.erc721Address,
+                name: tokenData.name,
+                uri: tokenData.uri,
+                address: inputValues.erc721Address as Address,
               },
             ],
           },
@@ -160,7 +198,7 @@ const AddComponentModal = () => {
                 id: Number(inputValues.erc1155Id),
                 name: 'Iron Sword',
                 uri: 'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp',
-                address: inputValues.erc1155Address,
+                address: inputValues.erc1155Address as Address,
                 amount: Number(inputValues.erc1155Amount),
               },
             ],
@@ -170,6 +208,13 @@ const AddComponentModal = () => {
     }
     setIsAddComponentModalOpen(false);
     setInputValues(initialValues);
+    setTokenData(null);
+  };
+
+  const handleCancelButtonClicked = () => {
+    setIsAddComponentModalOpen(false);
+    setInputValues(initialValues);
+    setError(false);
   };
 
   return (
@@ -180,7 +225,7 @@ const AddComponentModal = () => {
     >
       <div
         className="z-20 fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center bg-opacity-80 bg-[#1D2127]"
-        onClick={() => setIsAddComponentModalOpen(false)}
+        onClick={handleCancelButtonClicked}
       ></div>
       <div
         ref={modal}
@@ -199,6 +244,7 @@ const AddComponentModal = () => {
                 onClick={() => {
                   setInputValues(initialValues);
                   setIsAddButtonDisabled(true);
+                  setError(false);
                 }}
               />
             }
@@ -209,6 +255,7 @@ const AddComponentModal = () => {
                 onClick={() => {
                   setInputValues(initialValues);
                   setIsAddButtonDisabled(true);
+                  setError(false);
                 }}
               />
             }
@@ -228,9 +275,14 @@ const AddComponentModal = () => {
                 name="erc20Address"
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
                 type="text"
-                onChange={handleStringChange}
+                onChange={handleAddressChange}
                 value={inputValues.erc20Address}
               />
+              {error && (
+                <div className="col-start-2 col-end-4 text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
             </div>
             <div className="items-center grid grid-cols-4">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
@@ -261,9 +313,14 @@ const AddComponentModal = () => {
                 name="erc721Address"
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
                 type="text"
-                onChange={handleStringChange}
+                onChange={handleAddressChange}
                 value={inputValues.erc721Address}
               />
+              {error && (
+                <div className="col-start-2 col-end-4 text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
             </div>
             <div className="grid grid-cols-4">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
@@ -294,9 +351,14 @@ const AddComponentModal = () => {
                 name="erc1155Address"
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
                 type="text"
-                onChange={handleStringChange}
+                onChange={handleAddressChange}
                 value={inputValues.erc1155Address}
               />
+              {error && (
+                <div className="col-start-2 col-end-4 text-red-600 text-sm">
+                  {error}
+                </div>
+              )}
             </div>
             <div className="grid grid-cols-4">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
@@ -333,7 +395,7 @@ const AddComponentModal = () => {
             className="flex justify-center !w-32 text-sm xs:text-base"
             text="Cancel"
             variant="secondary"
-            onClick={() => setIsAddComponentModalOpen(false)}
+            onClick={handleCancelButtonClicked}
           />
           <Button
             className={`flex justify-center !w-32 text-sm xs:text-base ${
