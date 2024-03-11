@@ -1,13 +1,20 @@
 import { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useAtom } from 'jotai';
 import Button from '../../Button';
+import {
+  selectedProductintAtom,
+  productSelectionState,
+} from '../../../jotai/atoms';
+import { SelectedProduct } from '../../../types';
+
 export interface Props {
   uri: string;
   name: string;
   blueprintId: number;
   balance: number;
   address: string;
-  myBlueprint?: boolean;
   onClick?: () => void;
 }
 
@@ -17,10 +24,10 @@ const ProductCard: FC<Props> = ({
   blueprintId,
   balance,
   address,
-  myBlueprint,
   onClick,
 }) => {
   const [tooltipMessage, setTooltipMessage] = useState('Copy to clipboard');
+  const navigate = useNavigate();
   const copyToClipboard = () => {
     navigator.clipboard.writeText(address).then(() => {
       setTooltipMessage('Copied!'); // Update tooltip message on success
@@ -29,6 +36,16 @@ const ProductCard: FC<Props> = ({
       }, 2000); // Duration before resetting the tooltip message
     });
   };
+  const [selectedProduct] = useAtom<SelectedProduct>(selectedProductintAtom);
+  const [, setProductSelectionState] = useAtom<SelectedProduct>(
+    productSelectionState
+  );
+  const handleDecomposeClicked = () => {
+    setProductSelectionState(selectedProduct);
+    navigate(`/decompose/product/${selectedProduct.id}`);
+
+  };
+  
   return (
     <div
       id="container"
@@ -50,13 +67,6 @@ const ProductCard: FC<Props> = ({
           />
           <div className="absolute md:bottom-[202px] lg:bottom-[214px] sm:bottom-[190px] bg-gradient-to-t from-[#011018] from-0% sm:from-0% bg-opacity-100 to-[#000407]/0 bottom-[106px] w-full h-[45px]"></div>
         </div>
-        <p
-          className={`absolute ${
-            myBlueprint ? 'sm:hidden' : 'hidden'
-          } flex bottom-[126px] right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center`}
-        >
-          My Blueprint
-        </p>
         <div
           id="infor"
           className="flex justify-between p-4 pt-0 sm:flex-col xs:px-4 gap-y-0 top-[-80px] md:top-[-80px] w-full box-border"
@@ -68,13 +78,6 @@ const ProductCard: FC<Props> = ({
             <div className="sm:flex sm:justify-between grid items-center py-[3px]">
               <p className="w-auto truncate text-sm md:text-base lg:text-lg font-mono">
                 {name}
-              </p>
-              <p
-                className={`${
-                  myBlueprint ? 'hidden sm:block' : 'hidden'
-                } truncate font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center w-[87px]`}
-              >
-                My Blueprint
               </p>
             </div>
           </div>
@@ -97,7 +100,7 @@ const ProductCard: FC<Props> = ({
 
           <div id="id_supply" className="relative w-full hidden sm:block">
             <div id="address" className="text-white">
-              <p className="text-xs font-mono text-[#858584]">Creator</p>
+              <p className="text-xs font-mono text-[#858584]">Address</p>
               <div id="id_supply" className="flex justify-between text-white">
                 {/* Other content */}
                 <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
@@ -137,8 +140,17 @@ const ProductCard: FC<Props> = ({
             </div>
           </div>
         </div>
-        <div className='p-4 pt-0'>
-          <Button text="Decompose" className='rounded-lg w-full justify-center xs:h-10 h-8 xs:text-[16px] text-[14px]'></Button>
+        <div className="p-4 pt-0">
+          <Button
+            text="Decompose"
+            onClick={(e) => {
+              e.stopPropagation();
+              if (handleDecomposeClicked) {
+                handleDecomposeClicked();
+              }
+            }}
+            className="rounded-lg w-full justify-center xs:h-10 h-8 xs:text-[16px] text-[14px]"
+          ></Button>
         </div>
       </div>
     </div>
