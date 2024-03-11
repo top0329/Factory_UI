@@ -125,7 +125,7 @@ export interface ListCardInterface {
   type: number;
   uri: string;
   name: string;
-  address: Address;
+  address: string;
   id?: number;
   amount?: number;
 }

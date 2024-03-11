@@ -24,7 +24,11 @@ export default function ListCard(props: ListCardInterface) {
           ? 'bg-[#09F5D8]/10 border-[#09F5D8]'
           : props.type == 1
           ? 'bg-[#099EF5]/10 border-[#099EF5]'
-          : 'bg-[#7414D5]/10 border-[#7414D5]'
+          : props.type == 2
+          ? 'bg-[#7414D5]/10 border-[#7414D5]'
+          : props.type == 3
+          ? 'bg-[#858584]/20 border-black'
+          : 'bg-[#858584]/10 border-gray-500'
       }`}
     >
       <div id="icon" className="flex justify-center py-2">
@@ -33,7 +37,7 @@ export default function ListCard(props: ListCardInterface) {
 
       <div
         id="type"
-        className="hidden md:flex text-white justify-center items-center w-[15%]  text-xl"
+        className=" text-white justify-center items-center w-[15%]  text-xl"
       >
         {props.type == 0 && <p>ERC20</p>}
         {props.type == 1 && <p>ERC721</p>}
@@ -44,13 +48,23 @@ export default function ListCard(props: ListCardInterface) {
 
       <div id="name" className="flex flex-col justify-center w-[12%]">
         <p className="text-[#858584] text-xs">Name</p>
-        <p>{props.name}</p>
+        <p
+          className={`${props.isDecompose ? 'text-[#BABABA]' : ''} ${
+            props.type == 4 ? '!text-white' : ''
+          } truncate`}
+        >
+          {props.name}
+        </p>
       </div>
 
       <div id="address" className="hidden md:block flex-col justify-center">
         <p className="text-[#858584] text-xs">Address</p>
         <div className="flex gap-2">
-          <p className="truncate">
+          <p
+            className={`${props.isDecompose ? 'text-[#BABABA]' : ''} truncate ${
+              props.type == 4 ? '!text-white' : ''
+            }`}
+          >
             {props.address.substring(0, 8)} . . . {props.address.slice(-6)}
           </p>
           <div className="relative">
@@ -58,7 +72,10 @@ export default function ListCard(props: ListCardInterface) {
               <Icon
                 onClick={handleCopyButtonClicked}
                 icon="solar:copy-outline"
-                className="item-center my-auto"
+                className={`${
+                  props.isDecompose ? 'text-[#BABABA]' : ''
+                } item-center my-auto`}
+                // className="item-center my-auto"
               />
             </button>
             {isCopied && (
@@ -73,19 +90,25 @@ export default function ListCard(props: ListCardInterface) {
         </div>
       </div>
       <div id="id" className=" w-[3%]">
-        {(props.type !== 0 && props.type !== 3) && (
+        {props.type !== 0 && props.type !== 3 && (
           <div>
             <p className="text-[#858584] text-xs">ID</p>
-            <p className="">{props.id}</p>
+            <p
+              className={`${props.isDecompose ? 'text-[#BABABA]' : ''} ${
+                props.type == 4 ? '!text-white' : ''
+              }`}
+            >
+              {props.id}
+            </p>
           </div>
         )}
       </div>
 
-      <div id="amount" className="w-[6%]">
+      <div id="amount" className="w-[8%]">
         {props.type != 1 && (
           <div>
-            <p className="text-[#858584] text-xs">Amount</p>
-            <p className="text-center">{props.amount}</p>
+            <p className="text-[#858584] text-xs">{props.type ==4 ? 'Balance': 'Amount'}</p>
+            <p className="text-center pr-3">{props.amount}</p>
           </div>
         )}
       </div>

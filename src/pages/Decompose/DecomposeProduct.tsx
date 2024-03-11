@@ -12,12 +12,41 @@ const DecomposeProductPage = () => {
 
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px]">
-      <div className="relative p-4 sm:w-[1000px] xs:w-[500px] w-[400px]">
-        <div className="relative bg-[#040404] border border-none rounded-[46px] shadow dark:bg-gray-700">
-          <h3 className="text-[32px] py-6 font-semibold text-center text-white">
+      <div className="relative py-4 sm:w-[1000px]  xs:w-[500px] w-[400px]">
+        <div className="relative  border border-none bg-black rounded-[46px] shadow border-white">
+          <h3 className="text-[32px] py-6 font-semibold text-center text-white border-b border-gray-400">
             Decompose Product
           </h3>
-          <div className="flex flex-col items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600">
+          <div className="flex flex-col gap-6 p-6 sm:bg-[#040404] ">
+            <OwnBlueprintListCard
+              isDecompose={true}
+              type={4}
+              uri={selectedOwnData.uri}
+              name={selectedOwnData.name}
+              address={selectedOwnData.blueprintAddress}
+              id={selectedOwnData.id}
+              amount={selectedOwnData.balance}
+            />
+            <div className="flex justify-between gap-6 items-center">
+              <input
+                type="number"
+                className="w-[70%] h-[40px] rounded-xl bg-black border border-white px-2"
+              ></input>
+              <Button
+                className="flex justify-center w-[160px] h-9 rounded-xl"
+                text="Approve"
+                variant="primary"
+              />
+            </div>
+            <div className="hidden md:flex justify-between items-center">
+              <p className="text-[24px] text-[#BABABA]">
+                Product Decompose Fee
+              </p>
+              <p className="text-[24px] font-semibold">0.1 ETH</p>
+            </div>
+          </div>
+          <div className="flex flex-col px-6 py-2 rounded-b dark:border-gray-600">
+            <p className="text-[24px] text-left mb-4 text-[#BABABA]">Preview</p>
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
               <OwnBlueprintListCard
                 key={index}
@@ -52,7 +81,7 @@ const DecomposeProductPage = () => {
               />
               <Button
                 className="flex justify-center w-[160px] h-9 rounded-xl"
-                text="Mint Product"
+                text="Decompose"
                 variant="primary"
               />
             </div>
