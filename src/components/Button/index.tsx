@@ -7,7 +7,7 @@ export interface Props {
   icon?: React.ReactNode;
   className?: string;
   disabled?: boolean;
-  onClick?: () => void;
+  onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button: FC<Props> = ({

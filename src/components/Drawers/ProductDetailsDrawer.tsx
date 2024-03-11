@@ -121,9 +121,9 @@ const ProductDetailsDrawer: FC<Props> = ({
           />
           <div
             id="badge"
-            className="absolute right-[-35px] top-[26px] w-[175.5px] h-[30px] bg-[#0047FF] text-white text-center text-[18px] rotate-[41.38deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+            className="absolute right-[-35px] top-[26px] w-[175.5px] h-[30px] bg-[#FFF500] text-black text-center text-[18px] rotate-[41.38deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
           >
-            Blueprint
+            Product
           </div>
           <img
             className="max-h-[235px] object-cover md:max-h-[435px] xs:max-h-[335px]"
@@ -137,7 +137,7 @@ const ProductDetailsDrawer: FC<Props> = ({
           <div className="bg-[#011018] py-6 px-6 h-80 md:h-[252px] md:px-8">
             <div className="flex justify-between items-center w-full">
               <div className="flex flex-col items-start text-white gap-2">
-                <p className="truncate text-light-gray text-sm">Blueprint ID</p>
+                <p className="truncate text-light-gray text-sm"> ID</p>
                 <p>{selectedOwnBlueprint.id}</p>
               </div>
               <div className="flex flex-col items-start text-white gap-2">

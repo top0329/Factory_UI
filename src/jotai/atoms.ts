@@ -4,6 +4,7 @@ import {
   CreateBlueprint,
   SelectedBlueprint,
   SelectedOwnBlueprint,
+  SelectedProduct,
 } from '../types';
 
 export const isAddComponentModalAtom = atom<boolean>(false);
@@ -27,7 +28,6 @@ export const selectedBlueprintAtom = atom<SelectedBlueprint>({
     erc1155Data: [],
   },
 });
-
 export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
   id: 0,
   name: '',
@@ -36,6 +36,19 @@ export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
   balance: 0,
   blueprintAddress: '',
   myBlueprint: false,
+  data: {
+    erc20Data: [],
+    erc721Data: [],
+    erc1155Data: [],
+  },
+});
+export const selectedProductintAtom = atom<SelectedProduct>({
+  id: 0,
+  name: '',
+  uri: '',
+  address: '',
+  balance: 0,
+  blueprintAddress: '',
   data: {
     erc20Data: [],
     erc721Data: [],
@@ -67,6 +80,9 @@ export const blueprintSelectionState = localStorageEffect('selected-blueprint')(
 export const ownBlueprintSelectionState = localStorageEffect(
   'selected-ownBlueprint'
 )(selectedOwnBlueprintAtom);
+export const productSelectionState = localStorageEffect('selected-product')(
+  selectedProductintAtom
+);
 export const isCreatorModeAtom = atom<boolean>(false);
 export const createBlueprintAtom = atom<CreateBlueprint>({
   name: '',

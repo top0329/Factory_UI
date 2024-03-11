@@ -15,6 +15,7 @@ function useWindowWidth() {
 
   return width;
 }
+
 export default function AdvancedSort() {
   const [selectedValue, setSelectedValue] = useState('');
   const [sortDown, setSortDown] = useState(false);

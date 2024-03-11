@@ -11,9 +11,10 @@ import AdvancedFilter from "./AdvancedFilter";
 export interface Props {
   value?: string;
   isNewButton?: boolean;
+  placeholders: string;
 }
 
-const SearchBar: FC<Props> = ({ isNewButton }) => {
+const SearchBar: FC<Props> = ({ isNewButton, placeholders }) => {
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
@@ -64,7 +65,8 @@ const SearchBar: FC<Props> = ({ isNewButton }) => {
           id="search"
           name="search"
           className="inline w-full rounded-lg border border-light-gray text-white bg-black py-2 ml-10 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-slate-600 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-slate-600 sm:text-sm"
-          placeholder="Search for Blueprint ID, Name and Creator"
+          // placeholder="Search for Blueprint ID, Name and Creator"
+          placeholder={placeholders}
           type="search"
           value={searchValue}
           onChange={handleSearchChange}
@@ -72,7 +74,7 @@ const SearchBar: FC<Props> = ({ isNewButton }) => {
         {showTooltip && (
           <div
             className="absolute -bottom-12 left-16 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
-            style={{ transition: "opacity 0.3s" }}
+            style={{ transition: 'opacity 0.3s' }}
           >
             Special characters are not allowed!
           </div>
@@ -80,17 +82,17 @@ const SearchBar: FC<Props> = ({ isNewButton }) => {
       </div>
       <div
         className={`flex ${
-          isNewButton === true ? "justify-between" : ""
+          isNewButton === true ? 'justify-between' : ''
         } items-center xs:mt-0 mt-2 xs:w-auto w-full`}
       >
         <AdvancedSort />
         <Button
           className={`${
-            isNewButton === true ? "flex" : "hidden"
+            isNewButton === true ? 'flex' : 'hidden'
           } truncate justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36`}
           text="New Blueprint"
           variant="primary"
-          onClick={() => navigate("/blueprint/new")}
+          onClick={() => navigate('/blueprint/new')}
         />
       </div>
     </div>

@@ -1,17 +1,17 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAtom } from "jotai";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
 
-import SearchBar from "../../components/SearchBar";
-import BlueprintDetailDrawer from "../../components/Drawers/BlueprintDetailsDrawer";
-import BlueprintCard from "../../components/Cards/BlueprintCard/BlueprintCard";
+import SearchBar from '../../components/SearchBar';
+import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
+import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
 import {
   blueprintSelectionState,
   isCreatorModeAtom,
   selectedBlueprintAtom,
-} from "../../jotai/atoms";
+} from '../../jotai/atoms';
 
-import blueprintData from "../../../blueprint-data.json";
+import blueprintData from '../../../blueprint-data.json';
 
 const BlueprintPage = () => {
   const [, setSelectedBlueprint] = useAtom(selectedBlueprintAtom);
@@ -27,8 +27,8 @@ const BlueprintPage = () => {
     setIsDrawerOpen(true);
 
     // Disables Background Scrolling whilst the SideDrawer/Modal is open
-    if (typeof window != "undefined" && window.document) {
-      document.body.style.overflow = "hidden";
+    if (typeof window != 'undefined' && window.document) {
+      document.body.style.overflow = 'hidden';
     }
   };
 
@@ -66,19 +66,22 @@ const BlueprintPage = () => {
               />
               <div
                 className={`box block h-6 w-10 rounded-full ${
-                  isCreatorMode ? "bg-primary" : "bg-light-gray"
+                  isCreatorMode ? 'bg-primary' : 'bg-light-gray'
                 }`}
               ></div>
               <div
                 className={`absolute left-1 top-1 flex h-4 w-4 items-center justify-center rounded-full bg-white transition ${
-                  isCreatorMode ? "translate-x-full" : ""
+                  isCreatorMode ? 'translate-x-full' : ''
                 }`}
               ></div>
             </div>
           </label>
         </div>
       </div>
-      <SearchBar isNewButton />
+      <SearchBar
+        isNewButton
+        placeholders="Search for Proudct ID, Name and Creator"
+      />
       <div className="grid grid-cols-2 pt-8 pb-16 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
         {blueprintData.length > 0 &&
           blueprintData.map((blueprint) => {

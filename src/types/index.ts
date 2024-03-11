@@ -92,7 +92,19 @@ export type SelectedOwnBlueprint = {
     erc1155Data: ERC1155Data[];
   };
 };
-
+export type SelectedProduct = {
+  id: number;
+  name: string;
+  uri: string;
+  address?: string;
+  balance: number;
+  blueprintAddress: string;
+  data: {
+    erc20Data: ERC20Data[];
+    erc721Data: ERC721Data[];
+    erc1155Data: ERC1155Data[];
+  };
+};
 export type CreateBlueprint = {
   name: string;
   uri: string;
