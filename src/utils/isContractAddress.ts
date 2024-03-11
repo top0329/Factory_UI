@@ -1,4 +1,5 @@
 import { ethers } from 'ethers';
+
 import { defaultRPC } from '../constants';
 
 export default async function isContractAddress(address: string) {

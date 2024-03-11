@@ -5,11 +5,12 @@ import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard/Blueprin
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import AddComponentModal from '../../components/Modals/AddComponentModal';
-import { createBlueprintAtom } from '../../jotai/atoms';
+import { availableComponentAtom, createBlueprintAtom } from '../../jotai/atoms';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 
 const NewBlueprintPage = () => {
   const [createBlueprint] = useAtom(createBlueprintAtom);
+  const [availableComponent] = useAtom(availableComponentAtom);
 
   return (
     <div className="text-white">
@@ -18,7 +19,7 @@ const NewBlueprintPage = () => {
           New Blueprint
         </h1>
         <h3 className="text-sm xs:text-base lg:text-lg xl:text-xl">
-          Available Component: <span>7</span>
+          Available Component: <span>{availableComponent}</span>
         </h3>
       </div>
       <div className="flex flex-col pt-6 pb-16 gap-4 lg:gap-6 xs:flex-row">
