@@ -4,7 +4,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 import Button from '../../components/Button';
-import OwnBlueprintListCard from '../../components/Cards/ListCard';
+import ProductListCard from '../../components/Cards/ListCard';
 import { SelectedOwnBlueprint } from '../../types';
 
 import {
@@ -186,27 +186,27 @@ const MintProductPage = () => {
               </h3>
               <div className="flex flex-col items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600">
                 {selectedOwnData.data.erc20Data.map((dataItem, index) => (
-                  <OwnBlueprintListCard
+                  <ProductListCard
+                    isDecompose={false}
                     key={index}
                     {...dataItem}
                     type={0}
-                    subType={0}
                   />
                 ))}
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
-                  <OwnBlueprintListCard
+                  <ProductListCard
+                    isDecompose={false}
                     key={index}
                     {...dataItem}
                     type={1}
-                    subType={0}
                   />
                 ))}
                 {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
-                  <OwnBlueprintListCard
+                  <ProductListCard
+                    isDecompose={false}
                     key={index}
                     {...dataItem}
                     type={2}
-                    subType={0}
                   />
                 ))}
 

@@ -5,10 +5,10 @@ import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
-import { SelectedOwnBlueprint, WindowSize } from '../../types';
+import { SelectedProduct, WindowSize } from '../../types';
 import {
-  ownBlueprintSelectionState,
-  selectedOwnBlueprintAtom,
+  selectedProductintAtom,
+  productSelectionState,
 } from '../../jotai/atoms';
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
@@ -25,15 +25,15 @@ const ProductDetailsDrawer: FC<Props> = ({
 }) => {
   const navigate = useNavigate();
 
-  const [selectedOwnBlueprint] = useAtom<SelectedOwnBlueprint>(
-    selectedOwnBlueprintAtom
+  const [selectedProduct] = useAtom<SelectedProduct>(
+    selectedProductintAtom
   );
-  const [, setBlueprintSelectionState] = useAtom<SelectedOwnBlueprint>(
-    ownBlueprintSelectionState
+  const [, setProductSelectionState] = useAtom<SelectedProduct>(
+    productSelectionState
   );
 
   const [activeTab, setActiveTab] = useState<number>(1);
-  const [isBlueprintAddressCopied, setIsBlueprintAddressCopied] =
+  const [isProductAddressCopied, setIsProductAddressCopied] =
     useState<boolean>(false);
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: undefined,
@@ -61,21 +61,21 @@ const ProductDetailsDrawer: FC<Props> = ({
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
   const handleMintProductButtonClicked = () => {
-    navigate(`/decompose/product/${selectedOwnBlueprint.id}`);
+    navigate(`/decompose/product/${selectedProduct.id}`);
     sideDrawerClosedHandler();
-    setBlueprintSelectionState(selectedOwnBlueprint);
+    setProductSelectionState(selectedProduct);
   };
 
   const handleTabClick = (id: number) => {
     setActiveTab(id);
   };
 
-  const handleCopyBlueprintAddressButtonClicked = (address: string) => {
+  const handleCopyProductAddressButtonClicked = (address: string) => {
     try {
-      setIsBlueprintAddressCopied(true);
+      setIsProductAddressCopied(true);
       copy(address);
       setTimeout(() => {
-        setIsBlueprintAddressCopied(false);
+        setIsProductAddressCopied(false);
       }, 2000);
     } catch (err) {
       console.log('failed to copy', err);
@@ -127,22 +127,22 @@ const ProductDetailsDrawer: FC<Props> = ({
           </div>
           <img
             className="max-h-[235px] object-cover md:max-h-[435px] xs:max-h-[335px]"
-            src={selectedOwnBlueprint.uri}
+            src={selectedProduct.uri}
             alt="drawer"
           />
           <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px] xs:top-[292px]">
-            {selectedOwnBlueprint.name}
+            {selectedProduct.name}
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px] xs:top-[224px]"></div>
           <div className="bg-[#011018] py-6 px-6 h-80 md:h-[252px] md:px-8">
             <div className="flex justify-between items-center w-full">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="truncate text-light-gray text-sm">Product ID</p>
-                <p>{selectedOwnBlueprint.id}</p>
+                <p>{selectedProduct.id}</p>
               </div>
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="truncate text-light-gray text-sm">Balance</p>
-                <p>{selectedOwnBlueprint.balance}</p>
+                <p>{selectedProduct.balance}</p>
               </div>
               <Button
                 className="truncate text-base rounded-full h-9 !py-1 !px-2 !gap-1"
@@ -160,25 +160,25 @@ const ProductDetailsDrawer: FC<Props> = ({
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <a
                     className="underline text-base"
-                    href={`https://sepolia.etherscan.io/address/${selectedOwnBlueprint.blueprintAddress}`}
+                    href={`https://sepolia.etherscan.io/address/${selectedProduct.blueprintAddress}`}
                     target="_blank"
                   >
                     {windowSize.width !== undefined && windowSize.width > 472
-                      ? `${selectedOwnBlueprint.blueprintAddress}`
+                      ? `${selectedProduct.blueprintAddress}`
                       : `${shortenAddress(
-                          selectedOwnBlueprint.blueprintAddress
+                          selectedProduct.blueprintAddress
                         )}`}
                   </a>
                   <Icon
                     className="w-4 h-4 cursor-pointer"
                     icon="solar:copy-outline"
                     onClick={() =>
-                      handleCopyBlueprintAddressButtonClicked(
-                        selectedOwnBlueprint.blueprintAddress
+                      handleCopyProductAddressButtonClicked(
+                        selectedProduct.blueprintAddress
                       )
                     }
                   />
-                  {isBlueprintAddressCopied && (
+                  {isProductAddressCopied && (
                     <div
                       className="absolute -bottom-12 right-0 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
                       style={{ transition: 'opacity 0.3s' }}
@@ -208,7 +208,7 @@ const ProductDetailsDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium px-2.5 rounded-xl opacity-90`}
                 >
-                  {selectedOwnBlueprint.data.erc20Data.length}
+                  {selectedProduct.data.erc20Data.length}
                 </p>
               </button>
               <button
@@ -227,7 +227,7 @@ const ProductDetailsDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium px-2.5 rounded-xl opacity-90`}
                 >
-                  {selectedOwnBlueprint.data.erc721Data.length}
+                  {selectedProduct.data.erc721Data.length}
                 </p>
               </button>
               <button
@@ -246,7 +246,7 @@ const ProductDetailsDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium px-2.5 rounded-xl opacity-90`}
                 >
-                  {selectedOwnBlueprint.data.erc1155Data.length}
+                  {selectedProduct.data.erc1155Data.length}
                 </p>
               </button>
             </div>
@@ -254,8 +254,8 @@ const ProductDetailsDrawer: FC<Props> = ({
           <div className="px-4 py-10 h-auto md:px-12 xs:px-8">
             {activeTab === 1 && (
               <div className="grid grid-cols-2 gap-4 place-items-center">
-                {selectedOwnBlueprint.data.erc20Data.length > 0 &&
-                  selectedOwnBlueprint.data.erc20Data.map(
+                {selectedProduct.data.erc20Data.length > 0 &&
+                  selectedProduct.data.erc20Data.map(
                     (
                       erc20: {
                         name: string;
@@ -280,8 +280,8 @@ const ProductDetailsDrawer: FC<Props> = ({
             )}
             {activeTab === 2 && (
               <div className="grid grid-cols-2 gap-4 place-items-center">
-                {selectedOwnBlueprint.data.erc721Data.length > 0 &&
-                  selectedOwnBlueprint.data.erc721Data.map(
+                {selectedProduct.data.erc721Data.length > 0 &&
+                  selectedProduct.data.erc721Data.map(
                     (erc721: {
                       id: number;
                       name: string;
@@ -303,8 +303,8 @@ const ProductDetailsDrawer: FC<Props> = ({
             )}
             {activeTab === 3 && (
               <div className="grid grid-cols-2 gap-4 place-items-center">
-                {selectedOwnBlueprint.data.erc1155Data.length > 0 &&
-                  selectedOwnBlueprint.data.erc1155Data.map(
+                {selectedProduct.data.erc1155Data.length > 0 &&
+                  selectedProduct.data.erc1155Data.map(
                     (erc1155: {
                       id: number;
                       name: string;
