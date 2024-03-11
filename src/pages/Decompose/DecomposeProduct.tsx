@@ -45,7 +45,7 @@ const DecomposeProductPage = () => {
               <p className="text-[24px] font-semibold">0.1 ETH</p>
             </div>
           </div>
-          <div className="flex flex-col px-6 py-2 rounded-b dark:border-gray-600">
+          <div className="flex flex-col px-6 pt-2 pb-8 rounded-b dark:border-gray-600">
             <p className="text-[24px] text-left mb-4 text-[#BABABA]">Preview</p>
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
               <OwnBlueprintListCard

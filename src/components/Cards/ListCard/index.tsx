@@ -108,7 +108,7 @@ export default function ListCard(props: ListCardInterface) {
         {props.type != 1 && (
           <div>
             <p className="text-[#858584] text-xs">{props.type ==4 ? 'Balance': 'Amount'}</p>
-            <p className="text-center pr-3">{props.amount}</p>
+            <p className="text-center sm:pr-7">{props.amount}</p>
           </div>
         )}
       </div>
