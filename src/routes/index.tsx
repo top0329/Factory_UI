@@ -82,7 +82,7 @@ const CommonRoutes = {
               element: <DecomposePage />,
             },
             {
-              path: 'product',
+              path: 'product/:id',
               element: <DecomposeProductPage />,
             },
           ],
