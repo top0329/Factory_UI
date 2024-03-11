@@ -78,11 +78,11 @@ const ERC1155Card: FC<Props> = ({
         <div className="flex justify-between">
           <div className="flex flex-col">
             <p className="text-sm text-light-gray">ID</p>
-            <p>{id}</p>
+            <p className="truncate max-w-20 sm:max-w-24">{id}</p>
           </div>
           <div className="flex flex-col items-end">
             <p className="text-sm text-light-gray">Amount</p>
-            <p>{amount}</p>
+            <p className="truncate max-w-20">{amount}</p>
           </div>
         </div>
         <div className="hidden sm:flex sm:flex-row sm:justify-between">

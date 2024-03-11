@@ -69,7 +69,7 @@ const ERC20Card: FC<Props> = ({ name, amount, address, uri, icon = false }) => {
         <p className="truncate z-20 text-lg font-medium mt-[-12px]">{name}</p>
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">Amount</p>
-          <p>{amount}</p>
+          <p className="truncate">{amount}</p>
         </div>
         <div className="hidden sm:flex sm:flex-row sm:justify-between">
           <p className="text-sm text-light-gray">Address</p>
