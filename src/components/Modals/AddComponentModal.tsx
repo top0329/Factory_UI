@@ -6,6 +6,7 @@ import { Address } from 'viem';
 
 import {
   activeAddComponentTokenAtom,
+  availableComponentAtom,
   createBlueprintAtom,
   isAddComponentModalAtom,
 } from '../../jotai/atoms';
@@ -41,12 +42,6 @@ const AddComponentModal = () => {
     },
   ];
 
-  const [isAddComponentModalOpen, setIsAddComponentModalOpen] = useAtom(
-    isAddComponentModalAtom
-  );
-  const [activeItem] = useAtom<number>(activeAddComponentTokenAtom);
-  const [, setCreateBlueprint] = useAtom<CreateBlueprint>(createBlueprintAtom);
-
   const initialValues: AddComponentModalInputValue = {
     erc20Address: '',
     erc20Amount: '',
@@ -56,6 +51,13 @@ const AddComponentModal = () => {
     erc1155Id: '',
     erc1155Amount: '',
   };
+
+  const [isAddComponentModalOpen, setIsAddComponentModalOpen] = useAtom(
+    isAddComponentModalAtom
+  );
+  const [activeItem] = useAtom<number>(activeAddComponentTokenAtom);
+  const [, setCreateBlueprint] = useAtom<CreateBlueprint>(createBlueprintAtom);
+  const [, setAvailableComponent] = useAtom<number>(availableComponentAtom);
 
   const [inputValues, setInputValues] =
     useState<AddComponentModalInputValue>(initialValues);
@@ -209,6 +211,7 @@ const AddComponentModal = () => {
     setIsAddComponentModalOpen(false);
     setInputValues(initialValues);
     setTokenData(null);
+    setAvailableComponent((prevValue) => prevValue - 1);
   };
 
   const handleCancelButtonClicked = () => {

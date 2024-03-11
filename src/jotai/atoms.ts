@@ -98,3 +98,4 @@ export const createBlueprintAtom = atom<CreateBlueprint>({
     erc1155Data: [],
   },
 });
+export const availableComponentAtom = atom<number>(7);
