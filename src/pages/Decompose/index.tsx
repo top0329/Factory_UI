@@ -28,10 +28,10 @@ const DecomposePage = () => {
     <div className="text-white">
       <div className="flex flex-col min-w-[320px] gap-2 text-white">
         <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
-          My Decompose
+          My Product
         </h1>
         <div>
-          <SearchBar placeholders="Search for Proudct ID, Name and Creator" />
+          <SearchBar placeholders="Search for Proudct ID and Name." />
         </div>
         <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
           {productData.length > 0 &&

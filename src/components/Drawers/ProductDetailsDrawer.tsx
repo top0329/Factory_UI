@@ -137,7 +137,7 @@ const ProductDetailsDrawer: FC<Props> = ({
           <div className="bg-[#011018] py-6 px-6 h-80 md:h-[252px] md:px-8">
             <div className="flex justify-between items-center w-full">
               <div className="flex flex-col items-start text-white gap-2">
-                <p className="truncate text-light-gray text-sm"> ID</p>
+                <p className="truncate text-light-gray text-sm">Product ID</p>
                 <p>{selectedOwnBlueprint.id}</p>
               </div>
               <div className="flex flex-col items-start text-white gap-2">
