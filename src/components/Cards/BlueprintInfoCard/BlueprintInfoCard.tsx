@@ -263,7 +263,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                 }));
                 setFileText(newUri);
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-l-lg  
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-l-lg
                 ${
                   editable && uriChecked && isIPFSSelected
                     ? 'bg-[#03070F] border-[#8B8B8B] mr-0.5'
@@ -314,7 +314,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                 }));
                 setMintPrice(newMintPrice);
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg border-r-0 
+              className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg border-r-0
             ${
               editable && mintPriceChecked
                 ? 'bg-[#03070F] border-[#8B8B8B]'

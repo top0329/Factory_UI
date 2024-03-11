@@ -64,7 +64,7 @@ export type SelectedBlueprint = {
   id: number;
   name: string;
   uri: string;
-  creator: Address;
+  creator: Address | '';
   totalSupply: number;
   mintPrice: number;
   mintPriceUnit: number;
@@ -82,9 +82,9 @@ export type SelectedOwnBlueprint = {
   id: number;
   name: string;
   uri: string;
-  creator: Address;
+  creator: Address | '';
   balance: number;
-  blueprintAddress: Address;
+  blueprintAddress: Address | '';
   myBlueprint: boolean;
   data: {
     erc20Data: ERC20Data[];
@@ -96,7 +96,7 @@ export type SelectedOwnBlueprint = {
 export type CreateBlueprint = {
   name: string;
   uri: string;
-  creator: Address;
+  creator: Address | '';
   totalSupply: number;
   mintPrice: number;
   mintPriceUnit: number;
@@ -107,7 +107,6 @@ export type CreateBlueprint = {
     erc1155Data: ERC1155Data[];
   };
 };
-
 
 export interface ListCardInterface {
   isDecompose?: boolean;
