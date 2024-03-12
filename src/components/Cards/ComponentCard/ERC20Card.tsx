@@ -8,9 +8,19 @@ export interface Props {
   amount: number;
   address: string;
   icon?: boolean;
+  onEditIconClicked?: () => void;
+  onDeleteIconClicked?: () => void;
 }
 
-const ERC20Card: FC<Props> = ({ name, amount, address, uri, icon = false }) => {
+const ERC20Card: FC<Props> = ({
+  name,
+  amount,
+  address,
+  uri,
+  icon = false,
+  onEditIconClicked,
+  onDeleteIconClicked,
+}) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
   const handleCopyButtonClicked = () => {
@@ -53,10 +63,12 @@ const ERC20Card: FC<Props> = ({ name, amount, address, uri, icon = false }) => {
             <Icon
               className="bg-blue-200 w-10 h-10 text-blue-800 text-base font-medium me-2 p-0.5 rounded opacity-90 cursor-pointer"
               icon="mynaui:edit-one"
+              onClick={onEditIconClicked}
             />
             <Icon
               className="bg-blue-200 w-10 h-10 text-blue-800 text-base font-medium me-2 p-0.5 rounded opacity-90 cursor-pointer"
               icon="heroicons:trash"
+              onClick={onDeleteIconClicked}
             />
           </div>
         )}

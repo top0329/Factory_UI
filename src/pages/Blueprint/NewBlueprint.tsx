@@ -1,16 +1,102 @@
 import { useAtom } from 'jotai';
+import toast, { Toaster } from 'react-hot-toast';
 
 import ComponentButton from '../../components/Button/ComponentButton';
 import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import AddComponentModal from '../../components/Modals/AddComponentModal';
-import { availableComponentAtom, createBlueprintAtom } from '../../jotai/atoms';
+import {
+  availableComponentAtom,
+  createBlueprintAtom,
+  isAddComponentModalAtom,
+} from '../../jotai/atoms';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
+import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
 
 const NewBlueprintPage = () => {
-  const [createBlueprint] = useAtom(createBlueprintAtom);
-  const [availableComponent] = useAtom(availableComponentAtom);
+  const [createBlueprint, setCreateBlueprint] = useAtom(createBlueprintAtom);
+  const [availableComponent, setAvailableComponent] = useAtom(
+    availableComponentAtom
+  );
+  const [, setIsAddComponentModalOpen] = useAtom(isAddComponentModalAtom);
+
+  const handleAddComponentModalOpen = () => {
+    if (availableComponent > 0) setIsAddComponentModalOpen(true);
+    else {
+      // toast('Here is your toast.');
+      toast.error('Not able to add component tokens.', {
+        duration: 4000,
+        position: 'top-right',
+
+        // Styling
+        style: { background: '#333333', color: '#ccc' },
+        // className: 'bg-[#333333] text-[#ccc]',
+
+        // Custom Icon
+        // icon: '👏',
+
+        // Change colors of success/error/loading icon
+        // iconTheme: {
+        //   primary: '#000',
+        //   secondary: '#fff',
+        // },
+
+        // Aria
+        ariaProps: {
+          role: 'status',
+          'aria-live': 'polite',
+        },
+      });
+      setIsAddComponentModalOpen(false);
+    }
+  };
+
+  const handleDeleteERC20CardClicked = (erc20: ERC20Data) => {
+    const filteredERC20Data = createBlueprint.data.erc20Data.filter((item) => {
+      return item.address !== erc20.address;
+    });
+    setCreateBlueprint({
+      ...createBlueprint,
+      data: {
+        ...createBlueprint.data,
+        erc20Data: filteredERC20Data,
+      },
+    });
+    setAvailableComponent((prevValue) => prevValue + 1);
+  };
+
+  const handleDeleteERC721CardClicked = (erc721: ERC721Data) => {
+    const filteredERC721Data = createBlueprint.data.erc721Data.filter(
+      (item) => {
+        return item.address !== erc721.address || item.id !== erc721.id;
+      }
+    );
+    setCreateBlueprint({
+      ...createBlueprint,
+      data: {
+        ...createBlueprint.data,
+        erc721Data: filteredERC721Data,
+      },
+    });
+    setAvailableComponent((prevValue) => prevValue + 1);
+  };
+
+  const handleDeleteERC1155CardClicked = (erc1155: ERC1155Data) => {
+    const filteredERC1155Data = createBlueprint.data.erc1155Data.filter(
+      (item) => {
+        return item.address !== erc1155.address || item.id !== erc1155.id;
+      }
+    );
+    setCreateBlueprint({
+      ...createBlueprint,
+      data: {
+        ...createBlueprint.data,
+        erc1155Data: filteredERC1155Data,
+      },
+    });
+    setAvailableComponent((prevValue) => prevValue + 1);
+  };
 
   return (
     <div className="text-white">
@@ -27,7 +113,10 @@ const NewBlueprintPage = () => {
           <BlueprintInfoCard />
         </div>
         <div className="w-full grid grid-cols-2 gap-4 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 xs:grid-cols-1">
-          <ComponentButton />
+          <ComponentButton
+            disabled={availableComponent === 0}
+            handleAddComponentModalOpen={handleAddComponentModalOpen}
+          />
           {createBlueprint.data.erc20Data.map((erc20, idx) => {
             return (
               <ERC20Card
@@ -37,6 +126,7 @@ const NewBlueprintPage = () => {
                 amount={erc20.amount}
                 address={erc20.address}
                 icon
+                onDeleteIconClicked={() => handleDeleteERC20CardClicked(erc20)}
               />
             );
           })}
@@ -49,6 +139,9 @@ const NewBlueprintPage = () => {
                 uri={erc721.uri}
                 address={erc721.address}
                 icon
+                onDeleteIconClicked={() =>
+                  handleDeleteERC721CardClicked(erc721)
+                }
               />
             );
           })}
@@ -62,12 +155,16 @@ const NewBlueprintPage = () => {
                 amount={erc1155.amount}
                 address={erc1155.address}
                 icon
+                onDeleteIconClicked={() =>
+                  handleDeleteERC1155CardClicked(erc1155)
+                }
               />
             );
           })}
         </div>
       </div>
       <AddComponentModal />
+      <Toaster />
     </div>
   );
 };
