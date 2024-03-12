@@ -15,6 +15,7 @@ import { AddComponentModalInputValue, CreateBlueprint } from '../../types';
 import isContractAddress from '../../utils/isContractAddress';
 import checkContractType from '../../utils/checkContractType';
 import getERC721Data from '../../utils/getERC721Data';
+import getERC1155Data from '../../utils/getERC1155Data';
 
 export interface Props {
   text: string;
@@ -56,7 +57,8 @@ const AddComponentModal = () => {
     isAddComponentModalAtom
   );
   const [activeItem] = useAtom<number>(activeAddComponentTokenAtom);
-  const [, setCreateBlueprint] = useAtom<CreateBlueprint>(createBlueprintAtom);
+  const [createBlueprint, setCreateBlueprint] =
+    useAtom<CreateBlueprint>(createBlueprintAtom);
   const [, setAvailableComponent] = useAtom<number>(availableComponentAtom);
 
   const [inputValues, setInputValues] =
@@ -89,8 +91,18 @@ const AddComponentModal = () => {
             inputValues.erc721Address,
             inputValues.erc721Id
           );
-          console.log(erc721Data);
-          setTokenData(erc721Data);
+          if (
+            createBlueprint.data.erc721Data.some(
+              (erc721) =>
+                erc721.address === inputValues.erc721Address &&
+                erc721.id === inputValues.erc721Id
+            )
+          )
+            setError('This token already added');
+          else {
+            setTokenData(erc721Data);
+            setError('');
+          }
           if (erc721Data === null) setIsAddButtonDisabled(true);
           else setIsAddButtonDisabled(false);
         } else setIsAddButtonDisabled(true);
@@ -101,12 +113,34 @@ const AddComponentModal = () => {
           inputValues.erc1155Amount !== '' &&
           inputValues.erc1155Id !== ''
         ) {
-          setIsAddButtonDisabled(false);
+          const erc1155Data = await getERC1155Data(
+            inputValues.erc1155Address,
+            inputValues.erc1155Id
+          );
+          if (
+            createBlueprint.data.erc1155Data.some(
+              (erc1155) =>
+                erc1155.address === inputValues.erc1155Address &&
+                erc1155.id === inputValues.erc1155Id
+            )
+          )
+            setError('This token already added');
+          else setTokenData(erc1155Data);
+          if (erc1155Data === null) setIsAddButtonDisabled(true);
+          else setIsAddButtonDisabled(false);
         } else setIsAddButtonDisabled(true);
       }
     }
     getContractData();
-  }, [activeItem, inputValues, error]);
+  }, [
+    activeItem,
+    inputValues,
+    inputValues.erc721Id,
+    inputValues.erc1155Id,
+    error,
+    createBlueprint.data.erc721Data,
+    createBlueprint.data.erc1155Data,
+  ]);
 
   const handleAddressChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -122,13 +156,35 @@ const AddComponentModal = () => {
         if (result.type === 'Unknown')
           setError('Invalid Smart Contract address.');
         if (activeItem === 0 && result.type === 'ERC20') {
-          setError('');
-          setTokenData(result.payload);
+          if (
+            createBlueprint.data.erc20Data.some(
+              (erc20) => erc20.address === value
+            )
+          )
+            setError('This token already added');
+          else {
+            setError('');
+            setTokenData(result.payload);
+          }
         } else if (activeItem === 1 && result.type === 'ERC721') {
           setError('');
+          setTokenData(result.payload);
         } else if (activeItem === 2 && result.type === 'ERC1155') {
           setError('');
-        } else setError('Invalid Smart Contract address.'); // If there's no input or the input is valid, clear error
+          setTokenData(result.payload);
+        } else {
+          switch (activeItem) {
+            case 0:
+              setError('Invalid ERC20 address.');
+              break;
+            case 1:
+              setError('Invalid ERC721 address.');
+              break;
+            case 2:
+              setError('Invalid ERC1155 address.');
+              break;
+          }
+        } // If there's no input or the input is valid, clear error
       } else {
         setError('Invalid Smart Contract address.');
       }
@@ -141,10 +197,15 @@ const AddComponentModal = () => {
   const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name } = event.target;
     const value = event.target.value === '' ? '' : Number(event.target.value);
-    setInputValues({
-      ...inputValues,
+    // setInputValues({
+    //   ...inputValues,
+    //   [name]: value,
+    // });
+    setInputValues((prevValues) => ({
+      ...prevValues,
       [name]: value,
-    });
+    }));
+    setError('');
   };
 
   const handleAddButtonClicked = () => {
@@ -198,8 +259,8 @@ const AddComponentModal = () => {
               ...prevBlueprint.data.erc1155Data,
               {
                 id: Number(inputValues.erc1155Id),
-                name: 'Iron Sword',
-                uri: 'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp',
+                name: tokenData.name,
+                uri: tokenData.uri,
                 address: inputValues.erc1155Address as Address,
                 amount: Number(inputValues.erc1155Amount),
               },

@@ -9,6 +9,8 @@ export interface Props {
   amount: number;
   address: string;
   icon?: boolean;
+  onEditIconClicked?: () => void;
+  onDeleteIconClicked?: () => void;
 }
 
 const ERC1155Card: FC<Props> = ({
@@ -18,6 +20,8 @@ const ERC1155Card: FC<Props> = ({
   amount,
   address,
   icon = false,
+  onEditIconClicked,
+  onDeleteIconClicked,
 }) => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
@@ -61,10 +65,12 @@ const ERC1155Card: FC<Props> = ({
             <Icon
               className="bg-blue-200 w-10 h-10 text-blue-800 text-base font-medium me-2 p-0.5 rounded opacity-90 cursor-pointer"
               icon="mynaui:edit-one"
+              onClick={onEditIconClicked}
             />
             <Icon
               className="bg-blue-200 w-10 h-10 text-blue-800 text-base font-medium me-2 p-0.5 rounded opacity-90 cursor-pointer"
               icon="heroicons:trash"
+              onClick={onDeleteIconClicked}
             />
           </div>
         )}
