@@ -12,7 +12,6 @@ import {
 } from '../../jotai/atoms';
 import Button from '../Button';
 import { AddComponentModalInputValue, CreateBlueprint } from '../../types';
-// import isContractAddress from '../../utils/isContractAddress';
 import checkContractType from '../../utils/checkContractType';
 import getERC721Data from '../../utils/getERC721Data';
 import getERC1155Data from '../../utils/getERC1155Data';
@@ -151,43 +150,38 @@ const AddComponentModal = () => {
         ...inputValues,
         [name]: value,
       });
-      // if (!value || (await isContractAddress(value))) {
-        const result = await checkContractType(value as Address | '');
-        // if (result.type === 'Unknown')
-        //   setError('Invalid Smart Contract address.');
-        if (activeItem === 0 && result.type === 'ERC20') {
-          if (
-            createBlueprint.data.erc20Data.some(
-              (erc20) => erc20.address === value
-            )
+      const result = await checkContractType(value as Address | '');
+      if (activeItem === 0 && result.type === 'ERC20') {
+        if (
+          createBlueprint.data.erc20Data.some(
+            (erc20) => erc20.address === value
           )
-            setError('This token already added');
-          else {
-            setError('');
-            setTokenData(result.payload);
-          }
-        } else if (activeItem === 1 && result.type === 'ERC721') {
+        )
+          setError('This token already added');
+        else {
           setError('');
           setTokenData(result.payload);
-        } else if (activeItem === 2 && result.type === 'ERC1155') {
-          setError('');
-          setTokenData(result.payload);
-        } else {
-          switch (activeItem) {
-            case 0:
-              setError('Invalid ERC20 address.');
-              break;
-            case 1:
-              setError('Invalid ERC721 address.');
-              break;
-            case 2:
-              setError('Invalid ERC1155 address.');
-              break;
-          }
-        } // If there's no input or the input is valid, clear error
-      // } else {
-        // setError('Invalid Smart Contract address.');
-      // }
+        }
+      } else if (activeItem === 1 && result.type === 'ERC721') {
+        setError('');
+        setTokenData(result.payload);
+      } else if (activeItem === 2 && result.type === 'ERC1155') {
+        setError('');
+        setTokenData(result.payload);
+      } else {
+        switch (activeItem) {
+          case 0:
+            setError('Invalid ERC20 address.');
+            break;
+          case 1:
+            setError('Invalid ERC721 address.');
+            break;
+          case 2:
+            setError('Invalid ERC1155 address.');
+            break;
+        }
+      }
+      if (value === '') setError('');
     } catch (err) {
       setError('Invalid Smart Contract address.');
       console.log(err);
@@ -195,17 +189,53 @@ const AddComponentModal = () => {
   };
 
   const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name } = event.target;
-    const value = event.target.value === '' ? '' : Number(event.target.value);
-    // setInputValues({
-    //   ...inputValues,
-    //   [name]: value,
-    // });
-    setInputValues((prevValues) => ({
-      ...prevValues,
-      [name]: value,
-    }));
-    setError('');
+    const { name, value } = event.target;
+    if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    } else if (value === '') {
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      })); // Allow empty string so user can delete content
+    }
+  };
+
+  const handleNumberKeyPress = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === '-' || event.key === '.') {
+      event.preventDefault();
+    }
+  };
+
+  const handleERC20AmountChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const validPattern = /^\d*(\.\d+)?$/;
+    const { name, value } = event.target;
+    if (validPattern.test(value) && Number(value) > 0) {
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    } else if (value === '') {
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      })); // Allow empty string so user can delete content
+    }
+    if (inputValues.erc20Address) setError('');
+  };
+
+  const handleErc20KeyPress = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (event.key === '-') {
+      event.preventDefault();
+    }
   };
 
   const handleAddButtonClicked = () => {
@@ -278,8 +308,19 @@ const AddComponentModal = () => {
   const handleCancelButtonClicked = () => {
     setIsAddComponentModalOpen(false);
     setInputValues(initialValues);
-    setError(false);
+    setError('');
   };
+
+  //   const showError = (message: string) => {
+  //   setError(message);
+
+  //   const timer = setTimeout(() => {
+  //     setError(''); // Hide the error message after 3 seconds
+  //   }, 3000);
+
+  //   // Cleanup function to clear the timeout if the component unmounts
+  //   return () => clearTimeout(timer);
+  // };
 
   return (
     <div
@@ -308,7 +349,7 @@ const AddComponentModal = () => {
                 onClick={() => {
                   setInputValues(initialValues);
                   setIsAddButtonDisabled(true);
-                  setError(false);
+                  setError('');
                 }}
               />
             }
@@ -319,7 +360,7 @@ const AddComponentModal = () => {
                 onClick={() => {
                   setInputValues(initialValues);
                   setIsAddButtonDisabled(true);
-                  setError(false);
+                  setError('');
                 }}
               />
             }
@@ -343,7 +384,7 @@ const AddComponentModal = () => {
                 value={inputValues.erc20Address}
               />
               {error && (
-                <div className="col-start-2 col-end-4 text-red-600 text-sm">
+                <div className="col-start-2 col-end-4 text-red-600 text-xs text-left pl-2">
                   {error}
                 </div>
               )}
@@ -357,8 +398,8 @@ const AddComponentModal = () => {
                 name="erc20Amount"
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
                 type="number"
-                step={1}
-                onChange={handleNumberChange}
+                onChange={handleERC20AmountChange}
+                onKeyPress={handleErc20KeyPress}
                 value={inputValues.erc20Amount}
               />
             </div>
@@ -375,13 +416,13 @@ const AddComponentModal = () => {
               <input
                 id="erc721-address"
                 name="erc721Address"
-                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
+                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:ring-primary focus:outline-none focus:ring-1 sm:text-sm"
                 type="text"
                 onChange={handleAddressChange}
                 value={inputValues.erc721Address}
               />
               {error && (
-                <div className="col-start-2 col-end-4 text-red-600 text-sm">
+                <div className="col-start-2 col-end-4 text-red-600 text-xs text-left pl-2">
                   {error}
                 </div>
               )}
@@ -397,6 +438,7 @@ const AddComponentModal = () => {
                 type="number"
                 step={1}
                 onChange={handleNumberChange}
+                onKeyPress={handleNumberKeyPress}
                 value={inputValues.erc721Id}
               />
             </div>
@@ -419,7 +461,7 @@ const AddComponentModal = () => {
                 value={inputValues.erc1155Address}
               />
               {error && (
-                <div className="col-start-2 col-end-4 text-red-600 text-sm">
+                <div className="col-start-2 col-end-4 text-red-600 text-xs text-left pl-2">
                   {error}
                 </div>
               )}
@@ -435,6 +477,7 @@ const AddComponentModal = () => {
                 type="number"
                 step={1}
                 onChange={handleNumberChange}
+                onKeyPress={handleNumberKeyPress}
                 value={inputValues.erc1155Id}
               />
             </div>
@@ -449,6 +492,7 @@ const AddComponentModal = () => {
                 type="number"
                 step={1}
                 onChange={handleNumberChange}
+                onKeyPress={handleNumberKeyPress}
                 value={inputValues.erc1155Amount}
               />
             </div>
