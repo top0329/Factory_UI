@@ -121,12 +121,11 @@ export type CreateBlueprint = {
 };
 
 export interface ListCardInterface {
-  isDecompose?: boolean;
+  isDecompose: boolean;
   type: number;
-  subType: number;
   uri: string;
   name: string;
-  address: Address;
+  address: string;
   id?: number;
   amount?: number;
 }

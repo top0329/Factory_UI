@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { useAtom } from 'jotai';
 import SearchBar from '../../components/SearchBar';
 import productData from '../../../own-blueprint-data.json';
-import { selectedOwnBlueprintAtom } from '../../jotai/atoms';
+import { selectedProductintAtom } from '../../jotai/atoms';
 import ProductCard from '../../components/Cards/BlueprintCard/ProductCard';
 import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer';
 
 const DecomposePage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
+  const [, setSelectedBlueprint] = useAtom(selectedProductintAtom);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -28,7 +28,7 @@ const DecomposePage = () => {
     <div className="text-white">
       <div className="flex flex-col min-w-[320px] gap-2 text-white">
         <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
-          My Product
+          My Products
         </h1>
         <div>
           <SearchBar placeholders="Search for Proudct ID and Name." />
