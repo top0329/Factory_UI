@@ -63,7 +63,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
     if (value === 'default-radio-1') {
       setFileText(''); // For "Files" radio button
     } else if (value === 'default-radio-2') {
-      setFileText('IPFS://'); // For "IPFS" radio button
+      setFileText(''); // For "IPFS" radio button
       setImageSrc(blueprintInfoImage);
     }
     setIsIPFSSelected(value === 'default-radio-2');
@@ -152,276 +152,296 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           style={{ display: 'none' }}
           id="hiddenFileInput"
         />
-        {imageSrc && (
-          <img
-            src={imageSrc}
-            alt="Uploaded"
-            style={{ maxWidth: '100%', height: '140px' }}
-          />
-        )}
+        {/* {imageSrc && ( */}
+        <img
+          src={imageSrc}
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = blueprintInfoImage;
+          }}
+          className="aspect-auto object-cover"
+          style={{ maxWidth: '100%', height: '140px' }}
+        />
+        {/* )} */}
       </div>
-      <div className="flex flex-col items-center lg:px-[16px] px-[10px] gap-2 ">
-        <div className="flex flex-col w-full gap-y-1 ">
-          <p className="text-xs text-[#858584]">Name</p>
-          <input
-            disabled={!editable}
-            value={name}
-            className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
-            ${
-              editable
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
-            }`}
-            onChange={(event) => {
-              const newName = event.target.value;
-              setCreateInfo((prevCreateInfo) => ({
-                ...prevCreateInfo,
-                name: newName,
-              }));
-              setName(newName);
-            }}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-y-1">
-          <p className="text-xs text-[#858584]">Total Supply</p>
-          <input
-            type="number"
-            disabled={!editable}
-            value={totalSupply}
-            onChange={(event) => {
-              const newSupplyNumber = Number(event.target.value);
-              setCreateInfo((prevCreateInfo) => ({
-                ...prevCreateInfo,
-                totalSupply: newSupplyNumber,
-              }));
-              setTotalSupply(newSupplyNumber);
-            }}
-            className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
-            ${
-              editable
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
-            }`}
-          />
-        </div>
-        <div className="flex flex-col w-full gap-y-1">
-          <div className="flex justify-between items-center gap-2">
-            <div className="flex items-center gap-2">
-              <CustomCheckbox
-                editable={!editable}
-                checked={uriChecked}
-                onChange={handleUriCheckedChange}
-              />
-              <p className="text-xs text-[#858584]">URI</p>
-            </div>
-            {uriChecked && (
-              <div className="flex gap-2">
-                <div className="flex items-center">
-                  <input
-                    id="default-radio-1"
-                    // checked={true}
-                    // defaultChecked={true}
-                    checked={!isIPFSSelected}
-                    type="radio"
-                    name="default-radio"
-                    onChange={handleRadioClick}
-                    className="w-4 h-4 !text-black !bg-gray-100 !border-gray-300 !focus:ring-black"
-                  />
-                  <label className="ms-1 text-xs font-medium text-[#858584]">
-                    Files
-                  </label>
-                </div>
-                <div className="flex items-center">
-                  <input
-                    id="default-radio-2"
-                    // defaultChecked={fileText === 'IPFS://'}
-                    checked={isIPFSSelected}
-                    type="radio"
-                    onChange={handleRadioClick}
-                    className="w-4 h-4 "
-                  />
-                  <label className="ms-1 text-xs font-medium text-[#858584]">
-                    IPFS
-                  </label>
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="flex justify-between">
+      <form>
+        <div className="flex flex-col items-center lg:px-[16px] px-[10px] gap-2 ">
+          <div className="flex flex-col w-full gap-y-1 ">
+            <p className="text-xs text-[#858584]">Name</p>
             <input
-              type="text"
-              value={fileText}
-              disabled={
-                !editable || !uriChecked || buttonEnable || !isIPFSSelected
-              }
+              disabled={!editable}
+              value={name}
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
+            ${
+              editable
+                ? 'bg-[#03070F] border-[#8B8B8B]'
+                : 'bg-[#010B10] border-[#191313]'
+            }`}
               onChange={(event) => {
-                handleFileNameChange;
-                const newUri = event.target.value;
+                const newName = event.target.value;
                 setCreateInfo((prevCreateInfo) => ({
                   ...prevCreateInfo,
-                  uri: newUri,
+                  name: newName,
                 }));
-                setFileText(newUri);
+                setName(newName);
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-l-lg
+              required
+            />
+          </div>
+          <div className="flex flex-col w-full gap-y-1">
+            <p className="text-xs text-[#858584]">Total Supply</p>
+            <input
+              type="number"
+              min="1"
+              disabled={!editable}
+              value={totalSupply}
+              onChange={(event) => {
+                const newSupplyNumber = Number(event.target.value);
+                setCreateInfo((prevCreateInfo) => ({
+                  ...prevCreateInfo,
+                  totalSupply: newSupplyNumber,
+                }));
+                setTotalSupply(newSupplyNumber);
+                if (newSupplyNumber == 0) setTotalSupply('');
+              }}
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
+            ${
+              editable
+                ? 'bg-[#03070F] border-[#8B8B8B]'
+                : 'bg-[#010B10] border-[#191313]'
+            }`}
+              required
+            />
+          </div>
+          <div className="flex flex-col w-full gap-y-1">
+            <div className="flex justify-between items-center gap-2">
+              <div className="flex items-center gap-2">
+                <CustomCheckbox
+                  editable={!editable}
+                  checked={uriChecked}
+                  onChange={handleUriCheckedChange}
+                />
+                <p className="text-xs text-[#858584]">URI</p>
+              </div>
+              {uriChecked && (
+                <div className="flex gap-2">
+                  <div className="flex items-center">
+                    <input
+                      id="default-radio-1"
+                      // checked={true}
+                      // defaultChecked={true}
+                      checked={!isIPFSSelected}
+                      type="radio"
+                      name="default-radio"
+                      onChange={handleRadioClick}
+                      className="w-4 h-4 !text-black !bg-gray-100 !border-gray-300 !focus:ring-black"
+                    />
+                    <label className="ms-1 text-xs font-medium text-[#858584]">
+                      Files
+                    </label>
+                  </div>
+                  <div className="flex items-center">
+                    <input
+                      id="default-radio-2"
+                      checked={isIPFSSelected}
+                      type="radio"
+                      onChange={handleRadioClick}
+                      className="w-4 h-4 "
+                    />
+                    <label className="ms-1 text-xs font-medium text-[#858584]">
+                      IPFS
+                    </label>
+                  </div>
+                </div>
+              )}
+            </div>
+            <div className="flex justify-between gap-[1px]">
+              <div>
+                <input
+                  type="text"
+                  value={fileText}
+                  disabled={
+                    !editable || !uriChecked || buttonEnable || !isIPFSSelected
+                  }
+                  onChange={(event) => {
+                    handleFileNameChange;
+                    const newUri = event.target.value;
+                    setCreateInfo((prevCreateInfo) => ({
+                      ...prevCreateInfo,
+                      uri: newUri,
+                    }));
+                    setFileText(newUri);
+                    setImageSrc('https://ipfs.io/ipfs/' + event.target.value);
+                  }}
+                  className={`border-[0.5px] w-full h-[28px] py-1 pl-[44px] rounded-l-lg
                 ${
                   editable && uriChecked && isIPFSSelected
                     ? 'bg-[#03070F] border-[#8B8B8B] mr-0.5'
                     : 'bg-[#010B10] border-[#191313] '
                 }`}
-            />
-            <button
-              onClick={triggerFileInputClick}
-              disabled={
-                !editable || !uriChecked || buttonEnable || isIPFSSelected
-              }
-              className={`px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg border-[0.5px]       ${
-                editable && uriChecked && !isIPFSSelected
-                  ? 'bg-[#03070F] border-[#8B8B8B] '
-                  : 'bg-[#010B10] border-[#191313]'
-              }`}
-            >
-              <Icon icon="icomoon-free:upload" className="text-[#939393]" />
-            </button>
-            <input
-              id="fimeName"
-              type="file"
-              // disabled={!editable || !mintPriceChecked || buttonEnable}
-              onChange={handleFileChange}
-              style={{ display: 'none' }} // Hide the file input
-            />
+                />
+                {isIPFSSelected &&
+                <p className="ml-2 mt-[-25px]">IPFS:</p>
+                }
+              </div>
+              <button
+                onClick={triggerFileInputClick}
+                disabled={
+                  !editable || !uriChecked || buttonEnable || isIPFSSelected
+                }
+                className={`px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg border-[0.5px]       ${
+                  editable && uriChecked && !isIPFSSelected
+                    ? 'bg-[#03070F] border-[#8B8B8B] '
+                    : 'bg-[#010B10] border-[#191313]'
+                }`}
+              >
+                <Icon icon="icomoon-free:upload" className="text-[#939393]" />
+              </button>
+              <input
+                id="fimeName"
+                type="file"
+                // disabled={!editable || !mintPriceChecked || buttonEnable}
+                onChange={handleFileChange}
+                style={{ display: 'none' }} // Hide the file input
+              />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col w-full gap-y-1">
-          <div className="flex justify-start items-center gap-2">
-            <CustomCheckbox
-              editable={!editable} // Or false, depending on whether you want the checkbox to be editable
-              checked={mintPriceChecked}
-              onChange={handleMintPriceChecked}
-            />
-            <p className="text-xs text-[#858584]">Mint Price</p>
-          </div>
-          <div className="flex justify-center">
-            <input
-              type="text"
-              disabled={!editable || !mintPriceChecked}
-              value={mintPrice}
-              onChange={(event) => {
-                const newMintPrice = Number(event.target.value);
-                setCreateInfo((prevCreateInfo) => ({
-                  ...prevCreateInfo,
-                  mintPrice: newMintPrice,
-                }));
-                setMintPrice(newMintPrice);
-              }}
-              className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg border-r-0
+          <div className="flex flex-col w-full gap-y-1">
+            <div className="flex justify-start items-center gap-2">
+              <CustomCheckbox
+                editable={!editable} // Or false, depending on whether you want the checkbox to be editable
+                checked={mintPriceChecked}
+                onChange={handleMintPriceChecked}
+              />
+              <p className="text-xs text-[#858584]">Mint Price</p>
+            </div>
+            <div className="flex justify-center">
+              <input
+                type="number"
+                disabled={!editable || !mintPriceChecked}
+                value={mintPrice}
+                onChange={(event) => {
+                  const newMintPrice = Number(event.target.value);
+                  setCreateInfo((prevCreateInfo) => ({
+                    ...prevCreateInfo,
+                    mintPrice: newMintPrice,
+                  }));
+                  setMintPrice(newMintPrice);
+                  if (newMintPrice == 0) setMintPrice('');
+                }}
+                className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg px-2 border-r-0
             ${
               editable && mintPriceChecked
                 ? 'bg-[#03070F] border-[#8B8B8B]'
                 : 'bg-[#010B10] border-[#191313]'
             }`}
-            />
-            <select
-              disabled={!editable || !mintPriceChecked}
+                required
+              />
+              <select
+                disabled={!editable || !mintPriceChecked}
+                onChange={(event) => {
+                  const newMintPriceUnit = Number(event.target.value);
+                  setCreateInfo((prevCreateInfo) => ({
+                    ...prevCreateInfo,
+                    mintPriceUnit: newMintPriceUnit,
+                  }));
+                }}
+                className={`!bg-[#4A4A4A]/20 rounded-r-lg text-center text-[11px] w-[50px] border-[0.5px] border-l-0 ${
+                  editable && mintPriceChecked
+                    ? 'bg-[#03070F] border-[#8B8B8B]'
+                    : 'bg-[#010B10] border-[#191313]'
+                }`}
+              >
+                <option value={0} className="!bg-[#4A4A4A]">
+                  ETH
+                </option>
+                <option value={1} className="!bg-[#4A4A4A]">
+                  USDT
+                </option>
+                <option value={2} className="!bg-[#4A4A4A]">
+                  USDC
+                </option>
+              </select>
+            </div>
+          </div>
+          <div className="flex flex-col w-full gap-y-1">
+            <div className="flex justify-start items-center gap-2">
+              <CustomCheckbox
+                editable={!editable} // Or false, depending on whether you want the checkbox to be editable
+                checked={mintLimitChecked}
+                onChange={handleMintLimitChecked}
+              />
+              <p className="text-xs text-[#858584]">Mint Limit</p>
+            </div>
+            <input
+              type="number"
+              disabled={!editable || !mintLimitChecked}
+              value={mintPriceLimit}
               onChange={(event) => {
-                const newMintPriceUnit = Number(event.target.value);
+                const newMintPriceLimit = Number(event.target.value);
                 setCreateInfo((prevCreateInfo) => ({
                   ...prevCreateInfo,
-                  mintPriceUnit: newMintPriceUnit,
+                  mintLimit: newMintPriceLimit,
                 }));
+                setMintPriceLimit(newMintPriceLimit);
+                if (newMintPriceLimit == 0) setMintPriceLimit('');
               }}
-              className={`!bg-[#4A4A4A]/20 rounded-r-lg text-center text-[11px] w-[50px] border-[0.5px] border-l-0 ${
-                editable && mintPriceChecked
-                  ? 'bg-[#03070F] border-[#8B8B8B]'
-                  : 'bg-[#010B10] border-[#191313]'
-              }`}
-            >
-              <option value={0} className="!bg-[#4A4A4A]">
-                ETH
-              </option>
-              <option value={1} className="!bg-[#4A4A4A]">
-                USDT
-              </option>
-              <option value={2} className="!bg-[#4A4A4A]">
-                USDC
-              </option>
-            </select>
-          </div>
-        </div>
-        <div className="flex flex-col w-full gap-y-1">
-          <div className="flex justify-start items-center gap-2">
-            <CustomCheckbox
-              editable={!editable} // Or false, depending on whether you want the checkbox to be editable
-              checked={mintLimitChecked}
-              onChange={handleMintLimitChecked}
-            />
-            <p className="text-xs text-[#858584]">Mint Limit</p>
-          </div>
-          <input
-            type="number"
-            disabled={!editable || !mintLimitChecked}
-            value={mintPriceLimit}
-            onChange={(event) => {
-              const newMintPriceLimit = Number(event.target.value);
-              setCreateInfo((prevCreateInfo) => ({
-                ...prevCreateInfo,
-                mintLimit: newMintPriceLimit,
-              }));
-              setMintPriceLimit(newMintPriceLimit);
-            }}
-            className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
             ${
               editable && mintLimitChecked
                 ? 'bg-[#03070F] border-[#8B8B8B]'
                 : 'bg-[#010B10] border-[#191313]'
             }`}
-          />
-        </div>
-        <div className="flex justify-between mt-2 !text-cente w-full gap-4">
-          <button
-            id="cancelButton"
-            disabled={!editable || !buttonEnable}
-            onClick={() => {
-              setEditable(false);
-              setButtonEnable(false);
-              setName('');
-              setTotalSupply('');
-              setMintPrice('');
-              setMintPriceLimit('');
-              setFileText('');
-              setUriChecked(false);
-              setMintPriceChecked(false);
-              setMintLimitChecked(false);
-              setImageSrc(blueprintInfoImage);
+              required
+            />
+          </div>
+          <div className="flex justify-between mt-2 !text-cente w-full gap-4">
+            <button
+              id="cancelButton"
+              disabled={!editable || !buttonEnable}
+              onClick={() => {
+                setEditable(false);
+                setButtonEnable(false);
+                setName('');
+                setTotalSupply('');
+                setMintPrice('');
+                setMintPriceLimit('');
+                setFileText('');
+                setUriChecked(false);
+                setMintPriceChecked(false);
+                setMintLimitChecked(false);
+                setImageSrc(blueprintInfoImage);
 
-              setCreateInfo((prevCreateInfo) => ({
-                ...prevCreateInfo,
-                totalSupply: 0,
-              }));
-            }}
-            className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
+                setCreateInfo((prevCreateInfo) => ({
+                  ...prevCreateInfo,
+                  totalSupply: 0,
+                }));
+              }}
+              className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
             ${
               editable && buttonEnable
                 ? 'bg-[#353535] text-white'
                 : 'bg-[#1F2937] text-[#718096]'
             }`}
-          >
-            Cancel
-          </button>
-          <button
-            onClick={onClick}
-            disabled={!editable || !buttonEnable}
-            className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              onClick={onClick}
+              disabled={!editable || !buttonEnable}
+              className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
             ${
               editable && buttonEnable
                 ? 'bg-primary text-white'
                 : 'bg-[#1F2937] text-[#718096]'
             }`}
-          >
-            Create
-          </button>
+            >
+              Create
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
