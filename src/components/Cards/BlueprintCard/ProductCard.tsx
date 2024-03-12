@@ -1,33 +1,35 @@
 import { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { useAtom } from 'jotai';
+// import { useAtom } from 'jotai';
 import Button from '../../Button';
-import {
-  selectedProductintAtom,
-  productSelectionState,
-} from '../../../jotai/atoms';
-import { SelectedProduct } from '../../../types';
+// import {
+//   selectedProductintAtom,
+//   productSelectionState,
+// } from '../../../jotai/atoms';
+// import { SelectedProduct } from '../../../types';
 
 export interface Props {
   uri: string;
   name: string;
-  blueprintId: number;
+  productId: number;
   balance: number;
   address: string;
   onClick?: () => void;
+  onClickDecompose: () => void;
 }
 
 const ProductCard: FC<Props> = ({
   uri,
   name,
-  blueprintId,
+  productId,
   balance,
   address,
   onClick,
+  onClickDecompose,
 }) => {
   const [tooltipMessage, setTooltipMessage] = useState('Copy to clipboard');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const copyToClipboard = () => {
     navigator.clipboard.writeText(address).then(() => {
       setTooltipMessage('Copied!'); // Update tooltip message on success
@@ -36,15 +38,15 @@ const ProductCard: FC<Props> = ({
       }, 2000); // Duration before resetting the tooltip message
     });
   };
-  const [selectedProduct] = useAtom<SelectedProduct>(selectedProductintAtom);
-  const [, setProductSelectionState] = useAtom<SelectedProduct>(
-    productSelectionState
-  );
-  const handleDecomposeClicked = () => {
-    setProductSelectionState(selectedProduct);
-    navigate(`/decompose/product/${selectedProduct.id}`);
+  // const [selectedProduct] = useAtom<SelectedProduct>(selectedProductintAtom);
+  // const [, setProductSelectionState] = useAtom<SelectedProduct>(
+  //   productSelectionState
+  // );
+  // const onClickDecompose = () => {
+  //   setProductSelectionState(selectedProduct);
+  //   navigate(`/decompose/product/${selectedProduct.id}`);
 
-  };
+  // };
   
   return (
     <div
@@ -87,7 +89,7 @@ const ProductCard: FC<Props> = ({
                 ID
               </p>
               <p className="text-sm md:text-base lg:text-lg items-center font-mono mt-[3.2px] ">
-                {blueprintId}
+                {productId}
               </p>
             </div>
             <div id="id" className="text-end hidden sm:block">
@@ -145,8 +147,8 @@ const ProductCard: FC<Props> = ({
             text="Decompose"
             onClick={(e) => {
               e.stopPropagation();
-              if (handleDecomposeClicked) {
-                handleDecomposeClicked();
+              if (onClickDecompose) {
+                onClickDecompose();
               }
             }}
             className="rounded-lg w-full justify-center xs:h-10 h-8 xs:text-[16px] text-[14px]"

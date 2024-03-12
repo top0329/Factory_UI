@@ -1,14 +1,18 @@
 import { useState } from 'react';
 import { useAtom } from 'jotai';
+import { useNavigate } from 'react-router-dom';
+
 import SearchBar from '../../components/SearchBar';
 import productData from '../../../own-blueprint-data.json';
-import { selectedProductintAtom } from '../../jotai/atoms';
+import { selectedProductintAtom, productSelectionState } from '../../jotai/atoms';
 import ProductCard from '../../components/Cards/BlueprintCard/ProductCard';
 import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer';
 
 const DecomposePage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [, setSelectedBlueprint] = useAtom(selectedProductintAtom);
+  const [, setSelectedProduct] = useAtom(selectedProductintAtom);
+  const [, setProductSelectionState] = useAtom(productSelectionState);
+  const navigate = useNavigate();
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -19,11 +23,16 @@ const DecomposePage = () => {
       document.body.style.overflow = 'hidden';
     }
   };
-  const handleBlueprintCardClicked = (blueprint: any) => {
-    setSelectedBlueprint(blueprint);
+  const handleProductCardClicked = (product: any) => {
+    setSelectedProduct(product);
     showSidebar();
   };
 
+  const handleDecomposeProduct = (product: any) => {
+    setSelectedProduct(product);
+    setProductSelectionState(product);
+    navigate(`/decompose/product/${product.id}`);
+  }
   return (
     <div className="text-white">
       <div className="flex flex-col min-w-[320px] gap-2 text-white">
@@ -39,12 +48,13 @@ const DecomposePage = () => {
               return (
                 <div className="flex justify-center" key={product.id}>
                   <ProductCard
-                    blueprintId={product.id}
+                    productId={product.id}
                     name={product.name}
                     uri={product.uri}
                     balance={product.balance}
                     address={product.blueprintAddress}
-                    onClick={() => handleBlueprintCardClicked(product)}
+                    onClick={() => handleProductCardClicked(product)}
+                    onClickDecompose={() => handleDecomposeProduct(product)}
                   />
                 </div>
               );
