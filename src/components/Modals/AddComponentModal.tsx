@@ -151,10 +151,10 @@ const AddComponentModal = () => {
         ...inputValues,
         [name]: value,
       });
-      if (!value || (await isContractAddress(value))) {
+      // if (!value || (await isContractAddress(value))) {
         const result = await checkContractType(value as Address | '');
-        if (result.type === 'Unknown')
-          setError('Invalid Smart Contract address.');
+        // if (result.type === 'Unknown')
+        //   setError('Invalid Smart Contract address.');
         if (activeItem === 0 && result.type === 'ERC20') {
           if (
             createBlueprint.data.erc20Data.some(
@@ -185,9 +185,9 @@ const AddComponentModal = () => {
               break;
           }
         } // If there's no input or the input is valid, clear error
-      } else {
-        setError('Invalid Smart Contract address.');
-      }
+      // } else {
+        // setError('Invalid Smart Contract address.');
+      // }
     } catch (err) {
       setError('Invalid Smart Contract address.');
       console.log(err);
