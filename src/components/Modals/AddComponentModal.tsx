@@ -12,7 +12,7 @@ import {
 } from '../../jotai/atoms';
 import Button from '../Button';
 import { AddComponentModalInputValue, CreateBlueprint } from '../../types';
-import isContractAddress from '../../utils/isContractAddress';
+// import isContractAddress from '../../utils/isContractAddress';
 import checkContractType from '../../utils/checkContractType';
 import getERC721Data from '../../utils/getERC721Data';
 import getERC1155Data from '../../utils/getERC1155Data';
