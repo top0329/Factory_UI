@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { fantomSonicTestnet } from 'viem/chains';
 
 function useWindowWidth() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -41,9 +40,6 @@ export default function AdvancedSort() {
       selectStyles.width = '320px';
     }
   }
-  const handleDirection = () => {
-    setisSortDown(!isSortDown);
-  };
 
   return (
     <div className="">
