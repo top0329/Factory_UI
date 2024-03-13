@@ -65,6 +65,18 @@ const BlueprintDetailDrawer: FC<Props> = ({
     setBlueprintSelectionState(selectedBlueprint);
   };
 
+  const handleRecreateBlueprintButtonClicked = () => {
+    navigate(`/blueprint/recreate/${selectedBlueprint.id}`);
+    sideDrawerClosedHandler();
+    setBlueprintSelectionState(selectedBlueprint);
+  };
+
+  const handleUpdateBlueprintButtonClicked = () => {
+    navigate(`/blueprint/update/${selectedBlueprint.id}`);
+    sideDrawerClosedHandler();
+    setBlueprintSelectionState(selectedBlueprint);
+  };
+
   const handleTabClick = (id: number) => {
     setActiveTab(id);
   };
@@ -153,18 +165,14 @@ const BlueprintDetailDrawer: FC<Props> = ({
                         className="text-base !py-1 !px-7 !bg-black"
                         text="Update"
                         variant="secondary"
-                        onClick={() =>
-                          navigate(`/blueprint/update/${selectedBlueprint.id}`)
-                        }
+                        onClick={handleUpdateBlueprintButtonClicked}
                       />
                     )}
                     <Button
                       className="text-base !py-1 !px-7 !bg-black"
                       text="Recreate"
                       variant="secondary"
-                      onClick={() =>
-                        navigate(`/blueprint/recreate/${selectedBlueprint.id}`)
-                      }
+                      onClick={handleRecreateBlueprintButtonClicked}
                     />
                   </React.Fragment>
                 )}

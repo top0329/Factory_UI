@@ -13,6 +13,7 @@ import {
 } from '../../jotai/atoms';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
+import { useEffect } from 'react';
 
 const NewBlueprintPage = () => {
   const [createBlueprint, setCreateBlueprint] = useAtom(createBlueprintAtom);
@@ -20,6 +21,24 @@ const NewBlueprintPage = () => {
     availableComponentAtom
   );
   const [, setIsAddComponentModalOpen] = useAtom(isAddComponentModalAtom);
+
+  useEffect(() => {
+    setCreateBlueprint({
+      name: '',
+      uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+      creator: '',
+      totalSupply: 0,
+      mintPrice: 0,
+      mintPriceUnit: 0,
+      mintLimit: 0,
+      data: {
+        erc20Data: [],
+        erc721Data: [],
+        erc1155Data: [],
+      },
+    });
+    setAvailableComponent(7);
+  }, [setAvailableComponent, setCreateBlueprint]);
 
   const handleAddComponentModalOpen = () => {
     if (availableComponent > 0) setIsAddComponentModalOpen(true);

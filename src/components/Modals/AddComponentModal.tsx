@@ -26,19 +26,19 @@ const AddComponentModal = () => {
       headerText: null,
       subText: null,
       image:
-        'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/Qme8EoD9DXyH5axFVxMu8XuwReHPcQFHM1LtkGA3xkCt88',
+        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
     },
     {
       headerText: null,
       subText: null,
       image:
-        'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmPqXLh5nwpRXzarBajaD7NG5hctwYoEkWjRiHdQGfhpQu',
+        'https://ipfs.io/ipfs/bafybeic6vxo3n4qxahvviwqayc4byweqfhiufijs6yxxruvwq452xdg56e',
     },
     {
       headerText: null,
       subText: null,
       image:
-        'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmRYYxbao8N9z3L8kPDYQnC5JQggj3pzTr6GwDBuYTpvAq',
+        'https://ipfs.io/ipfs/bafybeiep2v3wglztuqecw5ieggxaswirc2qrptss6auq6geoewy6risbqm',
     },
   ];
 
@@ -251,7 +251,7 @@ const AddComponentModal = () => {
                 name: tokenData.name,
                 uri:
                   tokenData.logo ||
-                  'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/Qme8EoD9DXyH5axFVxMu8XuwReHPcQFHM1LtkGA3xkCt88',
+                  'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
                 address: inputValues.erc20Address as Address,
                 amount: Number(inputValues.erc20Amount),
               },

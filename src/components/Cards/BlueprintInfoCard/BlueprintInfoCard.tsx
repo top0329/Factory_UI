@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import blueprintInfoImage from '../../../assets/images/blueprint.png';
 import { useAtom } from 'jotai';
+
 import { createBlueprintAtom } from '../../../jotai/atoms';
+import { CreateBlueprint } from '../../../types';
+import BlueprintDefaultImage from '../../../assets/images/blueprint.png';
 
 interface CustomCheckboxProps {
   editable: boolean;
@@ -11,6 +13,7 @@ interface CustomCheckboxProps {
 }
 
 export interface Props {
+  isRecreate?: boolean;
   onClick?: () => void;
 }
 const CheckboxIcon = btoa(
@@ -43,8 +46,10 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
     />
   );
 }
-export default function BlueprintInfoCard({ onClick }: Props) {
-  const [, setCreateInfo] = useAtom(createBlueprintAtom);
+
+const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
+  const [createInfo, setCreateInfo] =
+    useAtom<CreateBlueprint>(createBlueprintAtom);
   const [editable, setEditable] = useState(false);
   const [uriChecked, setUriChecked] = useState(false);
   const [mintPriceChecked, setMintPriceChecked] = useState(false);
@@ -58,6 +63,30 @@ export default function BlueprintInfoCard({ onClick }: Props) {
   const [totalSupply, setTotalSupply] = useState<number | ''>('');
   const [mintPrice, setMintPrice] = useState<number | ''>('');
   const [mintPriceLimit, setMintPriceLimit] = useState<number | ''>('');
+  const [imageSrc, setImageSrc] = useState<string>(
+    createInfo.uri.substring(21)
+  );
+
+  useEffect(() => {
+    if (isRecreate) setIsIPFSSelected(true);
+    setName(createInfo.name);
+    setTotalSupply(createInfo.totalSupply);
+    setImageSrc(
+      createInfo.uri.substring(21) ===
+        'bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi'
+        ? ''
+        : createInfo.uri.substring(21)
+    );
+    setMintPrice(createInfo.mintPrice);
+    setMintPriceLimit(createInfo.mintLimit);
+  }, [
+    createInfo.mintLimit,
+    createInfo.mintPrice,
+    createInfo.name,
+    createInfo.totalSupply,
+    createInfo.uri,
+    isRecreate,
+  ]);
 
   const handleRadioClick = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.currentTarget.id; // Use currentTarget when dealing with mouse events
@@ -65,10 +94,16 @@ export default function BlueprintInfoCard({ onClick }: Props) {
       setFileText(''); // For "Files" radio button
     } else if (value === 'default-radio-2') {
       setFileText(''); // For "IPFS" radio button
-      setImageSrc(blueprintInfoImage);
+      setImageSrc(
+        createInfo.uri.substring(21) ===
+          'bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi'
+          ? ''
+          : createInfo.uri.substring(21)
+      );
     }
     setIsIPFSSelected(value === 'default-radio-2');
   };
+
   const handleEditable = () => {
     setEditable(true);
   };
@@ -95,7 +130,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
     if (event.target.files && event.target.files.length > 0) {
       const fileName = event.target.files[0].name;
       setFileText(fileName);
-      setImageSrc(blueprintInfoImage);
+      setImageSrc(createInfo.uri.substring(21));
     }
   };
 
@@ -152,12 +187,13 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           id="hiddenFileInput"
         />
         <img
-          src={imageSrc}
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            target.src = blueprintInfoImage;
+            target.src =
+              BlueprintDefaultImage;
           }}
           className="aspect-auto object-cover"
+          src={isIPFSSelected ? `https://ipfs.io/ipfs/${imageSrc}` : fileText}
           style={{ maxWidth: '100%', height: '140px' }}
         />
       </div>
@@ -191,7 +227,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
               type="number"
               min="1"
               disabled={!editable}
-              value={totalSupply}
+              value={totalSupply === 0 ? '' : totalSupply}
               onChange={(event) => {
                 const newSupplyNumber = Number(event.target.value);
                 setCreateInfo((prevCreateInfo) => ({
@@ -253,10 +289,10 @@ export default function BlueprintInfoCard({ onClick }: Props) {
               )}
             </div>
             <div className="flex justify-between gap-[1px]">
-              <div>
+              <div className={`${isIPFSSelected ? 'w-full' : ''}`}>
                 <input
                   type="text"
-                  value={fileText}
+                  value={isIPFSSelected ? imageSrc.substring(21) : fileText}
                   disabled={
                     !editable || !uriChecked || buttonEnable || !isIPFSSelected
                   }
@@ -265,12 +301,14 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                     const newUri = event.target.value;
                     setCreateInfo((prevCreateInfo) => ({
                       ...prevCreateInfo,
-                      uri: newUri,
+                      uri: `https://ipfs.io/ipfs/${newUri}`,
                     }));
                     setFileText(newUri);
-                    setImageSrc('https://ipfs.io/ipfs/' + event.target.value);
+                    setImageSrc(event.target.value);
                   }}
-                  className={`border-[0.5px] w-full h-[28px] py-1 pl-[44px] rounded-l-lg
+                  className={`border-[0.5px] w-full h-[28px] py-1 pl-[44px] ${
+                    isIPFSSelected ? 'rounded' : 'rounded-l-lg'
+                  }
                 ${
                   editable && uriChecked && isIPFSSelected
                     ? 'bg-[#03070F] border-[#8B8B8B] mr-0.5'
@@ -279,19 +317,21 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                 />
                 {isIPFSSelected && <p className="ml-2 mt-[-25px]">IPFS:</p>}
               </div>
-              <button
-                onClick={triggerFileInputClick}
-                disabled={
-                  !editable || !uriChecked || buttonEnable || isIPFSSelected
-                }
-                className={`px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg border-[0.5px]       ${
-                  editable && uriChecked && !isIPFSSelected
-                    ? 'bg-[#03070F] border-[#8B8B8B] '
-                    : 'bg-[#010B10] border-[#191313]'
-                }`}
-              >
-                <Icon icon="icomoon-free:upload" className="text-[#939393]" />
-              </button>
+              {!isIPFSSelected && (
+                <button
+                  onClick={triggerFileInputClick}
+                  disabled={
+                    !editable || !uriChecked || buttonEnable || isIPFSSelected
+                  }
+                  className={`px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg border-[0.5px]       ${
+                    editable && uriChecked && !isIPFSSelected
+                      ? 'bg-[#03070F] border-[#8B8B8B] '
+                      : 'bg-[#010B10] border-[#191313]'
+                  }`}
+                >
+                  <Icon icon="icomoon-free:upload" className="text-[#939393]" />
+                </button>
+              )}
               <input
                 id="fimeName"
                 type="file"
@@ -314,7 +354,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
               <input
                 type="number"
                 disabled={!editable || !mintPriceChecked}
-                value={mintPrice}
+                value={mintPrice === 0 ? '' : mintPrice}
                 onChange={(event) => {
                   const newMintPrice = Number(event.target.value);
                   setCreateInfo((prevCreateInfo) => ({
@@ -346,6 +386,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                     ? 'bg-[#03070F] border-[#8B8B8B]'
                     : 'bg-[#010B10] border-[#191313]'
                 }`}
+                defaultValue={createInfo.mintPriceUnit}
               >
                 <option value={0} className="!bg-[#4A4A4A]">
                   ETH
@@ -371,7 +412,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
             <input
               type="number"
               disabled={!editable || !mintLimitChecked}
-              value={mintPriceLimit}
+              value={mintPriceLimit === 0 ? '' : mintPriceLimit}
               onChange={(event) => {
                 const newMintPriceLimit = Number(event.target.value);
                 setCreateInfo((prevCreateInfo) => ({
@@ -405,7 +446,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                 setUriChecked(false);
                 setMintPriceChecked(false);
                 setMintLimitChecked(false);
-                setImageSrc(blueprintInfoImage);
+                setImageSrc(createInfo.uri.substring(21));
 
                 setCreateInfo((prevCreateInfo) => ({
                   ...prevCreateInfo,
@@ -432,11 +473,13 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                 : 'bg-[#1F2937] text-[#718096]'
             }`}
             >
-              Create
+              {isRecreate ? 'Recreate' : 'Create'}
             </button>
           </div>
         </div>
       </form>
     </div>
   );
-}
+};
+
+export default BlueprintInfoCard;
