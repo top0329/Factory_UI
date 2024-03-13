@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { fantomSonicTestnet } from 'viem/chains';
 
 function useWindowWidth() {
   const [width, setWidth] = useState(window.innerWidth);
@@ -17,8 +18,14 @@ function useWindowWidth() {
 }
 
 export default function AdvancedSort() {
-  const [selectedValue, setSelectedValue] = useState('');
-  const [sortDown, setSortDown] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(
+    <>
+      <Icon icon="iconamoon:sorting-left" className="text-[#858584] w-6 h-6" />
+      Sort by
+    </>
+  );
+  const [isSortDown, setisSortDown] = useState(false);
   // Inline styles for select element
   // const selectStyles = {
   //   width: "100%", // Default width to take full space
@@ -35,60 +42,201 @@ export default function AdvancedSort() {
     }
   }
   const handleDirection = () => {
-    setSortDown(!sortDown);
+    setisSortDown(!isSortDown);
   };
 
   return (
-    <div className="relative">
+    <div className="">
+      <button
+        id="dropdownDefaultButton"
+        data-dropdown-toggle="dropdown"
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        className="flex gap-4 w-52 text-[#858584] truncate bg-[#000] border border-[#B1B1B1] focus:outline-none font-medium rounded-xl text-sm px-5 py-2.5 text-center items-center"
+        type="button"
+      >
+        {selectedValue}
+      </button>
+
       <div
+        id="dropdown"
         className={`${
-          selectedValue.length != 0 ? 'hidden' : 'block'
-        } pointer-events-auto absolute inset-y-0 left-0 flex items-center px-2 text-gray-700`}
+          isDropdownOpen ? 'translate-y-0' : 'translate-y-[-700px]'
+        } z-30 absolute bg-[#000] mt-1 p-1 divide-y divide-gray-100 rounded-lg shadow w-52`}
       >
-        <Icon
-          onClick={handleDirection}
-          icon="iconamoon:sorting-left"
-          className="text-light-gray w-6 h-6"
-        />
+        <ul
+          className="py-2 text-sm text-gray-700"
+          aria-labelledby="dropdownDefaultButton"
+        >
+          <li>
+            <p
+              onClick={() => {
+                setSelectedValue(
+                  <>
+                    {isSortDown ? (
+                      <Icon
+                        icon="bi:sort-down"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    ) : (
+                      <Icon
+                        icon="bi:sort-up"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    )}
+                    Blueprint ID
+                  </>
+                );
+                setIsDropdownOpen(false);
+                setisSortDown(!isSortDown);
+              }}
+              className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+            >
+              Blueprint ID
+            </p>
+          </li>
+          <li>
+            <p
+              onClick={() => {
+                setSelectedValue(
+                  <>
+                    {isSortDown ? (
+                      <Icon
+                        icon="bi:sort-down"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    ) : (
+                      <Icon
+                        icon="bi:sort-up"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    )}
+                    Blueprint Name
+                  </>
+                );
+                setIsDropdownOpen(false);
+                setisSortDown(!isSortDown);
+              }}
+              className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+            >
+              Blueprint Name
+            </p>
+          </li>
+          <li>
+            <p
+              onClick={() => {
+                setSelectedValue(
+                  <>
+                    {isSortDown ? (
+                      <Icon
+                        icon="bi:sort-down"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    ) : (
+                      <Icon
+                        icon="bi:sort-up"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    )}
+                    Total Supply
+                  </>
+                );
+                setIsDropdownOpen(false);
+                setisSortDown(!isSortDown);
+              }}
+              className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+            >
+              Total Supply
+            </p>
+          </li>
+          <li>
+            <p
+              onClick={() => {
+                setSelectedValue(
+                  <>
+                    {isSortDown ? (
+                      <Icon
+                        icon="bi:sort-down"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    ) : (
+                      <Icon
+                        icon="bi:sort-up"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    )}
+                    Mint Limit
+                  </>
+                );
+                setIsDropdownOpen(false);
+                setisSortDown(!isSortDown);
+              }}
+              className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+            >
+              Mint Limit
+            </p>
+          </li>
+          <li>
+            <p
+              onClick={() => {
+                setSelectedValue(
+                  <>
+                    {isSortDown ? (
+                      <Icon
+                        icon="bi:sort-down"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    ) : (
+                      <Icon
+                        icon="bi:sort-up"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    )}
+                    Mint Price
+                  </>
+                );
+                setIsDropdownOpen(false);
+                setisSortDown(!isSortDown);
+              }}
+              className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+            >
+              Mint Price
+            </p>
+          </li>
+          <li>
+            <p
+              onClick={() => {
+                setSelectedValue(
+                  <>
+                    {isSortDown ? (
+                      <Icon
+                        icon="bi:sort-down"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    ) : (
+                      <Icon
+                        icon="bi:sort-up"
+                        className={` text-light-gray w-6 h-6`}
+                      />
+                    )}
+                    Minted Amount
+                  </>
+                );
+                setIsDropdownOpen(false);
+                setisSortDown(!isSortDown);
+              }}
+              className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+            >
+              Minted Amount
+            </p>
+          </li>
+        </ul>
       </div>
       <div
-        className={`${
-          selectedValue.length == 0 ? 'hidden' : 'block'
-        } pointer-events-auto absolute inset-y-0 left-0 flex items-center px-2 text-gray-700`}
-      >
-        <Icon
-          onClick={handleDirection}
-          icon="bi:sort-down"
-          className={`${sortDown ? 'block' : 'hidden'} text-light-gray w-6 h-6`}
-        />
-        <Icon
-          onClick={handleDirection}
-          icon="bi:sort-up"
-          className={`${sortDown ? 'hidden' : 'block'} text-light-gray w-6 h-6`}
-        />
-      </div>
-      <select
-        style={selectStyles}
-        onChange={(e) => setSelectedValue(e.target.value)}
-        value={selectedValue}
-        className="appearance-none inset-y-0 left-2 bg-black border border-gray-400 hover:border-gray-500 px-8 py-2 rounded-lg shadow leading-tight focus:outline-none focus:shadow-outline text-white/30"
-      >
-        <option className="pl-2" value="" disabled>
-          Sort by
-        </option>
-        <option value="Blueprint ID">Blueprint ID</option>
-        <option value="Blueprint Name">Blueprint Name</option>
-        <option value="Total Supply">Total Supply</option>
-        <option value="Mint Limit">Mint Limit</option>
-        <option value="Mint Price">Mint Price</option>
-        <option value="Minted Amount">Minted Amount</option>
-      </select>
-      <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-        <Icon
-          icon="icon-park-solid:down-one"
-          className="text-light-gray w-6 h-6"
-        />
-      </div>
+        className={`fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center z-10 ${
+          !isDropdownOpen && 'hidden'
+        }`}
+        onClick={() => setIsDropdownOpen(false)}
+      ></div>
     </div>
   );
 }

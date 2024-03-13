@@ -70,7 +70,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (isRecreate) setIsIPFSSelected(true);
+    setIsIPFSSelected(true);
     setName(createInfo.name);
     setTotalSupply(createInfo.totalSupply);
     setImageSrc(
