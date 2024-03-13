@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 
@@ -65,6 +65,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
     createInfo.uri.substring(21)
   );
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     if (isRecreate) setIsIPFSSelected(true);
     setName(createInfo.name);
@@ -122,16 +124,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
     setButtonEnable(true);
   };
 
-  const handleFileChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const fileName = event.target.files[0].name;
-      setFileText(fileName);
-      setImageSrc(createInfo.uri.substring(21));
-    }
-  };
-
   const handleFileNameChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
@@ -139,21 +131,26 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files && event.target.files[0];
+    const file = event.target.files ? event.target.files[0] : null;
     if (file) {
+      console.log(file);
+      // Create a URL for the uploaded file
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageSrc(reader.result as string);
-        setFileText('');
+        setFileText(file.name);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const triggerFileInputClick = () => {
-    const fileInputElement = document.getElementById('hiddenFileInput');
-    if (fileInputElement) {
-      fileInputElement.click();
+  const triggerFileInputClick = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
   };
 
@@ -178,20 +175,20 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
       </div>
       <div className="flex flex-col gap-0 justify-center">
         <input
+          id="hiddenFileInput"
           type="file"
           accept="image/*"
+          ref={fileInputRef}
           onChange={handleImageChange}
           style={{ display: 'none' }}
-          id="hiddenFileInput"
         />
         <img
           onError={(e) => {
             const target = e.target as HTMLImageElement;
-            target.src =
-              BlueprintDefaultImage;
+            target.src = BlueprintDefaultImage;
           }}
           className="aspect-auto object-cover"
-          src={isIPFSSelected ? `https://ipfs.io/ipfs/${imageSrc}` : fileText}
+          src={isIPFSSelected ? `https://ipfs.io/ipfs/${imageSrc}` : imageSrc}
           style={{ maxWidth: '100%', height: '140px' }}
         />
       </div>
@@ -287,10 +284,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
               )}
             </div>
             <div className="flex justify-between gap-[1px]">
-              <div className={`${isIPFSSelected ? 'w-full' : ''}`}>
+              <div className="w-full">
                 <input
                   type="text"
                   value={isIPFSSelected ? imageSrc.substring(21) : fileText}
+                  // value={fileText}
                   disabled={
                     !editable || !uriChecked || buttonEnable || !isIPFSSelected
                   }
@@ -302,10 +300,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
                       uri: `https://ipfs.io/ipfs/${newUri}`,
                     }));
                     setFileText(newUri);
-                    setImageSrc(event.target.value);
+                    setImageSrc(`https://ipfs.io/ipfs/${event.target.value}`);
                   }}
-                  className={`border-[0.5px] w-full h-[28px] py-1 pl-[44px] ${
-                    isIPFSSelected ? 'rounded' : 'rounded-l-lg'
+                  className={`border-[0.5px] w-full h-[28px] py-1 ${
+                    isIPFSSelected ? 'rounded pl-[44px]' : 'rounded-l-lg pl-2'
                   }
                 ${
                   editable && uriChecked && isIPFSSelected
@@ -330,13 +328,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
                   <Icon icon="icomoon-free:upload" className="text-[#939393]" />
                 </button>
               )}
-              <input
-                id="fimeName"
-                type="file"
-                // disabled={!editable || !mintPriceChecked || buttonEnable}
-                onChange={handleFileChange}
-                style={{ display: 'none' }} // Hide the file input
-              />
             </div>
           </div>
           <div className="flex flex-col w-full gap-y-1">
