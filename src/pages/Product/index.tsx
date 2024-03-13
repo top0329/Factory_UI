@@ -1,12 +1,13 @@
-import { useState } from "react";
-import { useAtom } from "jotai";
-import OwnBlueprintCard from "../../components/Cards/BlueprintCard/OwnBlueprintCard";
-import SearchBar from "../../components/SearchBar";
-import OwnBlueprintDetailsDrawer from "../../components/Drawers/OwnBlueprintDetailsDrawer";
+import { useState } from 'react';
+import { useAtom } from 'jotai';
+import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
+import SearchBar from '../../components/SearchBar';
+import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
+import BlueprintUpdateCard from '../../components/Cards/BlueprintInfoCard/BlueprintUpdateCard';
 // import BlueprintCard from "../../components/Cards/BlueprintCard/BlueprintCard";
-import BlueprintInfoCard from "../../components/Cards/BlueprintInfoCard/BlueprintInfoCard";
-import productData from "../../../own-blueprint-data.json";
-import { selectedOwnBlueprintAtom } from "../../jotai/atoms";
+import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard/BlueprintInfoCard';
+import productData from '../../../own-blueprint-data.json';
+import { selectedOwnBlueprintAtom } from '../../jotai/atoms';
 
 const ProductPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -17,8 +18,8 @@ const ProductPage = () => {
     setIsDrawerOpen(true);
 
     // Disables Background Scrolling whilst the SideDrawer/Modal is open
-    if (typeof window != "undefined" && window.document) {
-      document.body.style.overflow = "hidden";
+    if (typeof window != 'undefined' && window.document) {
+      document.body.style.overflow = 'hidden';
     }
   };
   const handleBlueprintCardClicked = (blueprint: any) => {
@@ -58,6 +59,7 @@ const ProductPage = () => {
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />
+      <BlueprintUpdateCard />
     </div>
   );
 };
