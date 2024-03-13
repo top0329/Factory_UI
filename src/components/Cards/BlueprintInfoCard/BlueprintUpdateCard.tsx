@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import blueprintInfoImage from '../../../assets/images/blueprint.png';
 
 
+
 export default function BlueprintUpdateCard() {
   const [editable, setEditable] = useState(false);
   const [buttonEnable, setButtonEnable] = useState(false);
@@ -38,7 +39,6 @@ export default function BlueprintUpdateCard() {
         src={blueprintInfoImage}
         className="w-full h-[202px] overflow-hidden	"
       />
-
       <div className="flex flex-col items-center px-[32px] gap-y-2 text-white">
         <div className="flex flex-col w-full gap-y-1 ">
           <p className="text-xs text-[#858584]">Name</p>

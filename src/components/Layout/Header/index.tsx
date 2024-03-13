@@ -69,7 +69,7 @@ function Header() {
             <div
               className={`z-30 ${
                 isListButtonClicked ? 'translate-y-0' : 'translate-y-[-400px]'
-              } bg-black shadow w-full absolute top-14 right-0 text-light-gray delay-400 duration-500 ease-in-out transition-all transform`}
+              } bg-black shadow w-full absolute top-14 right-0 text-light-gray delay-400 duration-500 ease-in-out transition-all transform sm:hidden`}
             >
               <ul
                 className="p-4 text-base text-light-gray"
