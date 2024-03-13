@@ -86,7 +86,7 @@ export const productSelectionState = localStorageEffect('selected-product')(
 export const isCreatorModeAtom = atom<boolean>(false);
 export const createBlueprintAtom = atom<CreateBlueprint>({
   name: '',
-  uri: 'https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmeQ8HeECmvwS2He66ccwrK9rbUuMzoLVJ3JiCbRWRbwqo',
+  uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
   creator: '',
   totalSupply: 0,
   mintPrice: 0,

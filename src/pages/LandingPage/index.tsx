@@ -245,7 +245,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Black Tea"
-                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/black_tea_1155.webp"
+                      uri="https://ipfs.io/ipfs/bafkreigw4ex37u2tl3tt5kocwacrbq3ucox2pkmmlojg3f3lc2545vzcza"
                     />
                   </div>
                 </li>

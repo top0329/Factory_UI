@@ -26,11 +26,11 @@
   {
     "id": 37,
     "name": "Black Tea",
-    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/black_tea_1155.webp",
+    "uri": "https://ipfs.io/ipfs/bafkreigw4ex37u2tl3tt5kocwacrbq3ucox2pkmmlojg3f3lc2545vzcza",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
-    "mintPriceUnit": 0,
+    "mintPriceUnit": 1,
     "mintLimit": 100,
     "mintedAmount": 10000,
     "myBlueprint": false,
@@ -64,7 +64,7 @@
   {
     "id": 65,
     "name": "Lemon Tea",
-    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/Lemon_tea_1155.webp",
+    "uri": "https://ipfs.io/ipfs/bafybeihunhorg2bja43uraz4fqcrr5iwjat4wrok2j3sg3zzabpsbc22xy",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
@@ -335,7 +335,7 @@
   {
     "id": 92,
     "name": "Axe",
-    "uri": "https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/axe_iron_wood_1155.webp",
+    "uri": "https://ipfs.io/ipfs/bafkreickfk673wisrpm6uhy3udlqozxxr6hmys4anijhhdu6qyriongkva",
     "creator": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc",
     "totalSupply": 100000000,
     "mintPrice": 0.001,
