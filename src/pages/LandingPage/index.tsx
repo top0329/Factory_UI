@@ -232,7 +232,7 @@ const LandingPage = () => {
                       mintUnit={1}
                       totalSupply={100000000}
                       name="Iron Sword"
-                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/iron%20sword.webp"
+                      uri="https://ipfs.io/ipfs/bafkreih47rxou2qm5kmc6ye5fxae37aih2qkjvlizrgzrzhjp7tqsvkzh4"
                     />
                   </div>
                 </li>
@@ -258,7 +258,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Spear"
-                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/spear_1155.webp"
+                      uri="https://ipfs.io/ipfs/bafkreigc7k7kmuc6nh2ykdn4hto26nnqpltnvrjh2mu5zsioaeo5cic3kq"
                     />
                   </div>
                 </li>
@@ -271,7 +271,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Gold Coin"
-                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/gold_coin_1155.webp"
+                      uri="https://ipfs.io/ipfs/bafkreiaw3v4sctoiryu5wmwcqznzngjymfrgjswt667zb4msda6lg54boy"
                     />
                   </div>
                 </li>
@@ -284,7 +284,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Milk Tea"
-                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/milk_tea_1155.webp"
+                      uri="https://ipfs.io/ipfs/bafkreie4shaao65odx4ie7oqfdr5vldbbg4pbwib4gragksb7z6ae3eabq"
                     />
                   </div>
                 </li>
@@ -297,7 +297,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Coffee"
-                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/coffee_1155.webp"
+                      uri="https://ipfs.io/ipfs/bafybeig6qdkvvfa2o24x7xbwsyyd3n3nichylckgyqgygots22pzi3amjm"
                     />
                   </div>
                 </li>
@@ -310,7 +310,7 @@ const LandingPage = () => {
                       mintPrice={0.001}
                       totalSupply={100000000}
                       name="Silver Coin"
-                      uri="https://indigo-payable-walrus-596.mypinata.cloud/ipfs/QmZHBY1MB1AzZttMc1WkPiUM68ZqjUkBxxv87znCmfkHQY/siliver_coin_1155.webp"
+                      uri="https://ipfs.io/ipfs/bafybeibp23rhdzkvgkek2zj4jxg3ti7qqcgmfpwevz3ni4dnicw2kvz77a"
                     />
                   </div>
                 </li>
