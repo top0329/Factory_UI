@@ -91,7 +91,12 @@ const MintProductPage = () => {
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
   };
-
+  const closeModal = (event: React.MouseEvent) => {
+    // Verify if the target is the backdrop to avoid closing when clicking inside the modal
+    if (event.target === event.currentTarget) {
+      setIsModalOpen(false);
+    }
+  };
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px]">
       <div className="relative rounded-3xl bg-[#011018] w-full pb-6 sm:w-[614px] border-2 border-[#1f1f1f]">
@@ -178,13 +183,15 @@ const MintProductPage = () => {
           aria-hidden="true"
           // tabIndex={-1}
           className="fixed top-0 z-50 flex justify-center items-center h-modal md:h-full inset-0 "
+          style={{ backdropFilter: 'blur(3px)' }}
+          onClick={closeModal}
         >
           <div className="relative p-4 sm:w-[1000px] xs:w-[500px] w-[400px]">
-            <div className="relative bg-[#011018] border border-[#09F5D8]/20 rounded-lg shadow dark:bg-gray-700">
+            <div className="relative bg-[#011018] border border-[#09F5D8]/20 rounded-[32px] shadow">
               <h3 className="text-[32px] py-6 font-semibold text-center text-white">
                 Mint Product
               </h3>
-              <div className="flex flex-col items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600">
+              <div className="flex flex-col items-center p-6 border-t border-gray-200 rounded-b">
                 {selectedOwnData.data.erc20Data.map((dataItem, index) => (
                   <ProductListCard
                     isDecompose={false}
