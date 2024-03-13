@@ -27,10 +27,10 @@ const DecomposeProductPage = () => {
               id={selectedOwnData.id}
               amount={selectedOwnData.balance}
             />
-            <div className="flex justify-between gap-6 items-center">
+            <div className="order-2 md:order-1 flex justify-between gap-6 items-center">
               <input
                 type="number"
-                className="w-[70%] h-[40px] rounded-xl bg-black border border-white px-2"
+                className="md:w-[70%] w-1/2 h-[40px] rounded-xl bg-black border border-white px-2"
               ></input>
               <Button
                 className="flex justify-center w-[160px] h-9 rounded-xl"
@@ -38,8 +38,8 @@ const DecomposeProductPage = () => {
                 variant="primary"
               />
             </div>
-            <div className="hidden md:flex justify-between items-center">
-              <p className="text-[24px] text-[#BABABA]">
+            <div className="order-1 md:order-2 flex justify-between md:w-[70%] items-center">
+              <p className="text-[22px] text-[#BABABA]">
                 Product Decompose Fee
               </p>
               <p className="text-[24px] font-semibold">0.1 ETH</p>
