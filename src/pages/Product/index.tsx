@@ -3,9 +3,6 @@ import { useAtom } from 'jotai';
 import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
 import SearchBar from '../../components/SearchBar';
 import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
-import BlueprintUpdateCard from '../../components/Cards/BlueprintInfoCard/BlueprintUpdateCard';
-// import BlueprintCard from "../../components/Cards/BlueprintCard/BlueprintCard";
-import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard/BlueprintInfoCard';
 import productData from '../../../own-blueprint-data.json';
 import { selectedOwnBlueprintAtom } from '../../jotai/atoms';
 
@@ -51,15 +48,11 @@ const ProductPage = () => {
               </div>
             );
           })}
-        <BlueprintInfoCard />
-        {/* <BlueprintInfoCard /> */}
-        {/* <BlueprintInfoCard /> */}
       </div>
       <OwnBlueprintDetailsDrawer
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}
       />
-      <BlueprintUpdateCard />
     </div>
   );
 };

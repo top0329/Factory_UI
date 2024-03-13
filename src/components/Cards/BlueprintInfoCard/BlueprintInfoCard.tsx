@@ -54,6 +54,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
   const [uriChecked, setUriChecked] = useState(false);
   const [mintPriceChecked, setMintPriceChecked] = useState(false);
   const [mintLimitChecked, setMintLimitChecked] = useState(false);
+  const [creatorChecked, setCreatorChecked] = useState(false);
   const [buttonEnable, setButtonEnable] = useState(false);
   const [fileText, setFileText] = useState('');
   const [isIPFSSelected, setIsIPFSSelected] = useState(false);
@@ -61,6 +62,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
   const [totalSupply, setTotalSupply] = useState<number | ''>('');
   const [mintPrice, setMintPrice] = useState<number | ''>('');
   const [mintPriceLimit, setMintPriceLimit] = useState<number | ''>('');
+  const [creator, setCreator] = useState<string | ''>('');
   const [imageSrc, setImageSrc] = useState<string>(
     createInfo.uri.substring(21)
   );
@@ -79,6 +81,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
     );
     setMintPrice(createInfo.mintPrice);
     setMintPriceLimit(createInfo.mintLimit);
+    setCreator(createInfo.creator);
   }, [
     createInfo.mintLimit,
     createInfo.mintPrice,
@@ -118,6 +121,9 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
 
   const handleMintLimitChecked = () => {
     setMintLimitChecked(!mintLimitChecked);
+  };
+  const handleCreatorChecked = () => {
+    setCreatorChecked(!creatorChecked);
   };
 
   const handleButtonEnable = () => {
@@ -197,13 +203,13 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
           <div className="flex flex-col w-full gap-y-1 ">
             <p className="text-xs text-[#858584]">Name</p>
             <input
-              disabled={!editable}
+              disabled={isRecreate ? !editable : true}
               value={name}
               className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
             ${
-              editable
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
+              !editable
+                ? 'bg-[#010B10] border-[#191313]'
+                : 'bg-[#03070F] border-[#8B8B8B]'
             }`}
               onChange={(event) => {
                 const newName = event.target.value;
@@ -221,7 +227,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
             <input
               type="number"
               min="1"
-              disabled={!editable}
+              disabled={isRecreate ? !editable : true}
               value={totalSupply === 0 ? '' : totalSupply}
               onChange={(event) => {
                 const newSupplyNumber = Number(event.target.value);
@@ -234,9 +240,9 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
               }}
               className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
             ${
-              editable
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
+              !editable
+                ? 'bg-[#010B10] border-[#191313]'
+                : 'bg-[#03070F] border-[#8B8B8B]'
             }`}
               required
             />
@@ -420,6 +426,38 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
               required
             />
           </div>
+          {!isRecreate && (
+            <div className="flex flex-col w-full gap-y-1">
+              <div className="flex justify-start items-center gap-2">
+                <CustomCheckbox
+                  editable={!editable} // Or false, depending on whether you want the checkbox to be editable
+                  checked={creatorChecked}
+                  onChange={handleCreatorChecked}
+                />
+                <p className="text-xs text-[#858584]">Creator</p>
+              </div>
+              <input
+                type="text"
+                disabled={!editable || !creatorChecked}
+                value={creator}
+                onChange={(event) => {
+                  const newCreator = event.target.value;
+                  setCreateInfo((prevCreateInfo) => ({
+                    ...prevCreateInfo,
+                    creator: `0x${newCreator}`,
+                  }));
+                  setCreator(newCreator);
+                }}
+                className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
+            ${
+              editable && mintLimitChecked
+                ? 'bg-[#03070F] border-[#8B8B8B]'
+                : 'bg-[#010B10] border-[#191313]'
+            }`}
+                required
+              />
+            </div>
+          )}
           <div className="flex justify-between mt-2 !text-cente w-full gap-4">
             <button
               id="cancelButton"
@@ -431,6 +469,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
                 setTotalSupply('');
                 setMintPrice('');
                 setMintPriceLimit('');
+                setCreator('');
                 setFileText('');
                 setUriChecked(false);
                 setMintPriceChecked(false);
