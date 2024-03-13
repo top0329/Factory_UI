@@ -52,6 +52,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
   const [buttonEnable, setButtonEnable] = useState(false);
   const [fileText, setFileText] = useState('');
   const [isIPFSSelected, setIsIPFSSelected] = useState(false);
+  const [imageSrc, setImageSrc] = useState<string>(blueprintInfoImage);
 
   const [name, setName] = useState('');
   const [totalSupply, setTotalSupply] = useState<number | ''>('');
@@ -104,8 +105,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
     setFileText(event.target.value); // Update the fileText state with the input value
   };
 
-  const [imageSrc, setImageSrc] = useState<string>(blueprintInfoImage);
-
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
     if (file) {
@@ -152,7 +151,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           style={{ display: 'none' }}
           id="hiddenFileInput"
         />
-        {/* {imageSrc && ( */}
         <img
           src={imageSrc}
           onError={(e) => {
@@ -162,7 +160,6 @@ export default function BlueprintInfoCard({ onClick }: Props) {
           className="aspect-auto object-cover"
           style={{ maxWidth: '100%', height: '140px' }}
         />
-        {/* )} */}
       </div>
       <form>
         <div className="flex flex-col items-center lg:px-[16px] px-[10px] gap-2 ">
@@ -280,9 +277,7 @@ export default function BlueprintInfoCard({ onClick }: Props) {
                     : 'bg-[#010B10] border-[#191313] '
                 }`}
                 />
-                {isIPFSSelected &&
-                <p className="ml-2 mt-[-25px]">IPFS:</p>
-                }
+                {isIPFSSelected && <p className="ml-2 mt-[-25px]">IPFS:</p>}
               </div>
               <button
                 onClick={triggerFileInputClick}
