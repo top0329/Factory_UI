@@ -57,8 +57,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
   const [buttonEnable, setButtonEnable] = useState(false);
   const [fileText, setFileText] = useState('');
   const [isIPFSSelected, setIsIPFSSelected] = useState(false);
-  const [imageSrc, setImageSrc] = useState<string>(blueprintInfoImage);
-
   const [name, setName] = useState('');
   const [totalSupply, setTotalSupply] = useState<number | ''>('');
   const [mintPrice, setMintPrice] = useState<number | ''>('');
