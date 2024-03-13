@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 // import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -55,9 +55,9 @@ function Header() {
                 </div>
               </div>
             ) : (
-              <React.Fragment>
+              <div className="hidden sm:block">
                 <WalletConnectButton />
-              </React.Fragment>
+              </div>
             )}
             <Button
               className="border-none pr-0 py-0 block lg:hidden sm:hidden"
@@ -113,13 +113,16 @@ function Header() {
                 </li>
               </ul>
               <hr className="mx-4" />
-              <Link
+              <div className="block mx-4 my-3 px-4 py-3 rounded text-base text-light-gray">
+                <WalletConnectButton />
+              </div>
+              {/* <Link
                 to={'#'}
                 className="block m-4 px-4 py-3 rounded text-base text-light-gray"
                 onClick={() => setIsListButtonClicked(false)}
               >
                 Connect Wallet
-              </Link>
+              </Link> */}
             </div>
             <div
               className={`fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center z-10 ${
