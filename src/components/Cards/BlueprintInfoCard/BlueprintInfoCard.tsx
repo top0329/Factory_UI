@@ -138,7 +138,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageSrc(reader.result as string);
-        setFileText('');
+        setFileText(file.name);
       };
       reader.readAsDataURL(file);
     }
@@ -284,10 +284,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
               )}
             </div>
             <div className="flex justify-between gap-[1px]">
-              <div className={`${isIPFSSelected ? 'w-full' : ''}`}>
+              <div className="w-full">
                 <input
                   type="text"
                   value={isIPFSSelected ? imageSrc.substring(21) : fileText}
+                  // value={fileText}
                   disabled={
                     !editable || !uriChecked || buttonEnable || !isIPFSSelected
                   }
@@ -299,10 +300,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
                       uri: `https://ipfs.io/ipfs/${newUri}`,
                     }));
                     setFileText(newUri);
-                    setImageSrc(event.target.value);
+                    setImageSrc(`https://ipfs.io/ipfs/${event.target.value}`);
                   }}
-                  className={`border-[0.5px] w-full h-[28px] py-1 pl-[44px] ${
-                    isIPFSSelected ? 'rounded' : 'rounded-l-lg'
+                  className={`border-[0.5px] w-full h-[28px] py-1 ${
+                    isIPFSSelected ? 'rounded pl-[44px]' : 'rounded-l-lg pl-2'
                   }
                 ${
                   editable && uriChecked && isIPFSSelected
