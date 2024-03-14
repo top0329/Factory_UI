@@ -13,7 +13,8 @@ interface CustomCheckboxProps {
 }
 
 export interface Props {
-  isRecreate?: boolean;
+  isRecreate: boolean;
+  isCreate?: boolean;
   onClick?: () => void;
 }
 const CheckboxIcon = btoa(
@@ -47,7 +48,7 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
   );
 }
 
-const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
+const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
   const [createInfo, setCreateInfo] =
     useAtom<CreateBlueprint>(createBlueprintAtom);
   const [editable, setEditable] = useState(false);
@@ -502,7 +503,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
                 : 'bg-[#1F2937] text-[#718096]'
             }`}
             >
-              {isRecreate ? 'Recreate' : 'Create'}
+              {isRecreate ? (isCreate ? 'Create' : 'Recreate') : 'Update'}
             </button>
           </div>
         </div>

@@ -143,37 +143,16 @@ export default function AdvancedSort() {
               onClick={() => {
                 setSelectedValue(
                   <>
-                    {/* {isSortDown == true ? ( */}
-                    <Icon
-                      icon="bi:sort-down"
-                      className={`w-6 h-6`}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        // toggleSortDirection();
-                        // if (setisSortDown) {
-                        //   setisSortDown(false);
-                        //   console.log('---------------------------->',isSortDown);
-                        // }
-                      }}
-                    />
-                    {/* ) : ( */}
-                    {/* <Icon
-                        icon="bi:sort-up"
-                        className={`w-6 h-6`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (setisSortDown) {
-                            setisSortDown(true);
-                            console.log('=====================>', isSortDown);
-                          }
-                        }}
-                      /> */}
-                    {/* )} */}
+                    {isSortDown ? (
+                      <Icon icon="bi:sort-down" className={`w-6 h-6`} />
+                    ) : (
+                      <Icon icon="bi:sort-up" className={`w-6 h-6`} />
+                    )}
                     Mint Price
                   </>
                 );
                 setIsDropdownOpen(false);
-                // setisSortDown(!isSortDown);
+                setisSortDown(!isSortDown);
               }}
               className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
             >
