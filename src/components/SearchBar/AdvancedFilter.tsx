@@ -21,15 +21,14 @@ export default function AdvancedFilter() {
           />
         </div>
       </div>
-
       <div className="flex flex-col gap-y-2 text-sm text-light-gray">
         <div className="flex justify-between items-center px-3 py-1 bg-black rounded-lg w-full">
           <p className="font-mono">Mint Price</p>
         </div>
-        <div className="flex flex-col gap-2 text-sm">
+        <div className="flex flex-col gap-4 text-sm">
           <select
             defaultValue="ETH"
-            className="flex w-full items-center px-3 py-1.5 rounded-lg border border-light-gray bg-[#000000] font-medium shadow-sm sm:mt-0 sm:w-auto sm:text-sm sm:min-w-36 sm:gap-3"
+            className="flex w-full items-center px-2 py-0.5 rounded-lg border border-light-gray bg-[#000000] font-medium shadow-sm sm:mt-0 sm:w-auto sm:text-sm sm:min-w-36 sm:gap-3"
           >
             <option>ETH</option>
             <option>USDT</option>
@@ -50,7 +49,6 @@ export default function AdvancedFilter() {
           </div>
         </div>
       </div>
-
       <div className="flex flex-col gap-y-2 text-sm text-light-gray">
         <div className="flex justify-between items-center px-3 py-1 bg-black rounded-lg w-full">
           <p className="font-mono">Mint Limit</p>
@@ -69,7 +67,6 @@ export default function AdvancedFilter() {
           />
         </div>
       </div>
-
       <div className="flex flex-col gap-y-2 text-sm text-light-gray">
         <div className="flex justify-between items-center px-3 py-1 bg-black rounded-lg w-full">
           <p className="font-mono">Total Supply</p>
@@ -88,7 +85,6 @@ export default function AdvancedFilter() {
           />
         </div>
       </div>
-
       <div className="flex flex-col gap-y-2 text-sm text-light-gray">
         <div className="flex justify-between items-center  px-3 py-1  bg-black rounded-lg w-full">
           <p className="font-mono">Minted Amount</p>
@@ -107,7 +103,6 @@ export default function AdvancedFilter() {
           />
         </div>
       </div>
-
       <Button
         variant="primary"
         text="Apply"
