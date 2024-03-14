@@ -2,20 +2,6 @@ import { useState, useEffect } from 'react';
 
 import { Icon } from '@iconify/react/dist/iconify.js';
 
-function useWindowWidth() {
-  const [width, setWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => setWidth(window.innerWidth);
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup the event listener on unmount
-    return () => window.removeEventListener('resize', handleResize);
-  });
-
-  return width;
-}
-
 export default function AdvancedSort() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(
@@ -25,21 +11,38 @@ export default function AdvancedSort() {
     </>
   );
   const [isSortDown, setisSortDown] = useState(false);
-  // Inline styles for select element
-  // const selectStyles = {
-  //   width: "100%", // Default width to take full space
-  // };
+  useEffect(() => {
+    console.log(isSortDown); // This will log the updated state after changes
+  }, [isSortDown]);
 
-  const windowWidth = useWindowWidth();
-  const selectStyles = {
-    width: windowWidth <= 460 ? '100%' : '200px',
+  const handleIconClick = (e: any) => {
+    // Prevent the click event from triggering parent click events
+    e.stopPropagation();
+    // Toggle the sort direction
+    setisSortDown(!isSortDown);
   };
-  if (window.innerWidth <= 460) {
-    selectStyles.width = '91vw';
-    if (window.innerWidth <= 345) {
-      selectStyles.width = '320px';
-    }
-  }
+  const handleOptionClick = (name: string) => {
+    setSelectedValue(
+      <div className="flex items-center">
+        {isSortDown ? (
+          <Icon
+            icon="bi:sort-down"
+            className="w-6 h-6 float-right"
+            onClick={handleIconClick}
+          />
+        ) : (
+          <Icon
+            icon="bi:sort-up"
+            className="w-6 h-6 float-right"
+            onClick={handleIconClick}
+          />
+        )}
+        {name}
+      </div>
+    );
+    setIsDropdownOpen(false);
+    // No need to toggle isSortDown here; it should only be toggled in handleIconClick
+  };
 
   return (
     <div className="">
@@ -47,7 +50,7 @@ export default function AdvancedSort() {
         id="dropdownDefaultButton"
         data-dropdown-toggle="dropdown"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="flex gap-4 w-52 text-[#858584] truncate bg-[#000] border border-[#B1B1B1] focus:outline-none font-medium rounded-xl text-sm px-5 py-2.5 text-center items-center"
+        className="flex gap-4 w-52 text-[#858584] truncate bg-[#000] border border-[#B1B1B1] focus:outline-none font-medium rounded-xl text-sm px-5 py-2 text-center items-center"
         type="button"
       >
         {selectedValue}
@@ -57,10 +60,10 @@ export default function AdvancedSort() {
         id="dropdown"
         className={`${
           isDropdownOpen ? 'translate-y-0' : 'translate-y-[-700px]'
-        } z-30 absolute bg-[#000] mt-1 p-1 divide-y divide-gray-100 rounded-lg shadow w-52`}
+        } z-30 absolute bg-[#000] mt-1 p-1 divide-y  rounded-lg shadow w-52`}
       >
         <ul
-          className="py-2 text-sm text-gray-700"
+          className="py-2 text-sm text-[#858584]"
           aria-labelledby="dropdownDefaultButton"
         >
           <li>
@@ -69,15 +72,9 @@ export default function AdvancedSort() {
                 setSelectedValue(
                   <>
                     {isSortDown ? (
-                      <Icon
-                        icon="bi:sort-down"
-                        className={` text-light-gray w-6 h-6`}
-                      />
+                      <Icon icon="bi:sort-down" className={`w-6 h-6`} />
                     ) : (
-                      <Icon
-                        icon="bi:sort-up"
-                        className={` text-light-gray w-6 h-6`}
-                      />
+                      <Icon icon="bi:sort-up" className={`w-6 h-6`} />
                     )}
                     Blueprint ID
                   </>
@@ -96,15 +93,9 @@ export default function AdvancedSort() {
                 setSelectedValue(
                   <>
                     {isSortDown ? (
-                      <Icon
-                        icon="bi:sort-down"
-                        className={` text-light-gray w-6 h-6`}
-                      />
+                      <Icon icon="bi:sort-down" className={`w-6 h-6`} />
                     ) : (
-                      <Icon
-                        icon="bi:sort-up"
-                        className={` text-light-gray w-6 h-6`}
-                      />
+                      <Icon icon="bi:sort-up" className={`w-6 h-6`} />
                     )}
                     Blueprint Name
                   </>
@@ -123,15 +114,9 @@ export default function AdvancedSort() {
                 setSelectedValue(
                   <>
                     {isSortDown ? (
-                      <Icon
-                        icon="bi:sort-down"
-                        className={` text-light-gray w-6 h-6`}
-                      />
+                      <Icon icon="bi:sort-down" className={`w-6 h-6`} />
                     ) : (
-                      <Icon
-                        icon="bi:sort-up"
-                        className={` text-light-gray w-6 h-6`}
-                      />
+                      <Icon icon="bi:sort-up" className={`w-6 h-6`} />
                     )}
                     Total Supply
                   </>
@@ -144,29 +129,11 @@ export default function AdvancedSort() {
               Total Supply
             </p>
           </li>
+
           <li>
             <p
-              onClick={() => {
-                setSelectedValue(
-                  <>
-                    {isSortDown ? (
-                      <Icon
-                        icon="bi:sort-down"
-                        className={` text-light-gray w-6 h-6`}
-                      />
-                    ) : (
-                      <Icon
-                        icon="bi:sort-up"
-                        className={` text-light-gray w-6 h-6`}
-                      />
-                    )}
-                    Mint Limit
-                  </>
-                );
-                setIsDropdownOpen(false);
-                setisSortDown(!isSortDown);
-              }}
               className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+              onClick={() => handleOptionClick('Mint Limit')}
             >
               Mint Limit
             </p>
@@ -176,22 +143,37 @@ export default function AdvancedSort() {
               onClick={() => {
                 setSelectedValue(
                   <>
-                    {isSortDown ? (
-                      <Icon
-                        icon="bi:sort-down"
-                        className={` text-light-gray w-6 h-6`}
-                      />
-                    ) : (
-                      <Icon
+                    {/* {isSortDown == true ? ( */}
+                    <Icon
+                      icon="bi:sort-down"
+                      className={`w-6 h-6`}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        // toggleSortDirection();
+                        // if (setisSortDown) {
+                        //   setisSortDown(false);
+                        //   console.log('---------------------------->',isSortDown);
+                        // }
+                      }}
+                    />
+                    {/* ) : ( */}
+                    {/* <Icon
                         icon="bi:sort-up"
-                        className={` text-light-gray w-6 h-6`}
-                      />
-                    )}
+                        className={`w-6 h-6`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (setisSortDown) {
+                            setisSortDown(true);
+                            console.log('=====================>', isSortDown);
+                          }
+                        }}
+                      /> */}
+                    {/* )} */}
                     Mint Price
                   </>
                 );
                 setIsDropdownOpen(false);
-                setisSortDown(!isSortDown);
+                // setisSortDown(!isSortDown);
               }}
               className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
             >
@@ -206,12 +188,12 @@ export default function AdvancedSort() {
                     {isSortDown ? (
                       <Icon
                         icon="bi:sort-down"
-                        className={` text-light-gray w-6 h-6`}
+                        className={` text-[#858584] w-6 h-6`}
                       />
                     ) : (
                       <Icon
                         icon="bi:sort-up"
-                        className={` text-light-gray w-6 h-6`}
+                        className={` text-[#858584] w-6 h-6`}
                       />
                     )}
                     Minted Amount

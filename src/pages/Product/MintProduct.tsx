@@ -183,7 +183,7 @@ const MintProductPage = () => {
           aria-hidden="true"
           // tabIndex={-1}
           className="fixed top-0 z-50 flex justify-center items-center h-modal md:h-full inset-0 "
-          style={{ backdropFilter: 'blur(3px)' }}
+          style={{ backdropFilter: 'blur(5px)' }}
           onClick={closeModal}
         >
           <div className="relative p-4 sm:w-[1000px] xs:w-[500px] w-[400px]">
