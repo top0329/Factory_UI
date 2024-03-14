@@ -30,7 +30,7 @@ const DecomposeProductPage = () => {
             <div className="order-2 md:order-1 flex justify-between gap-6 items-center">
               <input
                 type="number"
-                className="md:w-[70%] w-1/2 h-[40px] rounded-xl bg-black border border-white px-2"
+                className="md:w-[70%] w-1/2 h-[40px] rounded-xl bg-black border border-white px-2 hide-arrows"
               ></input>
               <Button
                 className="flex justify-center w-[160px] h-9 rounded-xl"
