@@ -14,6 +14,8 @@ import checkContractType from '../../utils/checkContractType';
 import getERC721Data from '../../utils/getERC721Data';
 import getERC1155Data from '../../utils/getERC1155Data';
 
+// TODO: edit modal implementation
+
 const EditComponentModal = () => {
   const initialValues: AddComponentModalInputValue = {
     erc20Address: '',

@@ -71,3 +71,18 @@ body {
   background-clip: content-box;
   background-color: #464646;
 }
+
+.hide-arrows::-webkit-outer-spin-button,
+.hide-arrows::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.hide-arrows {
+  /* Standard syntax - Add this line */
+  appearance: none;
+
+  /* Vendor-specific syntaxes */
+  -webkit-appearance: none; /* Chrome, Safari, newer versions of Opera*/
+  -moz-appearance: textfield; /* Firefox */
+}
