@@ -16,9 +16,7 @@ import { useEffect } from 'react';
 const UpdateBlueprintPage = () => {
   const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
   const [createBlueprint, setCreateBlueprint] = useAtom(createBlueprintAtom);
-  const [, setAvailableComponent] = useAtom(
-    availableComponentAtom
-  );
+  const [, setAvailableComponent] = useAtom(availableComponentAtom);
 
   useEffect(() => {
     setCreateBlueprint(selectedBlueprint);
@@ -93,10 +91,9 @@ const UpdateBlueprintPage = () => {
       </div>
       <div className="flex flex-col pt-6 pb-16 gap-4 lg:gap-6 xs:flex-row">
         <div className="min-w-48 w-full md:w-auto lg:min-w-72 md:min-w-52 sm:min-w-64">
-          <BlueprintInfoCard isRecreate = {false} />
+          <BlueprintInfoCard isRecreate={false} />
         </div>
         <div className="w-full grid grid-cols-2 gap-4 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 xs:grid-cols-1">
-
           {createBlueprint.data.erc20Data.map((erc20, idx) => {
             return (
               <ERC20Card
@@ -105,7 +102,6 @@ const UpdateBlueprintPage = () => {
                 uri={erc20.uri}
                 amount={erc20.amount}
                 address={erc20.address}
-                icon
                 onDeleteIconClicked={() => handleDeleteERC20CardClicked(erc20)}
               />
             );
@@ -118,7 +114,6 @@ const UpdateBlueprintPage = () => {
                 name={erc721.name}
                 uri={erc721.uri}
                 address={erc721.address}
-                icon
                 onDeleteIconClicked={() =>
                   handleDeleteERC721CardClicked(erc721)
                 }
@@ -134,7 +129,6 @@ const UpdateBlueprintPage = () => {
                 uri={erc1155.uri}
                 amount={erc1155.amount}
                 address={erc1155.address}
-                icon
                 onDeleteIconClicked={() =>
                   handleDeleteERC1155CardClicked(erc1155)
                 }
