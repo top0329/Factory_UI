@@ -1,12 +1,12 @@
-import { FC, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAtom } from "jotai";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import React, { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
-import Button from "../Button";
-import { searchValueAtom } from "../../jotai/atoms";
-import AdvancedSort from "./AdvancedSort";
-import AdvancedFilter from "./AdvancedFilter";
+import Button from '../Button';
+import { searchValueAtom } from '../../jotai/atoms';
+import AdvancedSort from './AdvancedSort';
+import AdvancedFilter from './AdvancedFilter';
 
 export interface Props {
   value?: string;
@@ -45,14 +45,20 @@ const SearchBar: FC<Props> = ({ isNewButton, placeholders }) => {
     <div className="my-5 gap-3 xs:flex xs:items-center">
       <div className="flex w-full relative">
         <Icon
-          className="absolute z-10 text-light-gray min-w-6 min-h-6 m-2 cursor-pointer"
+          className="absolute z-20 text-light-gray min-w-6 min-h-6 m-2 cursor-pointer"
           icon="icon-park-outline:setting-config"
           onClick={handleFilterChange}
         />
         {showFilterOption && (
-          <div className="absolute top-0 left-0 mt-10 z-30">
-            <AdvancedFilter />
-          </div>
+          <React.Fragment>
+            <div className="absolute top-0 left-0 mt-12 ml-2 z-40">
+              <AdvancedFilter />
+            </div>
+            <div
+              className="z-10 fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center bg-opacity-40 bg-[#1D2127]"
+              onClick={() => setShowFilterOption(false)}
+            ></div>
+          </React.Fragment>
         )}
 
         <div className="absolute left-0 inset-y-0 flex items-center">
