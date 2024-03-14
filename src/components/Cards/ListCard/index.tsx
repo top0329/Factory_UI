@@ -32,12 +32,12 @@ export default function ListCard(props: ListCardInterface) {
       }`}
     >
       <div id="icon" className="flex justify-center py-2">
-        <img src={props.uri} className="block w-[64px] h-[64px] rounded-full" />
+        <img src={props.uri} className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full" />
       </div>
 
       <div
+        className="hidden sm:block text-white justify-center  items-center w-[12%] md:text-[24px] text-[16px] text-xl"
         id="type"
-        className=" text-white justify-center items-center w-[15%]  text-xl"
       >
         {props.type == 0 && <p>ERC20</p>}
         {props.type == 1 && <p>ERC721</p>}
@@ -57,7 +57,10 @@ export default function ListCard(props: ListCardInterface) {
         </p>
       </div>
 
-      <div id="address" className="hidden md:block flex-col justify-center">
+      <div
+        id="address"
+        className="hidden md:block flex-col justify-center w-[12%]"
+      >
         <p className="text-[#858584] text-xs">Address</p>
         <div className="flex gap-2">
           <p
@@ -89,7 +92,7 @@ export default function ListCard(props: ListCardInterface) {
           </div>
         </div>
       </div>
-      <div id="id" className=" w-[3%]">
+      <div id="id" className="w-[12%] ">
         {props.type !== 0 && props.type !== 3 && (
           <div>
             <p className="text-[#858584] text-xs">ID</p>
@@ -104,17 +107,19 @@ export default function ListCard(props: ListCardInterface) {
         )}
       </div>
 
-      <div id="amount" className="w-[8%]">
+      <div id="amount" className="">
         {props.type != 1 && (
           <div>
-            <p className="text-[#858584] text-xs">{props.type ==4 ? 'Balance': 'Amount'}</p>
-            <p className="text-center sm:pr-7">{props.amount}</p>
+            <p className="text-[#858584] text-xs">
+              {props.type == 4 ? 'Balance' : 'Amount'}
+            </p>
+            <p className="text-center">{props.amount}</p>
           </div>
         )}
       </div>
       {!props.isDecompose && (
         <div id="approve" className="">
-          <button className="bg-[#000000] rounded-xl text-xl h-[35px] w-[99px] border border-[#2E2E2E]">
+          <button className="bg-[#000000] rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]">
             Approve
           </button>
         </div>

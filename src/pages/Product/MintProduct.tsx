@@ -188,7 +188,7 @@ const MintProductPage = () => {
         >
           <div className="relative p-4 sm:w-[1000px] xs:w-[500px] w-[400px]">
             <div className="relative bg-[#011018] border border-[#09F5D8]/20 rounded-[32px] shadow">
-              <h3 className="text-[32px] py-6 font-semibold text-center text-white">
+              <h3 className="xs:text-[32px] text-[22px] py-6 font-semibold text-center text-white">
                 Mint Product
               </h3>
               <div className="flex flex-col items-center p-6 border-t border-gray-200 rounded-b">
@@ -219,14 +219,14 @@ const MintProductPage = () => {
 
                 <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">
                   <Button
-                    className="flex justify-center w-[160px] !h-9 rounded-xl"
+                    className="flex justify-center xs:w-[160px] w-[140px] !h-9 rounded-xl"
                     text="Cancel"
                     variant="secondary"
                     onClick={toggleModal}
                   />
                   <Button
                     onClick={toggleModal}
-                    className="flex justify-center w-[160px] h-9 rounded-xl"
+                    className="flex justify-center xs:w-[160px] w-[140px] h-9 rounded-xl"
                     text="Mint Product"
                     variant="primary"
                   />

@@ -11,10 +11,10 @@ const DecomposeProductPage = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px]">
-      <div className="relative py-4 sm:w-[1000px]  xs:w-[500px] w-[400px]">
-        <div className="relative  border border-none bg-black rounded-[46px] shadow border-white">
-          <h3 className="text-[32px] py-6 font-semibold text-center text-white border-b border-gray-400">
+    <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px] ">
+      <div className="relative py-4 sm:w-[1000px]  xs:w-[500px] w-[400px] ">
+        <div className="relative  border bg-black rounded-[46px] shadow border-[#1f1f1f]">
+          <h3 className="sm:text-[32px] text-[22px] py-6 font-semibold text-center text-white border-b border-gray-400">
             Decompose Product
           </h3>
           <div className="flex flex-col gap-6 p-6 sm:bg-[#040404] ">
@@ -27,7 +27,15 @@ const DecomposeProductPage = () => {
               id={selectedOwnData.id}
               amount={selectedOwnData.balance}
             />
-            <div className="order-2 md:order-1 flex justify-between gap-6 items-center">
+            <div className=" flex justify-between items-center">
+              <p className="xs:text-[22px] text-[18px] text-[#BABABA]">
+                Product Decompose Fee
+              </p>
+              <p className="xs:text-[24px] text-[18px] font-semibold">
+                0.1 ETH
+              </p>
+            </div>
+            <div className=" flex justify-between gap-6 items-center">
               <input
                 type="number"
                 className="md:w-[70%] w-1/2 h-[40px] rounded-xl bg-black border border-white px-2"
@@ -38,15 +46,11 @@ const DecomposeProductPage = () => {
                 variant="primary"
               />
             </div>
-            <div className="order-1 md:order-2 flex justify-between md:w-[70%] items-center">
-              <p className="text-[22px] text-[#BABABA]">
-                Product Decompose Fee
-              </p>
-              <p className="text-[24px] font-semibold">0.1 ETH</p>
-            </div>
           </div>
           <div className="flex flex-col px-6 pt-2 pb-8 rounded-b dark:border-gray-600">
-            <p className="text-[24px] text-left mb-4 text-[#BABABA]">Preview</p>
+            <p className="xs:text-[24px] text-[18px] text-left mb-4 text-[#BABABA]">
+              Preview
+            </p>
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
               <OwnBlueprintListCard
                 key={index}

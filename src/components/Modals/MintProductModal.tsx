@@ -54,7 +54,7 @@ export default function MintProductModal() {
   return (
     <div className="flex flex-col items-center w-[450px] sm:w-[60%] h-[820px] bg-[#060606] rounded-[48px] text-white">
       <div className="flex justify-center py-8 border-b border-[#858584] w-full">
-        <p id="header" className="text-[32px] ">
+        <p id="header" className="xs:text-[32px] text-[22px]">
           Mint Product
         </p>
       </div>

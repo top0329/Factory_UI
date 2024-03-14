@@ -354,12 +354,16 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
                 value={mintPrice === 0 ? '' : mintPrice}
                 onChange={(event) => {
                   const newMintPrice = Number(event.target.value);
-                  setCreateInfo((prevCreateInfo) => ({
-                    ...prevCreateInfo,
-                    mintPrice: newMintPrice,
-                  }));
-                  setMintPrice(newMintPrice);
-                  if (newMintPrice == 0) setMintPrice('');
+                  if (newMintPrice > 0) {
+                    setCreateInfo((prevCreateInfo) => ({
+                      ...prevCreateInfo,
+                      mintPrice: newMintPrice,
+                    }));
+                    setMintPrice(newMintPrice);
+                  } else {
+                    // Optionally handle the zero or negative case here
+                    setMintPrice(''); // Here we reset the input if the user inputs zero or a negative number
+                  }
                 }}
                 className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg px-2 border-r-0
             ${
@@ -400,7 +404,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
           <div className="flex flex-col w-full gap-y-1">
             <div className="flex justify-start items-center gap-2">
               <CustomCheckbox
-                editable={!editable} // Or false, depending on whether you want the checkbox to be editable
+                editable={!editable}
                 checked={mintLimitChecked}
                 onChange={handleMintLimitChecked}
               />
@@ -412,12 +416,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
               value={mintPriceLimit === 0 ? '' : mintPriceLimit}
               onChange={(event) => {
                 const newMintPriceLimit = Number(event.target.value);
-                setCreateInfo((prevCreateInfo) => ({
-                  ...prevCreateInfo,
-                  mintLimit: newMintPriceLimit,
-                }));
-                setMintPriceLimit(newMintPriceLimit);
-                if (newMintPriceLimit == 0) setMintPriceLimit('');
+                if (newMintPriceLimit > 0) {
+                  setCreateInfo((prevCreateInfo) => ({
+                    ...prevCreateInfo,
+                    mintLimit: newMintPriceLimit,
+                  }));
+                  setMintPriceLimit(newMintPriceLimit);
+                } else {
+                  setMintPriceLimit('');
+                }
               }}
               className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
             ${
