@@ -83,6 +83,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
     setMintPriceLimit(createInfo.mintLimit);
     setCreator(createInfo.creator);
   }, [
+    createInfo.creator,
     createInfo.mintLimit,
     createInfo.mintPrice,
     createInfo.name,
