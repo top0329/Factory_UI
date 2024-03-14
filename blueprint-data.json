@@ -71,7 +71,7 @@
     "mintPriceUnit": 0,
     "mintLimit": 100,
     "mintedAmount": 10000,
-    "myBlueprint": false,
+    "myBlueprint": true,
     "data": {
       "erc20Data": [
         {
