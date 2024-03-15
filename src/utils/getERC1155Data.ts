@@ -25,6 +25,7 @@ export default async function getERC1155Data(
     const metaData = await axios.get(url);
     console.log(metaData.data);
     const { name, image } = metaData.data;
+    if (image === undefined) return null;
     return {
       name,
       uri: `${gatewayUrl}${image}`,
