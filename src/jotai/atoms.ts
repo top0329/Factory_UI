@@ -99,3 +99,4 @@ export const createBlueprintAtom = atom<CreateBlueprint>({
   },
 });
 export const availableComponentAtom = atom<number>(7);
+export const headerActiveItemAtom = atom<number>(0);
