@@ -145,8 +145,8 @@ const BlueprintDetailDrawer: FC<Props> = ({
             {selectedBlueprint.name}
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px] xs:top-[224px]"></div>
-          <div className="bg-[#011018] py-6 px-8 h-80 sm:h-60">
-            <div className="flex flex-col-reverse justify-between items-center gap-4 sm:flex-row sm:justify-beteen">
+          <div className="bg-[#011018] py-6 px-8 max-h-80 xs:h-60">
+            <div className="flex flex-col-reverse justify-between items-center gap-4 xs:flex-row xs:justify-beteen">
               <div className="flex justify-start w-full gap-10">
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="text-light-gray text-sm">Blueprint ID</p>
@@ -304,7 +304,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
               </button>
             </div>
           </div>
-          <div className="px-4 py-10 h-auto md:px-12 xs:px-8">
+          <div className="px-4 py-10 h-full md:px-12 xs:px-8">
             {activeTab === 1 && (
               <div className="grid grid-cols-2 gap-4 place-items-center">
                 {selectedBlueprint.data.erc20Data.length > 0 &&
