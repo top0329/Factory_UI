@@ -137,19 +137,21 @@ const BlueprintDetailDrawer: FC<Props> = ({
             Blueprint
           </div>
           <img
-            className="max-h-[235px] object-cover md:max-h-[435px] xs:max-h-[335px]"
+            className="max-h-[235px] object-cover sm:max-h-[435px] xs:max-h-[335px]"
             src={selectedBlueprint.uri}
             alt="drawer"
           />
-          <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px] xs:top-[292px]">
+          <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 sm:top-[392px] xs:top-[292px]">
             {selectedBlueprint.name}
           </p>
-          <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px] xs:top-[224px]"></div>
-          <div className="bg-[#011018] py-6 px-8 max-h-80 xs:h-60">
-            <div className="flex flex-col-reverse justify-between items-center gap-4 xs:flex-row xs:justify-beteen">
+          <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 sm:top-[324px] xs:top-[224px]"></div>
+          <div className="bg-[#011018] py-6 px-8 max-h-80 sm:h-60">
+            <div className="flex flex-col-reverse justify-between items-center gap-4 sm:flex-row sm:justify-beteen">
               <div className="flex justify-start w-full gap-10">
                 <div className="flex flex-col items-start text-white gap-2">
-                  <p className="text-light-gray text-sm">Blueprint ID</p>
+                  <p className="truncate text-light-gray text-sm">
+                    Blueprint ID
+                  </p>
                   <p>{selectedBlueprint.id}</p>
                 </div>
                 <div className="flex flex-col items-start text-white gap-2">
@@ -157,19 +159,19 @@ const BlueprintDetailDrawer: FC<Props> = ({
                   <p>{selectedBlueprint.totalSupply}</p>
                 </div>
               </div>
-              <div className="flex justify-end gap-8 mb-2 sm:gap-3">
+              <div className="flex justify-between w-full gap-2 mb-2 xs:gap-6 sm:gap-3">
                 {isCreatorMode === true && (
                   <React.Fragment>
                     {selectedBlueprint.myBlueprint === true && (
                       <Button
-                        className="text-base !py-1 !px-7 !bg-black"
+                        className="text-sm !py-1 !px-4 xs:text-base xs:!px-7 !bg-black"
                         text="Update"
                         variant="secondary"
                         onClick={handleUpdateBlueprintButtonClicked}
                       />
                     )}
                     <Button
-                      className="text-base !py-1 !px-7 !bg-black"
+                      className="text-sm !py-1 !px-4 xs:text-base xs:!px-7 !bg-black"
                       text="Recreate"
                       variant="secondary"
                       onClick={handleRecreateBlueprintButtonClicked}
@@ -177,7 +179,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                   </React.Fragment>
                 )}
                 <Button
-                  className="truncate text-base !py-1 !px-2"
+                  className="truncate text-sm !py-1 !px-2 xs:text-base"
                   text="Mint Blueprint"
                   onClick={handleMintBlueprintButtonClicked}
                   variant="outline"

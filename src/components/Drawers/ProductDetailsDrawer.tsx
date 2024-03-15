@@ -121,14 +121,14 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
             Product
           </div>
           <img
-            className="max-h-[235px] object-cover md:max-h-[435px] xs:max-h-[335px]"
+            className="max-h-[235px] object-cover sm:max-h-[435px] xs:max-h-[335px]"
             src={selectedProduct.uri}
             alt="drawer"
           />
-          <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 md:top-[392px] xs:top-[292px]">
+          <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 sm:top-[392px] xs:top-[292px]">
             {selectedProduct.name}
           </p>
-          <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px] xs:top-[224px]"></div>
+          <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 sm:top-[324px] xs:top-[224px]"></div>
           <div className="bg-[#011018] py-6 px-6 h-[252px] md:px-8">
             <div className="flex justify-between items-center w-full">
               <div className="flex flex-col items-start text-white gap-2">
