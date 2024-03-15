@@ -45,12 +45,12 @@ export default function AdvancedSort() {
   };
 
   return (
-    <div className="">
+    <div className="w-full">
       <button
         id="dropdownDefaultButton"
         data-dropdown-toggle="dropdown"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="flex gap-4 w-52 text-[#858584] truncate bg-[#000] border border-[#B1B1B1] focus:outline-none font-medium rounded-xl text-sm px-5 py-2 text-center items-center"
+        className="flex gap-4 xs:w-[200px] w-[100%] text-[#858584] truncate bg-[#000] border border-[#B1B1B1] focus:outline-none font-medium rounded-xl text-sm px-5 py-2 text-center items-center"
         type="button"
       >
         {selectedValue}
@@ -60,7 +60,7 @@ export default function AdvancedSort() {
         id="dropdown"
         className={`${
           isDropdownOpen ? 'translate-y-0' : 'translate-y-[-700px]'
-        } z-30 absolute bg-[#000] mt-1 p-1 divide-y  rounded-lg shadow w-52`}
+        } z-30 absolute bg-[#000] mt-1 p-1 divide-y  rounded-lg shadow xs:w-[200px] w-[92.5%]`}
       >
         <ul
           className="py-2 text-sm text-[#858584]"
@@ -129,7 +129,6 @@ export default function AdvancedSort() {
               Total Supply
             </p>
           </li>
-
           <li>
             <p
               className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
