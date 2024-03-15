@@ -159,7 +159,11 @@ const BlueprintDetailDrawer: FC<Props> = ({
                   <p>{selectedBlueprint.totalSupply}</p>
                 </div>
               </div>
-              <div className="flex justify-between w-full gap-2 mb-2 xs:gap-6 sm:gap-3">
+              <div
+                className={`flex ${
+                  isCreatorMode ? 'justify-between' : 'justify-center'
+                }  w-full gap-2 mb-2 xs:gap-6 sm:gap-3 sm:justify-end`}
+              >
                 {isCreatorMode === true && (
                   <React.Fragment>
                     {selectedBlueprint.myBlueprint === true && (
