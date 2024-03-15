@@ -1,17 +1,21 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useAtom } from 'jotai';
 // import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { WalletConnectButton } from '../../Button/WalletConnectButton';
 
 import Logo from '../../Logo';
 import Button from '../../Button';
 import LogoImage from '../../../assets/images/blueprint-logo.png';
-import EthereumImage from '../../../assets/images/ethereum.png';
-import AvatarImage from '../../../assets/images/avatar.png';
+import { WalletConnectButton } from '../../Button/WalletConnectButton';
+import { headerActiveItemAtom } from '../../../jotai/atoms';
 
 function Header() {
-  const [isWalletConnected] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const [headerActiveItem, setHeaderActiveItem] =
+    useAtom<number>(headerActiveItemAtom);
+
   const [isListButtonClicked, setIsListButtonClicked] =
     useState<boolean>(false);
 
@@ -21,46 +25,64 @@ function Header() {
         <Logo
           className="w-24 h-9 sm:w-24 sm:h-10 md:w-32 md:h-12 lg:w-40 lg:h-14 cursor-pointer"
           url={LogoImage}
+          handleLogoClicked={() => {
+            navigate('/');
+            setHeaderActiveItem(0);
+          }}
         />
         <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-6 xl:gap-16">
           <div className="hidden items-center text-light-gray text-base gap-2 xl:text-2xl lg:text-xl lg:gap-8 md:flex md:gap-4 md:text-lg sm:flex">
-            <Link to={'/blueprint'}>Blueprint</Link>
-            <Link to={'/product'}>Product</Link>
-            <Link to={'/decompose'}>Decompose</Link>
-            <Link to={'#'}>Whitepaper</Link>
+            <button
+              className={`${
+                headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
+              }`}
+              onClick={() => {
+                navigate('/blueprint');
+                setHeaderActiveItem(1);
+              }}
+            >
+              Blueprint
+            </button>
+            <button
+              className={`${
+                headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
+              }`}
+              onClick={() => {
+                navigate('/product');
+                setHeaderActiveItem(2);
+              }}
+            >
+              Product
+            </button>
+            <button
+              className={`${
+                headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
+              }`}
+              onClick={() => {
+                navigate('/decompose');
+                setHeaderActiveItem(3);
+              }}
+            >
+              Decompose
+            </button>
+            <button
+              className={`${
+                headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
+              }`}
+              onClick={() => {
+                navigate('#');
+                setHeaderActiveItem(4);
+              }}
+            >
+              Whitepaper
+            </button>
           </div>
           <div className="flex items-center">
-            {isWalletConnected ? (
-              <div className="flex gap-1 xl:gap-5 lg:gap-3">
-                <div className="hidden gap-0 items-center sm:flex">
-                  <img
-                    className="h-6 xl:h-10 lg:h-8 md:h-7"
-                    src={EthereumImage}
-                    alt="avatar"
-                  />
-                  <Icon
-                    icon="solar:alt-arrow-down-outline"
-                    className="text-light-gray cursor-pointer w-4 h-4 lg:w-6 lg:h-6"
-                  />
-                </div>
-                <div className="flex items-center gap-2">
-                  <img
-                    className="h-6 xl:h-10 lg:h-8 md:h-7 cursor-pointer"
-                    src={AvatarImage}
-                    alt="avatar"
-                  />
-                  <p className="hidden text-white xl:text-lg lg:block">
-                    0x456c...8ca9
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="hidden sm:block">
-                <WalletConnectButton />
-              </div>
-            )}
+            <div className="hidden sm:block">
+              <WalletConnectButton />
+            </div>
             <Button
-              className="border-none pr-0 py-0 block lg:hidden sm:hidden"
+              className="border-none pr-0 py-0 block lg:hidden sm:hidden z-30"
               text=""
               icon={<Icon icon="bi:list" width="32px" height="32px" />}
               variant="outline"
@@ -69,63 +91,76 @@ function Header() {
             <div
               className={`z-30 ${
                 isListButtonClicked ? 'translate-y-0' : 'translate-y-[-400px]'
-              } bg-black shadow w-full absolute top-14 right-0 text-light-gray delay-400 duration-500 ease-in-out transition-all transform sm:hidden`}
+              } bg-black shadow w-full absolute top-14 right-0 delay-400 duration-500 ease-in-out transition-all transform sm:hidden`}
             >
               <ul
-                className="p-4 text-base text-light-gray"
+                className="p-4 text-base"
                 aria-labelledby="dropdownInformationButton"
               >
                 <li>
-                  <Link
-                    to={'/blueprint'}
-                    className="block my-1 px-4 py-3 rounded text-white bg-secondary"
-                    onClick={() => setIsListButtonClicked(false)}
+                  <button
+                    className={`block my-1 px-4 py-3 text-left rounded ${
+                      headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
+                    } w-full hover:bg-secondary`}
+                    onClick={() => {
+                      navigate('/blueprint');
+                      setHeaderActiveItem(1);
+                      setIsListButtonClicked(false);
+                    }}
                   >
                     Blueprint
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    to={'/product'}
-                    className="block my-1 px-4 py-3 rounded text-light-gray"
-                    onClick={() => setIsListButtonClicked(false)}
+                  <button
+                    className={`block my-1 px-4 py-3 text-left rounded ${
+                      headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
+                    } w-full hover:bg-secondary`}
+                    onClick={() => {
+                      navigate('/product');
+                      setHeaderActiveItem(2);
+                      setIsListButtonClicked(false);
+                    }}
                   >
                     Product
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    to={'/decompose'}
-                    className="block my-1 px-4 py-3 rounded text-light-gray"
-                    onClick={() => setIsListButtonClicked(false)}
+                  <button
+                    className={`block my-1 px-4 py-3 text-left rounded ${
+                      headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
+                    } w-full hover:bg-secondary`}
+                    onClick={() => {
+                      navigate('/decompose');
+                      setHeaderActiveItem(3);
+                      setIsListButtonClicked(false);
+                    }}
                   >
                     Decompose
-                  </Link>
+                  </button>
                 </li>
                 <li>
-                  <Link
-                    to={'#'}
-                    className="block my-1 px-4 py-3 rounded text-light-gray"
-                    onClick={() => setIsListButtonClicked(false)}
+                  <button
+                    className={`block my-1 px-4 py-3 text-left rounded ${
+                      headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
+                    } w-full hover:bg-secondary`}
+                    onClick={() => {
+                      navigate('#');
+                      setHeaderActiveItem(4);
+                      setIsListButtonClicked(false);
+                    }}
                   >
                     Whitepaper
-                  </Link>
+                  </button>
                 </li>
               </ul>
               <hr className="mx-4" />
-              <div className="block mx-4 my-3 px-4 py-3 rounded text-base text-light-gray">
+              <div className="block mx-4 my-3 px-4 py-1.5 rounded text-base text-light-gray hover:bg-secondary">
                 <WalletConnectButton />
               </div>
-              {/* <Link
-                to={'#'}
-                className="block m-4 px-4 py-3 rounded text-base text-light-gray"
-                onClick={() => setIsListButtonClicked(false)}
-              >
-                Connect Wallet
-              </Link> */}
             </div>
             <div
-              className={`fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center z-10 ${
+              className={`fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center z-20 ${
                 !isListButtonClicked && 'hidden'
               }`}
               onClick={() => setIsListButtonClicked(false)}

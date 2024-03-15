@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import { WindowSize } from '../../../types';
+import { useAtom } from 'jotai';
+import { headerActiveItemAtom } from '../../../jotai/atoms';
 
 function Footer() {
+  const navigate = useNavigate();
+
+  const [headerActiveItem, setHeaderActiveItem] =
+    useAtom<number>(headerActiveItemAtom);
+
   const [hrWidth, setHrWidth] = useState('100%');
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: undefined,
@@ -12,24 +19,16 @@ function Footer() {
   });
 
   useEffect(() => {
-    // Handler to call on window resize
     function handleResize() {
-      // Set window width/height to state
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       });
     }
-
-    // Add event listener
     window.addEventListener('resize', handleResize);
-
-    // Call handler right away so state gets updated with initial window size
     handleResize();
-
-    // Remove event listener on cleanup
     return () => window.removeEventListener('resize', handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, []);
 
   useEffect(() => {
     function handleResize() {
@@ -37,18 +36,11 @@ function Footer() {
         document.documentElement.clientWidth,
         window.innerWidth || 0
       );
-      // Calculate dynamic padding based on the viewport width
       const dynamicPadding = Math.max(132, (vw - 1536) / 2);
-      // Set the width of the hr element
       setHrWidth(`calc(100vw - ${dynamicPadding * 2}px)`);
     }
-
-    // Set width initially and whenever the window is resized
     handleResize();
-
     window.addEventListener('resize', handleResize);
-
-    // Cleanup the event listener when the component unmounts
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -93,16 +85,86 @@ function Footer() {
           />
         )}
         <div className="flex flex-row items-start justify-between px-2 sm:items-end sm:flex-col sm:justify-start">
-          <div className="flex flex-col gap-2 py-5 text-base font-bold text-light-gray xl:gap-10 xl:text-2xl lg:gap-8 lg:text-xl md:gap-3.5 md:text-lg sm:flex-row sm:font-normal">
-            <Link to={'/blueprint'}>Blueprint</Link>
-            <Link to={'/product'}>Product</Link>
-            <Link to={'/decompose'}>Decompose</Link>
-            <Link to={'#'}>Whitepaper</Link>
+          <div className="flex flex-col gap-2 py-5 text-base font-bold xl:gap-10 xl:text-2xl lg:gap-8 lg:text-xl md:gap-3.5 md:text-lg sm:flex-row sm:font-normal">
+            <button
+              className={`text-left ${
+                headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
+              } cursor-pointer`}
+              onClick={() => {
+                navigate('/blueprint');
+                setHeaderActiveItem(1);
+              }}
+            >
+              Blueprint
+            </button>
+            <button
+              className={`text-left ${
+                headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
+              } cursor-pointer`}
+              onClick={() => {
+                navigate('/product');
+                setHeaderActiveItem(2);
+              }}
+            >
+              Product
+            </button>
+            <button
+              className={`text-left ${
+                headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
+              } cursor-pointer`}
+              onClick={() => {
+                navigate('/decompose');
+                setHeaderActiveItem(3);
+              }}
+            >
+              Decompose
+            </button>
+            <button
+              className={`text-left ${
+                headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
+              } cursor-pointer`}
+              onClick={() => {
+                navigate('#');
+                setHeaderActiveItem(4);
+              }}
+            >
+              Whitepaper
+            </button>
           </div>
           <div className="flex flex-col items-end gap-2 py-4 text-light-gray text-base font-bold xl:text-xl lg:text-lg sm:flex-row sm:item-start sm:font-normal sm:opacity-50 sm:text-white sm:gap-8">
-            <Link to={'#'}>Contact</Link>
-            <Link to={'#'}>Terms</Link>
-            <Link to={'#'}>Privacy Policy</Link>
+            <button
+              className={`${
+                headerActiveItem === 5 ? 'text-white' : 'text-light-gray'
+              } cursor-pointer`}
+              onClick={() => {
+                navigate('#');
+                setHeaderActiveItem(5);
+              }}
+            >
+              Contact
+            </button>
+            <button
+              className={`${
+                headerActiveItem === 6 ? 'text-white' : 'text-light-gray'
+              } cursor-pointer`}
+              onClick={() => {
+                navigate('#');
+                setHeaderActiveItem(6);
+              }}
+            >
+              Terms
+            </button>
+            <button
+              className={`${
+                headerActiveItem === 7 ? 'text-white' : 'text-light-gray'
+              } cursor-pointer`}
+              onClick={() => {
+                navigate('#');
+                setHeaderActiveItem(7);
+              }}
+            >
+              Privacy Policy
+            </button>
           </div>
         </div>
       </div>
