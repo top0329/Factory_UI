@@ -351,10 +351,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
               <input
                 type="number"
                 disabled={!editable || !mintPriceChecked}
-                value={mintPrice === 0 ? '' : mintPrice}
+                value={mintPrice === -1 ? '' : mintPrice}
                 onChange={(event) => {
                   const newMintPrice = Number(event.target.value);
-                  if (newMintPrice > 0) {
+                  if (newMintPrice > -1) {
                     setCreateInfo((prevCreateInfo) => ({
                       ...prevCreateInfo,
                       mintPrice: newMintPrice,
