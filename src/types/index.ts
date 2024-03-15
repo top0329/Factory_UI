@@ -139,3 +139,17 @@ export type AddComponentModalInputValue = {
   erc1155Id: number | '';
   erc1155Amount: number | '';
 };
+
+export interface AdvancedFilterValue {
+  blueprintIdMin: number | '';
+  blueprintIdMax: number | '';
+  mintPriceUnit: number;
+  mintPriceMin: number | '';
+  mintPriceMax: number | '';
+  mintLimitMin: number | '';
+  mintLimitMax: number | '';
+  totalSupplyMin: number | '';
+  totalSupplyMax: number | '';
+  mintedAmountMin: number | '';
+  mintedAmountMax: number | '';
+}

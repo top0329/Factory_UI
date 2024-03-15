@@ -191,18 +191,18 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
           style={{ display: 'none' }}
         />
         <img
+          className="aspect-auto object-cover h-[250px] xs:h-[180px] sm:h-[200px] md:h-[140px]"
+          src={isIPFSSelected ? `https://ipfs.io/ipfs/${imageSrc}` : imageSrc}
+          style={{ maxWidth: '100%' }}
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.src = BlueprintDefaultImage;
           }}
-          className="aspect-auto object-cover"
-          src={isIPFSSelected ? `https://ipfs.io/ipfs/${imageSrc}` : imageSrc}
-          style={{ maxWidth: '100%', height: '140px' }}
         />
       </div>
       <form>
-        <div className="flex flex-col items-center lg:px-[16px] px-[10px] gap-2 ">
-          <div className="flex flex-col w-full gap-y-1 ">
+        <div className="flex flex-col items-center lg:px-[16px] px-[10px] gap-2">
+          <div className="flex flex-col w-full gap-y-1">
             <p className="text-xs text-[#858584]">Name</p>
             <input
               disabled={isRecreate ? !editable : true}
@@ -240,11 +240,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
                 setTotalSupply(newSupplyNumber);
                 if (newSupplyNumber == 0) setTotalSupply('');
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows
             ${
               !editable
-                ? 'bg-[#010B10] border-[#191313]'
-                : 'bg-[#03070F] border-[#8B8B8B]'
+                ? ' bg-[#010B10] border-[#191313]'
+                : ' bg-[#03070F] border-[#8B8B8B]'
             }`}
               required
             />
@@ -365,11 +365,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
                     setMintPrice(''); // Here we reset the input if the user inputs zero or a negative number
                   }
                 }}
-                className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg px-2 border-r-0
+                className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg px-2 border-r-0 hide-arrows
             ${
               editable && mintPriceChecked
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
+                ? ' bg-[#03070F] border-[#8B8B8B]'
+                : ' bg-[#010B10] border-[#191313]'
             }`}
                 required
               />
@@ -426,11 +426,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
                   setMintPriceLimit('');
                 }
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows
             ${
               editable && mintLimitChecked
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
+                ? ' bg-[#03070F] border-[#8B8B8B]'
+                : ' bg-[#010B10] border-[#191313]'
             }`}
               required
             />

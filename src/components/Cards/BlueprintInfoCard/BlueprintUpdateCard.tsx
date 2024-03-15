@@ -232,11 +232,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
                 setTotalSupply(newSupplyNumber);
                 if (newSupplyNumber == 0) setTotalSupply('');
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows
             ${
               editable
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
+                ? ' bg-[#03070F] border-[#8B8B8B]'
+                : ' bg-[#010B10] border-[#191313]'
             }`}
               required
             />
@@ -353,11 +353,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
                   setMintPrice(newMintPrice);
                   if (newMintPrice == 0) setMintPrice('');
                 }}
-                className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg px-2 border-r-0
+                className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg px-2 border-r-0 hide-arrows
             ${
               editable && mintPriceChecked
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
+                ? ' bg-[#03070F] border-[#8B8B8B]'
+                : ' bg-[#010B10] border-[#191313]'
             }`}
                 required
               />
@@ -411,11 +411,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, onClick }) => {
                 setMintPriceLimit(newMintPriceLimit);
                 if (newMintPriceLimit == 0) setMintPriceLimit('');
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows
             ${
               editable && mintLimitChecked
-                ? 'bg-[#03070F] border-[#8B8B8B]'
-                : 'bg-[#010B10] border-[#191313]'
+                ? ' bg-[#03070F] border-[#8B8B8B]'
+                : ' bg-[#010B10] border-[#191313]'
             }`}
               required
             />
