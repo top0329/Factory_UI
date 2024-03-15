@@ -105,7 +105,7 @@ export const Carousel = ({
             <img
               src={item.image}
               width="100%"
-              className={`max-h-32 min-w-[240px] image rounded-xl xs:max-h-44 sm:max-h-56 sm:min-w-[380px] md:max-h-60 md:min-w-[400px] ${
+              className={`max-h-36 min-w-[240px] image rounded-xl xs:max-h-44 sm:max-h-56 sm:min-w-[380px] md:max-h-60 md:min-w-[400px] ${
                 size === 'normal' ? 'image-normal' : 'image-large'
               }`}
             />
