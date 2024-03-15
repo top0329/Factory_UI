@@ -96,7 +96,7 @@ const MintBlueprintPage = () => {
               <input
                 id="blueprint-mint-amount"
                 name="blueprint-mint-amount"
-                className="inline w-full rounded-lg border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
+                className="inline w-full rounded-lg border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 step={1}
                 min={0}

@@ -1,7 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
-import { Carousel } from '../Carousel';
-import { Icon } from '@iconify/react/dist/iconify.js';
 import { Address } from 'viem';
 
 import {
@@ -16,28 +14,9 @@ import checkContractType from '../../utils/checkContractType';
 import getERC721Data from '../../utils/getERC721Data';
 import getERC1155Data from '../../utils/getERC1155Data';
 
-const AddComponentModal = () => {
-  const CarouselData = [
-    {
-      headerText: null,
-      subText: null,
-      image:
-        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
-    },
-    {
-      headerText: null,
-      subText: null,
-      image:
-        'https://ipfs.io/ipfs/bafybeic6vxo3n4qxahvviwqayc4byweqfhiufijs6yxxruvwq452xdg56e',
-    },
-    {
-      headerText: null,
-      subText: null,
-      image:
-        'https://ipfs.io/ipfs/bafybeiep2v3wglztuqecw5ieggxaswirc2qrptss6auq6geoewy6risbqm',
-    },
-  ];
+// TODO: edit modal implementation
 
+const EditComponentModal = () => {
   const initialValues: AddComponentModalInputValue = {
     erc20Address: '',
     erc20Amount: '',
@@ -314,7 +293,7 @@ const AddComponentModal = () => {
   //     setError(''); // Hide the error message after 3 seconds
   //   }, 3000);
 
-  //   // Cleanup function to clear the timeout if the component unmounts
+  // Cleanup function to clear the timeout if the component unmounts
   //   return () => clearTimeout(timer);
   // };
 
@@ -336,32 +315,7 @@ const AddComponentModal = () => {
           Add Component to Your Blueprint
         </h3>
         <div className="z-40 overflow-x-hidden overflow-y-auto flex justify-center items-center">
-          <Carousel
-            data={CarouselData}
-            rightItem={
-              <Icon
-                className="rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
-                icon="ep:arrow-right-bold"
-                onClick={() => {
-                  setInputValues(initialValues);
-                  setIsAddButtonDisabled(true);
-                  setError('');
-                }}
-              />
-            }
-            leftItem={
-              <Icon
-                className="rounded-full w-8 h-8 p-2 font-bold opacity-70 hover:opacity-90"
-                icon="ep:arrow-left-bold"
-                onClick={() => {
-                  setInputValues(initialValues);
-                  setIsAddButtonDisabled(true);
-                  setError('');
-                }}
-              />
-            }
-            size="normal"
-          />
+          <img src="bafkreiauw5d4ri7xabohd2eezjuh3tpgzwffjytddbjx5b3fmtx7nlbiqa" />
         </div>
         {activeItem === 0 && (
           <div
@@ -516,4 +470,4 @@ const AddComponentModal = () => {
   );
 };
 
-export default AddComponentModal;
+export default EditComponentModal;
