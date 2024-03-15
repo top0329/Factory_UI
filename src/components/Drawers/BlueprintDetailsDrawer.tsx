@@ -146,8 +146,14 @@ const BlueprintDetailDrawer: FC<Props> = ({
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 sm:top-[324px] xs:top-[224px]"></div>
           <div className="bg-[#011018] py-6 px-8 max-h-80 sm:h-60">
-            <div className="flex flex-col-reverse justify-between items-center gap-4 sm:flex-row sm:justify-beteen">
-              <div className="flex justify-start w-full gap-10">
+            <div
+              className={`flex justify-between items-center gap-4 ${
+                isCreatorMode
+                  ? 'flex-col-reverse sm:flex-row'
+                  : 'sm:flex-row items-center'
+              } sm:justify-beteen`}
+            >
+              <div className="flex justify-start w-full gap-4 xs:gap-10">
                 <div className="flex flex-col items-start text-white gap-2">
                   <p className="truncate text-light-gray text-sm">
                     Blueprint ID
@@ -161,8 +167,8 @@ const BlueprintDetailDrawer: FC<Props> = ({
               </div>
               <div
                 className={`flex ${
-                  isCreatorMode ? 'justify-between' : 'justify-center'
-                }  w-full gap-2 mb-2 xs:gap-6 sm:gap-3 sm:justify-end`}
+                  isCreatorMode ? 'justify-between mb-2' : 'justify-end'
+                }  w-full gap-2 xs:gap-6 sm:gap-3 sm:justify-end`}
               >
                 {isCreatorMode === true && (
                   <React.Fragment>
