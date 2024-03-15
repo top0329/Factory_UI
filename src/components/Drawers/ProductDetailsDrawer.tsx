@@ -19,15 +19,10 @@ export interface Props {
   setIsDrawerOpen?: (isOpen: boolean) => void;
 }
 
-const ProductDetailsDrawer: FC<Props> = ({
-  isDrawerOpen,
-  setIsDrawerOpen,
-}) => {
+const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
   const navigate = useNavigate();
 
-  const [selectedProduct] = useAtom<SelectedProduct>(
-    selectedProductintAtom
-  );
+  const [selectedProduct] = useAtom<SelectedProduct>(selectedProductintAtom);
   const [, setProductSelectionState] = useAtom<SelectedProduct>(
     productSelectionState
   );
@@ -101,7 +96,7 @@ const ProductDetailsDrawer: FC<Props> = ({
   return (
     <main
       className={
-        'fixed overflow-hidden z-20 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
+        'fixed overflow-hidden z-50 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
         (isDrawerOpen
           ? 'transition-opacity opacity-100 duration-500 translate-x-0'
           : 'transition-all delay-500 opacity-0 translate-x-full')
@@ -134,7 +129,7 @@ const ProductDetailsDrawer: FC<Props> = ({
             {selectedProduct.name}
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px] xs:top-[224px]"></div>
-          <div className="bg-[#011018] py-6 px-6 h-80 md:h-[252px] md:px-8">
+          <div className="bg-[#011018] py-6 px-6 h-[252px] md:px-8">
             <div className="flex justify-between items-center w-full">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="truncate text-light-gray text-sm">Product ID</p>
@@ -152,7 +147,6 @@ const ProductDetailsDrawer: FC<Props> = ({
                 onClick={handleMintProductButtonClicked}
               />
             </div>
-
             <div className="flex justify-start items-start mt-5 md:justify-between">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Address</p>
@@ -165,9 +159,7 @@ const ProductDetailsDrawer: FC<Props> = ({
                   >
                     {windowSize.width !== undefined && windowSize.width > 472
                       ? `${selectedProduct.blueprintAddress}`
-                      : `${shortenAddress(
-                          selectedProduct.blueprintAddress
-                        )}`}
+                      : `${shortenAddress(selectedProduct.blueprintAddress)}`}
                   </a>
                   <Icon
                     className="w-4 h-4 cursor-pointer"
@@ -251,7 +243,7 @@ const ProductDetailsDrawer: FC<Props> = ({
               </button>
             </div>
           </div>
-          <div className="px-4 py-10 h-auto md:px-12 xs:px-8">
+          <div className="px-4 py-10 h-full md:px-12 xs:px-8">
             {activeTab === 1 && (
               <div className="grid grid-cols-2 gap-4 place-items-center">
                 {selectedProduct.data.erc20Data.length > 0 &&

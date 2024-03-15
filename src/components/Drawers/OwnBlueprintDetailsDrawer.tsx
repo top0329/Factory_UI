@@ -115,7 +115,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
   return (
     <main
       className={
-        'fixed overflow-hidden z-20 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
+        'fixed overflow-hidden z-50 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
         (isDrawerOpen
           ? 'transition-opacity opacity-100 duration-500 translate-x-0'
           : 'transition-all delay-500 opacity-0 translate-x-full')
@@ -148,7 +148,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             {selectedOwnBlueprint.name}
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 md:top-[324px] xs:top-[224px]"></div>
-          <div className="bg-[#011018] py-6 px-6 h-80 md:h-[252px] md:px-8">
+          <div className="bg-[#011018] py-6 px-6 h-[252px] xs:px-8">
             <div className="flex justify-between items-center w-full">
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="truncate text-light-gray text-sm">Blueprint ID</p>
@@ -298,7 +298,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
               </button>
             </div>
           </div>
-          <div className="px-4 py-10 h-auto md:px-12 xs:px-8">
+          <div className="px-4 py-10 h-full md:px-12 xs:px-8">
             {activeTab === 1 && (
               <div className="grid grid-cols-2 gap-4 place-items-center">
                 {selectedOwnBlueprint.data.erc20Data.length > 0 &&

@@ -71,7 +71,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setIsIPFSSelected(true);
+    // setIsIPFSSelected(true);
     setName(createInfo.name);
     setTotalSupply(createInfo.totalSupply);
     setImageSrc(
@@ -228,7 +228,13 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
             <p className="text-xs text-[#858584]">Total Supply</p>
             <input
               type="number"
-              min="1"
+              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows
+                ${
+                  !editable
+                    ? ' bg-[#010B10] border-[#191313]'
+                    : ' bg-[#03070F] border-[#8B8B8B]'
+                }`}
+              min={1}
               disabled={isRecreate ? !editable : true}
               value={totalSupply === 0 ? '' : totalSupply}
               onChange={(event) => {
@@ -240,12 +246,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
                 setTotalSupply(newSupplyNumber);
                 if (newSupplyNumber == 0) setTotalSupply('');
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows
-            ${
-              !editable
-                ? ' bg-[#010B10] border-[#191313]'
-                : ' bg-[#03070F] border-[#8B8B8B]'
-            }`}
               required
             />
           </div>
