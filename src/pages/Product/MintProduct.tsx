@@ -192,6 +192,15 @@ const MintProductPage = () => {
                 Mint Product
               </h3>
               <div className="flex flex-col items-center p-6 border-t border-gray-200 rounded-b">
+              <ProductListCard
+                isDecompose={true}
+                type={4}
+                uri={selectedOwnData.uri}
+                name={selectedOwnData.name}
+                address={selectedOwnData.blueprintAddress}
+                id={selectedOwnData.id}
+                amount={selectedOwnData.balance}
+              />
                 {selectedOwnData.data.erc20Data.map((dataItem, index) => (
                   <ProductListCard
                     isDecompose={false}

@@ -28,10 +28,10 @@ const DecomposeProductPage = () => {
               amount={selectedOwnData.balance}
             />
             <div className=" flex justify-between items-center">
-              <p className="xs:text-[22px] text-[18px] text-[#BABABA]">
+              <p className="xs:text-[22px] text-[16px] text-[#BABABA]">
                 Product Decompose Fee
               </p>
-              <p className="xs:text-[24px] text-[18px] font-semibold">
+              <p className="xs:text-[24px] text-[16px] font-semibold">
                 0.1 ETH
               </p>
             </div>
