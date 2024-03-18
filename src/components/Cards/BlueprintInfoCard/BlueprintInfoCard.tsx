@@ -5,6 +5,7 @@ import { useAtom } from 'jotai';
 import { createBlueprintAtom } from '../../../jotai/atoms';
 import { CreateBlueprint } from '../../../types';
 import BlueprintDefaultImage from '../../../assets/images/blueprint.png';
+// import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
 
 interface CustomCheckboxProps {
   editable: boolean;
@@ -67,6 +68,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
   const [imageSrc, setImageSrc] = useState<string>(
     createInfo.uri.substring(21)
   );
+  // const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -145,6 +147,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
       // Create a URL for the uploaded file
       const reader = new FileReader();
       reader.onloadend = () => {
+        // setSelectedFile(file);
         setImageSrc(reader.result as string);
         setFileText(file.name);
       };
@@ -161,6 +164,38 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isCreate, onClick }) => {
       fileInputRef.current.click();
     }
   };
+
+  // const uploadToIPFS = async () => {
+  //   if (!selectedFile) return;
+
+  //   try {
+  //     // Upload the image to IPFS
+  //     const imageHashURI: string = await uploadFileToIPFS(
+  //       selectedFile,
+  //       fileText
+  //     );
+  //     console.log(
+  //       'Image uploaded to IPFS with hash ====================> ',
+  //       imageHashURI
+  //     );
+
+  //     // Upload the JSON file to IPFS
+  //     const json = {
+  //       name: fileText,
+  //       description: 'The ERC1155 token for Factory Project',
+  //       image: `https://ipfs.io/ipfs/${imageHashURI}`,
+  //       attributes: [],
+  //       compiler: 'Factory',
+  //     };
+  //     const jsonHash = await uploadJSONToIPFS(fileText, json);
+  //     console.log(
+  //       'JSON uploaded to IPFS with hash ====================> ',
+  //       jsonHash
+  //     );
+  //   } catch (error) {
+  //     console.log('Error uploading file:', error);
+  //   }
+  // };
 
   return (
     <div className="flex flex-col  w-full rounded-3xl bg-[#011018] border border-[#858584]/30 gap-y-1 pb-[30px] ">
