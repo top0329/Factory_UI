@@ -278,7 +278,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     ? ' bg-[#010B10] border-[#191313]'
                     : ' bg-[#03070F] border-[#8B8B8B]'
                 }`}
-            type="number"
             min={1}
             onChange={(event) => {
               const newSupplyNumber = Number(event.target.value);
@@ -308,7 +307,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               <div className="flex gap-2">
                 <div className="flex items-center">
                   <input
-                    id="files-radio"
+                    id="default-radio-1"
                     // checked={true}
                     // defaultChecked={true}
                     checked={!isIPFSSelected}
@@ -323,7 +322,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 </div>
                 <div className="flex items-center">
                   <input
-                    id="ipfs-radio"
+                    id="default-radio-2"
                     checked={isIPFSSelected}
                     type="radio"
                     onChange={handleRadioClick}
@@ -336,13 +335,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               </div>
             )}
           </div>
-          <div className="flex justify-between">
+          <div className="flex justify-between gap-[1px]">
             <div className="w-full">
               <input
                 className={`border-[0.5px] w-full h-[28px] py-1 ${
                   isIPFSSelected ? 'rounded pl-[44px]' : 'rounded-l-lg pl-2'
-                }
-                ${
+                } ${
                   editable && uriChecked && isIPFSSelected
                     ? 'bg-[#03070F] border-[#8B8B8B] mr-0.5'
                     : 'bg-[#010B10] border-[#191313] '
@@ -368,7 +366,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
             </div>
             {!isIPFSSelected && (
               <button
-                className={`px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg border-[0.5px]       ${
+                className={`px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg border-[0.5px] ${
                   editable && uriChecked && !isIPFSSelected
                     ? 'bg-[#03070F] border-[#8B8B8B] '
                     : 'bg-[#010B10] border-[#191313]'
@@ -394,9 +392,13 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
           </div>
           <div className="flex justify-center">
             <input
+              className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg px-2 border-r-0 hide-arrows
+                ${
+                  editable && mintPriceChecked
+                    ? ' bg-[#03070F] border-[#8B8B8B]'
+                    : ' bg-[#010B10] border-[#191313]'
+                }`}
               type="number"
-              disabled={!editable || !mintPriceChecked}
-              value={mintPrice === 0 ? '' : mintPrice}
               onChange={(event) => {
                 const newMintPrice = Number(event.target.value);
                 if (newMintPrice > 0) {
@@ -410,16 +412,16 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   setMintPrice(''); // Here we reset the input if the user inputs zero or a negative number
                 }
               }}
-              className={`border-[0.5px] w-full h-[28px] py-1 rounded-l-lg px-2 border-r-0 hide-arrows
-            ${
-              editable && mintPriceChecked
-                ? ' bg-[#03070F] border-[#8B8B8B]'
-                : ' bg-[#010B10] border-[#191313]'
-            }`}
+              value={mintPrice === 0 ? '' : mintPrice}
+              disabled={!editable || !mintPriceChecked}
               required
             />
             <select
-              disabled={!editable || !mintPriceChecked}
+              className={`!bg-[#4A4A4A]/20 rounded-r-lg text-center text-[11px] w-[50px] border-[0.5px] border-l-0 ${
+                editable && mintPriceChecked
+                  ? 'bg-[#03070F] border-[#8B8B8B]'
+                  : 'bg-[#010B10] border-[#191313]'
+              }`}
               onChange={(event) => {
                 const newMintPriceUnit = Number(event.target.value);
                 setCreateInfo((prevCreateInfo) => ({
@@ -427,12 +429,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   mintPriceUnit: newMintPriceUnit,
                 }));
               }}
-              className={`!bg-[#4A4A4A]/20 rounded-r-lg text-center text-[11px] w-[50px] border-[0.5px] border-l-0 ${
-                editable && mintPriceChecked
-                  ? 'bg-[#03070F] border-[#8B8B8B]'
-                  : 'bg-[#010B10] border-[#191313]'
-              }`}
               defaultValue={createInfo.mintPriceUnit}
+              disabled={!editable || !mintPriceChecked}
             >
               <option value={0} className="!bg-[#4A4A4A]">
                 ETH
@@ -456,9 +454,13 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
             <p className="text-xs text-[#858584]">Mint Limit</p>
           </div>
           <input
+            className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows
+            ${
+              editable && mintLimitChecked
+                ? ' bg-[#03070F] border-[#8B8B8B]'
+                : ' bg-[#010B10] border-[#191313]'
+            }`}
             type="number"
-            disabled={!editable || !mintLimitChecked}
-            value={mintPriceLimit === 0 ? '' : mintPriceLimit}
             onChange={(event) => {
               const newMintPriceLimit = Number(event.target.value);
               if (newMintPriceLimit > 0) {
@@ -471,19 +473,20 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 setMintPriceLimit('');
               }
             }}
-            className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows
-            ${
-              editable && mintLimitChecked
-                ? ' bg-[#03070F] border-[#8B8B8B]'
-                : ' bg-[#010B10] border-[#191313]'
-            }`}
+            value={mintPriceLimit === 0 ? '' : mintPriceLimit}
+            disabled={!editable || !mintLimitChecked}
             required
           />
         </div>
         <div className="flex justify-between mt-2 !text-cente w-full gap-4">
           <button
             id="cancelButton"
-            disabled={!editable || !buttonEnable}
+            className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
+            ${
+              editable && buttonEnable
+                ? 'bg-[#353535] text-white'
+                : 'bg-[#1F2937] text-[#718096]'
+            }`}
             onClick={() => {
               setEditable(false);
               setButtonEnable(false);
@@ -503,12 +506,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 totalSupply: 0,
               }));
             }}
-            className={`flex rounded-2xl gap-3 items-center w-full h-8 !text-center !justify-center
-            ${
-              editable && buttonEnable
-                ? 'bg-[#353535] text-white'
-                : 'bg-[#1F2937] text-[#718096]'
-            }`}
+            disabled={!editable || !buttonEnable}
           >
             Cancel
           </button>

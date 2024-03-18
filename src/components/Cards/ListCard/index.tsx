@@ -19,7 +19,7 @@ export default function ListCard(props: ListCardInterface) {
   };
   return (
     <div
-      className={`flex w-full h-[80px] justify-between items-center md:px-[40px] px-[20px] py-2 mb-2 border  rounded-3xl text-white text-base ${
+      className={`flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] px-[20px] py-2 mb-2 border  rounded-3xl text-white text-base ${
         props.type == 0
           ? 'bg-[#09F5D8]/10 border-[#09F5D8]'
           : props.type == 1
@@ -32,11 +32,14 @@ export default function ListCard(props: ListCardInterface) {
       }`}
     >
       <div id="icon" className="flex justify-center py-2">
-        <img src={props.uri} className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full" />
+        <img
+          src={props.uri}
+          className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
+        />
       </div>
 
       <div
-        className="hidden sm:block text-white justify-center  items-center w-[12%] md:text-[24px] text-[16px] text-xl"
+        className="hidden sm:block text-white justify-center  items-center w-[15%] md:text-[24px] text-[16px] text-xl"
         id="type"
       >
         {props.type == 0 && <p>ERC20</p>}
@@ -46,7 +49,12 @@ export default function ListCard(props: ListCardInterface) {
         {props.type == 4 && <p>Product</p>}
       </div>
 
-      <div id="name" className="flex flex-col justify-center w-[12%]">
+      <div
+        id="name"
+        className={`${
+          props.isDecompose ? '' : 'hidden sm:block'
+        } flex flex-col justify-center sm:w-[12%] w-[30%]`}
+      >
         <p className="text-[#858584] text-xs">Name</p>
         <p
           className={`${props.isDecompose ? 'text-[#BABABA]' : ''} ${
@@ -59,7 +67,7 @@ export default function ListCard(props: ListCardInterface) {
 
       <div
         id="address"
-        className="hidden md:block flex-col justify-center w-[12%]"
+        className="hidden md:block flex-col justify-center w-[25%]"
       >
         <p className="text-[#858584] text-xs">Address</p>
         <div className="flex gap-2">
@@ -92,7 +100,7 @@ export default function ListCard(props: ListCardInterface) {
           </div>
         </div>
       </div>
-      <div id="id" className="w-[12%] ">
+      <div id="id" className="w-[3%] ">
         {props.type !== 0 && props.type !== 3 && (
           <div>
             <p className="text-[#858584] text-xs">ID</p>
@@ -107,7 +115,7 @@ export default function ListCard(props: ListCardInterface) {
         )}
       </div>
 
-      <div id="amount" className="">
+      <div id="amount" className="truncate sm:w-auto ">
         {props.type != 1 && (
           <div>
             <p className="text-[#858584] text-xs">
@@ -118,7 +126,7 @@ export default function ListCard(props: ListCardInterface) {
         )}
       </div>
       {!props.isDecompose && (
-        <div id="approve" className="">
+        <div id="approve" className="xs:w-auto w-[30%]">
           <button className="bg-[#000000] rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]">
             Approve
           </button>
