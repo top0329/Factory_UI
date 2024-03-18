@@ -17,9 +17,7 @@ import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
 import { useEffect } from 'react';
 
 const RecreateBlueprintPage = () => {
-  const [selectedBlueprint] = useAtom(
-    selectedBlueprintAtom
-  );
+  const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
   const [createBlueprint, setCreateBlueprint] = useAtom(createBlueprintAtom);
   const [availableComponent, setAvailableComponent] = useAtom(
     availableComponentAtom
