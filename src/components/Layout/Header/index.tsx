@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
-// import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 import Logo from '../../Logo';
 import Button from '../../Button';
@@ -30,7 +29,7 @@ function Header() {
             setHeaderActiveItem(0);
           }}
         />
-        <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-6 xl:gap-16">
+        <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-6 xl:gap-10">
           <div className="hidden items-center text-light-gray text-base gap-2 xl:text-2xl lg:text-xl lg:gap-8 md:flex md:gap-4 md:text-lg sm:flex">
             <button
               className={`${

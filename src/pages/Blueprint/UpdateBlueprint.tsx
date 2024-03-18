@@ -91,7 +91,7 @@ const UpdateBlueprintPage = () => {
       </div>
       <div className="flex flex-col pt-6 pb-16 gap-4 lg:gap-6 xs:flex-row">
         <div className="min-w-48 w-full md:w-auto lg:min-w-72 md:min-w-52 sm:min-w-64">
-          <BlueprintInfoCard isRecreate={false} />
+          <BlueprintInfoCard isUpdate />
         </div>
         <div className="w-full grid grid-cols-2 gap-4 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 xs:grid-cols-1">
           {createBlueprint.data.erc20Data.map((erc20, idx) => {
