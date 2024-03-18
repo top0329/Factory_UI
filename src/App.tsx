@@ -1,6 +1,5 @@
 import { Web3Provider } from "./contexts/web3Context";
 import CoreRoutes from "./routes";
-// import 'dotenv/config';
 
 function App() {
   return (
