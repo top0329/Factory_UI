@@ -14,6 +14,7 @@ import {
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
+import { Image } from '../Image';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -136,11 +137,15 @@ const BlueprintDetailDrawer: FC<Props> = ({
           >
             Blueprint
           </div>
-          <img
+          <Image
+            className="max-h-[235px] object-cover sm:max-h-[435px] xs:max-h-[335px]"
+            src={selectedBlueprint.uri}
+          />
+          {/* <img
             className="max-h-[235px] object-cover sm:max-h-[435px] xs:max-h-[335px]"
             src={selectedBlueprint.uri}
             alt="drawer"
-          />
+          /> */}
           <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 sm:top-[392px] xs:top-[292px]">
             {selectedBlueprint.name}
           </p>
