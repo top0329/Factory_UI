@@ -1,11 +1,18 @@
 import { useState } from 'react';
+import { ethers } from 'ethers';
+import { erc20Abi, erc721Abi } from 'viem';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import copy from 'copy-to-clipboard';
+import useWeb3 from '../../../hooks/useWeb3';
 
+import erc1155Abi from '../../../abi/ERC1155ABI.json';
 import { ListCardInterface } from '../../../types';
+import { defaultRPC } from '../../../constants';
 
 export default function ListCard(props: ListCardInterface) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const { factoryContract, blueprintContract } = useWeb3();
+
   const handleCopyButtonClicked = () => {
     try {
       setIsCopied(true);
@@ -17,6 +24,53 @@ export default function ListCard(props: ListCardInterface) {
       console.log('failed to copy', err);
     }
   };
+
+  const handleApprove = async () => {
+    alert('Approve');
+    const provider = new ethers.JsonRpcProvider(defaultRPC);
+    const erc20Contract = new ethers.Contract(
+      props.address,
+      erc20Abi,
+      provider
+    );
+
+    const erc721Contract = new ethers.Contract(
+      props.address,
+      erc721Abi,
+      provider
+    );
+
+    const erc1155Contract = new ethers.Contract(
+      props.address,
+      erc1155Abi,
+      provider
+    );
+
+    if (props.type == 1) {
+      await erc20Contract.approve(
+        await factoryContract.getAddress(),
+        props.amount
+      );
+    } else if (props.type == 2) {
+      await erc721Contract.setApprovalForAll(
+        await factoryContract.getAddress(),
+        true
+      );
+    } else if (props.type == 3) {
+      await erc1155Contract.setApprovalForAll(
+        await factoryContract.getAddress(),
+        true
+      );
+    } else if (props.type == 4) {
+      await blueprintContract.setApprovalForAll(
+        await factoryContract.getAddress(),
+        true
+      );
+    } else {
+      console.log('Invalid Component');
+    }
+  };
+
   return (
     <div
       className={`flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] px-[20px] py-2 mb-2 border  rounded-3xl text-white text-base ${
@@ -127,7 +181,10 @@ export default function ListCard(props: ListCardInterface) {
       </div>
       {!props.isDecompose && (
         <div id="approve" className="xs:w-auto w-[30%]">
-          <button className="bg-[#000000] rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]">
+          <button
+            onClick={handleApprove}
+            className="bg-[#000000] rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]"
+          >
             Approve
           </button>
         </div>
