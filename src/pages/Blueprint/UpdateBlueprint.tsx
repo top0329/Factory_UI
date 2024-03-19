@@ -1,17 +1,17 @@
+import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { Toaster } from 'react-hot-toast';
 
 import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
+import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import {
   availableComponentAtom,
   createBlueprintAtom,
   selectedBlueprintAtom,
 } from '../../jotai/atoms';
-import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
-import { useEffect } from 'react';
 
 const UpdateBlueprintPage = () => {
   const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
@@ -38,7 +38,7 @@ const UpdateBlueprintPage = () => {
 
   const handleDeleteERC20CardClicked = (erc20: ERC20Data) => {
     const filteredERC20Data = createBlueprint.data.erc20Data.filter((item) => {
-      return item.address !== erc20.address;
+      return item.tokenAddress !== erc20.tokenAddress;
     });
     setCreateBlueprint({
       ...createBlueprint,
@@ -53,7 +53,7 @@ const UpdateBlueprintPage = () => {
   const handleDeleteERC721CardClicked = (erc721: ERC721Data) => {
     const filteredERC721Data = createBlueprint.data.erc721Data.filter(
       (item) => {
-        return item.address !== erc721.address || item.id !== erc721.id;
+        return item.tokenAddress !== erc721.tokenAddress || item.tokenId !== erc721.tokenId;
       }
     );
     setCreateBlueprint({
@@ -69,7 +69,7 @@ const UpdateBlueprintPage = () => {
   const handleDeleteERC1155CardClicked = (erc1155: ERC1155Data) => {
     const filteredERC1155Data = createBlueprint.data.erc1155Data.filter(
       (item) => {
-        return item.address !== erc1155.address || item.id !== erc1155.id;
+        return item.tokenAddress !== erc1155.tokenAddress || item.tokenId !== erc1155.tokenId;
       }
     );
     setCreateBlueprint({
@@ -101,7 +101,7 @@ const UpdateBlueprintPage = () => {
                 name={erc20.name}
                 uri={erc20.uri}
                 amount={erc20.amount}
-                address={erc20.address}
+                tokenAddress={erc20.tokenAddress}
                 onDeleteIconClicked={() => handleDeleteERC20CardClicked(erc20)}
               />
             );
@@ -109,11 +109,11 @@ const UpdateBlueprintPage = () => {
           {createBlueprint.data.erc721Data.map((erc721) => {
             return (
               <ERC721Card
-                key={erc721.id}
-                id={erc721.id}
+                key={erc721.tokenId}
+                tokenId={erc721.tokenId}
                 name={erc721.name}
                 uri={erc721.uri}
-                address={erc721.address}
+                tokenAddress={erc721.tokenAddress}
                 onDeleteIconClicked={() =>
                   handleDeleteERC721CardClicked(erc721)
                 }
@@ -123,12 +123,12 @@ const UpdateBlueprintPage = () => {
           {createBlueprint.data.erc1155Data.map((erc1155) => {
             return (
               <ERC1155Card
-                key={erc1155.id}
-                id={erc1155.id}
+                key={erc1155.tokenId}
+                tokenId={erc1155.tokenId}
                 name={erc1155.name}
                 uri={erc1155.uri}
                 amount={erc1155.amount}
-                address={erc1155.address}
+                tokenAddress={erc1155.tokenAddress}
                 onDeleteIconClicked={() =>
                   handleDeleteERC1155CardClicked(erc1155)
                 }

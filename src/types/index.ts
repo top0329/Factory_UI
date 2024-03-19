@@ -21,22 +21,22 @@ export interface ERC20Data {
   name: string;
   uri: string;
   amount: number;
-  address: Address;
+  tokenAddress: Address;
 }
 
 export interface ERC721Data {
-  id: number;
+  tokenId: number;
   name: string;
   uri: string;
-  address: Address;
+  tokenAddress: Address;
 }
 
 export interface ERC1155Data {
-  id: number;
+  tokenId: number;
   name: string;
   uri: string;
   amount: number;
-  address: Address;
+  tokenAddress: Address;
 }
 
 export type Web3ContextType = {

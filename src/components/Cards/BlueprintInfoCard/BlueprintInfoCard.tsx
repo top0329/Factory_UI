@@ -2,10 +2,10 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 
-import { createBlueprintAtom } from '../../../jotai/atoms';
-import { CreateBlueprint } from '../../../types';
 import DefaultBlueprintImage from '../../../assets/images/default-blueprint.png';
 import useWeb3 from '../../../hooks/useWeb3';
+import { createBlueprintAtom } from '../../../jotai/atoms';
+import { CreateBlueprint } from '../../../types';
 import { invalidChars } from '../../../constants';
 // import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
 
