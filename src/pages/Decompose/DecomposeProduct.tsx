@@ -1,6 +1,5 @@
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
-import { ethers } from 'ethers';
 import Button from '../../components/Button';
 import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedProduct } from '../../types';
