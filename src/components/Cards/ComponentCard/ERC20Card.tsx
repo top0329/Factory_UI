@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import copy from 'copy-to-clipboard';
+import { Image } from '../../Image';
 
 export interface Props {
   name: string;
@@ -51,12 +52,14 @@ const ERC20Card: FC<Props> = ({
         >
           ERC20
         </div>
-        <img
+        {/* <Image src={uri} /> */}
+        <Image
           className={`z-20 flex justify-center items-center w-full h-44 rounded-t-3xl object-cover ${
             icon && 'transition duration-300 ease-in-out group-hover:blur-sm'
           }`}
+          spinnerClassName="w-full h-full"
           src={uri}
-          alt="erc-20"
+          alt='erc20-card'
         />
         {icon && (
           <div className="absolute inset-0 w-full h-44 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:flex">
