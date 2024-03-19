@@ -1,9 +1,9 @@
 export const factoryAddress =
-  '0x9709251b4ed6DcbDE95eD1ebADEc1C641b45687E'.toLocaleLowerCase();
+  '0x93Ee6a9818072Ef3c5fcC5D42696FF57e66Fd417'.toLocaleLowerCase();
 export const blueprintAddress =
-  '0xCf72b7659DD7ee7C8c651166721D64120ECF50aa'.toLocaleLowerCase();
+  '0x73d950a091F070Ec73F22C9E7f2fFf916f2E099A'.toLocaleLowerCase();
 export const productAddress =
-  '0x863755C69E2a64B455Cc43CBd504B5fD21497Cd2'.toLocaleLowerCase();
+  '0x424d5A10Fa843b2bFe5485D0075569bC3bC272Ff'.toLocaleLowerCase();
 
 export const defaultRPC = 'https://ethereum-sepolia-rpc.publicnode.com';
 

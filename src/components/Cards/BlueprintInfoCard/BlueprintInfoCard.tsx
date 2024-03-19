@@ -51,7 +51,7 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
 }
 
 const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
-  const { account } = useWeb3();
+  const { account, factoryContract } = useWeb3();
 
   const [createInfo, setCreateInfo] =
     useAtom<CreateBlueprint>(createBlueprintAtom);
@@ -70,8 +70,9 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const [imageSrc, setImageSrc] = useState<string>(
     createInfo.uri.substring(21)
   );
-  const [uploadedImageSrc, setUploadedImageSrc] = useState<string>('');
-  // const [isFileUploaded, setIsFileUploaded] = useState<boolean>(false);
+  const [uploadedImageSrc, setUploadedImageSrc] = useState<string>(
+    DefaultBlueprintImage
+  );
   const [selectedFile, setSelectedFile] = useState<any>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -83,6 +84,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     setImageSrc(createInfo.uri);
     setMintPrice(createInfo.mintPrice);
     setMintPriceLimit(createInfo.mintLimit);
+    setImageSrc(createInfo.uri);
     setCreator(account);
   }, [
     createInfo.creator,
@@ -155,10 +157,50 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         setSelectedFile(file);
         setUploadedImageSrc(reader.result as string);
         setFileText(file.name);
-        // setIsFileUploaded(true);
         console.log(file, imageSrc);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleKeyDownForMintPrice = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (
+      !(
+        (event.key >= '0' && event.key <= '9') ||
+        event.key === 'Backspace' ||
+        event.key === 'Delete' ||
+        event.key === 'Tab' ||
+        event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight' ||
+        event.key === '.' ||
+        (event.key >= '0' &&
+          event.key <= '9' &&
+          event.getModifierState('NumLock'))
+      )
+    ) {
+      event.preventDefault();
+    }
+  };
+
+  const handleKeyDownForTotalSupplyAndMintLimit = (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (
+      !(
+        (event.key >= '0' && event.key <= '9') ||
+        event.key === 'Backspace' ||
+        event.key === 'Delete' ||
+        event.key === 'Tab' ||
+        event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight' ||
+        (event.key >= '0' &&
+          event.key <= '9' &&
+          event.getModifierState('NumLock'))
+      )
+    ) {
+      event.preventDefault();
     }
   };
 
@@ -204,8 +246,52 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   //   }
   // };
 
-  const handleSubmit = () => {
-    console.log(creator);
+  const handleSubmit = async () => {
+    try {
+      if (isIPFSSelected) {
+        setCreateInfo((prevCreateInfo) => ({
+          ...prevCreateInfo,
+          creator: account,
+        }));
+        console.log(createInfo);
+        console.log(account);
+        if (
+          createInfo.data.erc20Data.length +
+            createInfo.data.erc721Data.length +
+            createInfo.data.erc1155Data.length >
+          0
+        ) {
+          console.log(factoryContract);
+          console.log(
+            createInfo.name,
+            createInfo.uri,
+            createInfo.totalSupply,
+            createInfo.mintPrice,
+            createInfo.mintPriceUnit,
+            createInfo.mintLimit,
+            createInfo.data
+          );
+          console.log(creator);
+          // await factoryContract.createBlueprint(
+          //   createInfo.name,
+          //   createInfo.uri,
+          //   createInfo.totalSupply,
+          //   createInfo.mintPrice,
+          //   createInfo.mintPriceUnit,
+          //   createInfo.mintLimit,
+          //   createInfo.data
+          // );
+          const result = await factoryContract.componentTokenLimit();
+          console.log(result);
+          console.log('here');
+        }
+        console.log('error');
+      } else {
+        console.log(selectedFile);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -265,7 +351,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               setName(newName);
             }}
             value={name}
-            disabled={isRecreate ? !editable : true}
+            disabled={isUpdate ? true : !editable}
             required
           />
         </div>
@@ -278,18 +364,22 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     ? ' bg-[#010B10] border-[#191313]'
                     : ' bg-[#03070F] border-[#8B8B8B]'
                 }`}
+            type="number"
             min={1}
             onChange={(event) => {
-              const newSupplyNumber = Number(event.target.value);
+              const newSupplyNumber = event.target.value;
               setCreateInfo((prevCreateInfo) => ({
                 ...prevCreateInfo,
-                totalSupply: newSupplyNumber,
+                totalSupply:
+                  newSupplyNumber.trim() === '' ? '' : Number(newSupplyNumber),
               }));
-              setTotalSupply(newSupplyNumber);
-              if (newSupplyNumber == 0) setTotalSupply('');
+              setTotalSupply(
+                newSupplyNumber.trim() === '' ? '' : Number(newSupplyNumber)
+              );
             }}
+            onKeyDown={handleKeyDownForTotalSupplyAndMintLimit}
             value={totalSupply === 0 ? '' : totalSupply}
-            disabled={isRecreate ? !editable : true}
+            disabled={isUpdate ? true : !editable}
             required
           />
         </div>
@@ -307,14 +397,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               <div className="flex gap-2">
                 <div className="flex items-center">
                   <input
-                    id="default-radio-1"
-                    // checked={true}
-                    // defaultChecked={true}
-                    checked={!isIPFSSelected}
-                    type="radio"
-                    name="default-radio"
-                    onChange={handleRadioClick}
+                    id="files-radio"
+                    name="files-radio"
                     className="w-4 h-4 !text-black !bg-gray-100 !border-gray-300 !focus:ring-black"
+                    type="radio"
+                    onChange={handleRadioClick}
+                    checked={!isIPFSSelected}
                   />
                   <label className="ms-1 text-xs font-medium text-[#858584]">
                     Files
@@ -322,11 +410,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 </div>
                 <div className="flex items-center">
                   <input
-                    id="default-radio-2"
-                    checked={isIPFSSelected}
+                    id="ipfs-radio"
+                    name="ipfs-radio"
+                    className="w-4 h-4 "
                     type="radio"
                     onChange={handleRadioClick}
-                    className="w-4 h-4 "
+                    checked={isIPFSSelected}
                   />
                   <label className="ms-1 text-xs font-medium text-[#858584]">
                     IPFS
@@ -335,7 +424,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               </div>
             )}
           </div>
-          <div className="flex justify-between gap-[1px]">
+          <div className="flex justify-between">
             <div className="w-full">
               <input
                 className={`border-[0.5px] w-full h-[28px] py-1 ${
@@ -346,8 +435,14 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     : 'bg-[#010B10] border-[#191313] '
                 }`}
                 type="text"
-                value={isIPFSSelected ? imageSrc.substring(21) : fileText}
-                // value={fileText}
+                value={
+                  isIPFSSelected
+                    ? imageSrc.substring(21) ===
+                      'bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi'
+                      ? ''
+                      : imageSrc.substring(21)
+                    : fileText
+                }
                 disabled={
                   !editable || !uriChecked || buttonEnable || !isIPFSSelected
                 }
@@ -358,7 +453,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     ...prevCreateInfo,
                     uri: `https://ipfs.io/ipfs/${newUri}`,
                   }));
-                  setFileText(newUri);
                   setImageSrc(`https://ipfs.io/ipfs/${event.target.value}`);
                 }}
               />
@@ -399,20 +493,20 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     : ' bg-[#010B10] border-[#191313]'
                 }`}
               type="number"
+              min={0}
               onChange={(event) => {
-                const newMintPrice = Number(event.target.value);
-                if (newMintPrice > 0) {
-                  setCreateInfo((prevCreateInfo) => ({
-                    ...prevCreateInfo,
-                    mintPrice: newMintPrice,
-                  }));
-                  setMintPrice(newMintPrice);
-                } else {
-                  // Optionally handle the zero or negative case here
-                  setMintPrice(''); // Here we reset the input if the user inputs zero or a negative number
-                }
+                const newMintPrice = event.target.value;
+                setCreateInfo((prevCreateInfo) => ({
+                  ...prevCreateInfo,
+                  mintPrice:
+                    newMintPrice.trim() === '' ? '' : Number(newMintPrice),
+                }));
+                setMintPrice(
+                  newMintPrice.trim() === '' ? '' : Number(newMintPrice)
+                );
               }}
-              value={mintPrice === 0 ? '' : mintPrice}
+              onKeyDown={handleKeyDownForMintPrice}
+              value={mintPriceChecked ? mintPrice : ''}
               disabled={!editable || !mintPriceChecked}
               required
             />
@@ -461,19 +555,22 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 : ' bg-[#010B10] border-[#191313]'
             }`}
             type="number"
+            min={0}
             onChange={(event) => {
-              const newMintPriceLimit = Number(event.target.value);
-              if (newMintPriceLimit > 0) {
-                setCreateInfo((prevCreateInfo) => ({
-                  ...prevCreateInfo,
-                  mintLimit: newMintPriceLimit,
-                }));
-                setMintPriceLimit(newMintPriceLimit);
-              } else {
-                setMintPriceLimit('');
-              }
+              const newMintPriceLimit = event.target.value;
+              setCreateInfo((prevCreateInfo) => ({
+                ...prevCreateInfo,
+                mintLimit:
+                  newMintPriceLimit.trim() === ''
+                    ? ''
+                    : Number(newMintPriceLimit),
+              }));
+              setMintPriceLimit(
+                newMintPriceLimit.trim() === '' ? '' : Number(newMintPriceLimit)
+              );
             }}
-            value={mintPriceLimit === 0 ? '' : mintPriceLimit}
+            onKeyDown={handleKeyDownForTotalSupplyAndMintLimit}
+            value={mintLimitChecked ? mintPriceLimit : ''}
             disabled={!editable || !mintLimitChecked}
             required
           />

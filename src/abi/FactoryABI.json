@@ -11,11 +11,119 @@
       { "internalType": "uint256", "name": "creationFee", "type": "uint256" },
       { "internalType": "uint256", "name": "decomposeFee", "type": "uint256" },
       { "internalType": "address", "name": "treasury", "type": "address" },
-      { "internalType": "address", "name": "_usdtAddress", "type": "address" },
-      { "internalType": "address", "name": "_usdcAddress", "type": "address" }
+      { "internalType": "address", "name": "usdtAddress", "type": "address" },
+      { "internalType": "address", "name": "usdcAddress", "type": "address" }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "owner", "type": "address" }
+    ],
+    "name": "OwnableInvalidOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "originCreationFee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newCreationFee",
+        "type": "uint256"
+      }
+    ],
+    "name": "BlueprintCreationFeeUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "originLimit",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newLimit",
+        "type": "uint256"
+      }
+    ],
+    "name": "ComponentLimitUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "originDecomposeFee",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newDecomposeFee",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProductDecomposeFeeUpdated",
+    "type": "event"
   },
   {
     "anonymous": false,
@@ -40,6 +148,31 @@
       }
     ],
     "name": "ProductDecomposed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "originTreasury",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newTreasury",
+        "type": "address"
+      }
+    ],
+    "name": "TreasuryAddressUpdated",
     "type": "event"
   },
   {
@@ -74,15 +207,15 @@
   },
   {
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "blueprintIDCustody",
+    "name": "blueprintCreators",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "blueprintTokenType",
-    "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
+    "name": "blueprintIDCustody",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -99,8 +232,12 @@
       { "internalType": "string", "name": "uri", "type": "string" },
       { "internalType": "uint256", "name": "totalSupply", "type": "uint256" },
       { "internalType": "uint256", "name": "mintPrice", "type": "uint256" },
+      {
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "mintPriceUnit",
+        "type": "uint8"
+      },
       { "internalType": "uint256", "name": "mintLimit", "type": "uint256" },
-      { "internalType": "string", "name": "tokenType", "type": "string" },
       {
         "components": [
           {
@@ -184,13 +321,27 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "getBlueprintCreators",
+    "outputs": [
+      { "internalType": "address[]", "name": "", "type": "address[]" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "isExistCreator",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "address", "name": "to", "type": "address" },
       { "internalType": "uint256", "name": "id", "type": "uint256" },
       { "internalType": "uint256", "name": "amount", "type": "uint256" },
-      { "internalType": "bytes", "name": "data", "type": "bytes" },
-      { "internalType": "string", "name": "tokenType", "type": "string" },
-      { "internalType": "uint256", "name": "tokenAmount", "type": "uint256" }
+      { "internalType": "bytes", "name": "data", "type": "bytes" }
     ],
     "name": "mintBlueprint",
     "outputs": [],
@@ -213,6 +364,22 @@
   },
   {
     "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "treasuryAddress",
     "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
@@ -220,7 +387,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "creationFee", "type": "uint256" }
+      { "internalType": "uint256", "name": "newCreationFee", "type": "uint256" }
     ],
     "name": "updateBlueprintCreationFee",
     "outputs": [],
@@ -240,6 +407,24 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "id", "type": "uint256" },
+      { "internalType": "string", "name": "newURI", "type": "string" },
+      { "internalType": "uint256", "name": "newMintPrice", "type": "uint256" },
+      {
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "newUnit",
+        "type": "uint8"
+      },
+      { "internalType": "uint256", "name": "newMintLimit", "type": "uint256" },
+      { "internalType": "address", "name": "newCreator", "type": "address" }
+    ],
+    "name": "updateBlueprintData",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "id", "type": "uint256" },
       { "internalType": "uint256", "name": "newMintLimit", "type": "uint256" }
     ],
     "name": "updateBlueprintMintLimit",
@@ -250,7 +435,12 @@
   {
     "inputs": [
       { "internalType": "uint256", "name": "id", "type": "uint256" },
-      { "internalType": "uint256", "name": "newMintPrice", "type": "uint256" }
+      { "internalType": "uint256", "name": "newMintPrice", "type": "uint256" },
+      {
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "newUnit",
+        "type": "uint8"
+      }
     ],
     "name": "updateBlueprintMintPrice",
     "outputs": [],
@@ -269,7 +459,7 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "limit", "type": "uint256" }
+      { "internalType": "uint256", "name": "newLimit", "type": "uint256" }
     ],
     "name": "updateComponentLimit",
     "outputs": [],
@@ -278,7 +468,11 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "decomposeFee", "type": "uint256" }
+      {
+        "internalType": "uint256",
+        "name": "newDecomposeFee",
+        "type": "uint256"
+      }
     ],
     "name": "updateProductDecomposeFee",
     "outputs": [],
@@ -287,7 +481,7 @@
   },
   {
     "inputs": [
-      { "internalType": "address", "name": "treasury", "type": "address" }
+      { "internalType": "address", "name": "newTreasury", "type": "address" }
     ],
     "name": "updateTreasuryAddress",
     "outputs": [],
