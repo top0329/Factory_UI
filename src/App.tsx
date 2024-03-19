@@ -1,4 +1,4 @@
-import { Web3Provider } from './contexts/Web3Context';
+import { Web3Provider } from './contexts/web3Context';
 import CoreRoutes from './routes';
 
 function App() {

@@ -127,7 +127,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     } catch (err) {
       console.log(err);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isConnected, ethersProvider, provider]);
 
   useEffect(() => {
