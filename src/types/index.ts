@@ -47,6 +47,9 @@ export type Web3ContextType = {
   factoryContract: Contract;
   blueprintContract: Contract;
   productContract: Contract;
+  factoryWeb3: any;
+  blueprintWeb3: any;
+  productWeb3: any;
 };
 
 export type BlueprintTuple = [
@@ -108,11 +111,11 @@ export type SelectedProduct = {
 export type CreateBlueprint = {
   name: string;
   uri: string;
-  creator: Address | '';
-  totalSupply: number;
-  mintPrice: number;
-  mintPriceUnit: number;
-  mintLimit: number;
+  creator: Address | '' | undefined;
+  totalSupply: number | '';
+  mintPrice: number | '';
+  mintPriceUnit: number | '';
+  mintLimit: number | '';
   data: {
     erc20Data: ERC20Data[];
     erc721Data: ERC721Data[];

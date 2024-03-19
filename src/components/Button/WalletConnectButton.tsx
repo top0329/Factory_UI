@@ -54,7 +54,7 @@ export const WalletConnectButton = () => {
               }
 
               return (
-                <div style={{ display: 'flex', gap: 12 }}>
+                <div style={{ display: 'flex', gap: 6, paddingTop: 4 }}>
                   <button
                     onClick={openChainModal}
                     style={{
@@ -85,7 +85,7 @@ export const WalletConnectButton = () => {
                         )}
                       </div>
                     )}
-                    {chain.name}
+                    {/* {chain.name} */}
                   </button>
 
                   <button
@@ -93,10 +93,11 @@ export const WalletConnectButton = () => {
                     type="button"
                     className="text-white"
                   >
-                    {account.displayName}
-                    {account.displayBalance
+                    {account.address.substring(0, 6)}...
+                    {account.address.substring(account.address.length - 4)}
+                    {/* {account.displayBalance
                       ? ` (${account.displayBalance})`
-                      : ''}
+                      : ''} */}
                   </button>
                 </div>
               );

@@ -93,35 +93,28 @@ const LandingPage = () => {
     [blueprintArray]
   );
 
-  const smoothScrollTo = (endY: number, duration: number) => {
+  const smoothScrollTo = (duration: number) => {
     const startY = window.scrollY;
-    const distanceY = endY - startY;
+    // const distanceY = endY - startY;
+    const distanceY = window.innerHeight;
     let startTime: number = 0;
-
-    // Easing function: easeInOutCubic
-    // Use different easing functions if desired
     const easeInOutCubic = (time: number) =>
       time < 0.5 ? 4 * time * time * time : 1 - Math.pow(-2 * time + 2, 3) / 2;
-
     const step = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const time = timestamp - startTime;
       const percent = Math.min(time / duration, 1);
       const easedPercent = easeInOutCubic(percent);
-
       window.scrollTo(0, startY + easedPercent * distanceY);
-
       if (time < duration) {
         requestAnimationFrame(step);
       }
     };
-
     requestAnimationFrame(step);
   };
 
-  // Scroll to one viewport height down with a duration of 1000ms (1 second)
   const scrollToSection = () => {
-    smoothScrollTo(window.innerHeight, 1000);
+    smoothScrollTo(1000);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,9 +130,7 @@ const LandingPage = () => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    // Check if Enter key was pressed
     if (event.key === 'Enter') {
-      // Execute any additional code when Enter key is pressed
       navigate('/blueprint');
     }
   };
@@ -207,7 +198,7 @@ const LandingPage = () => {
             </div>
           </div>
           <ScrollButton
-            className="z-20 !mt-[-60px] mb-4 ml-1 sm:ml-4 sm:w-20 sm:h-20"
+            // className="sm:w-20 sm:h-20"
             onClick={scrollToSection}
           />
         </div>

@@ -15,26 +15,26 @@ import { AddComponentModalInputValue, CreateBlueprint } from '../../types';
 import checkContractType from '../../utils/checkContractType';
 import getERC721Data from '../../utils/getERC721Data';
 import getERC1155Data from '../../utils/getERC1155Data';
+import DefaultERC20Image from '../../assets/images/default-erc20.png';
+import DefaultERC721Image from '../../assets/images/default-erc721.png';
+import DefaultERC1155Image from '../../assets/images/default-erc1155.png';
 
 const AddComponentModal = () => {
   const CarouselData = [
     {
       headerText: null,
       subText: null,
-      image:
-        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
+      image: DefaultERC20Image,
     },
     {
       headerText: null,
       subText: null,
-      image:
-        'https://ipfs.io/ipfs/bafybeic6vxo3n4qxahvviwqayc4byweqfhiufijs6yxxruvwq452xdg56e',
+      image: DefaultERC721Image,
     },
     {
       headerText: null,
       subText: null,
-      image:
-        'https://ipfs.io/ipfs/bafybeiep2v3wglztuqecw5ieggxaswirc2qrptss6auq6geoewy6risbqm',
+      image: DefaultERC1155Image,
     },
   ];
 

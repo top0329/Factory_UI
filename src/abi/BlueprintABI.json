@@ -94,56 +94,6 @@
       },
       {
         "indexed": true,
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256[]",
-        "name": "amounts",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "BlueprintBatchBurned",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256[]",
-        "name": "ids",
-        "type": "uint256[]"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256[]",
-        "name": "amounts",
-        "type": "uint256[]"
-      }
-    ],
-    "name": "BlueprintBatchMinted",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": false,
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
@@ -152,6 +102,18 @@
         "indexed": false,
         "internalType": "uint256",
         "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "mintedAmountOfId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "totalMintedAmount",
         "type": "uint256"
       }
     ],
@@ -163,6 +125,160 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "uri",
+        "type": "string"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "totalSupply",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "mintPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "mintPriceUnit",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "mintLimit",
+        "type": "uint256"
+      },
+      {
+        "components": [
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              { "internalType": "uint256", "name": "amount", "type": "uint256" }
+            ],
+            "internalType": "struct IBlueprintData.ERC20Data[]",
+            "name": "erc20Data",
+            "type": "tuple[]"
+          },
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+              }
+            ],
+            "internalType": "struct IBlueprintData.ERC721Data[]",
+            "name": "erc721Data",
+            "type": "tuple[]"
+          },
+          {
+            "components": [
+              {
+                "internalType": "address",
+                "name": "tokenAddress",
+                "type": "address"
+              },
+              {
+                "internalType": "uint256",
+                "name": "tokenId",
+                "type": "uint256"
+              },
+              { "internalType": "uint256", "name": "amount", "type": "uint256" }
+            ],
+            "internalType": "struct IBlueprintData.ERC1155Data[]",
+            "name": "erc1155Data",
+            "type": "tuple[]"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct IBlueprintData.BlueprintData",
+        "name": "data",
+        "type": "tuple"
+      }
+    ],
+    "name": "BlueprintCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "mintedAmountOfId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "totalMintedAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "BlueprintMinted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
         "internalType": "address",
         "name": "to",
         "type": "address"
@@ -180,7 +296,80 @@
         "type": "uint256"
       }
     ],
-    "name": "BlueprintMinted",
+    "name": "BlueprintTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "creator",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "originURI",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "newURI",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "originMintPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "originUnit",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMintPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "newUnit",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "originMintLimit",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newMintLimit",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newCreator",
+        "type": "address"
+      }
+    ],
+    "name": "BlueprintUpdated",
     "type": "event"
   },
   {
@@ -262,9 +451,21 @@
       },
       {
         "indexed": false,
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "originUnit",
+        "type": "uint8"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "newMintPrice",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "newUnit",
+        "type": "uint8"
       }
     ],
     "name": "MintPriceUpdated",
@@ -395,31 +596,6 @@
     "type": "event"
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "name",
-        "type": "string"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "creator",
-        "type": "address"
-      }
-    ],
-    "name": "createToken",
-    "type": "event"
-  },
-  {
     "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "name": "BlueprintIDMintedAmount",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -432,12 +608,16 @@
     "outputs": [
       { "internalType": "uint256", "name": "id", "type": "uint256" },
       { "internalType": "string", "name": "name", "type": "string" },
-      { "internalType": "uint256", "name": "totalSupply", "type": "uint256" },
-      { "internalType": "address", "name": "creator", "type": "address" },
       { "internalType": "string", "name": "uri", "type": "string" },
+      { "internalType": "address", "name": "creator", "type": "address" },
+      { "internalType": "uint256", "name": "totalSupply", "type": "uint256" },
       { "internalType": "uint256", "name": "mintPrice", "type": "uint256" },
+      {
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "mintPriceUnit",
+        "type": "uint8"
+      },
       { "internalType": "uint256", "name": "mintLimit", "type": "uint256" },
-      { "internalType": "string", "name": "tokenType", "type": "string" },
       {
         "components": [
           {
@@ -534,96 +714,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "blueprintList",
-    "outputs": [
-      {
-        "components": [
-          { "internalType": "uint256", "name": "id", "type": "uint256" },
-          { "internalType": "string", "name": "name", "type": "string" },
-          {
-            "internalType": "uint256",
-            "name": "totalSupply",
-            "type": "uint256"
-          },
-          { "internalType": "address", "name": "creator", "type": "address" },
-          { "internalType": "string", "name": "uri", "type": "string" },
-          { "internalType": "uint256", "name": "mintPrice", "type": "uint256" },
-          { "internalType": "uint256", "name": "mintLimit", "type": "uint256" },
-          { "internalType": "string", "name": "tokenType", "type": "string" },
-          {
-            "components": [
-              {
-                "components": [
-                  {
-                    "internalType": "address",
-                    "name": "tokenAddress",
-                    "type": "address"
-                  },
-                  {
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                  }
-                ],
-                "internalType": "struct IBlueprintData.ERC20Data[]",
-                "name": "erc20Data",
-                "type": "tuple[]"
-              },
-              {
-                "components": [
-                  {
-                    "internalType": "address",
-                    "name": "tokenAddress",
-                    "type": "address"
-                  },
-                  {
-                    "internalType": "uint256",
-                    "name": "tokenId",
-                    "type": "uint256"
-                  }
-                ],
-                "internalType": "struct IBlueprintData.ERC721Data[]",
-                "name": "erc721Data",
-                "type": "tuple[]"
-              },
-              {
-                "components": [
-                  {
-                    "internalType": "address",
-                    "name": "tokenAddress",
-                    "type": "address"
-                  },
-                  {
-                    "internalType": "uint256",
-                    "name": "tokenId",
-                    "type": "uint256"
-                  },
-                  {
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                  }
-                ],
-                "internalType": "struct IBlueprintData.ERC1155Data[]",
-                "name": "erc1155Data",
-                "type": "tuple[]"
-              }
-            ],
-            "internalType": "struct IBlueprintData.BlueprintData",
-            "name": "data",
-            "type": "tuple"
-          }
-        ],
-        "internalType": "struct IBlueprintData.BlueprintNFT[]",
-        "name": "",
-        "type": "tuple[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "address", "name": "from", "type": "address" },
       { "internalType": "address", "name": "to", "type": "address" },
@@ -650,12 +740,16 @@
   {
     "inputs": [
       { "internalType": "string", "name": "name", "type": "string" },
+      { "internalType": "string", "name": "blueprintURI", "type": "string" },
       { "internalType": "address", "name": "creator", "type": "address" },
-      { "internalType": "string", "name": "_uri", "type": "string" },
-      { "internalType": "uint256", "name": "_totalSupply", "type": "uint256" },
+      { "internalType": "uint256", "name": "idTotalSupply", "type": "uint256" },
       { "internalType": "uint256", "name": "mintPrice", "type": "uint256" },
+      {
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "mintPriceUnit",
+        "type": "uint8"
+      },
       { "internalType": "uint256", "name": "mintLimit", "type": "uint256" },
-      { "internalType": "string", "name": "tokenType", "type": "string" },
       {
         "components": [
           {
@@ -742,22 +836,39 @@
   },
   {
     "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }],
+    "name": "getBlueprintMintPriceUnit",
+    "outputs": [
+      {
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [{ "internalType": "uint256", "name": "id", "type": "uint256" }],
     "name": "getBlueprintNFTData",
     "outputs": [
       {
         "components": [
           { "internalType": "uint256", "name": "id", "type": "uint256" },
           { "internalType": "string", "name": "name", "type": "string" },
+          { "internalType": "string", "name": "uri", "type": "string" },
+          { "internalType": "address", "name": "creator", "type": "address" },
           {
             "internalType": "uint256",
             "name": "totalSupply",
             "type": "uint256"
           },
-          { "internalType": "address", "name": "creator", "type": "address" },
-          { "internalType": "string", "name": "uri", "type": "string" },
           { "internalType": "uint256", "name": "mintPrice", "type": "uint256" },
+          {
+            "internalType": "enum IBlueprintData.MintPriceUnit",
+            "name": "mintPriceUnit",
+            "type": "uint8"
+          },
           { "internalType": "uint256", "name": "mintLimit", "type": "uint256" },
-          { "internalType": "string", "name": "tokenType", "type": "string" },
           {
             "components": [
               {
@@ -958,10 +1069,8 @@
   },
   {
     "inputs": [],
-    "name": "totalBlueprintIDs",
-    "outputs": [
-      { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
-    ],
+    "name": "totalMintedBlueprintTokens",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -970,6 +1079,25 @@
     "name": "totalSupply",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "creator", "type": "address" },
+      { "internalType": "uint256", "name": "id", "type": "uint256" },
+      { "internalType": "string", "name": "newURI", "type": "string" },
+      { "internalType": "uint256", "name": "newMintPrice", "type": "uint256" },
+      {
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "newUnit",
+        "type": "uint8"
+      },
+      { "internalType": "uint256", "name": "newMintLimit", "type": "uint256" },
+      { "internalType": "address", "name": "newCreator", "type": "address" }
+    ],
+    "name": "updateBlueprint",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -998,7 +1126,12 @@
     "inputs": [
       { "internalType": "address", "name": "creator", "type": "address" },
       { "internalType": "uint256", "name": "id", "type": "uint256" },
-      { "internalType": "uint256", "name": "newMintPrice", "type": "uint256" }
+      { "internalType": "uint256", "name": "newMintPrice", "type": "uint256" },
+      {
+        "internalType": "enum IBlueprintData.MintPriceUnit",
+        "name": "newUnit",
+        "type": "uint8"
+      }
     ],
     "name": "updateMintPrice",
     "outputs": [],
