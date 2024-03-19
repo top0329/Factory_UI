@@ -6,8 +6,10 @@ export default function AdvancedSort() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(
     <>
-      <Icon icon="iconamoon:sorting-left" className="text-[#858584] w-6 h-6" />
-      Sort by
+      <Icon icon="iconamoon:sorting-left" className="text-light-gray w-6 h-6" />
+      <p className="!text-sm !leading-5 !font-[400] placeholder-gray-500">
+        Sort by
+      </p>
     </>
   );
   const [isSortDown, setisSortDown] = useState(false);
@@ -50,7 +52,7 @@ export default function AdvancedSort() {
         id="dropdownDefaultButton"
         data-dropdown-toggle="dropdown"
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="flex gap-4 xs:w-[200px] w-[100%] text-[#858584] truncate bg-[#000] border border-[#B1B1B1] focus:outline-none font-medium rounded-xl text-sm px-5 py-2 text-center items-center"
+        className="flex gap-4 xs:w-[200px] w-[100%] text-[#858584] truncate bg-black border border-[#B1B1B1] focus:outline-none font-medium rounded-xl text-sm px-5 h-[38px] text-center items-center"
         type="button"
       >
         {selectedValue}
@@ -60,10 +62,10 @@ export default function AdvancedSort() {
         id="dropdown"
         className={`${
           isDropdownOpen ? 'translate-y-0' : 'translate-y-[-700px]'
-        } z-30 absolute bg-[#000] mt-1 p-1 divide-y  rounded-lg shadow xs:w-[200px] w-[92.5%]`}
+        } z-30 absolute bg-[#000] mt-1 p-1 divide-y  rounded-lg shadow xs:w-[200px] w-[92.5%] `}
       >
         <ul
-          className="py-2 text-sm text-[#858584]"
+          className="py-2 text-sm text-[#858584] !leading-5 !font-[400]"
           aria-labelledby="dropdownDefaultButton"
         >
           <li>
