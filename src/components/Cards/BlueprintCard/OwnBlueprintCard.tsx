@@ -1,5 +1,6 @@
-import { FC, useState } from "react";
-import { Icon } from "@iconify/react/dist/iconify.js";
+import { FC, useState } from 'react';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Image } from '../../Image';
 
 export interface Props {
   uri: string;
@@ -20,12 +21,12 @@ const OwnBlueprintCard: FC<Props> = ({
   myBlueprint,
   onClick,
 }) => {
-  const [tooltipMessage, setTooltipMessage] = useState("Copy to clipboard");
+  const [tooltipMessage, setTooltipMessage] = useState('Copy to clipboard');
   const copyToClipboard = () => {
     navigator.clipboard.writeText(address).then(() => {
-      setTooltipMessage("Copied!"); // Update tooltip message on success
+      setTooltipMessage('Copied!'); // Update tooltip message on success
       setTimeout(() => {
-        setTooltipMessage("Copy to clipboard"); // Reset tooltip message after delay
+        setTooltipMessage('Copy to clipboard'); // Reset tooltip message after delay
       }, 2000); // Duration before resetting the tooltip message
     });
   };
@@ -36,23 +37,17 @@ const OwnBlueprintCard: FC<Props> = ({
       onClick={onClick}
     >
       <div className="relative xs:w-full sm:w-full md:w-full overflow-hidden">
-        <div
-          id="badge"
-          className="absolute  right-[-55px] md:right-[-48px] top-[11px] md:top-[18px] sm:top-[15px] sm:right-[-55px] xs:h-[22px] xs:top-[12px] xs:right-[-60px] xs:text-[12px] w-[175.5px] h-[25px] md:h-[27px] bg-[#0047FF] text-white text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
-        >
-          Blueprint
-        </div>
         <div className="xs:w-full sm:w-full md:w-full md:h-full overflow-hidden object-cover">
-          <img
+          <Image
             src={uri}
-            className="w-full xs:w-full sm:w-full lg:w-full aspect-auto object-cover"
-            alt="okoko"
+            spinnerClassName="w-full aspect-square"
+            alt="own-blueprint-card"
           />
           <div className="absolute md:bottom-[146px] lg:bottom-[158px] sm:bottom-[134px] bg-gradient-to-t from-[#011018] from-0% sm:from-0% bg-opacity-100 to-[#000407]/0 bottom-[57px] w-full h-[45px]"></div>
         </div>
         <p
           className={`absolute ${
-            myBlueprint ? "sm:hidden" : "hidden"
+            myBlueprint ? 'sm:hidden' : 'hidden'
           } flex bottom-[67px] right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center`}
         >
           My Blueprint
@@ -71,7 +66,7 @@ const OwnBlueprintCard: FC<Props> = ({
               </p>
               <p
                 className={`${
-                  myBlueprint ? "hidden sm:block" : "hidden"
+                  myBlueprint ? 'hidden sm:block' : 'hidden'
                 } truncate font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center w-[87px]`}
               >
                 My Blueprint
@@ -94,12 +89,10 @@ const OwnBlueprintCard: FC<Props> = ({
               </p>
             </div>
           </div>
-
           <div id="id_supply" className="relative w-full hidden sm:block">
             <div id="address" className="text-white">
               <p className="text-xs font-mono text-[#858584]">Creator</p>
               <div id="id_supply" className="flex justify-between text-white">
-                {/* Other content */}
                 <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
                   <Icon
                     icon="logos:ethereum"
@@ -125,17 +118,22 @@ const OwnBlueprintCard: FC<Props> = ({
                 <div
                   role="tooltip"
                   className={`absolute z-10 inline-block right-0 bottom-7 px-3 py-2 text-sm text-white transition-opacity duration-300 bg-gray-700 rounded-lg shadow-sm ${
-                    tooltipMessage === "Copied!"
-                      ? "opacity-100"
-                      : "invisible opacity-0"
+                    tooltipMessage === 'Copied!'
+                      ? 'opacity-100'
+                      : 'invisible opacity-0'
                   }`}
                 >
                   {tooltipMessage}
                   <div className="tooltip-arrow" data-popper-arrow></div>
                 </div>
-                {/* Other content */}
               </div>
             </div>
+          </div>
+          <div
+            id="badge"
+            className="absolute  right-[-55px] md:right-[-48px] top-[11px] md:top-[18px] sm:top-[15px] sm:right-[-55px] xs:h-[22px] xs:top-[12px] xs:right-[-60px] xs:text-[12px] w-[175.5px] h-[25px] md:h-[27px] bg-[#0047FF] text-white text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+          >
+            Blueprint
           </div>
         </div>
       </div>
