@@ -6,6 +6,7 @@ import { createBlueprintAtom } from '../../../jotai/atoms';
 import { CreateBlueprint } from '../../../types';
 import DefaultBlueprintImage from '../../../assets/images/default-blueprint.png';
 import useWeb3 from '../../../hooks/useWeb3';
+import { invalidChars } from '../../../constants';
 // import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
 
 interface CustomCheckboxProps {
@@ -74,6 +75,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     DefaultBlueprintImage
   );
   const [selectedFile, setSelectedFile] = useState<any>(null);
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -160,6 +162,22 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         console.log(file, imageSrc);
       };
       reader.readAsDataURL(file);
+    }
+  };
+
+  const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+
+    if (invalidChars.test(value)) {
+      setShowTooltip(true);
+      setTimeout(() => setShowTooltip(false), 3000);
+      return;
+    } else {
+      setCreateInfo((prevCreateInfo) => ({
+        ...prevCreateInfo,
+        name: value,
+      }));
+      setName(value);
     }
   };
 
@@ -333,7 +351,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         />
       </div>
       <div className="flex flex-col items-center lg:px-[16px] px-[10px] gap-2">
-        <div className="flex flex-col w-full gap-y-1">
+        <div className="relative flex flex-col w-full gap-y-1">
           <p className="text-xs text-[#858584]">Name</p>
           <input
             className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
@@ -341,19 +359,21 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               !editable
                 ? 'bg-[#010B10] border-[#191313]'
                 : 'bg-[#03070F] border-[#8B8B8B]'
-            }`}
-            onChange={(event) => {
-              const newName = event.target.value;
-              setCreateInfo((prevCreateInfo) => ({
-                ...prevCreateInfo,
-                name: newName,
-              }));
-              setName(newName);
-            }}
+              }`}
+            maxLength={20}
+            onChange={handleNameChange}
             value={name}
             disabled={isUpdate ? true : !editable}
             required
           />
+          {showTooltip && (
+            <div
+              className="absolute -bottom-12 left-2 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+              style={{ transition: 'opacity 0.3s' }}
+            >
+              Special characters are not allowed!
+            </div>
+          )}
         </div>
         <div className="flex flex-col w-full gap-y-1">
           <p className="text-xs text-[#858584]">Total Supply</p>

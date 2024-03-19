@@ -7,6 +7,8 @@ export const productAddress =
 
 export const defaultRPC = 'https://ethereum-sepolia-rpc.publicnode.com';
 
+export const invalidChars = /['"`\\;%&!@#$%^?~*]/;
+
 export const PINATA = {
   FILE_UPLOAD: 'https://api.pinata.cloud/pinning/pinFileToIPFS',
   JSON_UPLOAD: 'https://api.pinata.cloud/pinning/pinJSONToIPFS',

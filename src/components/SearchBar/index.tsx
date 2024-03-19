@@ -4,9 +4,10 @@ import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../Button';
-import { searchValueAtom } from '../../jotai/atoms';
 import AdvancedSort from './AdvancedSort';
 import AdvancedFilter from './AdvancedFilter';
+import { searchValueAtom } from '../../jotai/atoms';
+import { invalidChars } from '../../constants';
 
 export interface Props {
   value?: string;
@@ -22,8 +23,6 @@ const SearchBar: FC<Props> = ({ isNewButton, placeholders }) => {
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   const [showFilterOption, setShowFilterOption] = useState<boolean>(false);
-
-  const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
