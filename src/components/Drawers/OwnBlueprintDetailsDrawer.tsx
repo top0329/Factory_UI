@@ -13,6 +13,7 @@ import {
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
+import { Image } from '../Image';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -43,24 +44,16 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
   });
 
   useEffect(() => {
-    // Handler to call on window resize
     function handleResize() {
-      // Set window width/height to state
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       });
     }
-
-    // Add event listener
     window.addEventListener('resize', handleResize);
-
-    // Call handler right away so state gets updated with initial window size
     handleResize();
-
-    // Remove event listener on cleanup
     return () => window.removeEventListener('resize', handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, []);
 
   const handleMintProductButtonClicked = () => {
     navigate(`/product/mint/${selectedOwnBlueprint.id}`);
@@ -100,16 +93,14 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
     if (setIsDrawerOpen) {
       setIsDrawerOpen(false);
     }
-
-    // Unsets Background Scrolling to use when SideDrawer/Modal is closed
     document.body.style.overflow = 'unset';
   };
 
   const shortenAddress = (addr: string) => {
     if (!addr || addr.length <= 12) return addr;
-    const start = addr.slice(0, 12); // Keep the starting characters
-    const end = addr.slice(-10); // Keep the last characters
-    return `${start}...${end}`; // Combine with the ellipsis
+    const start = addr.slice(0, 12);
+    const end = addr.slice(-10);
+    return `${start}...${end}`;
   };
 
   return (
@@ -128,21 +119,11 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
         }
       >
         <article className="relative w-screen max-w-2xl flex flex-col overflow-y-auto h-full overflow-x-hidden">
-          <Icon
-            className="absolute bg-gray-300 text-gray-800 text-xs font-medium rounded-full p-1 m-2 h-8 w-8 cursor-pointer hover:opacity-50"
-            icon="flowbite:close-outline"
-            onClick={sideDrawerClosedHandler}
-          />
-          <div
-            id="badge"
-            className="absolute right-[-35px] top-[26px] w-[175.5px] h-[30px] bg-[#0047FF] text-white text-center text-[18px] rotate-[41.38deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
-          >
-            Blueprint
-          </div>
-          <img
+          <Image
             className="max-h-[235px] object-cover sm:max-h-[435px] xs:max-h-[335px]"
             src={selectedOwnBlueprint.uri}
-            alt="drawer"
+            spinnerClassName="w-full min-h-[235px] object-cover sm:min-h-[435px] xs:min-h-[335px]"
+            alt="own-blueprint-details-drawer"
           />
           <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 sm:top-[392px] xs:top-[292px]">
             {selectedOwnBlueprint.name}
@@ -373,6 +354,17 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                   )}
               </div>
             )}
+          </div>
+          <Icon
+            className="absolute bg-gray-300 text-gray-800 text-xs font-medium rounded-full p-1 m-2 h-8 w-8 cursor-pointer hover:opacity-50"
+            icon="flowbite:close-outline"
+            onClick={sideDrawerClosedHandler}
+          />
+          <div
+            id="badge"
+            className="absolute right-[-35px] top-[26px] w-[175.5px] h-[30px] bg-[#0047FF] text-white text-center text-[18px] rotate-[41.38deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+          >
+            Blueprint
           </div>
         </article>
       </section>

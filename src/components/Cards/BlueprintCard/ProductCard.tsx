@@ -3,6 +3,7 @@ import { FC, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 // import { useAtom } from 'jotai';
 import Button from '../../Button';
+import { Image } from '../../Image';
 // import {
 //   selectedProductintAtom,
 //   productSelectionState,
@@ -47,7 +48,7 @@ const ProductCard: FC<Props> = ({
   //   navigate(`/decompose/product/${selectedProduct.id}`);
 
   // };
-  
+
   return (
     <div
       id="container"
@@ -55,17 +56,11 @@ const ProductCard: FC<Props> = ({
       onClick={onClick}
     >
       <div className="relative xs:w-full sm:w-full md:w-full overflow-hidden">
-        <div
-          id="badge"
-          className="absolute  right-[-55px] md:right-[-48px] top-[11px] md:top-[18px] sm:top-[15px] sm:right-[-55px] xs:h-[22px] xs:top-[12px] xs:right-[-60px] xs:text-[12px] w-[175.5px] h-[25px] md:h-[27px] bg-[#FFF500] text-black text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
-        >
-          Product
-        </div>
         <div className="xs:w-full sm:w-full md:w-full md:h-full overflow-hidden object-cover">
-          <img
+          <Image
             src={uri}
-            className="w-full xs:w-full sm:w-full lg:w-full aspect-auto object-cover"
-            alt="okoko"
+            spinnerClassName="w-full aspect-square"
+            alt="product-card"
           />
           <div className="absolute md:bottom-[202px] lg:bottom-[214px] sm:bottom-[190px] bg-gradient-to-t from-[#011018] from-0% sm:from-0% bg-opacity-100 to-[#000407]/0 bottom-[106px] w-full h-[45px]"></div>
         </div>
@@ -99,12 +94,10 @@ const ProductCard: FC<Props> = ({
               </p>
             </div>
           </div>
-
           <div id="id_supply" className="relative w-full hidden sm:block">
             <div id="address" className="text-white">
               <p className="text-xs font-mono text-[#858584]">Address</p>
               <div id="id_supply" className="flex justify-between text-white">
-                {/* Other content */}
                 <div className="flex justify-center gap-1 item-center md:text-base lg:text-lg font-mono text-xs">
                   <Icon
                     icon="logos:ethereum"
@@ -144,6 +137,7 @@ const ProductCard: FC<Props> = ({
         </div>
         <div className="p-4 pt-0">
           <Button
+            className="rounded-lg w-full justify-center xs:h-10 h-8 xs:text-[16px] text-[14px]"
             text="Decompose"
             onClick={(e) => {
               e.stopPropagation();
@@ -151,8 +145,13 @@ const ProductCard: FC<Props> = ({
                 onClickDecompose();
               }
             }}
-            className="rounded-lg w-full justify-center xs:h-10 h-8 xs:text-[16px] text-[14px]"
           ></Button>
+        </div>
+        <div
+          id="badge"
+          className="absolute  right-[-55px] md:right-[-48px] top-[11px] md:top-[18px] sm:top-[15px] sm:right-[-55px] xs:h-[22px] xs:top-[12px] xs:right-[-60px] xs:text-[12px] w-[175.5px] h-[25px] md:h-[27px] bg-[#FFF500] text-black text-center text-[14px] md:text-[18px] rotate-[38.86deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+        >
+          Product
         </div>
       </div>
     </div>
