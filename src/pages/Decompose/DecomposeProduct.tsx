@@ -1,14 +1,31 @@
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
+import { ethers } from 'ethers';
 import Button from '../../components/Button';
 import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedProduct } from '../../types';
+import useWeb3 from '../../hooks/useWeb3';
 
 import { selectedProductintAtom } from '../../jotai/atoms';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
+  const { factoryContract, productContract } = useWeb3();
   const navigate = useNavigate();
+
+  const handleApprove = async () => {
+    await productContract.setApprovalForAll(
+      await factoryContract.getAddress(),
+      true
+    );
+  };
+
+  const handleDecompose = async () => {
+    await factoryContract.decomposeProduct(
+      selectedOwnData.id,
+      selectedOwnData.balance
+    );
+  };
 
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px] ">
@@ -38,11 +55,13 @@ const DecomposeProductPage = () => {
             <div className=" flex justify-between gap-6 items-center">
               <input
                 type="number"
-                className="md:w-[70%] w-1/2 h-[40px] rounded-xl bg-black border border-white px-2 hide-arrows"
+                placeholder="Enter the number of decompose Product token"
+                className="md:w-[70%] w-1/2 h-[40px] rounded-xl placeholder-gray-600 bg-black border border-white px-2 hide-arrows"
               ></input>
               <Button
                 className="flex justify-center w-[160px] h-9 rounded-xl"
                 text="Approve"
+                onClick={handleApprove}
                 variant="primary"
               />
             </div>
@@ -87,6 +106,7 @@ const DecomposeProductPage = () => {
                 className="flex justify-center w-[160px] h-9 rounded-xl"
                 text="Decompose"
                 variant="primary"
+                onClick={handleDecompose}
               />
             </div>
           </div>
