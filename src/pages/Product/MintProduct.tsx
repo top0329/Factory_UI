@@ -6,6 +6,7 @@ import copy from 'copy-to-clipboard';
 import Button from '../../components/Button';
 import ProductListCard from '../../components/Cards/ListCard';
 import { SelectedOwnBlueprint } from '../../types';
+import useWeb3 from '../../hooks/useWeb3';
 
 import {
   ownBlueprintSelectionState,
@@ -56,6 +57,7 @@ const MintProductPage = () => {
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
     useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const { factoryContract } = useWeb3();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -97,6 +99,16 @@ const MintProductPage = () => {
       setIsModalOpen(false);
     }
   };
+
+  const handleMintProduct = async () => {
+    alert('Mint Product');
+    await factoryContract.createProduct(
+      selectedOwnBlueprint.id,
+      blueprintMintAmountValue,
+      '0x'
+    );
+  };
+
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px]">
       <div className="relative rounded-3xl bg-[#011018] w-full pb-6 sm:w-[614px] border-2 border-[#1f1f1f]">
@@ -192,15 +204,6 @@ const MintProductPage = () => {
                 Mint Product
               </h3>
               <div className="flex flex-col items-center p-6 border-t border-gray-200 rounded-b">
-              <ProductListCard
-                isDecompose={true}
-                type={4}
-                uri={selectedOwnData.uri}
-                name={selectedOwnData.name}
-                address={selectedOwnData.blueprintAddress}
-                id={selectedOwnData.id}
-                amount={selectedOwnData.balance}
-              />
                 {selectedOwnData.data.erc20Data.map((dataItem, index) => (
                   <ProductListCard
                     isDecompose={false}
@@ -234,7 +237,7 @@ const MintProductPage = () => {
                     onClick={toggleModal}
                   />
                   <Button
-                    onClick={toggleModal}
+                    onClick={handleMintProduct}
                     className="flex justify-center xs:w-[160px] w-[140px] h-9 rounded-xl"
                     text="Mint Product"
                     variant="primary"
