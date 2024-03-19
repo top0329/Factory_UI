@@ -41,6 +41,7 @@ const PlatformUsage: FC = () => {
           <Image
             className="w-full h-full object-cover rounded-b-3xl md:rounded-r-3xl"
             src={ImageForPlatformUsage}
+            spinnerClassName="w-full h-full"
             alt="image-for-platform-usage"
           />
         </div>
