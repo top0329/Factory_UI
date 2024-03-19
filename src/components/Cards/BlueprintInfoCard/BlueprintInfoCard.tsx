@@ -52,7 +52,8 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
 }
 
 const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
-  const { account, factoryContract } = useWeb3();
+  const { isConnected, library, account, factoryContract, factoryWeb3 } =
+    useWeb3();
 
   const [createInfo, setCreateInfo] =
     useAtom<CreateBlueprint>(createBlueprintAtom);
@@ -266,46 +267,107 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
 
   const handleSubmit = async () => {
     try {
-      if (isIPFSSelected) {
-        setCreateInfo((prevCreateInfo) => ({
-          ...prevCreateInfo,
-          creator: account,
-        }));
-        console.log(createInfo);
-        console.log(account);
-        if (
-          createInfo.data.erc20Data.length +
-            createInfo.data.erc721Data.length +
-            createInfo.data.erc1155Data.length >
-          0
-        ) {
-          console.log(factoryContract);
-          console.log(
-            createInfo.name,
-            createInfo.uri,
-            createInfo.totalSupply,
-            createInfo.mintPrice,
-            createInfo.mintPriceUnit,
-            createInfo.mintLimit,
-            createInfo.data
-          );
-          console.log(creator);
-          // await factoryContract.createBlueprint(
-          //   createInfo.name,
-          //   createInfo.uri,
-          //   createInfo.totalSupply,
-          //   createInfo.mintPrice,
-          //   createInfo.mintPriceUnit,
-          //   createInfo.mintLimit,
-          //   createInfo.data
-          // );
-          const result = await factoryContract.componentTokenLimit();
-          console.log(result);
-          console.log('here');
+      if (isConnected && library) {
+        if (isIPFSSelected) {
+          setCreateInfo((prevCreateInfo) => ({
+            ...prevCreateInfo,
+            creator: account,
+          }));
+          console.log(createInfo);
+          console.log(account);
+
+          if (
+            createInfo.data.erc20Data.length +
+              createInfo.data.erc721Data.length +
+              createInfo.data.erc1155Data.length >
+            0
+          ) {
+            console.log(
+              createInfo.name,
+              createInfo.uri,
+              createInfo.totalSupply,
+              createInfo.mintPrice,
+              createInfo.mintPriceUnit,
+              createInfo.mintLimit,
+              createInfo.data
+            );
+            console.log(creator);
+
+            // ethers - for read functions of smart contract
+            const result = await factoryContract.componentTokenLimit();
+            console.log('Available component token limit: ', result);
+
+            // web3 - for write functions of smart contract
+            const transaction = await factoryWeb3.methods
+              .createBlueprint(
+                createInfo.name,
+                createInfo.uri,
+                createInfo.totalSupply,
+                createInfo.mintPrice,
+                createInfo.mintPriceUnit,
+                createInfo.mintLimit,
+                {
+                  erc20Data: [
+                    {
+                      tokenAddress:
+                        '0xa9819b08c329395FEC4edA9FA32205846b6E3230',
+                      amount: 10,
+                    },
+                  ],
+                  erc721Data: [
+                    {
+                      tokenAddress:
+                        '0xcD988300109D73fa30Af755415BC56eF3b802F81',
+                      tokenId: 1,
+                    },
+                  ],
+                  erc1155Data: [
+                    {
+                      tokenAddress:
+                        '0xa75551c79E8F90f921D9959fA169f35DA98efD1a',
+                      tokenId: 3,
+                      amount: 10,
+                    },
+                  ],
+                }
+              )
+              .send({ from: account });
+
+            // const transaction = await factoryWeb3.methods.createBlueprint(
+            //   'ERC', // Name
+            //   'ipfs://VmWQ4Wps4evKn4Aw9P3yUmj6ewqL7C9iCByC1bdbXiquCW', // URI
+            //   1000000, // TotalSupply
+            //   10000, // Mint Price
+            //   1, // Unit
+            //   100, // Mint Limit
+            //   {
+            //     erc20Data: [
+            //       {
+            //         tokenAddress: '0xa9819b08c329395FEC4edA9FA32205846b6E3230',
+            //         amount: 10,
+            //       },
+            //     ],
+            //     erc721Data: [
+            //       {
+            //         tokenAddress: '0xcD988300109D73fa30Af755415BC56eF3b802F81',
+            //         tokenId: 1,
+            //       },
+            //     ],
+            //     erc1155Data: [
+            //       {
+            //         tokenAddress: '0xa75551c79E8F90f921D9959fA169f35DA98efD1a',
+            //         tokenId: 3,
+            //         amount: 10,
+            //       },
+            //     ],
+            //   }
+            // ).send({from: account});
+
+            console.log('Blueprint created successfully', transaction);
+          }
+        } else {
+          console.log(selectedFile);
         }
-        console.log('error');
-      } else {
-        console.log(selectedFile);
       }
     } catch (err) {
       console.log(err);
@@ -359,7 +421,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               !editable
                 ? 'bg-[#010B10] border-[#191313]'
                 : 'bg-[#03070F] border-[#8B8B8B]'
-              }`}
+            }`}
             maxLength={20}
             onChange={handleNameChange}
             value={name}
