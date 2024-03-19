@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import copy from 'copy-to-clipboard';
+
 import { Image } from '../../Image';
 
 export interface Props {
@@ -38,28 +39,21 @@ const ERC20Card: FC<Props> = ({
 
   const shortenAddress = (addr: string) => {
     if (!addr || addr.length <= 12) return addr;
-    const start = addr.slice(0, 6); // Keep the starting characters
-    const end = addr.slice(-4); // Keep the last characters
-    return `${start}...${end}`; // Combine with the ellipsis
+    const start = addr.slice(0, 6);
+    const end = addr.slice(-4);
+    return `${start}...${end}`;
   };
 
   return (
     <div className="relative w-full min-w-[120px] h-[250px] overflow-hidden bg-[#040a0f] border border-black rounded-3xl sm:h-[290px] sm:min-w-[220px]">
       <div className="group relative">
-        <div
-          id="badge"
-          className="absolute -right-10 top-[10px] w-[150px] h-[24px] bg-[#1dbba8] text-white text-center text-base rotate-[38.86deg] py-auto pl-[12px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)] sm:h-[30px] sm:text-lg sm:-right-8 sm:top-[17px]"
-        >
-          ERC20
-        </div>
-        {/* <Image src={uri} /> */}
         <Image
           className={`z-20 flex justify-center items-center w-full h-44 rounded-t-3xl object-cover ${
             icon && 'transition duration-300 ease-in-out group-hover:blur-sm'
           }`}
-          spinnerClassName="w-full h-full"
+          spinnerClassName="w-full h-44"
           src={uri}
-          alt='erc20-card'
+          alt="erc20-card"
         />
         {icon && (
           <div className="absolute inset-0 w-full h-44 flex items-center justify-center opacity-0 group-hover:opacity-100 group-hover:flex">
@@ -75,6 +69,12 @@ const ERC20Card: FC<Props> = ({
             />
           </div>
         )}
+        <div
+          id="badge"
+          className="absolute -right-10 top-[10px] w-[150px] h-[24px] bg-[#1dbba8] text-white text-center text-base rotate-[38.86deg] py-auto pl-[12px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)] sm:h-[30px] sm:text-lg sm:-right-8 sm:top-[17px]"
+        >
+          ERC20
+        </div>
       </div>
       <div className="z-10 absolute top-[164px] bg-gradient-to-t from-[#040a0f] via-[#040a0f] to-transparent w-full h-[20px]"></div>
       <div className="z-20 absolute top-[172px] left-0 bg-gradient-to-r from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
