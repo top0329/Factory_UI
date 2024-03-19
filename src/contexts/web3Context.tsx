@@ -7,6 +7,7 @@ import {
 } from 'react';
 import { ethers, Contract, ContractRunner } from 'ethers';
 import { useAccount, useChainId } from 'wagmi';
+import Web3 from 'web3';
 
 import { Web3ContextType } from '../types';
 import FactoryABI from '../abi/FactoryABI.json';
@@ -20,14 +21,19 @@ import {
   productAddress,
 } from '../constants';
 
+declare let window: any;
 const Web3Context = createContext<Web3ContextType | null>(null);
 
 export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
   const signer = useEthersSigner();
-  const provider = useEthersProvider();
+  const ethersProvider = useEthersProvider();
+  const defaultProvider = new ethers.JsonRpcProvider(defaultRPC);
+  const web3 = new Web3(window.ethereum);
 
+  // Ethers Contracts
+  const [provider, setProvider] = useState<ContractRunner>(defaultProvider);
   const [factoryContract, setFactoryContract] = useState<Contract>(
     {} as Contract
   );
@@ -38,6 +44,11 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     {} as Contract
   );
 
+  // Web3 Contracts
+  const [factoryWeb3, setFactoryWeb3] = useState<Contract>({} as Contract);
+  const [blueprintWeb3, setBlueprintWeb3] = useState<Contract>({} as Contract);
+  const [productWeb3, setProductWeb3] = useState<Contract>({} as Contract);
+
   const value = useMemo(
     () => ({
       account: address,
@@ -47,6 +58,9 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       factoryContract,
       blueprintContract,
       productContract,
+      factoryWeb3,
+      blueprintWeb3,
+      productWeb3,
     }),
     [
       address,
@@ -57,45 +71,64 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       factoryContract,
       blueprintContract,
       productContract,
+      factoryWeb3,
+      blueprintWeb3,
+      productWeb3,
     ]
   );
 
   const init = useCallback(async () => {
     try {
-      let _provider: ContractRunner;
-
-      if (!isConnected || !provider) {
-        const defaultProvider = new ethers.JsonRpcProvider(defaultRPC);
-        _provider = defaultProvider;
+      if (!isConnected || !ethersProvider) {
         console.log('Not connected wallet');
       } else {
-        _provider = provider;
+        setProvider(ethersProvider);
         console.log('Connected wallet');
       }
 
+      // Ethers Contracts
       const _factoryContract: Contract = new ethers.Contract(
         factoryAddress,
         FactoryABI,
-        _provider
-      );
+        provider
+      ) as Contract;
       const _blueprintContract: Contract = new ethers.Contract(
         blueprintAddress,
         BlueprintABI,
-        _provider
-      );
+        provider
+      ) as Contract;
       const _productContract: Contract = new ethers.Contract(
         productAddress,
         ProductABI,
-        _provider
+        provider
+      ) as Contract;
+
+      // Web3 Contracts
+      const _factoryWeb3: any = new web3.eth.Contract(
+        FactoryABI,
+        factoryAddress
+      );
+      const _blueprintWeb3: any = new web3.eth.Contract(
+        BlueprintABI,
+        blueprintAddress
+      );
+      const _productWeb3: any = new web3.eth.Contract(
+        ProductABI,
+        productAddress
       );
 
       setFactoryContract(_factoryContract);
       setBlueprintContract(_blueprintContract);
       setProductContract(_productContract);
+
+      setFactoryWeb3(_factoryWeb3);
+      setBlueprintWeb3(_blueprintWeb3);
+      setProductWeb3(_productWeb3);
     } catch (err) {
       console.log(err);
     }
-  }, [isConnected, provider]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isConnected, ethersProvider, provider]);
 
   useEffect(() => {
     init();

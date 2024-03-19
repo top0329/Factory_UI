@@ -24,7 +24,6 @@ export default function AdvancedFilter() {
       ...prevState,
       [name]: value.trim() === '' ? '' : Number(value),
     }));
-    console.log(advancedFilterValue);
   };
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
