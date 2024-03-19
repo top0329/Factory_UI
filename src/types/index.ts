@@ -48,8 +48,8 @@ export type Web3ContextType = {
   blueprintContract: Contract;
   productContract: Contract;
   factoryWeb3: any;
-  blueprintWeb3: Contract;
-  productWeb3: Contract;
+  blueprintWeb3: any;
+  productWeb3: any;
 };
 
 export type BlueprintTuple = [
