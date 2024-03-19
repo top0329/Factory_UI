@@ -13,6 +13,7 @@ import {
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
+import { Image } from '../Image';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -109,21 +110,11 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
         }
       >
         <article className="relative w-screen max-w-2xl flex flex-col overflow-y-auto h-full overflow-x-hidden">
-          <Icon
-            className="absolute bg-gray-300 text-gray-800 text-xs font-medium rounded-full p-1 m-2 h-8 w-8 cursor-pointer hover:opacity-50"
-            icon="flowbite:close-outline"
-            onClick={sideDrawerClosedHandler}
-          />
-          <div
-            id="badge"
-            className="absolute right-[-35px] top-[26px] w-[175.5px] h-[30px] bg-[#FFF500] text-black text-center text-[18px] rotate-[41.38deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
-          >
-            Product
-          </div>
-          <img
+          <Image
             className="max-h-[235px] object-cover sm:max-h-[435px] xs:max-h-[335px]"
             src={selectedProduct.uri}
-            alt="drawer"
+            spinnerClassName="w-full min-h-[235px] object-cover sm:min-h-[435px] xs:min-h-[335px]"
+            alt='product-details-drawer'
           />
           <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 sm:top-[392px] xs:top-[292px]">
             {selectedProduct.name}
@@ -318,6 +309,17 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
                   )}
               </div>
             )}
+          </div>
+          <Icon
+            className="absolute bg-gray-300 text-gray-800 text-xs font-medium rounded-full p-1 m-2 h-8 w-8 cursor-pointer hover:opacity-50"
+            icon="flowbite:close-outline"
+            onClick={sideDrawerClosedHandler}
+          />
+          <div
+            id="badge"
+            className="absolute right-[-35px] top-[26px] w-[175.5px] h-[30px] bg-[#FFF500] text-black text-center text-[18px] rotate-[41.38deg] py-auto px-[35px] shadow-[0_3px_5px_1px_rgba(0,0,0,0.3)]"
+          >
+            Product
           </div>
         </article>
       </section>
