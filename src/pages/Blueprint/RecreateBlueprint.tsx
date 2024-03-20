@@ -125,8 +125,11 @@ const RecreateBlueprintPage = () => {
         <h1 className="text-lg xs:text-xl lg:text-2xl xl:text-3xl">
           Recreate Blueprint
         </h1>
-        <h3 className="text-sm xs:text-base lg:text-lg xl:text-xl">
-          Available Component: <span>{availableComponent}</span>
+        <h3 className="text-sm fixed bg-primary rounded-full px-2 py-1 bottom-6 right-6 z-20 xs:text-base lg:text-lg xl:text-xl xs:block xs:static xs:bg-transparent">
+          <span className="xs:hidden">Available</span>
+          <span className="hidden xs:inline-block">
+            Available Components
+          </span>: <span>{availableComponent}</span>
         </h3>
       </div>
       <div className="flex flex-col pt-6 pb-16 gap-4 lg:gap-6 xs:flex-row">

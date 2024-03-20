@@ -88,7 +88,10 @@ const NewBlueprintPage = () => {
   const handleDeleteERC721CardClicked = (erc721: ERC721Data) => {
     const filteredERC721Data = createBlueprint.data.erc721Data.filter(
       (item) => {
-        return item.tokenAddress !== erc721.tokenAddress || item.tokenId !== erc721.tokenId;
+        return (
+          item.tokenAddress !== erc721.tokenAddress ||
+          item.tokenId !== erc721.tokenId
+        );
       }
     );
     setCreateBlueprint({
@@ -104,7 +107,10 @@ const NewBlueprintPage = () => {
   const handleDeleteERC1155CardClicked = (erc1155: ERC1155Data) => {
     const filteredERC1155Data = createBlueprint.data.erc1155Data.filter(
       (item) => {
-        return item.tokenAddress !== erc1155.tokenAddress || item.tokenId !== erc1155.tokenId;
+        return (
+          item.tokenAddress !== erc1155.tokenAddress ||
+          item.tokenId !== erc1155.tokenId
+        );
       }
     );
     setCreateBlueprint({
@@ -123,7 +129,7 @@ const NewBlueprintPage = () => {
         <h1 className="text-lg xs:text-xl lg:text-2xl xl:text-3xl">
           New Blueprint
         </h1>
-        <h3 className="text-sm fixed bg-primary rounded-full px-2 py-1 bottom-6 right-6 z-50 xs:text-base lg:text-lg xl:text-xl xs:block xs:static xs:bg-transparent">
+        <h3 className="text-sm fixed bg-primary rounded-full px-2 py-1 bottom-6 right-6 z-20 xs:text-base lg:text-lg xl:text-xl xs:block xs:static xs:bg-transparent">
           <span className="xs:hidden">Available</span>
           <span className="hidden xs:inline-block">
             Available Components
