@@ -9,21 +9,32 @@ import { selectedProductintAtom } from '../../jotai/atoms';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
-  const { factoryContract, productContract } = useWeb3();
+  const {
+    isConnected,
+    library,
+    account,
+    factoryContract,
+    factoryWeb3,
+    productWeb3,
+  } = useWeb3();
   const navigate = useNavigate();
 
   const handleApprove = async () => {
-    await productContract.setApprovalForAll(
-      await factoryContract.getAddress(),
-      true
-    );
+    if (isConnected && library) {
+      const transaction = await productWeb3.methods
+        .setApprovalForAll(await factoryContract.getAddress(), true)
+        .send({ from: account });
+
+      console.log('Product token approve is successed', await transaction);
+    }
   };
 
   const handleDecompose = async () => {
-    await factoryContract.decomposeProduct(
-      selectedOwnData.id,
-      selectedOwnData.balance
-    );
+    const transaction = await factoryWeb3.methods
+      .decomposeProduct(selectedOwnData.id, selectedOwnData.balance)
+      .send({ from: account });
+
+    console.log('Product token decompose is successed', await transaction);
   };
 
   return (
