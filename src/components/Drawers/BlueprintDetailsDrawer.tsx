@@ -120,7 +120,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
             className="max-h-[235px] object-cover sm:max-h-[435px] xs:max-h-[335px]"
             src={selectedBlueprint.uri}
             spinnerClassName="w-full min-h-[235px] object-cover sm:min-h-[435px] xs:min-h-[335px]"
-            alt='blueprint-details-drawer'
+            alt="blueprint-details-drawer"
           />
           <p className="z-30 absolute top-[192px] left-4 text-white text-2xl font-semibold me-2 px-2.5 py-0.5 rounded opacity-90 sm:top-[392px] xs:top-[292px]">
             {selectedBlueprint.name}
@@ -307,7 +307,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                         name: string;
                         uri: string;
                         amount: number;
-                        address: string;
+                        tokenAddress: string;
                       },
                       idx: React.Key | null | undefined
                     ) => {
@@ -317,7 +317,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                           name={erc20.name}
                           uri={erc20.uri}
                           amount={erc20.amount}
-                          address={erc20.address}
+                          tokenAddress={erc20.tokenAddress}
                         />
                       );
                     }
@@ -329,18 +329,18 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 {selectedBlueprint.data.erc721Data.length > 0 &&
                   selectedBlueprint.data.erc721Data.map(
                     (erc721: {
-                      id: number;
+                      tokenId: number;
                       name: string;
                       uri: string;
-                      address: string;
+                      tokenAddress: string;
                     }) => {
                       return (
                         <ERC721Card
-                          key={erc721.id}
-                          id={erc721.id}
+                          key={erc721.tokenId}
+                          tokenId={erc721.tokenId}
                           name={erc721.name}
                           uri={erc721.uri}
-                          address={erc721.address}
+                          tokenAddress={erc721.tokenAddress}
                         />
                       );
                     }
@@ -352,20 +352,20 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 {selectedBlueprint.data.erc1155Data.length > 0 &&
                   selectedBlueprint.data.erc1155Data.map(
                     (erc1155: {
-                      id: number;
+                      tokenId: number;
                       name: string;
                       uri: string;
                       amount: number;
-                      address: string;
+                      tokenAddress: string;
                     }) => {
                       return (
                         <ERC1155Card
-                          key={erc1155.id}
-                          id={erc1155.id}
+                          key={erc1155.tokenId}
+                          tokenId={erc1155.tokenId}
                           name={erc1155.name}
                           uri={erc1155.uri}
                           amount={erc1155.amount}
-                          address={erc1155.address}
+                          tokenAddress={erc1155.tokenAddress}
                         />
                       );
                     }

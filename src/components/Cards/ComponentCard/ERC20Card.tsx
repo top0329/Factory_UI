@@ -8,7 +8,7 @@ export interface Props {
   name: string;
   uri: string;
   amount: number;
-  address: string;
+  tokenAddress: string;
   icon?: boolean;
   onEditIconClicked?: () => void;
   onDeleteIconClicked?: () => void;
@@ -17,7 +17,7 @@ export interface Props {
 const ERC20Card: FC<Props> = ({
   name,
   amount,
-  address,
+  tokenAddress,
   uri,
   icon = false,
   onEditIconClicked,
@@ -28,7 +28,7 @@ const ERC20Card: FC<Props> = ({
   const handleCopyButtonClicked = () => {
     try {
       setIsCopied(true);
-      copy(address);
+      copy(tokenAddress);
       setTimeout(() => {
         setIsCopied(false);
       }, 2000);
@@ -92,10 +92,10 @@ const ERC20Card: FC<Props> = ({
             <Icon className="w-4 h-5" icon="logos:ethereum" />
             <a
               className="underline text-base"
-              href={`https://sepolia.etherscan.io/address/${address}`}
+              href={`https://sepolia.etherscan.io/address/${tokenAddress}`}
               target="_blank"
             >
-              {shortenAddress(address)}
+              {shortenAddress(tokenAddress)}
             </a>
             <Icon
               className="w-4 h-4 cursor-pointer"

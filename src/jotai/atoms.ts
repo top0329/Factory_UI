@@ -1,6 +1,7 @@
 import { atom } from 'jotai';
 
 import {
+  BlueprintNFT,
   CreateBlueprint,
   SelectedBlueprint,
   SelectedOwnBlueprint,
@@ -100,3 +101,6 @@ export const createBlueprintAtom = atom<CreateBlueprint>({
 });
 export const availableComponentAtom = atom<number>(7);
 export const headerActiveItemAtom = atom<number>(0);
+
+// Store the blueprint token list
+export const blueprintTokenListAtom = atom<Array<BlueprintNFT>>([]);

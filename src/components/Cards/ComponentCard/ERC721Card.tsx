@@ -5,20 +5,20 @@ import copy from 'copy-to-clipboard';
 import { Image } from '../../Image';
 
 export interface Props {
-  id: number;
+  tokenId: number;
   name: string;
   uri: string;
-  address: string;
+  tokenAddress: string;
   icon?: boolean;
   onEditIconClicked?: () => void;
   onDeleteIconClicked?: () => void;
 }
 
 const ERC721Card: FC<Props> = ({
-  id,
+  tokenId,
   name,
   uri,
-  address,
+  tokenAddress,
   icon = false,
   onEditIconClicked,
   onDeleteIconClicked,
@@ -28,7 +28,7 @@ const ERC721Card: FC<Props> = ({
   const handleCopyButtonClicked = () => {
     try {
       setIsCopied(true);
-      copy(address);
+      copy(tokenAddress);
       setTimeout(() => {
         setIsCopied(false);
       }, 2000);
@@ -84,7 +84,7 @@ const ERC721Card: FC<Props> = ({
         <p className="z-20 text-lg font-medium mt-[-12px]">{name}</p>
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">ID</p>
-          <p className="truncate">{id}</p>
+          <p className="truncate">{tokenId}</p>
         </div>
         <div className="hidden sm:flex sm:flex-row sm:justify-between">
           <p className="text-sm text-light-gray">Address</p>
@@ -92,10 +92,10 @@ const ERC721Card: FC<Props> = ({
             <Icon className="w-4 h-5" icon="logos:ethereum" />
             <a
               className="underline text-base"
-              href={`https://sepolia.etherscan.io/address/${address}`}
+              href={`https://sepolia.etherscan.io/address/${tokenAddress}`}
               target="_blank"
             >
-              {shortenAddress(address)}
+              {shortenAddress(tokenAddress)}
             </a>
             <Icon
               className="w-4 h-4 cursor-pointer"

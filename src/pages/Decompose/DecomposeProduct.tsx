@@ -1,14 +1,41 @@
-import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
+import useWeb3 from '../../hooks/useWeb3';
+
 import Button from '../../components/Button';
 import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedProduct } from '../../types';
-
 import { selectedProductintAtom } from '../../jotai/atoms';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
+  const {
+    isConnected,
+    library,
+    account,
+    factoryContract,
+    factoryWeb3,
+    productWeb3,
+  } = useWeb3();
   const navigate = useNavigate();
+
+  const handleApprove = async () => {
+    if (isConnected && library) {
+      const transaction = await productWeb3.methods
+        .setApprovalForAll(await factoryContract.getAddress(), true)
+        .send({ from: account });
+
+      console.log('Product token approve is successed', await transaction);
+    }
+  };
+
+  const handleDecompose = async () => {
+    const transaction = await factoryWeb3.methods
+      .decomposeProduct(selectedOwnData.id, selectedOwnData.balance)
+      .send({ from: account });
+
+    console.log('Product token decompose is successed', await transaction);
+  };
 
   return (
     <div className="flex justify-center items-center py-10 text-white sm:py-10 min-w-[360px] ">
@@ -23,8 +50,8 @@ const DecomposeProductPage = () => {
               type={4}
               uri={selectedOwnData.uri}
               name={selectedOwnData.name}
-              address={selectedOwnData.blueprintAddress}
-              id={selectedOwnData.id}
+              tokenAddress={selectedOwnData.blueprintAddress}
+              tokenId={selectedOwnData.id}
               amount={selectedOwnData.balance}
             />
             <div className=" flex justify-between items-center">
@@ -38,11 +65,13 @@ const DecomposeProductPage = () => {
             <div className=" flex justify-between gap-6 items-center">
               <input
                 type="number"
-                className="md:w-[70%] w-1/2 h-[40px] rounded-xl bg-black border border-white px-2 hide-arrows"
+                placeholder="Enter the number of decompose Product token"
+                className="md:w-[70%] w-1/2 h-[40px] rounded-xl placeholder-gray-600 bg-black border border-white px-2 hide-arrows"
               ></input>
               <Button
                 className="flex justify-center w-[160px] h-9 rounded-xl"
                 text="Approve"
+                onClick={handleApprove}
                 variant="primary"
               />
             </div>
@@ -75,7 +104,6 @@ const DecomposeProductPage = () => {
                 type={2}
               />
             ))}
-
             <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">
               <Button
                 className="flex justify-center w-[160px] !h-9 rounded-xl"
@@ -87,6 +115,7 @@ const DecomposeProductPage = () => {
                 className="flex justify-center w-[160px] h-9 rounded-xl"
                 text="Decompose"
                 variant="primary"
+                onClick={handleDecompose}
               />
             </div>
           </div>

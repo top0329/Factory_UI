@@ -3,8 +3,8 @@ import { ethers } from 'ethers';
 import { erc20Abi, erc721Abi } from 'viem';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import copy from 'copy-to-clipboard';
-import useWeb3 from '../../../hooks/useWeb3';
 
+import useWeb3 from '../../../hooks/useWeb3';
 import erc1155Abi from '../../../abi/ERC1155ABI.json';
 import { ListCardInterface } from '../../../types';
 import { defaultRPC } from '../../../constants';
@@ -16,7 +16,7 @@ export default function ListCard(props: ListCardInterface) {
   const handleCopyButtonClicked = () => {
     try {
       setIsCopied(true);
-      copy(props.address);
+      copy(props.tokenAddress);
       setTimeout(() => {
         setIsCopied(false);
       }, 2000);
@@ -29,19 +29,19 @@ export default function ListCard(props: ListCardInterface) {
     alert('Approve');
     const provider = new ethers.JsonRpcProvider(defaultRPC);
     const erc20Contract = new ethers.Contract(
-      props.address,
+      props.tokenAddress,
       erc20Abi,
       provider
     );
 
     const erc721Contract = new ethers.Contract(
-      props.address,
+      props.tokenAddress,
       erc721Abi,
       provider
     );
 
     const erc1155Contract = new ethers.Contract(
-      props.address,
+      props.tokenAddress,
       erc1155Abi,
       provider
     );
@@ -132,7 +132,7 @@ export default function ListCard(props: ListCardInterface) {
               props.type == 4 ? '!text-white' : ''
             }`}
           >
-            {props.address.substring(0, 8)} . . . {props.address.slice(-6)}
+            {props.tokenAddress.substring(0, 8)} . . . {props.tokenAddress.slice(-6)}
           </p>
           <div className="relative">
             <button>
@@ -165,7 +165,7 @@ export default function ListCard(props: ListCardInterface) {
                 props.type == 4 ? '!text-white' : ''
               }`}
             >
-              {props.id}
+              {props.tokenId}
             </p>
           </div>
         )}

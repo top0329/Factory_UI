@@ -57,7 +57,8 @@ const MintProductPage = () => {
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
     useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const { factoryContract } = useWeb3();
+  const { isConnected, library, account, factoryContract, blueprintWeb3 } =
+    useWeb3();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -92,6 +93,23 @@ const MintProductPage = () => {
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
+  };
+
+  const handleApprove = async () => {
+    try {
+      if (isConnected && library) {
+        if (blueprintMintAmountValue) {
+          const transaction = await blueprintWeb3.methods
+            .setApprovalForAll(await factoryContract.getAddress(), true)
+            .send({ from: account });
+
+          console.log('transaction successed', await transaction);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+    await setIsModalOpen(!isModalOpen);
   };
   const closeModal = (event: React.MouseEvent) => {
     // Verify if the target is the backdrop to avoid closing when clicking inside the modal
@@ -180,7 +198,7 @@ const MintProductPage = () => {
                 onClick={() => navigate('/product')}
               />
               <Button
-                onClick={toggleModal}
+                onClick={handleApprove}
                 className="flex justify-center w-[160px] h-9 rounded-xl"
                 text="Approve"
                 variant="primary"

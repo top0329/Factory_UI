@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 import toast, { Toaster } from 'react-hot-toast';
 
@@ -14,7 +15,6 @@ import {
 } from '../../jotai/atoms';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
-import { useEffect } from 'react';
 
 const RecreateBlueprintPage = () => {
   const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
@@ -75,7 +75,7 @@ const RecreateBlueprintPage = () => {
 
   const handleDeleteERC20CardClicked = (erc20: ERC20Data) => {
     const filteredERC20Data = createBlueprint.data.erc20Data.filter((item) => {
-      return item.address !== erc20.address;
+      return item.tokenAddress !== erc20.tokenAddress;
     });
     setCreateBlueprint({
       ...createBlueprint,
@@ -90,7 +90,7 @@ const RecreateBlueprintPage = () => {
   const handleDeleteERC721CardClicked = (erc721: ERC721Data) => {
     const filteredERC721Data = createBlueprint.data.erc721Data.filter(
       (item) => {
-        return item.address !== erc721.address || item.id !== erc721.id;
+        return item.tokenAddress !== erc721.tokenAddress || item.tokenId !== erc721.tokenId;
       }
     );
     setCreateBlueprint({
@@ -106,7 +106,7 @@ const RecreateBlueprintPage = () => {
   const handleDeleteERC1155CardClicked = (erc1155: ERC1155Data) => {
     const filteredERC1155Data = createBlueprint.data.erc1155Data.filter(
       (item) => {
-        return item.address !== erc1155.address || item.id !== erc1155.id;
+        return item.tokenAddress !== erc1155.tokenAddress || item.tokenId !== erc1155.tokenId;
       }
     );
     setCreateBlueprint({
@@ -125,8 +125,11 @@ const RecreateBlueprintPage = () => {
         <h1 className="text-lg xs:text-xl lg:text-2xl xl:text-3xl">
           Recreate Blueprint
         </h1>
-        <h3 className="text-sm xs:text-base lg:text-lg xl:text-xl">
-          Available Component: <span>{availableComponent}</span>
+        <h3 className="text-sm fixed bg-primary rounded-full px-2 py-1 bottom-6 right-6 z-20 xs:text-base lg:text-lg xl:text-xl xs:block xs:static xs:bg-transparent">
+          <span className="xs:hidden">Available</span>
+          <span className="hidden xs:inline-block">
+            Available Components
+          </span>: <span>{availableComponent}</span>
         </h3>
       </div>
       <div className="flex flex-col pt-6 pb-16 gap-4 lg:gap-6 xs:flex-row">
@@ -145,7 +148,7 @@ const RecreateBlueprintPage = () => {
                 name={erc20.name}
                 uri={erc20.uri}
                 amount={erc20.amount}
-                address={erc20.address}
+                tokenAddress={erc20.tokenAddress}
                 icon
                 onDeleteIconClicked={() => handleDeleteERC20CardClicked(erc20)}
               />
@@ -154,11 +157,11 @@ const RecreateBlueprintPage = () => {
           {createBlueprint.data.erc721Data.map((erc721) => {
             return (
               <ERC721Card
-                key={erc721.id}
-                id={erc721.id}
+                key={erc721.tokenId}
+                tokenId={erc721.tokenId}
                 name={erc721.name}
                 uri={erc721.uri}
-                address={erc721.address}
+                tokenAddress={erc721.tokenAddress}
                 icon
                 onDeleteIconClicked={() =>
                   handleDeleteERC721CardClicked(erc721)
@@ -169,12 +172,12 @@ const RecreateBlueprintPage = () => {
           {createBlueprint.data.erc1155Data.map((erc1155) => {
             return (
               <ERC1155Card
-                key={erc1155.id}
-                id={erc1155.id}
+                key={erc1155.tokenId}
+                tokenId={erc1155.tokenId}
                 name={erc1155.name}
                 uri={erc1155.uri}
                 amount={erc1155.amount}
-                address={erc1155.address}
+                tokenAddress={erc1155.tokenAddress}
                 icon
                 onDeleteIconClicked={() =>
                   handleDeleteERC1155CardClicked(erc1155)
