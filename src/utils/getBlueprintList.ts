@@ -1,17 +1,26 @@
-import { ethers } from 'ethers';
-import { defaultRPC } from '../constants';
+// import { ethers } from 'ethers';
+import { useAtom } from 'jotai';
+
+import { blueprintTokenListAtom } from '../jotai/atoms';
 import useWeb3 from '../hooks/useWeb3';
+import { BlueprintNFT } from '../types';
 
 export default async function getBlueprintList() {
-  const provider = new ethers.JsonRpcProvider(defaultRPC);
   const { blueprintContract } = useWeb3();
-  const blueprintTokenlist = [];
+  const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
 
   try {
-    const blueprintTokenIds = await blueprintContract.getBlueprintIds();
-    blueprintTokenIds.map((id: number) => {
-      const blueprintToken = await blueprintContract.getBlueprintNFTData(id);
-    })
-  }
+    const tempTokenList: Array<BlueprintNFT> = [];
+    const blueprintTokenIds: Array<number> =
+      await blueprintContract.getBlueprintIds();
+    blueprintTokenIds.map(async (id: number) => {
+      const blueprintToken: BlueprintNFT =
+        await blueprintContract.getBlueprintNFTData(id);
+      tempTokenList.push(blueprintToken);
+    });
 
+    setBlueprintTokenList(tempTokenList);
+  } catch (error) {
+    console.log(error);
+  }
 }

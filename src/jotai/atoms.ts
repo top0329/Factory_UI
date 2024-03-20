@@ -1,51 +1,12 @@
-import { atom, useUpdateAtom } from 'jotai';
+import { atom } from 'jotai';
 
 import {
+  BlueprintNFT,
   CreateBlueprint,
   SelectedBlueprint,
   SelectedOwnBlueprint,
   SelectedProduct,
 } from '../types';
-
-enum MintPriceUnit {
-  ETH,
-  USDT,
-  USDC,
-}
-
-interface ERC20Data {
-  tokenAddress: string;
-  amount: number;
-}
-
-interface ERC721Data {
-  tokenAddress: string;
-  tokenId: number;
-}
-
-interface ERC1155Data {
-  tokenAddress: string;
-  tokenId: number;
-  amount: number;
-}
-
-interface BlueprintData {
-  erc20Data: ERC20Data[];
-  erc721Data: ERC721Data[];
-  erc1155Data: ERC1155Data[];
-}
-
-interface BlueprintNFT {
-  id: number;
-  name: string;
-  uri: string;
-  creator: string;
-  totalSupply: number;
-  mintPrice: number;
-  mintPriceUnit: MintPriceUnit;
-  mintLimit: number;
-  data: BlueprintData;
-}
 
 export const isAddComponentModalAtom = atom<boolean>(false);
 // export const isMintBlueprintModalAtom = atom<boolean>(false);
@@ -142,4 +103,4 @@ export const availableComponentAtom = atom<number>(7);
 export const headerActiveItemAtom = atom<number>(0);
 
 // Store the blueprint token list
-export const blueprintTokenListAtom = atom<[]>;
+export const blueprintTokenListAtom = atom<Array<BlueprintNFT>>([]);

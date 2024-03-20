@@ -1,14 +1,41 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
 import SearchBar from '../../components/SearchBar';
 import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
 import productData from '../../../own-blueprint-data.json';
-import { selectedOwnBlueprintAtom } from '../../jotai/atoms';
+import {
+  selectedOwnBlueprintAtom,
+  blueprintTokenListAtom,
+} from '../../jotai/atoms';
+import { BlueprintNFT } from '../types';
+import useWeb3 from '../../hooks/useWeb3';
 
 const ProductPage = () => {
+  const { blueprintContract } = useWeb3();
+
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
+  const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
+
+  useEffect(() => {
+    async () => {
+      try {
+        const tempTokenList: Array<BlueprintNFT> = [];
+        const blueprintTokenIds: Array<number> =
+          await blueprintContract.getBlueprintIds();
+        blueprintTokenIds.map(async (id: number) => {
+          const blueprintToken: BlueprintNFT =
+            await blueprintContract.getBlueprintNFTData(id);
+          tempTokenList.push(blueprintToken);
+        });
+
+        setBlueprintTokenList(tempTokenList);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  });
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
