@@ -52,17 +52,6 @@ export type Web3ContextType = {
   productWeb3: any;
 };
 
-export type BlueprintTuple = [
-  bigint,
-  string,
-  bigint,
-  string,
-  string,
-  bigint,
-  bigint,
-  []
-];
-
 export type SelectedBlueprint = {
   id: number;
   name: string;
@@ -95,6 +84,7 @@ export type SelectedOwnBlueprint = {
     erc1155Data: ERC1155Data[];
   };
 };
+
 export type SelectedProduct = {
   id: number;
   name: string;
@@ -108,6 +98,7 @@ export type SelectedProduct = {
     erc1155Data: ERC1155Data[];
   };
 };
+
 export type CreateBlueprint = {
   name: string;
   uri: string;
