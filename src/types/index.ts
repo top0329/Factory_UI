@@ -128,8 +128,8 @@ export interface ListCardInterface {
   type: number;
   uri: string;
   name: string;
-  address: string;
-  id?: number;
+  tokenAddress: string;
+  tokenId?: number;
   amount?: number;
 }
 
