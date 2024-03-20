@@ -5,15 +5,19 @@ import {
   useCallback,
   useMemo,
 } from 'react';
+import Web3 from 'web3';
 import { ethers, Contract, ContractRunner } from 'ethers';
 import { useAccount, useChainId } from 'wagmi';
-import Web3 from 'web3';
+import { Address } from 'viem';
 
-import { Web3ContextType } from '../types';
 import FactoryABI from '../abi/FactoryABI.json';
 import BlueprintABI from '../abi/BlueprintABI.json';
 import ProductABI from '../abi/ProductABI.json';
+import erc20Abi from '../abi/ERC20ABI.json';
+import erc721Abi from '../abi/ERC721ABI.json';
+import erc1155Abi from '../abi/ERC1155ABI.json';
 import { useEthersProvider, useEthersSigner } from '../utils/wagmi-ethers';
+import { Web3ContextType } from '../types';
 import {
   defaultRPC,
   factoryAddress,
@@ -48,34 +52,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const [factoryWeb3, setFactoryWeb3] = useState<Contract>({} as Contract);
   const [blueprintWeb3, setBlueprintWeb3] = useState<Contract>({} as Contract);
   const [productWeb3, setProductWeb3] = useState<Contract>({} as Contract);
-
-  const value = useMemo(
-    () => ({
-      account: address,
-      chainId,
-      isConnected,
-      library: provider ?? signer,
-      factoryContract,
-      blueprintContract,
-      productContract,
-      factoryWeb3,
-      blueprintWeb3,
-      productWeb3,
-    }),
-    [
-      address,
-      chainId,
-      isConnected,
-      provider,
-      signer,
-      factoryContract,
-      blueprintContract,
-      productContract,
-      factoryWeb3,
-      blueprintWeb3,
-      productWeb3,
-    ]
-  );
 
   const init = useCallback(async () => {
     try {
@@ -133,6 +109,85 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     init();
   }, [init]);
+
+  const erc20Approve = useCallback(
+    async (erc20Address: Address, amount: string) => {
+      try {
+        const erc20Contract = new web3.eth.Contract(erc20Abi, erc20Address);
+        await erc20Contract.methods
+          .approve(erc20Address, amount)
+          .send({ from: address });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [address, web3.eth.Contract]
+  );
+
+  const erc721Approve = useCallback(
+    async (erc721Address: string, tokenId: string) => {
+      try {
+        const erc721Contract = new web3.eth.Contract(erc721Abi, erc721Address);
+        await erc721Contract.methods
+          .approve(erc721Address, tokenId)
+          .send({ from: address });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [address, web3.eth.Contract]
+  );
+
+  const erc1155Approve = useCallback(
+    async (erc1155Address: string) => {
+      try {
+        const erc1155Contract = new web3.eth.Contract(
+          erc1155Abi,
+          erc1155Address
+        );
+        await erc1155Contract.methods
+          .setApprovalForAll(erc1155Address, true)
+          .send({ from: address });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    [address, web3.eth.Contract]
+  );
+
+  const value = useMemo(
+    () => ({
+      account: address,
+      chainId,
+      isConnected,
+      library: provider ?? signer,
+      factoryContract,
+      blueprintContract,
+      productContract,
+      factoryWeb3,
+      blueprintWeb3,
+      productWeb3,
+      erc20Approve,
+      erc721Approve,
+      erc1155Approve,
+    }),
+    [
+      address,
+      chainId,
+      isConnected,
+      provider,
+      signer,
+      factoryContract,
+      blueprintContract,
+      productContract,
+      factoryWeb3,
+      blueprintWeb3,
+      productWeb3,
+      erc20Approve,
+      erc721Approve,
+      erc1155Approve,
+    ]
+  );
 
   return <Web3Context.Provider value={value}>{children}</Web3Context.Provider>;
 };
