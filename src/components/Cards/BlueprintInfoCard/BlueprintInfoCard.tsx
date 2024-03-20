@@ -7,7 +7,7 @@ import useWeb3 from '../../../hooks/useWeb3';
 import { createBlueprintAtom } from '../../../jotai/atoms';
 import { CreateBlueprint } from '../../../types';
 import { invalidChars } from '../../../constants';
-// import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
+import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
 
 interface CustomCheckboxProps {
   editable: boolean;
@@ -52,8 +52,7 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
 }
 
 const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
-  const { isConnected, library, account, factoryContract, factoryWeb3 } =
-    useWeb3();
+  const { isConnected, library, account, factoryWeb3 } = useWeb3();
 
   const [createInfo, setCreateInfo] =
     useAtom<CreateBlueprint>(createBlueprintAtom);
@@ -68,7 +67,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const [totalSupply, setTotalSupply] = useState<number | ''>('');
   const [mintPrice, setMintPrice] = useState<number | ''>('');
   const [mintPriceLimit, setMintPriceLimit] = useState<number | ''>('');
-  const [creator, setCreator] = useState<string | ''>();
   const [imageSrc, setImageSrc] = useState<string>(
     createInfo.uri.substring(21)
   );
@@ -87,8 +85,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     setImageSrc(createInfo.uri);
     setMintPrice(createInfo.mintPrice);
     setMintPriceLimit(createInfo.mintLimit);
-    setImageSrc(createInfo.uri);
-    setCreator(account);
   }, [
     createInfo.creator,
     createInfo.mintLimit,
@@ -233,91 +229,57 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     }
   };
 
-  // const uploadToIPFS = async () => {
-  //   if (!selectedFile) return;
+  const uploadImageToIPFS = async () => {
+    if (!selectedFile) return;
+    try {
+      console.log('here');
+      const imageHashURI: string = await uploadFileToIPFS(
+        selectedFile,
+        fileText
+      );
+      console.log(
+        'Image uploaded to IPFS with hash ====================> ',
+        imageHashURI
+      );
+      setCreateInfo((prevCreateInfo) => ({
+        ...prevCreateInfo,
+        uri: `https://ipfs.io/ipfs/${imageHashURI}`,
+      }));
+      setImageSrc(`https://ipfs.io/ipfs/${imageHashURI}`);
+    } catch (error) {
+      console.log('Error uploading file:', error);
+    }
+  };
 
-  //   try {
-  //     // Upload the image to IPFS
-  //     const imageHashURI: string = await uploadFileToIPFS(
-  //       selectedFile,
-  //       fileText
-  //     );
-  //     console.log(
-  //       'Image uploaded to IPFS with hash ====================> ',
-  //       imageHashURI
-  //     );
-
-  //     // Upload the JSON file to IPFS
-  //     const json = {
-  //       name: fileText,
-  //       description: 'The ERC1155 token for Factory Project',
-  //       image: `https://ipfs.io/ipfs/${imageHashURI}`,
-  //       attributes: [],
-  //       compiler: 'Factory',
-  //     };
-  //     const jsonHash = await uploadJSONToIPFS(fileText, json);
-  //     console.log(
-  //       'JSON uploaded to IPFS with hash ====================> ',
-  //       jsonHash
-  //     );
-  //   } catch (error) {
-  //     console.log('Error uploading file:', error);
-  //   }
-  // };
+  const uploadMetadataToIPFS = async (imageHashURI: string) => {
+    try {
+      const json = {
+        name: fileText,
+        description: 'The ERC1155 token for Factory Project',
+        image: `ipfs/${imageHashURI}`,
+        attributes: [],
+        compiler: 'Factory',
+      };
+      const jsonHash = await uploadJSONToIPFS(fileText, json);
+      console.log(
+        'JSON uploaded to IPFS with hash ====================> ',
+        jsonHash
+      );
+    } catch (error) {
+      console.log('Error uploading file:', error);
+    }
+  };
 
   const handleSubmit = async () => {
     try {
       if (isConnected && library) {
         if (isIPFSSelected) {
-          setCreateInfo((prevCreateInfo) => ({
-            ...prevCreateInfo,
-            creator: account,
-          }));
-          console.log(createInfo);
-          console.log(account);
-
           if (
             createInfo.data.erc20Data.length +
               createInfo.data.erc721Data.length +
               createInfo.data.erc1155Data.length >
             0
           ) {
-            console.log(
-              createInfo.name,
-              createInfo.uri,
-              createInfo.totalSupply,
-              createInfo.mintPrice,
-              createInfo.mintPriceUnit,
-              createInfo.mintLimit,
-              {
-                erc20Data: createInfo.data.erc20Data.map((erc20) => {
-                  return {
-                    tokenAddress: erc20.tokenAddress,
-                    amount: erc20.amount,
-                  };
-                }),
-                erc721Data: createInfo.data.erc721Data.map((erc721) => {
-                  return {
-                    tokenAddress: erc721.tokenAddress,
-                    tokenId: erc721.tokenId,
-                  };
-                }),
-                erc1155Data: createInfo.data.erc1155Data.map((erc1155) => {
-                  return {
-                    tokenAddress: erc1155.tokenAddress,
-                    tokenId: erc1155.tokenId,
-                    amount: erc1155.amount,
-                  };
-                }),
-              }
-            );
-            console.log(creator);
-
-            // ethers - for read functions of smart contract
-            const result = await factoryContract.componentTokenLimit();
-            console.log('Available component token limit: ', result);
-
-            // web3 - for write functions of smart contract
             const transaction = await factoryWeb3.methods
               .createBlueprint(
                 createInfo.name,
@@ -349,41 +311,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 }
               )
               .send({ from: account });
-
-            // const transaction = await factoryWeb3.methods.createBlueprint(
-            //   'ERC', // Name
-            //   'ipfs://VmWQ4Wps4evKn4Aw9P3yUmj6ewqL7C9iCByC1bdbXiquCW', // URI
-            //   1000000, // TotalSupply
-            //   10000, // Mint Price
-            //   1, // Unit
-            //   100, // Mint Limit
-            //   {
-            //     erc20Data: [
-            //       {
-            //         tokenAddress: '0xa9819b08c329395FEC4edA9FA32205846b6E3230',
-            //         amount: 10,
-            //       },
-            //     ],
-            //     erc721Data: [
-            //       {
-            //         tokenAddress: '0xcD988300109D73fa30Af755415BC56eF3b802F81',
-            //         tokenId: 1,
-            //       },
-            //     ],
-            //     erc1155Data: [
-            //       {
-            //         tokenAddress: '0xa75551c79E8F90f921D9959fA169f35DA98efD1a',
-            //         tokenId: 3,
-            //         amount: 10,
-            //       },
-            //     ],
-            //   }
-            // ).send({from: account});
-
             console.log('Blueprint created successfully', transaction);
           }
         } else {
           console.log(selectedFile);
+          uploadImageToIPFS();
+          uploadMetadataToIPFS(imageSrc);
         }
       }
     } catch (err) {
