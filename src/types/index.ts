@@ -155,17 +155,17 @@ export enum MintPriceUnit {
 }
 
 export interface ERC20Data {
-  tokenAddress: string;
+  tokenAddress: Address;
   amount: number;
 }
 
 export interface ERC721Data {
-  tokenAddress: string;
+  tokenAddress: Address;
   tokenId: number;
 }
 
 export interface ERC1155Data {
-  tokenAddress: string;
+  tokenAddress: Address;
   tokenId: number;
   amount: number;
 }
