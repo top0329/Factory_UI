@@ -147,3 +147,43 @@ export interface AdvancedFilterValue {
   mintedAmountMin: number | '';
   mintedAmountMax: number | '';
 }
+
+export enum MintPriceUnit {
+  ETH,
+  USDT,
+  USDC,
+}
+
+export interface ERC20Data {
+  tokenAddress: Address;
+  amount: number;
+}
+
+export interface ERC721Data {
+  tokenAddress: Address;
+  tokenId: number;
+}
+
+export interface ERC1155Data {
+  tokenAddress: Address;
+  tokenId: number;
+  amount: number;
+}
+
+export interface BlueprintData {
+  erc20Data: ERC20Data[];
+  erc721Data: ERC721Data[];
+  erc1155Data: ERC1155Data[];
+}
+
+export interface BlueprintNFT {
+  id: number;
+  name: string;
+  uri: string;
+  creator: string;
+  totalSupply: number;
+  mintPrice: number;
+  mintPriceUnit: MintPriceUnit;
+  mintLimit: number;
+  data: BlueprintData;
+}
