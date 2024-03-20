@@ -1,6 +1,7 @@
 import axios from 'axios';
 import FormData from 'form-data';
 import { PINATA } from '../constants';
+import { PINATA_JWT } from '../constants';
 
 export const uploadFileToIPFS = async (
   selectedFile: File | null,
@@ -24,7 +25,7 @@ export const uploadFileToIPFS = async (
       maxBodyLength: Infinity,
       headers: {
         'Content-Type': `multipart/form-data`,
-        Authorization: `Bearer ${process.env.PINATA_JWT}`,
+        Authorization: `Bearer ${PINATA_JWT}`,
       },
     });
 
@@ -70,7 +71,7 @@ export const uploadJSONToIPFS = async (fileName: string, json?: any) => {
     const jsonUpload = await axios.post(PINATA.JSON_UPLOAD, data, {
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.PINATA_JWT}`,
+        Authorization: `Bearer ${PINATA_JWT}`,
       },
     });
 
