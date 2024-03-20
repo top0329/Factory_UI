@@ -1,18 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 
 import SearchBar from '../../components/SearchBar';
 import productData from '../../../own-blueprint-data.json';
-import { selectedProductintAtom, productSelectionState } from '../../jotai/atoms';
+import {
+  selectedProductintAtom,
+  productSelectionState,
+  productTokenIdListAtom,
+} from '../../jotai/atoms';
 import ProductCard from '../../components/Cards/BlueprintCard/ProductCard';
 import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer';
+import useWeb3 from '../../hooks/useWeb3';
 
 const DecomposePage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [, setSelectedProduct] = useAtom(selectedProductintAtom);
   const [, setProductSelectionState] = useAtom(productSelectionState);
+  const [, setProductTokenIdList] = useAtom(productTokenIdListAtom);
   const navigate = useNavigate();
+
+  const { productContract } = useWeb3();
+
+  useEffect(() => {
+    const getTokenList = async () => {
+      const tokenIdList = await productContract.getProductIDs();
+      setProductTokenIdList(tokenIdList);
+    };
+    getTokenList();
+  });
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -32,7 +48,7 @@ const DecomposePage = () => {
     setSelectedProduct(product);
     setProductSelectionState(product);
     navigate(`/decompose/product/${product.id}`);
-  }
+  };
   return (
     <div className="text-white">
       <div className="flex flex-col min-w-[320px] gap-2 text-white">
