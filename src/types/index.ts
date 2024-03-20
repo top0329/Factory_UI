@@ -21,22 +21,22 @@ export interface ERC20Data {
   name: string;
   uri: string;
   amount: number;
-  address: Address;
+  tokenAddress: Address;
 }
 
 export interface ERC721Data {
-  id: number;
+  tokenId: number;
   name: string;
   uri: string;
-  address: Address;
+  tokenAddress: Address;
 }
 
 export interface ERC1155Data {
-  id: number;
+  tokenId: number;
   name: string;
   uri: string;
   amount: number;
-  address: Address;
+  tokenAddress: Address;
 }
 
 export type Web3ContextType = {
@@ -51,17 +51,6 @@ export type Web3ContextType = {
   blueprintWeb3: any;
   productWeb3: any;
 };
-
-export type BlueprintTuple = [
-  bigint,
-  string,
-  bigint,
-  string,
-  string,
-  bigint,
-  bigint,
-  []
-];
 
 export type SelectedBlueprint = {
   id: number;
@@ -95,6 +84,7 @@ export type SelectedOwnBlueprint = {
     erc1155Data: ERC1155Data[];
   };
 };
+
 export type SelectedProduct = {
   id: number;
   name: string;
@@ -108,6 +98,7 @@ export type SelectedProduct = {
     erc1155Data: ERC1155Data[];
   };
 };
+
 export type CreateBlueprint = {
   name: string;
   uri: string;
@@ -128,8 +119,8 @@ export interface ListCardInterface {
   type: number;
   uri: string;
   name: string;
-  address: string;
-  id?: number;
+  tokenAddress: string;
+  tokenId?: number;
   amount?: number;
 }
 

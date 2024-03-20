@@ -2,10 +2,10 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 
-import { createBlueprintAtom } from '../../../jotai/atoms';
-import { CreateBlueprint } from '../../../types';
 import DefaultBlueprintImage from '../../../assets/images/default-blueprint.png';
 import useWeb3 from '../../../hooks/useWeb3';
+import { createBlueprintAtom } from '../../../jotai/atoms';
+import { CreateBlueprint } from '../../../types';
 import { invalidChars } from '../../../constants';
 // import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
 
@@ -289,7 +289,27 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               createInfo.mintPrice,
               createInfo.mintPriceUnit,
               createInfo.mintLimit,
-              createInfo.data
+              {
+                erc20Data: createInfo.data.erc20Data.map((erc20) => {
+                  return {
+                    tokenAddress: erc20.tokenAddress,
+                    amount: erc20.amount,
+                  };
+                }),
+                erc721Data: createInfo.data.erc721Data.map((erc721) => {
+                  return {
+                    tokenAddress: erc721.tokenAddress,
+                    tokenId: erc721.tokenId,
+                  };
+                }),
+                erc1155Data: createInfo.data.erc1155Data.map((erc1155) => {
+                  return {
+                    tokenAddress: erc1155.tokenAddress,
+                    tokenId: erc1155.tokenId,
+                    amount: erc1155.amount,
+                  };
+                }),
+              }
             );
             console.log(creator);
 
@@ -307,28 +327,25 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 createInfo.mintPriceUnit,
                 createInfo.mintLimit,
                 {
-                  erc20Data: [
-                    {
-                      tokenAddress:
-                        '0xa9819b08c329395FEC4edA9FA32205846b6E3230',
-                      amount: 10,
-                    },
-                  ],
-                  erc721Data: [
-                    {
-                      tokenAddress:
-                        '0xcD988300109D73fa30Af755415BC56eF3b802F81',
-                      tokenId: 1,
-                    },
-                  ],
-                  erc1155Data: [
-                    {
-                      tokenAddress:
-                        '0xa75551c79E8F90f921D9959fA169f35DA98efD1a',
-                      tokenId: 3,
-                      amount: 10,
-                    },
-                  ],
+                  erc20Data: createInfo.data.erc20Data.map((erc20) => {
+                    return {
+                      tokenAddress: erc20.tokenAddress,
+                      amount: erc20.amount,
+                    };
+                  }),
+                  erc721Data: createInfo.data.erc721Data.map((erc721) => {
+                    return {
+                      tokenAddress: erc721.tokenAddress,
+                      tokenId: erc721.tokenId,
+                    };
+                  }),
+                  erc1155Data: createInfo.data.erc1155Data.map((erc1155) => {
+                    return {
+                      tokenAddress: erc1155.tokenAddress,
+                      tokenId: erc1155.tokenId,
+                      amount: erc1155.amount,
+                    };
+                  }),
                 }
               )
               .send({ from: account });
