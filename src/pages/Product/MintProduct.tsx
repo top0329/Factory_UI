@@ -221,7 +221,7 @@ const MintProductPage = () => {
               <h3 className="xs:text-[32px] text-[22px] py-6 font-semibold text-center text-white">
                 Mint Product
               </h3>
-              <div className="flex flex-col items-center p-6 border-t border-gray-200 rounded-b">
+              <div className="flex flex-col items-center xs:p-6 px-1 py-4 border-t border-gray-200 rounded-b">
                 {selectedOwnData.data.erc20Data.map((dataItem, index) => (
                   <ProductListCard
                     isDecompose={false}

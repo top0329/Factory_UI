@@ -73,7 +73,9 @@ export default function ListCard(props: ListCardInterface) {
 
   return (
     <div
-      className={`flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] px-[20px] py-2 mb-2 border  rounded-3xl text-white text-base ${
+      className={`flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] ${
+        props.isDecompose ? 'px-4' : 'px-[4px]'
+      }  py-2 mb-2 border  rounded-3xl text-white text-base ${
         props.type == 0
           ? 'bg-[#09F5D8]/10 border-[#09F5D8]'
           : props.type == 1
@@ -106,7 +108,7 @@ export default function ListCard(props: ListCardInterface) {
       <div
         id="name"
         className={`${
-          props.isDecompose ? '' : 'hidden sm:block'
+          props.isDecompose ? '' : 'xs:block'
         } flex flex-col justify-center sm:w-[12%] w-[30%]`}
       >
         <p className="text-[#858584] text-xs">Name</p>
@@ -181,7 +183,7 @@ export default function ListCard(props: ListCardInterface) {
         )}
       </div>
       {!props.isDecompose && (
-        <div id="approve" className="xs:w-auto w-[30%]">
+        <div id="approve" className="xs:w-auto w-[20%]">
           <button
             onClick={handleApprove}
             className="bg-[#000000] rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]"
