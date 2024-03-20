@@ -2,17 +2,17 @@ import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { Address } from 'viem';
 
+import Button from '../Button';
+import checkContractType from '../../utils/checkContractType';
+import getERC721Data from '../../utils/getERC721Data';
+import getERC1155Data from '../../utils/getERC1155Data';
 import {
   activeAddComponentTokenAtom,
   availableComponentAtom,
   createBlueprintAtom,
   isAddComponentModalAtom,
 } from '../../jotai/atoms';
-import Button from '../Button';
 import { AddComponentModalInputValue, CreateBlueprint } from '../../types';
-import checkContractType from '../../utils/checkContractType';
-import getERC721Data from '../../utils/getERC721Data';
-import getERC1155Data from '../../utils/getERC1155Data';
 
 // TODO: edit modal implementation
 
@@ -68,8 +68,8 @@ const EditComponentModal = () => {
           if (
             createBlueprint.data.erc721Data.some(
               (erc721) =>
-                erc721.address === inputValues.erc721Address &&
-                erc721.id === inputValues.erc721Id
+                erc721.tokenAddress === inputValues.erc721Address &&
+                erc721.tokenId === inputValues.erc721Id
             )
           )
             setError('This token already added');
@@ -94,8 +94,8 @@ const EditComponentModal = () => {
           if (
             createBlueprint.data.erc1155Data.some(
               (erc1155) =>
-                erc1155.address === inputValues.erc1155Address &&
-                erc1155.id === inputValues.erc1155Id
+                erc1155.tokenAddress === inputValues.erc1155Address &&
+                erc1155.tokenId === inputValues.erc1155Id
             )
           )
             setError('This token already added');
@@ -129,7 +129,7 @@ const EditComponentModal = () => {
       if (activeItem === 0 && result.type === 'ERC20') {
         if (
           createBlueprint.data.erc20Data.some(
-            (erc20) => erc20.address === value
+            (erc20) => erc20.tokenAddress === value
           )
         )
           setError('This token already added');
@@ -227,7 +227,7 @@ const EditComponentModal = () => {
                 uri:
                   tokenData.logo ||
                   'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
-                address: inputValues.erc20Address as Address,
+                tokenAddress: inputValues.erc20Address as Address,
                 amount: Number(inputValues.erc20Amount),
               },
             ],
@@ -244,10 +244,10 @@ const EditComponentModal = () => {
             erc721Data: [
               ...prevBlueprint.data.erc721Data,
               {
-                id: Number(inputValues.erc721Id),
+                tokenId: Number(inputValues.erc721Id),
                 name: tokenData.name,
                 uri: tokenData.uri,
-                address: inputValues.erc721Address as Address,
+                tokenAddress: inputValues.erc721Address as Address,
               },
             ],
           },
@@ -263,10 +263,10 @@ const EditComponentModal = () => {
             erc1155Data: [
               ...prevBlueprint.data.erc1155Data,
               {
-                id: Number(inputValues.erc1155Id),
+                tokenId: Number(inputValues.erc1155Id),
                 name: tokenData.name,
                 uri: tokenData.uri,
-                address: inputValues.erc1155Address as Address,
+                tokenAddress: inputValues.erc1155Address as Address,
                 amount: Number(inputValues.erc1155Amount),
               },
             ],

@@ -289,7 +289,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                         name: string;
                         uri: string;
                         amount: number;
-                        address: string;
+                        tokenAddress: string;
                       },
                       idx: React.Key | null | undefined
                     ) => {
@@ -299,7 +299,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                           name={erc20.name}
                           uri={erc20.uri}
                           amount={erc20.amount}
-                          address={erc20.address}
+                          tokenAddress={erc20.tokenAddress}
                         />
                       );
                     }
@@ -311,18 +311,18 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                 {selectedOwnBlueprint.data.erc721Data.length > 0 &&
                   selectedOwnBlueprint.data.erc721Data.map(
                     (erc721: {
-                      id: number;
+                      tokenId: number;
                       name: string;
                       uri: string;
-                      address: string;
+                      tokenAddress: string;
                     }) => {
                       return (
                         <ERC721Card
-                          key={erc721.id}
-                          id={erc721.id}
+                          key={erc721.tokenId}
+                          tokenId={erc721.tokenId}
                           name={erc721.name}
                           uri={erc721.uri}
-                          address={erc721.address}
+                          tokenAddress={erc721.tokenAddress}
                         />
                       );
                     }
@@ -334,20 +334,20 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                 {selectedOwnBlueprint.data.erc1155Data.length > 0 &&
                   selectedOwnBlueprint.data.erc1155Data.map(
                     (erc1155: {
-                      id: number;
+                      tokenId: number;
                       name: string;
                       uri: string;
                       amount: number;
-                      address: string;
+                      tokenAddress: string;
                     }) => {
                       return (
                         <ERC1155Card
-                          key={erc1155.id}
-                          id={erc1155.id}
+                          key={erc1155.tokenId}
+                          tokenId={erc1155.tokenId}
                           name={erc1155.name}
                           uri={erc1155.uri}
                           amount={erc1155.amount}
-                          address={erc1155.address}
+                          tokenAddress={erc1155.tokenAddress}
                         />
                       );
                     }

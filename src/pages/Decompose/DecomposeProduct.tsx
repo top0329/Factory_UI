@@ -1,9 +1,9 @@
-import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
+import { useAtom } from 'jotai';
+
 import Button from '../../components/Button';
 import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedProduct } from '../../types';
-
 import { selectedProductintAtom } from '../../jotai/atoms';
 
 const DecomposeProductPage = () => {
@@ -23,8 +23,8 @@ const DecomposeProductPage = () => {
               type={4}
               uri={selectedOwnData.uri}
               name={selectedOwnData.name}
-              address={selectedOwnData.blueprintAddress}
-              id={selectedOwnData.id}
+              tokenAddress={selectedOwnData.blueprintAddress}
+              tokenId={selectedOwnData.id}
               amount={selectedOwnData.balance}
             />
             <div className=" flex justify-between items-center">
@@ -75,7 +75,6 @@ const DecomposeProductPage = () => {
                 type={2}
               />
             ))}
-
             <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">
               <Button
                 className="flex justify-center w-[160px] !h-9 rounded-xl"

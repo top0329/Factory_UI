@@ -10,24 +10,24 @@ import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
 import { searchValueAtom } from '../../jotai/atoms';
-import { BlueprintTuple } from '../../types';
 
 import Union from '../../assets/images/union.png';
 import CardFront from '../../assets/svg/card-front.svg';
 import SmallBlueprintCardImage from '../../assets/svg/small-blueprint-card.svg';
 import useWeb3 from '../../hooks/useWeb3';
+import { invalidChars } from '../../constants';
 
 const LandingPage = () => {
-  const { blueprintContract } = useWeb3();
+  const { blueprintContract, factoryContract, productContract } = useWeb3();
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
-  const [totalBlueprintID, setTotalBlueprintID] = useState<number>(0);
-  const [blueprintArray, setBlueprintArray] = useState<BlueprintTuple[]>([]);
-
-  const invalidChars = /['"`\\;%&!@#$%^?~*]/;
+  const [blueprintsValue, setBlueprintsValue] = useState<number>(0);
+  const [creatorsValue, setCreatorsValue] = useState<number>(0);
+  const [mintedBlueprintsValue, setMintedBlueprintsValue] = useState<number>(0);
+  const [productsValue, setProductsValue] = useState<number>(0);
 
   useEffect(() => {
     const config = {
@@ -60,7 +60,6 @@ const LandingPage = () => {
         },
       },
     };
-
     const glide = new Glide('.glide', {
       ...config,
       type: 'carousel',
@@ -73,25 +72,18 @@ const LandingPage = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const temp = [];
-      const _totalBlueprintID = await blueprintContract.totalBlueprintIDs();
-      setTotalBlueprintID(_totalBlueprintID.length);
-      for (let i = 3; i <= totalBlueprintID; i++) {
-        const id: bigint = BigInt(i);
-        const data = await blueprintContract.getBlueprintNFTData(id);
-        console.log(data);
-        temp.push(data);
-      }
-      setBlueprintArray(temp);
-      console.log(temp);
+      const _blueprintIds = await blueprintContract.getBlueprintIds();
+      const _blueprintCreators = await factoryContract.getBlueprintCreators();
+      const _totalMintedBlueprintTokens =
+        await blueprintContract.totalMintedBlueprintTokens();
+      const _productIds = await productContract.getProductIDs();
+      setBlueprintsValue(_blueprintIds.length);
+      setCreatorsValue(_blueprintCreators.length);
+      setMintedBlueprintsValue(Number(_totalMintedBlueprintTokens));
+      setProductsValue(_productIds.length);
     }
     fetchData();
-  }, [blueprintContract, totalBlueprintID]);
-
-  useEffect(
-    () => console.log('blueprintarray', blueprintArray),
-    [blueprintArray]
-  );
+  }, [blueprintContract, factoryContract, productContract]);
 
   const smoothScrollTo = (duration: number) => {
     const startY = window.scrollY;
@@ -335,10 +327,10 @@ const LandingPage = () => {
         </div>
       </div>
       <PlatformStatus
-        blueprints={112}
-        creators={91}
-        mintedBlueprints={68}
-        products={55}
+        blueprints={blueprintsValue}
+        creators={creatorsValue}
+        mintedBlueprints={mintedBlueprintsValue}
+        products={productsValue}
       />
       <PlatformUsage />
       <FAQ />
