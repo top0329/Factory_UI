@@ -15,6 +15,9 @@ const RecreateBlueprintPage = lazy(
 const UpdateBlueprintPage = lazy(
   () => import('../pages/Blueprint/UpdateBlueprint')
 );
+const TransferOwnership = lazy(
+  () => import('../pages/Blueprint/TransferOwnership')
+);
 const ProductPage = lazy(() => import('../pages/Product'));
 const MintProductPage = lazy(() => import('../pages/Product/MintProduct'));
 const DecomposePage = lazy(() => import('../pages/Decompose'));
@@ -58,6 +61,10 @@ const CommonRoutes = {
             {
               path: 'update/:id',
               element: <UpdateBlueprintPage />,
+            },
+            {
+              path: 'transfer-ownership/:id',
+              element: <TransferOwnership />,
             },
           ],
         },

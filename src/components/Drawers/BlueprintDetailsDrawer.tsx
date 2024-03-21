@@ -70,6 +70,12 @@ const BlueprintDetailDrawer: FC<Props> = ({
     setBlueprintSelectionState(selectedBlueprint);
   };
 
+  const handleBlueprintOwnershipButtonClicked = () => {
+    navigate(`/blueprint/transfer-ownership/${selectedBlueprint.id}`);
+    sideDrawerClosedHandler();
+    setBlueprintSelectionState(selectedBlueprint);
+  };
+
   const handleTabClick = (id: number) => {
     setActiveTab(id);
   };
@@ -126,40 +132,74 @@ const BlueprintDetailDrawer: FC<Props> = ({
             {selectedBlueprint.name}
           </p>
           <div className="z-10 absolute top-[124px] bg-gradient-to-t from-landing via-transparent to-transparent w-full h-28 sm:top-[324px] xs:top-[224px]"></div>
-          <div className="bg-[#011018] py-6 px-8 max-h-80 sm:h-60">
-            <div
-              className={`flex justify-between items-center gap-4 ${
+          <div
+            className={`bg-[#011018] py-6 px-8 max-h-80 ${
+              isCreatorMode ? 'sm:h-80' : 'sm:h-60'
+            }`}
+          >
+            {isCreatorMode && (
+              <div className="flex flex-col justify-between gap-4 sm:gap-10 sm:flex-row">
+                {selectedBlueprint.myBlueprint === true && (
+                  <div className="flex justify-between w-full">
+                    <Button
+                      className="text-sm !py-1 !px-4 !bg-black xs:text-base xs:!px-7"
+                      text="Update"
+                      variant="secondary"
+                      onClick={handleUpdateBlueprintButtonClicked}
+                    />
+                    <Button
+                      className="text-sm !py-1 !px-4 !bg-black xs:text-base xs:!px-7"
+                      text="Ownership"
+                      variant="secondary"
+                      onClick={handleBlueprintOwnershipButtonClicked}
+                    />
+                  </div>
+                )}
+                <div className="flex justify-between w-full">
+                  <Button
+                    className="text-sm !py-1 !px-4 xs:text-base xs:!px-7 !bg-black"
+                    text="Recreate"
+                    variant="secondary"
+                    onClick={handleRecreateBlueprintButtonClicked}
+                  />
+                  <Button
+                    className="truncate text-sm text-center !py-1 !px-2 min-w-28 xs:text-base"
+                    text="Mint Blueprint"
+                    onClick={handleMintBlueprintButtonClicked}
+                    variant="outline"
+                  />
+                </div>
+              </div>
+            )}
+            {/* <div
+              className={`flex justify-between gap-4 ${
                 isCreatorMode
-                  ? 'flex-col-reverse sm:flex-row'
+                  ? 'flex-col sm:flex-row'
                   : 'sm:flex-row items-center'
               } sm:justify-beteen`}
             >
-              <div className="flex justify-start w-full gap-4 xs:gap-10">
-                <div className="flex flex-col items-start text-white gap-2">
-                  <p className="truncate text-light-gray text-sm">
-                    Blueprint ID
-                  </p>
-                  <p>{selectedBlueprint.id}</p>
-                </div>
-                <div className="flex flex-col items-start text-white gap-2">
-                  <p className="text-light-gray text-sm">Total Supply</p>
-                  <p>{selectedBlueprint.totalSupply}</p>
-                </div>
-              </div>
               <div
-                className={`flex ${
-                  isCreatorMode ? 'justify-between mb-2' : 'justify-end'
-                }  w-full gap-2 xs:gap-6 sm:gap-3 sm:justify-end`}
+                className={`flex justify-between w-full gap-2 mt-1 xs:mt-4 xs:gap-6 sm:gap-3 ${
+                  isCreatorMode ? 'block' : 'hidden'
+                }`}
               >
                 {isCreatorMode === true && (
                   <React.Fragment>
                     {selectedBlueprint.myBlueprint === true && (
-                      <Button
-                        className="text-sm !py-1 !px-4 xs:text-base xs:!px-7 !bg-black"
-                        text="Update"
-                        variant="secondary"
-                        onClick={handleUpdateBlueprintButtonClicked}
-                      />
+                      <React.Fragment>
+                        <Button
+                          className="text-sm !py-1 !px-4 !bg-black xs:text-base xs:!px-7"
+                          text="Update"
+                          variant="secondary"
+                          onClick={handleUpdateBlueprintButtonClicked}
+                        />
+                        <Button
+                          className="text-sm !py-1 !px-4 !bg-black xs:text-base xs:!px-7"
+                          text="Ownership"
+                          variant="secondary"
+                          onClick={handleBlueprintOwnershipButtonClicked}
+                        />
+                      </React.Fragment>
                     )}
                     <Button
                       className="text-sm !py-1 !px-4 xs:text-base xs:!px-7 !bg-black"
@@ -167,18 +207,40 @@ const BlueprintDetailDrawer: FC<Props> = ({
                       variant="secondary"
                       onClick={handleRecreateBlueprintButtonClicked}
                     />
+                    <Button
+                      className="truncate text-sm text-center !py-1 !px-2 min-w-28 xs:text-base"
+                      text="Mint Blueprint"
+                      onClick={handleMintBlueprintButtonClicked}
+                      variant="outline"
+                    />
                   </React.Fragment>
                 )}
-                <Button
-                  className="truncate text-sm !py-1 !px-2 xs:text-base"
-                  text="Mint Blueprint"
-                  onClick={handleMintBlueprintButtonClicked}
-                  variant="outline"
-                />
               </div>
-            </div>
-            <div className="flex justify-start items-start mt-5 sm:justify-between">
-              <div className="flex flex-col items-start text-white gap-2">
+            </div> */}
+            <div className="flex justify-start items-start mt-4 sm:justify-between">
+              <div className="flex flex-col w-full items-start text-white gap-2">
+                <div className="flex justify-between w-full gap-4 xs:gap-10">
+                  <div className="flex justify-start items-center w-full gap-4 xs:gap-10">
+                    <div className="flex flex-col items-start text-white gap-2">
+                      <p className="truncate text-light-gray text-sm">
+                        Blueprint ID
+                      </p>
+                      <p>{selectedBlueprint.id}</p>
+                    </div>
+                    <div className="flex flex-col items-start text-white gap-2">
+                      <p className="text-light-gray text-sm">Total Supply</p>
+                      <p>{selectedBlueprint.totalSupply}</p>
+                    </div>
+                  </div>
+                  {!isCreatorMode === true && (
+                    <Button
+                      className="truncate text-sm h-9 w-40 !py-1 !px-2 xs:text-base rounded-full"
+                      text="Mint Blueprint"
+                      onClick={handleMintBlueprintButtonClicked}
+                      variant="outline"
+                    />
+                  )}
+                </div>
                 <div className="flex gap-3">
                   <p className="text-light-gray text-sm">Creator</p>
                   {selectedBlueprint.myBlueprint === true && (
