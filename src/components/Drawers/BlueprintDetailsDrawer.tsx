@@ -14,7 +14,7 @@ import {
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
-import { Image } from '../Image';
+import Image from '../Image';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -171,52 +171,6 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 </div>
               </div>
             )}
-            {/* <div
-              className={`flex justify-between gap-4 ${
-                isCreatorMode
-                  ? 'flex-col sm:flex-row'
-                  : 'sm:flex-row items-center'
-              } sm:justify-beteen`}
-            >
-              <div
-                className={`flex justify-between w-full gap-2 mt-1 xs:mt-4 xs:gap-6 sm:gap-3 ${
-                  isCreatorMode ? 'block' : 'hidden'
-                }`}
-              >
-                {isCreatorMode === true && (
-                  <React.Fragment>
-                    {selectedBlueprint.myBlueprint === true && (
-                      <React.Fragment>
-                        <Button
-                          className="text-sm !py-1 !px-4 !bg-black xs:text-base xs:!px-7"
-                          text="Update"
-                          variant="secondary"
-                          onClick={handleUpdateBlueprintButtonClicked}
-                        />
-                        <Button
-                          className="text-sm !py-1 !px-4 !bg-black xs:text-base xs:!px-7"
-                          text="Ownership"
-                          variant="secondary"
-                          onClick={handleBlueprintOwnershipButtonClicked}
-                        />
-                      </React.Fragment>
-                    )}
-                    <Button
-                      className="text-sm !py-1 !px-4 xs:text-base xs:!px-7 !bg-black"
-                      text="Recreate"
-                      variant="secondary"
-                      onClick={handleRecreateBlueprintButtonClicked}
-                    />
-                    <Button
-                      className="truncate text-sm text-center !py-1 !px-2 min-w-28 xs:text-base"
-                      text="Mint Blueprint"
-                      onClick={handleMintBlueprintButtonClicked}
-                      variant="outline"
-                    />
-                  </React.Fragment>
-                )}
-              </div>
-            </div> */}
             <div className="flex justify-start items-start mt-4 sm:justify-between">
               <div className="flex flex-col w-full items-start text-white gap-2">
                 <div className="flex justify-between w-full gap-4 xs:gap-10">
@@ -225,11 +179,11 @@ const BlueprintDetailDrawer: FC<Props> = ({
                       <p className="truncate text-light-gray text-sm">
                         Blueprint ID
                       </p>
-                      <p>{selectedBlueprint.id}</p>
+                      <p>{Number(selectedBlueprint.id)}</p>
                     </div>
                     <div className="flex flex-col items-start text-white gap-2">
                       <p className="text-light-gray text-sm">Total Supply</p>
-                      <p>{selectedBlueprint.totalSupply}</p>
+                      <p>{Number(selectedBlueprint.totalSupply)}</p>
                     </div>
                   </div>
                   {!isCreatorMode === true && (
@@ -280,21 +234,21 @@ const BlueprintDetailDrawer: FC<Props> = ({
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Mint Price</p>
                 <p>
-                  {selectedBlueprint.mintPrice}{' '}
-                  {selectedBlueprint.mintPriceUnit === 0
+                  {Number(selectedBlueprint.mintPrice)}{' '}
+                  {Number(selectedBlueprint.mintPriceUnit) === 0
                     ? 'ETH'
-                    : selectedBlueprint.mintPriceUnit === 1
+                    : Number(selectedBlueprint.mintPriceUnit) === 1
                     ? 'USDT'
                     : 'USDC'}
                 </p>
               </div>
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Mint Limit</p>
-                <p>{selectedBlueprint.mintLimit}</p>
+                <p>{Number(selectedBlueprint.mintLimit)}</p>
               </div>
               <div className="flex flex-col items-start text-white gap-2">
                 <p className="text-light-gray text-sm">Minted Amount</p>
-                <p>{selectedBlueprint.mintedAmount}</p>
+                <p>{Number(selectedBlueprint.mintedAmount)}</p>
               </div>
             </div>
           </div>

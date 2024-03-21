@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 
 import ComponentButton from '../../components/Button/ComponentButton';
-import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard/BlueprintInfoCard';
+import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import AddComponentModal from '../../components/Modals/AddComponentModal';

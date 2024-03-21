@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import copy from 'copy-to-clipboard';
 
-import { Image } from '../../Image';
+import Image from '../../Image';
 
 export interface Props {
   tokenId: number;
@@ -84,7 +84,7 @@ const ERC721Card: FC<Props> = ({
         <p className="z-20 text-lg font-medium mt-[-12px]">{name}</p>
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">ID</p>
-          <p className="truncate">{tokenId}</p>
+          <p className="truncate">{Number(tokenId)}</p>
         </div>
         <div className="hidden sm:flex sm:flex-row sm:justify-between">
           <p className="text-sm text-light-gray">Address</p>
