@@ -13,7 +13,7 @@ import {
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
-import { Image } from '../Image';
+import Image from '../Image';
 
 export interface Props {
   isDrawerOpen?: boolean;

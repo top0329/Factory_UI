@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import ImageForPlatformUsage from '../../assets/images/image-for-platform-usage.png';
-import { Image } from '../Image';
+import Image from '../Image';
 
 const PlatformUsage: FC = () => {
   return (

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import EthLineSvg from '../../../assets/images/currency-eth.png';
-import { Image } from '../../Image';
+import Image from '../../Image';
 
 export interface Props {
   uri: string;
@@ -49,6 +49,7 @@ const BlueprintCard: FC<Props> = ({
       <div className="relative w-full overflow-hidden">
         <div className="w-full overflow-hidden object-cover">
           <Image
+            className="w-full aspect-square"
             src={uri}
             spinnerClassName="w-full aspect-square"
             alt="blueprint-card"

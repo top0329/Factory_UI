@@ -1,14 +1,20 @@
 import React, { FunctionComponent, useState } from 'react';
 
-export interface Props {
+interface Props {
   src: string;
   className?: string;
   spinnerClassName?: string;
   alt?: string;
 }
 
-export const Image: FunctionComponent<Props> = ({ src, className, spinnerClassName, alt }) => {
+const Image: FunctionComponent<Props> = ({
+  src,
+  className,
+  spinnerClassName,
+  alt,
+}) => {
   const [isImageLoading, setIsImageLoading] = useState<boolean>(true);
+  const [isError, setIsError] = useState<boolean>(false);
 
   return (
     <React.Fragment>
@@ -22,7 +28,16 @@ export const Image: FunctionComponent<Props> = ({ src, className, spinnerClassNa
         onLoad={() => {
           setIsImageLoading(false);
         }}
+        onError={() => {
+          setIsError(true);
+          setIsImageLoading(false);
+        }}
       />
+      {isError && (
+        <div className={`bg-[#202020] animate-pulse ${spinnerClassName}`}></div>
+      )}
     </React.Fragment>
   );
 };
+
+export default Image;

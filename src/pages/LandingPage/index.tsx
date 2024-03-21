@@ -16,7 +16,7 @@ import CardFront from '../../assets/svg/card-front.svg';
 import SmallBlueprintCardImage from '../../assets/svg/small-blueprint-card.svg';
 import useWeb3 from '../../hooks/useWeb3';
 import { invalidChars } from '../../constants';
-import { Image } from '../../components/Image';
+import Image from '../../components/Image';
 
 const LandingPage = () => {
   const { blueprintContract, factoryContract, productContract } = useWeb3();
