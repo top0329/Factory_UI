@@ -29,6 +29,7 @@ const LandingPage = () => {
   const [creatorsValue, setCreatorsValue] = useState<number>(0);
   const [mintedBlueprintsValue, setMintedBlueprintsValue] = useState<number>(0);
   const [productsValue, setProductsValue] = useState<number>(0);
+  const [isScrollAtBottom, setIsScrollAtBottom] = useState<boolean>(false);
 
   useEffect(() => {
     const config = {
@@ -86,6 +87,13 @@ const LandingPage = () => {
     fetchData();
   }, [blueprintContract, factoryContract, productContract]);
 
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
   const smoothScrollTo = (duration: number) => {
     const startY = window.scrollY;
     // const distanceY = endY - startY;
@@ -108,6 +116,40 @@ const LandingPage = () => {
 
   const scrollToSection = () => {
     smoothScrollTo(1000);
+  };
+
+  const smoothScrollToTop = (duration: number) => {
+    const startY = window.scrollY;
+    const distanceY = startY;
+    let startTime: number = 0;
+    const easeInOutCubic = (time: number) =>
+      time < 0.5 ? 4 * time * time * time : 1 - Math.pow(-2 * time + 2, 3) / 2;
+
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const time = timestamp - startTime;
+      const percent = Math.min(time / duration, 1);
+      const easedPercent = easeInOutCubic(percent);
+      window.scrollTo(0, startY - easedPercent * distanceY);
+
+      if (time < duration) {
+        requestAnimationFrame(step);
+      }
+    };
+
+    requestAnimationFrame(step);
+  };
+
+  const handleScrollToTop = () => {
+    smoothScrollToTop(1000); // Smooth scroll to top with a duration of 1 second (1000 milliseconds)
+  };
+
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+    const windowHeight = window.innerHeight;
+    const documentHeight = document.documentElement.scrollHeight;
+    const isAtEndOfPage = scrollY + windowHeight >= documentHeight;
+    setIsScrollAtBottom(isAtEndOfPage);
   };
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -193,8 +235,8 @@ const LandingPage = () => {
             </div>
           </div>
           <ScrollButton
-            // className="sm:w-20 sm:h-20"
-            onClick={scrollToSection}
+            isScrollAtBottom={isScrollAtBottom}
+            onClick={isScrollAtBottom ? handleScrollToTop : scrollToSection}
           />
         </div>
       </div>
