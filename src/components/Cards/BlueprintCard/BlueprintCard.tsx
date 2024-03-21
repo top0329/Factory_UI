@@ -48,13 +48,19 @@ const BlueprintCard: FC<Props> = ({
     >
       <div className="relative w-full overflow-hidden">
         <div className="w-full overflow-hidden object-cover">
-          <Image src={uri} spinnerClassName="w-full aspect-square" alt='blueprint-card' />
+          <Image
+            src={uri}
+            spinnerClassName="w-full aspect-square"
+            alt="blueprint-card"
+          />
           <div
             className={`absolute ${
               button
-                ? 'lg:bottom-[210px] md:bottom-[198px] sm:bottom-[186px]'
+                ? 'lg:bottom-[208px] md:bottom-[196px] sm:bottom-[184px]'
                 : 'lg:bottom-[158px] md:bottom-[146px] sm:bottom-[134px]'
-            } bg-gradient-to-t from-[#000] sm:from-0% bg-opacity-100 to-[#000407]/1 w-full bottom-[57px] h-[45px]`}
+            } bg-gradient-to-t from-[#000] sm:from-0% bg-opacity-100 to-[#000407]/1 w-full ${
+              button ? 'bottom-[102px] xs:bottom-[108px]' : 'bottom-[58px]'
+            } h-[45px]`}
           ></div>
           <div className="z-20 absolute top-[0px] left-0 bg-gradient-to-r from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
           <div className="z-20 absolute top-[0px] right-0 rounded-l-3xl bg-gradient-to-l from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
@@ -62,9 +68,9 @@ const BlueprintCard: FC<Props> = ({
           <div className="absolute top-0 left-0 rounded-l-3xl bg-gradient-to-b from-slate-800 gray via-transparent to-transparent w-full h-[20px] rounded-b-[-24px]"></div>
         </div>
         <p
-          className={`absolute ${
-            myBlueprint ? 'sm:hidden' : 'hidden'
-          } flex bottom-[67px]  right-[10px]  block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center`}
+          className={`absolute ${myBlueprint ? 'sm:hidden' : 'hidden'} flex ${
+            button ? 'bottom-[111px] xs:bottom-[117px]' : 'bottom-[67px]'
+          } right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC] text-center`}
         >
           My Blueprint
         </p>
@@ -112,7 +118,7 @@ const BlueprintCard: FC<Props> = ({
           </div>
           <div
             id="id_supply"
-            className="relative sm:flex justify-between w-full hidden "
+            className="relative sm:flex justify-between w-full hidden"
           >
             <div id="id" className=" hidden sm:block">
               <p className="flex justify-start text-xs font-mono text-[#858584]">
@@ -137,10 +143,12 @@ const BlueprintCard: FC<Props> = ({
               </p>
             </div>
           </div>
+        </div>
+        <div className="flex justify-center">
           <Button
             className={`${
-              button ? 'sm:block' : ''
-            } hidden w-full text-white bg-blue-600 h-[36px] mt-4 rounded-lg justify-center`}
+              button ? 'block' : 'hidden'
+            } w-full mx-3.5 mb-3.5 text-white bg-blue-600 h-[30px] mt-0 rounded-lg justify-center text-sm md:text-base xs:h-[36px]`}
             text="Mint Now"
             onClick={(e) => {
               e.stopPropagation();
