@@ -15,6 +15,7 @@ import {
 } from '../../jotai/atoms';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
+import FailImage from '../../assets/images/fail.png';
 
 const RecreateBlueprintPage = () => {
   const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
@@ -45,30 +46,48 @@ const RecreateBlueprintPage = () => {
   const handleAddComponentModalOpen = () => {
     if (availableComponent > 0) setIsAddComponentModalOpen(true);
     else {
-      // toast('Here is your toast.');
-      toast.error('Not able to add component tokens.', {
-        duration: 4000,
-        position: 'top-right',
-
-        // Styling
-        style: { background: '#333333', color: '#ccc' },
-        // className: 'bg-[#333333] text-[#ccc]',
-
-        // Custom Icon
-        // icon: '👏',
-
-        // Change colors of success/error/loading icon
-        // iconTheme: {
-        //   primary: '#000',
-        //   secondary: '#fff',
-        // },
-
-        // Aria
-        ariaProps: {
-          role: 'status',
-          'aria-live': 'polite',
-        },
-      });
+      toast.custom((t) => (
+        <div
+          className={`${
+            t.visible ? 'animate-enter' : 'animate-leave'
+          } max-w-96 w-full bg-[#141414] shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
+        >
+          <div className="flex-1 w-0 p-4">
+            <div className="flex items-center">
+              <div className="pt-0.5">
+                <img
+                  className="h-10 w-10 rounded-full"
+                  src={FailImage}
+                  alt=""
+                />
+              </div>
+              <div className="ml-3 flex items-center">
+                <p className="text-base font-medium text-light-gray">
+                  Not able to add component tokens.
+                </p>
+              </div>
+            </div>
+          </div>
+          <div className="">
+            <button
+              onClick={() => toast.dismiss(t.id)}
+              className="w-full border border-transparent rounded-full flex items-center justify-center text-sm font-medium text-light-gray hover:text-light-gray focus:outline-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width={24}
+                height={24}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  fill="currentColor"
+                  d="m13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29l-4.3 4.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l4.29-4.3l4.29 4.3a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42Z"
+                ></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      ));
       setIsAddComponentModalOpen(false);
     }
   };
@@ -90,7 +109,10 @@ const RecreateBlueprintPage = () => {
   const handleDeleteERC721CardClicked = (erc721: ERC721Data) => {
     const filteredERC721Data = createBlueprint.data.erc721Data.filter(
       (item) => {
-        return item.tokenAddress !== erc721.tokenAddress || item.tokenId !== erc721.tokenId;
+        return (
+          item.tokenAddress !== erc721.tokenAddress ||
+          item.tokenId !== erc721.tokenId
+        );
       }
     );
     setCreateBlueprint({
@@ -106,7 +128,10 @@ const RecreateBlueprintPage = () => {
   const handleDeleteERC1155CardClicked = (erc1155: ERC1155Data) => {
     const filteredERC1155Data = createBlueprint.data.erc1155Data.filter(
       (item) => {
-        return item.tokenAddress !== erc1155.tokenAddress || item.tokenId !== erc1155.tokenId;
+        return (
+          item.tokenAddress !== erc1155.tokenAddress ||
+          item.tokenId !== erc1155.tokenId
+        );
       }
     );
     setCreateBlueprint({
@@ -188,7 +213,7 @@ const RecreateBlueprintPage = () => {
         </div>
       </div>
       <AddComponentModal />
-      <Toaster />
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };
