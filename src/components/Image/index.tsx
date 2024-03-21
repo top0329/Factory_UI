@@ -14,7 +14,6 @@ const Image: FunctionComponent<Props> = ({
   alt,
 }) => {
   const [isImageLoading, setIsImageLoading] = useState<boolean>(true);
-  const [isError, setIsError] = useState<boolean>(false);
 
   return (
     <React.Fragment>
@@ -24,18 +23,14 @@ const Image: FunctionComponent<Props> = ({
       <img
         src={src}
         className={`${className} ${isImageLoading ? 'hidden' : 'block'}`}
-        alt={alt}
         onLoad={() => {
           setIsImageLoading(false);
         }}
         onError={() => {
-          setIsError(true);
-          setIsImageLoading(false);
+          setIsImageLoading(true);
         }}
+        alt={alt}
       />
-      {isError && (
-        <div className={`bg-[#202020] animate-pulse ${spinnerClassName}`}></div>
-      )}
     </React.Fragment>
   );
 };
