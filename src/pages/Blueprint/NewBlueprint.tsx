@@ -38,7 +38,7 @@ const NewBlueprintPage = () => {
         erc1155Data: [],
       },
     });
-    setAvailableComponent(0);
+    setAvailableComponent(7);
   }, [setAvailableComponent, setCreateBlueprint]);
 
   const handleAddComponentModalOpen = () => {

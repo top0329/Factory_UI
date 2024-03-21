@@ -80,7 +80,7 @@ export const uploadJSONToIPFS = async (fileName: string, json?: any) => {
       'JSON uploaded to IPFS with hash =====================> ',
       `https://ipfs.io/ipfs/${jsonHash}`
     );
-    return jsonHash;
+    return `https://ipfs.io/ipfs/${jsonHash}`;
   } catch (error) {
     console.error('Error uploading json file:', error);
     throw error;

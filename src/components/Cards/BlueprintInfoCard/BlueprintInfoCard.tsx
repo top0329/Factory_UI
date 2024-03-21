@@ -1,6 +1,7 @@
 import { FC, useEffect, useRef, useState } from 'react';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 import DefaultBlueprintImage from '../../../assets/images/default-blueprint.png';
 import useWeb3 from '../../../hooks/useWeb3';
@@ -54,6 +55,8 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
 const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const { isConnected, library, account, factoryWeb3 } = useWeb3();
 
+  const navigate = useNavigate();
+
   const [createInfo, setCreateInfo] =
     useAtom<CreateBlueprint>(createBlueprintAtom);
   const [editable, setEditable] = useState(false);
@@ -75,6 +78,19 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   );
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
+  const [error, setError] = useState<{
+    name: string;
+    totalSupply: string;
+    uri: string;
+    mintPrice: string;
+    mintLimit: string;
+  }>({
+    name: '',
+    totalSupply: '',
+    uri: '',
+    mintPrice: '',
+    mintLimit: '',
+  });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -233,19 +249,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     if (!selectedFile) return;
     try {
       console.log('here');
-      const imageHashURI: string = await uploadFileToIPFS(
-        selectedFile,
-        fileText
-      );
+      const imageHashURI: string = await uploadFileToIPFS(selectedFile, name);
       console.log(
         'Image uploaded to IPFS with hash ====================> ',
         imageHashURI
       );
-      setCreateInfo((prevCreateInfo) => ({
-        ...prevCreateInfo,
-        uri: `https://ipfs.io/ipfs/${imageHashURI}`,
-      }));
-      setImageSrc(`https://ipfs.io/ipfs/${imageHashURI}`);
+      return imageHashURI;
     } catch (error) {
       console.log('Error uploading file:', error);
     }
@@ -254,7 +263,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const uploadMetadataToIPFS = async (imageHashURI: string) => {
     try {
       const json = {
-        name: fileText,
+        name: name,
         description: 'The ERC1155 token for Factory Project',
         image: `ipfs/${imageHashURI}`,
         attributes: [],
@@ -265,6 +274,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         'JSON uploaded to IPFS with hash ====================> ',
         jsonHash
       );
+      return jsonHash;
     } catch (error) {
       console.log('Error uploading file:', error);
     }
@@ -272,6 +282,28 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
 
   const handleSubmit = async () => {
     try {
+      if (name === '') {
+        setError((prevState) => ({
+          ...prevState,
+          name: 'Name is Empty!',
+        }));
+      } else {
+        setError((prevState) => ({
+          ...prevState,
+          name: '',
+        }));
+      }
+      if (totalSupply === '' || totalSupply === 0) {
+        setError((prevState) => ({
+          ...prevState,
+          totalSupply: 'Total Supply is Empty!',
+        }));
+      } else {
+        setError((prevState) => ({
+          ...prevState,
+          totalSupply: '',
+        }));
+      }
       if (isConnected && library) {
         if (isIPFSSelected) {
           if (
@@ -280,10 +312,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               createInfo.data.erc1155Data.length >
             0
           ) {
+            console.log(imageSrc.substring(21));
+            const jsonHash = await uploadMetadataToIPFS(imageSrc.substring(21));
             const transaction = await factoryWeb3.methods
               .createBlueprint(
                 createInfo.name,
-                createInfo.uri,
+                jsonHash,
                 createInfo.totalSupply,
                 createInfo.mintPrice,
                 createInfo.mintPriceUnit,
@@ -312,11 +346,51 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               )
               .send({ from: account });
             console.log('Blueprint created successfully', transaction);
+          } else {
+            console.log('error');
           }
         } else {
           console.log(selectedFile);
-          uploadImageToIPFS();
-          uploadMetadataToIPFS(imageSrc);
+          const imageHash = await uploadImageToIPFS();
+          console.log(imageHash);
+          if (imageHash) {
+            const jsonHash = await uploadMetadataToIPFS(imageHash);
+            console.log(jsonHash);
+            if (jsonHash) {
+              const transaction = await factoryWeb3.methods
+                .createBlueprint(
+                  createInfo.name,
+                  jsonHash,
+                  createInfo.totalSupply,
+                  createInfo.mintPrice,
+                  createInfo.mintPriceUnit,
+                  createInfo.mintLimit,
+                  {
+                    erc20Data: createInfo.data.erc20Data.map((erc20) => {
+                      return {
+                        tokenAddress: erc20.tokenAddress,
+                        amount: erc20.amount,
+                      };
+                    }),
+                    erc721Data: createInfo.data.erc721Data.map((erc721) => {
+                      return {
+                        tokenAddress: erc721.tokenAddress,
+                        tokenId: erc721.tokenId,
+                      };
+                    }),
+                    erc1155Data: createInfo.data.erc1155Data.map((erc1155) => {
+                      return {
+                        tokenAddress: erc1155.tokenAddress,
+                        tokenId: erc1155.tokenId,
+                        amount: erc1155.amount,
+                      };
+                    }),
+                  }
+                )
+                .send({ from: account });
+              console.log('Blueprint created successfully', transaction);
+            }
+          }
         }
       }
     } catch (err) {
@@ -386,6 +460,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               Special characters are not allowed!
             </div>
           )}
+          {error.name && (
+            <div className="col-start-2 col-end-4 text-red-600 text-xs text-left pl-2">
+              {error.name}
+            </div>
+          )}
         </div>
         <div className="flex flex-col w-full gap-y-1">
           <p className="text-xs text-[#858584]">Total Supply</p>
@@ -414,6 +493,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
             disabled={isUpdate ? true : !editable}
             required
           />
+          {error.totalSupply && (
+            <div className="col-start-2 col-end-4 text-red-600 text-xs text-left pl-2">
+              {error.totalSupply}
+            </div>
+          )}
         </div>
         <div className="flex flex-col w-full gap-y-1">
           <div className="flex justify-between items-center gap-2">
@@ -634,6 +718,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 ...prevCreateInfo,
                 totalSupply: 0,
               }));
+              navigate('/blueprint');
             }}
             disabled={!editable || !buttonEnable}
           >
