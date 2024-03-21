@@ -104,3 +104,5 @@ export const headerActiveItemAtom = atom<number>(0);
 
 // Store the blueprint token list
 export const blueprintTokenListAtom = atom<Array<BlueprintNFT>>([]);
+
+export const productTokenIdListAtom = atom<Array<number>>([]);

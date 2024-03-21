@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { ethers } from 'ethers';
 import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
 import SearchBar from '../../components/SearchBar';
 import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
@@ -11,7 +10,6 @@ import {
 } from '../../jotai/atoms';
 import { BlueprintNFT } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
-import blueprintAbi from '../../abi/BlueprintABI.json';
 
 const ProductPage = () => {
   const { blueprintContract } = useWeb3();
@@ -27,29 +25,22 @@ const ProductPage = () => {
         await blueprintContract.getAddress()
       );
       try {
-        const provider = new ethers.JsonRpcProvider('https://rpc.sepolia.org');
+        console.log(await blueprintContract.getBlueprintIds());
 
-        const blueprintContract_ = new ethers.Contract(
-          await blueprintContract.getAddress(),
-          blueprintAbi,
-          provider
-        );
-
-        console.log(await blueprintContract_.getBlueprintIds());
-
-        const tempTokenList: Array<BlueprintNFT> = [];
-        // console.log(
-        //   '<<<<<<<<<>>>>>>>>>>>',
-        //   await blueprintWeb3.methods.factory()
-        // );
+        let tempTokenList: Array<BlueprintNFT> = []; // Initialize as an empty array
 
         const blueprintTokenIds: Array<number> =
           await blueprintContract.getBlueprintIds();
-        blueprintTokenIds.map(async (id: number) => {
-          const blueprintToken: BlueprintNFT =
-            await blueprintContract.getBlueprintNFTData(id);
-          tempTokenList.push(blueprintToken);
-        });
+
+        tempTokenList = await Promise.all(
+          blueprintTokenIds.map(async (id: number) => {
+            const blueprintToken: BlueprintNFT =
+              await blueprintContract.getBlueprintNFTData(id);
+            return blueprintToken;
+          })
+        );
+
+        console.log(tempTokenList);
 
         setBlueprintTokenList(tempTokenList);
       } catch (error) {
@@ -57,7 +48,7 @@ const ProductPage = () => {
       }
     };
     getBlueprintTokenList();
-  });
+  }, [blueprintContract, setBlueprintTokenList]);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
