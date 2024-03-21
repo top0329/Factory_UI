@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import { ethers } from 'ethers';
 import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
 import SearchBar from '../../components/SearchBar';
 import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
@@ -11,7 +10,6 @@ import {
 } from '../../jotai/atoms';
 import { BlueprintNFT } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
-import blueprintAbi from '../../abi/BlueprintABI.json';
 
 const ProductPage = () => {
   const { blueprintContract } = useWeb3();

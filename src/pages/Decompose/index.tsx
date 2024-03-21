@@ -8,6 +8,7 @@ import {
   selectedProductintAtom,
   productSelectionState,
   productTokenIdListAtom,
+  // blueprintTokenListAtom,
 } from '../../jotai/atoms';
 import ProductCard from '../../components/Cards/BlueprintCard/ProductCard';
 import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer';
@@ -26,6 +27,9 @@ const DecomposePage = () => {
     const getTokenList = async () => {
       const tokenIdList = await productContract.getProductIDs();
       setProductTokenIdList(tokenIdList);
+      // let productTokenItems = blueprintTokenListAtom.filter((data) =>
+      //   productTokenIdListAtom.includes(data.id)
+      // );
     };
     getTokenList();
   });
