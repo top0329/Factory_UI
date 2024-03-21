@@ -12,35 +12,40 @@ import { BlueprintNFT } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
 
 const ProductPage = () => {
-  const { blueprintContract } = useWeb3();
+  const { blueprintContract, account } = useWeb3();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
-  const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
+  const [blueprintTokenList, setBlueprintTokenList] = useAtom(
+    blueprintTokenListAtom
+  );
 
   useEffect(() => {
     const getBlueprintTokenList = async () => {
-      console.log(
-        'blueprintContract Address',
-        await blueprintContract.getAddress()
-      );
       try {
-        console.log(await blueprintContract.getBlueprintIds());
-
         let tempTokenList: Array<BlueprintNFT> = []; // Initialize as an empty array
-
         const blueprintTokenIds: Array<number> =
           await blueprintContract.getBlueprintIds();
 
         tempTokenList = await Promise.all(
           blueprintTokenIds.map(async (id: number) => {
-            const blueprintToken: BlueprintNFT =
-              await blueprintContract.getBlueprintNFTData(id);
+            const blueprintToken = await blueprintContract.getBlueprintNFTData(
+              id
+            );
+
+            const balance = await blueprintContract.balanceOf(
+              blueprintToken.creator,
+              id
+            );
+            console.log(balance);
+            // console.log(balance);
+            // blueprintToken.balance = balance;
+            // blueprintToken.myBlueprint = account == blueprintToken.creator;
+            // console.log('blueprintToken.creator>>>>', blueprintToken);
+
             return blueprintToken;
           })
         );
-
-        console.log(tempTokenList);
 
         setBlueprintTokenList(tempTokenList);
       } catch (error) {
@@ -48,7 +53,7 @@ const ProductPage = () => {
       }
     };
     getBlueprintTokenList();
-  }, [blueprintContract, setBlueprintTokenList]);
+  }, []);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -72,16 +77,16 @@ const ProductPage = () => {
         <SearchBar placeholders="Search for Blueprint ID, Name and Creator" />
       </div>
       <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-        {productData.length > 0 &&
-          productData.map((product) => {
+        {blueprintTokenList.length > 0 &&
+          blueprintTokenList.map((product) => {
             return (
-              <div className="flex justify-center" key={product.id}>
+              <div className="flex justify-center" key={product[0]}>
                 <OwnBlueprintCard
                   blueprintId={product.id}
                   name={product.name}
                   uri={product.uri}
                   balance={product.balance}
-                  address={product.blueprintAddress}
+                  address={product.creator}
                   myBlueprint={product.myBlueprint}
                   onClick={() => handleBlueprintCardClicked(product)}
                 />
