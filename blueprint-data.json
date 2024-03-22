@@ -232,13 +232,13 @@
       ],
       "erc721Data": [],
       "erc1155Data": [
-        {
-          "tokenId": 14,
-          "name": "Coffee",
-          "uri": "https://ipfs.io/ipfs/bafybeig6qdkvvfa2o24x7xbwsyyd3n3nichylckgyqgygots22pzi3amjm",
-          "amount": 1,
-          "tokenAddress": "0x2485e6aB17127B28a334907cF8ef280F0B221ac8"
-        }
+          {
+            "tokenId": 14,
+            "name": "Coffee",
+            "uri": "https://ipfs.io/ipfs/bafybeig6qdkvvfa2o24x7xbwsyyd3n3nichylckgyqgygots22pzi3amjm",
+            "amount": 1,
+            "tokenAddress": "0x2485e6aB17127B28a334907cF8ef280F0B221ac8"
+          }
       ]
     }
   },

@@ -22,7 +22,7 @@ function Header() {
     <div className="flex px-4 py-3 bg-[#05050a] h-14 items-center 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full xl:px-20 lg:px-16 lg:h-24 md:h-20 md:px-12 sm:h-16 sm:px-10">
       <div className="flex flex-grow justify-between items-center">
         <Logo
-          className="w-24 h-9 sm:w-24 sm:h-10 md:w-32 md:h-12 lg:w-40 lg:h-14 cursor-pointer"
+          className="w-24 h-9 sm:w-24 sm:h-10 md:w-28 md:h-10 lg:w-36 lg:h-12 xl:h-14 xl:w-40 cursor-pointer"
           url={LogoImage}
           handleLogoClicked={() => {
             navigate('/');
@@ -30,7 +30,7 @@ function Header() {
           }}
         />
         <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-6 xl:gap-10">
-          <div className="hidden items-center text-light-gray text-base gap-2 xl:text-2xl lg:text-xl lg:gap-8 md:flex md:gap-4 md:text-lg sm:flex">
+          <div className="hidden items-center text-light-gray text-base gap-2 xl:text-2xl lg:text-xl lg:gap-4 md:flex md:gap-2 md:text-base">
             <button
               className={`${
                 headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
@@ -69,8 +69,19 @@ function Header() {
                 headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
               }`}
               onClick={() => {
-                navigate('#');
+                navigate('/component');
                 setHeaderActiveItem(4);
+              }}
+            >
+              Component
+            </button>
+            <button
+              className={`${
+                headerActiveItem === 5 ? 'text-white' : 'text-light-gray'
+              }`}
+              onClick={() => {
+                navigate('#');
+                setHeaderActiveItem(5);
               }}
             >
               Whitepaper
@@ -81,7 +92,7 @@ function Header() {
               <WalletConnectButton />
             </div>
             <Button
-              className="border-none pr-0 py-0 block lg:hidden sm:hidden z-30"
+              className="border-none pr-0 py-0 block lg:hidden md:hidden z-30"
               text=""
               icon={<Icon icon="bi:list" width="32px" height="32px" />}
               variant="outline"
@@ -89,8 +100,8 @@ function Header() {
             />
             <div
               className={`z-30 ${
-                isListButtonClicked ? 'translate-y-0' : 'translate-y-[-400px]'
-              } bg-black shadow w-full absolute top-14 right-0 delay-400 duration-500 ease-in-out transition-all transform sm:hidden`}
+                isListButtonClicked ? 'translate-y-0' : 'translate-y-[-450px]'
+              } bg-black shadow w-full absolute top-14 right-0 delay-400 duration-500 ease-in-out transition-all transform md:hidden`}
             >
               <ul
                 className="p-4 text-base"
@@ -144,8 +155,22 @@ function Header() {
                       headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
                     } w-full hover:bg-secondary`}
                     onClick={() => {
-                      navigate('#');
+                      navigate('/component');
                       setHeaderActiveItem(4);
+                      setIsListButtonClicked(false);
+                    }}
+                  >
+                    Component
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`block my-1 px-4 py-3 text-left rounded ${
+                      headerActiveItem === 5 ? 'text-white' : 'text-light-gray'
+                    } w-full hover:bg-secondary`}
+                    onClick={() => {
+                      navigate('#');
+                      setHeaderActiveItem(5);
                       setIsListButtonClicked(false);
                     }}
                   >

@@ -60,7 +60,10 @@ const DecomposePage = () => {
           My Products
         </h1>
         <div>
-          <SearchBar placeholders="Search for Proudct ID and Name." />
+          <SearchBar
+            advancedFilter
+            placeholders="Search for Proudct ID and Name."
+          />
         </div>
         <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
           {productData.length > 0 &&

@@ -122,7 +122,7 @@ const MintBlueprintPage = () => {
           <div className="flex flex-col gap-3 px-4">
             <div className="grid grid-cols-2 gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint ID</p>
-              <p className="col-span-1">{selectedBlueprint.id}</p>
+              <p className="col-span-1">{Number(selectedBlueprint.id)}</p>
             </div>
             <div className="flex flex-col justify-between items-start gap-2 font-mono sm:flex-row sm:items-center">
               <p className="text-light-gray">Creator</p>
@@ -202,11 +202,12 @@ const MintBlueprintPage = () => {
                 variant="secondary"
                 onClick={() => naviage('/blueprint')}
               />
-              {selectedBlueprint.mintPriceUnit === 0 ? (
+              {Number(selectedBlueprint.mintPriceUnit) === 0 ? (
                 <Button
                   className="truncate !px-3"
                   text="Mint Blueprint"
                   variant="primary"
+                  onClick={handleMintBlueprintClick}
                 />
               ) : (
                 <React.Fragment>
