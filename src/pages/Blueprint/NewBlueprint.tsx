@@ -14,8 +14,10 @@ import {
 } from '../../jotai/atoms';
 import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
 import useToast from '../../hooks/useToast';
+import useWeb3 from '../../hooks/useWeb3';
 
 const NewBlueprintPage = () => {
+  const { factoryContract } = useWeb3();
   const { showToast } = useToast();
 
   const [createBlueprint, setCreateBlueprint] = useAtom(createBlueprintAtom);
@@ -25,22 +27,31 @@ const NewBlueprintPage = () => {
   const [, setIsAddComponentModalOpen] = useAtom(isAddComponentModalAtom);
 
   useEffect(() => {
-    setCreateBlueprint({
-      name: '',
-      uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
-      creator: '',
-      totalSupply: 0,
-      mintPrice: 0,
-      mintPriceUnit: 0,
-      mintLimit: 0,
-      data: {
-        erc20Data: [],
-        erc721Data: [],
-        erc1155Data: [],
-      },
-    });
-    setAvailableComponent(7);
-  }, [setAvailableComponent, setCreateBlueprint]);
+    async function init() {
+      try {
+        setCreateBlueprint({
+          name: '',
+          uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+          creator: '',
+          totalSupply: 0,
+          mintPrice: 0,
+          mintPriceUnit: 0,
+          mintLimit: 0,
+          data: {
+            erc20Data: [],
+            erc721Data: [],
+            erc1155Data: [],
+          },
+        });
+        const availableComponentValue =
+          await factoryContract.componentTokenLimit();
+        setAvailableComponent(Number(availableComponentValue));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    init();
+  }, [factoryContract, setAvailableComponent, setCreateBlueprint]);
 
   const handleAddComponentModalOpen = () => {
     if (availableComponent > 0) setIsAddComponentModalOpen(true);
