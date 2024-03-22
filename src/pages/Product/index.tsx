@@ -3,55 +3,74 @@ import { useAtom } from 'jotai';
 import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
 import SearchBar from '../../components/SearchBar';
 import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
-import productData from '../../../own-blueprint-data.json';
+// import productData from '../../../own-blueprint-data.json';
 import {
   selectedOwnBlueprintAtom,
   blueprintTokenListAtom,
 } from '../../jotai/atoms';
-import { BlueprintNFT } from '../../types';
+// import { BlueprintNFT } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
 
+interface TempObject {
+  id: number;
+  name: string;
+  uri: string;
+  creator: string;
+  balance: number;
+  blueprintAddress: string;
+  myBlueprint: boolean;
+  data: any;
+}
+
 const ProductPage = () => {
-  const { blueprintContract } = useWeb3();
+  const { blueprintContract, account } = useWeb3();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
   const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
-
+  const [productTokenList, setProductTokenList] = useState<Array<TempObject>>(
+    []
+  );
   useEffect(() => {
     const getBlueprintTokenList = async () => {
       try {
-        let tempTokenList: Array<BlueprintNFT> = []; // Initialize as an empty array
         const blueprintTokenIds: Array<number> =
           await blueprintContract.getBlueprintIds();
 
-        tempTokenList = await Promise.all(
+        const tempTokenList = await Promise.all(
           blueprintTokenIds.map(async (id: number) => {
             const blueprintToken = await blueprintContract.getBlueprintNFTData(
               id
             );
 
-            const balance = await blueprintContract.balanceOf(
-              blueprintToken.creator,
-              id
+            setBlueprintTokenList(blueprintToken);
+
+            const balance: number = Number(
+              await blueprintContract.balanceOf(blueprintToken.creator, id)
             );
             console.log(balance);
-            // console.log(balance);
-            // blueprintToken.balance = balance;
-            // blueprintToken.myBlueprint = account == blueprintToken.creator;
-            // console.log('blueprintToken.creator>>>>', blueprintToken);
 
-            return blueprintToken;
+            const tempObject = {
+              id: Number(blueprintToken.id),
+              name: blueprintToken.name,
+              uri: blueprintToken.uri,
+              creator: blueprintToken.creator,
+              balance: balance,
+              blueprintAddress: await blueprintContract.getAddress(),
+              myBlueprint: blueprintToken.creator == account,
+              data: blueprintToken.data,
+            };
+            return tempObject;
           })
         );
 
-        setBlueprintTokenList(tempTokenList);
+        setProductTokenList(tempTokenList);
       } catch (error) {
         console.log(error);
       }
     };
     getBlueprintTokenList();
-  }, [blueprintContract, setBlueprintTokenList]);
+  }, [account, blueprintContract, setBlueprintTokenList]);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -75,8 +94,8 @@ const ProductPage = () => {
         <SearchBar placeholders="Search for Blueprint ID, Name and Creator" />
       </div>
       <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-        {productData.length > 0 &&
-          productData.map((product) => {
+        {productTokenList.length > 0 &&
+          productTokenList.map((product) => {
             return (
               <div className="flex justify-center" key={product.id}>
                 <OwnBlueprintCard
