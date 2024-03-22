@@ -10,7 +10,7 @@ const Component = () => {
     <div className="min-w-[320px]">
       <div className="flex justify-between items-center py-3">
         <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl">
-          Component
+          Components
         </h1>
       </div>
       <SearchBar placeholders="Search for Blueprint ID, Name and Creator" />

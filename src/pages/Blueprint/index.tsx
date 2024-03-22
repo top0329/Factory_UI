@@ -106,7 +106,7 @@ const BlueprintPage = () => {
     <div className="min-w-[320px]">
       <div className="flex justify-between items-center py-3">
         <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl">
-          Blueprint
+          Blueprints
         </h1>
         <div className="flex justify-between items-center gap-4">
           <h4 className="text-light-gray text-base">Creator Mode</h4>

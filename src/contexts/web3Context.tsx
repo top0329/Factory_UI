@@ -8,7 +8,6 @@ import {
 import Web3 from 'web3';
 import { ethers, Contract, ContractRunner } from 'ethers';
 import { useAccount, useChainId } from 'wagmi';
-import { Address } from 'viem';
 
 import FactoryABI from '../abi/FactoryABI.json';
 import BlueprintABI from '../abi/BlueprintABI.json';
@@ -111,7 +110,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   }, [init]);
 
   const erc20Approve = useCallback(
-    async (erc20Address: Address, amount: string) => {
+    async (erc20Address: string, amount: string) => {
       try {
         const erc20Contract = new web3.eth.Contract(erc20Abi, erc20Address);
         await erc20Contract.methods
