@@ -24,6 +24,7 @@ const DecomposePage = lazy(() => import('../pages/Decompose'));
 const DecomposeProductPage = lazy(
   () => import('../pages/Decompose/DecomposeProduct')
 );
+const ComponentPage = lazy(() => import('../pages/Component'));
 
 // project import
 const LandingRoute = {
@@ -91,6 +92,15 @@ const CommonRoutes = {
             {
               path: 'product/:id',
               element: <DecomposeProductPage />,
+            },
+          ],
+        },
+        {
+          path: 'component',
+          children: [
+            {
+              path: '',
+              element: <ComponentPage />,
             },
           ],
         },

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useAtom } from 'jotai';
 
 import { WindowSize } from '../../../types';
-import { useAtom } from 'jotai';
 import { headerActiveItemAtom } from '../../../jotai/atoms';
 
 function Footer() {
@@ -45,10 +45,10 @@ function Footer() {
   }, []);
 
   return (
-    <div className="px-4 py-7 bg-[#000000] h-[350px] object-contain relative 2xl:max-w-[1536px] 2xl:min-px-132 2xl:min-w-full xl:px-32 xl:h-44 sm:h-40 lg:px-28 md:px-16 sm:px-12">
-      <div className="flex flex-col-reverse justify-between sm:flex-row">
-        <div className="flex flex-col items-center px-2 sm:items-start">
-          <div className="flex justify-start text-light-gray items-center gap-6 py-3 lg:gap-8 md:gap-3.5 sm:gap-2">
+    <div className="px-4 py-7 bg-[#000000] h-[350px] object-contain relative 2xl:max-w-[1536px] 2xl:min-px-132 2xl:min-w-full xl:px-32 xl:h-44 md:h-40 lg:px-28 md:px-16 sm:px-12">
+      <div className="flex flex-col-reverse justify-between md:flex-row">
+        <div className="flex flex-col items-center px-2 md:items-start">
+          <div className="flex justify-start text-light-gray items-center gap-6 py-3 lg:gap-4 md:gap-3">
             <Icon
               icon="teenyicons:linkedin-outline"
               className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer"
@@ -77,15 +77,15 @@ function Footer() {
         {windowSize.width !== undefined && windowSize.width >= 1536 ? (
           <hr
             style={{ width: hrWidth }}
-            className={`absolute top-24 text-light-gray hidden 2xl:inset-x-auto 2xl:max-w-[1536px] sm:block sm:inset-x-12 md:inset-x-16 lg:inset-x-28 lg:border xl:inset-x-32`}
+            className={`absolute top-24 text-light-gray hidden 2xl:inset-x-auto 2xl:max-w-[1536px] md:block md:inset-x-16 lg:inset-x-28 lg:border xl:inset-x-32`}
           />
         ) : (
           <hr
-            className={`absolute top-24 text-light-gray hidden 2xl:inset-x-auto 2xl:max-w-[1536px] sm:block sm:inset-x-12 md:inset-x-16 lg:inset-x-28 lg:border xl:inset-x-32`}
+            className={`absolute top-24 text-light-gray hidden 2xl:inset-x-auto 2xl:max-w-[1536px] md:block md:inset-x-16 lg:inset-x-28 lg:border xl:inset-x-32`}
           />
         )}
-        <div className="flex flex-row items-start justify-between px-2 sm:items-end sm:flex-col sm:justify-start">
-          <div className="flex flex-col gap-2 py-5 text-base font-bold xl:gap-10 xl:text-2xl lg:gap-8 lg:text-xl md:gap-3.5 md:text-lg sm:flex-row sm:font-normal">
+        <div className="flex flex-row items-start justify-between px-2 md:items-end md:flex-col md:justify-start">
+          <div className="flex flex-col gap-2 py-5 text-base font-bold xl:gap-6 xl:text-2xl lg:gap-4 lg:text-xl lg:font-normal md:gap-2 md:text-base md:flex-row md:font-medium">
             <button
               className={`text-left ${
                 headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
@@ -124,16 +124,14 @@ function Footer() {
                 headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
-                navigate('#');
+                navigate('/component');
                 setHeaderActiveItem(4);
               }}
             >
-              Whitepaper
+              Component
             </button>
-          </div>
-          <div className="flex flex-col items-end gap-2 py-4 text-light-gray text-base font-bold xl:text-xl lg:text-lg sm:flex-row sm:item-start sm:font-normal sm:opacity-50 sm:text-white sm:gap-8">
             <button
-              className={`${
+              className={`text-left ${
                 headerActiveItem === 5 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
@@ -141,8 +139,10 @@ function Footer() {
                 setHeaderActiveItem(5);
               }}
             >
-              Contact
+              Whitepaper
             </button>
+          </div>
+          <div className="flex flex-col items-end gap-4 py-4 text-light-gray text-base font-bold xl:text-xl lg:text-lg md:flex-row md:item-start md:font-normal md:opacity-50 md:text-white md:gap-8">
             <button
               className={`${
                 headerActiveItem === 6 ? 'text-white' : 'text-light-gray'
@@ -152,7 +152,7 @@ function Footer() {
                 setHeaderActiveItem(6);
               }}
             >
-              Terms
+              Contact
             </button>
             <button
               className={`${
@@ -161,6 +161,17 @@ function Footer() {
               onClick={() => {
                 navigate('#');
                 setHeaderActiveItem(7);
+              }}
+            >
+              Terms
+            </button>
+            <button
+              className={`${
+                headerActiveItem === 8 ? 'text-white' : 'text-light-gray'
+              } cursor-pointer`}
+              onClick={() => {
+                navigate('#');
+                setHeaderActiveItem(8);
               }}
             >
               Privacy Policy

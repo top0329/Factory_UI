@@ -135,6 +135,7 @@ const BlueprintPage = () => {
       </div>
       <SearchBar
         isNewButton
+        advancedFilter
         placeholders="Search for Blueprint ID, Name and Creator"
       />
       <div className="grid grid-cols-2 pt-8 pb-16 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
