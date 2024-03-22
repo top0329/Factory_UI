@@ -20,27 +20,30 @@ const ProductPage = () => {
 
   useEffect(() => {
     const getBlueprintTokenList = async () => {
-      console.log(
-        'blueprintContract Address',
-        await blueprintContract.getAddress()
-      );
       try {
-        console.log(await blueprintContract.getBlueprintIds());
-
         let tempTokenList: Array<BlueprintNFT> = []; // Initialize as an empty array
-
         const blueprintTokenIds: Array<number> =
           await blueprintContract.getBlueprintIds();
 
         tempTokenList = await Promise.all(
           blueprintTokenIds.map(async (id: number) => {
-            const blueprintToken: BlueprintNFT =
-              await blueprintContract.getBlueprintNFTData(id);
+            const blueprintToken = await blueprintContract.getBlueprintNFTData(
+              id
+            );
+
+            const balance = await blueprintContract.balanceOf(
+              blueprintToken.creator,
+              id
+            );
+            console.log(balance);
+            // console.log(balance);
+            // blueprintToken.balance = balance;
+            // blueprintToken.myBlueprint = account == blueprintToken.creator;
+            // console.log('blueprintToken.creator>>>>', blueprintToken);
+
             return blueprintToken;
           })
         );
-
-        console.log(tempTokenList);
 
         setBlueprintTokenList(tempTokenList);
       } catch (error) {
@@ -81,7 +84,7 @@ const ProductPage = () => {
                   name={product.name}
                   uri={product.uri}
                   balance={product.balance}
-                  address={product.blueprintAddress}
+                  address={product.creator}
                   myBlueprint={product.myBlueprint}
                   onClick={() => handleBlueprintCardClicked(product)}
                 />

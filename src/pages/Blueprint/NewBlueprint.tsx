@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAtom } from 'jotai';
 
 import ComponentButton from '../../components/Button/ComponentButton';
-import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard/BlueprintInfoCard';
+import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import AddComponentModal from '../../components/Modals/AddComponentModal';
@@ -14,8 +14,10 @@ import {
 } from '../../jotai/atoms';
 import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
 import useToast from '../../hooks/useToast';
+import useWeb3 from '../../hooks/useWeb3';
 
 const NewBlueprintPage = () => {
+  const { factoryContract } = useWeb3();
   const { showToast } = useToast();
 
   const [createBlueprint, setCreateBlueprint] = useAtom(createBlueprintAtom);
@@ -25,22 +27,31 @@ const NewBlueprintPage = () => {
   const [, setIsAddComponentModalOpen] = useAtom(isAddComponentModalAtom);
 
   useEffect(() => {
-    setCreateBlueprint({
-      name: '',
-      uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
-      creator: '',
-      totalSupply: 0,
-      mintPrice: 0,
-      mintPriceUnit: 0,
-      mintLimit: 0,
-      data: {
-        erc20Data: [],
-        erc721Data: [],
-        erc1155Data: [],
-      },
-    });
-    setAvailableComponent(7);
-  }, [setAvailableComponent, setCreateBlueprint]);
+    async function init() {
+      try {
+        setCreateBlueprint({
+          name: '',
+          uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+          creator: '',
+          totalSupply: 0,
+          mintPrice: 0,
+          mintPriceUnit: 0,
+          mintLimit: 0,
+          data: {
+            erc20Data: [],
+            erc721Data: [],
+            erc1155Data: [],
+          },
+        });
+        const availableComponentValue =
+          await factoryContract.componentTokenLimit();
+        setAvailableComponent(Number(availableComponentValue));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    init();
+  }, [factoryContract, setAvailableComponent, setCreateBlueprint]);
 
   const handleAddComponentModalOpen = () => {
     if (availableComponent > 0) setIsAddComponentModalOpen(true);
