@@ -1,33 +1,94 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 
 import Button from '../../components/Button';
+import useWeb3 from '../../hooks/useWeb3';
 import { blueprintSelectionState } from '../../jotai/atoms';
 
 const MintBlueprintPage = () => {
+  const { factoryContract, factoryWeb3, account } = useWeb3();
+
   const naviage = useNavigate();
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
-  const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
-    useState<string>('');
+  const [blueprintMintAmountValue, setBlueprintMintAmountValue] = useState<
+    number | ''
+  >('');
   const [isApproved, setIsApproved] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [blueprintMintFee, setBlueprintMintFee] = useState<number>(0);
+
+  useEffect(() => {
+    async function init() {
+      const _blueprintMintFee = await factoryContract.blueprintCreationFee();
+      setBlueprintMintFee(Number(_blueprintMintFee));
+    }
+    init();
+  }, [factoryContract]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Allow only integer values
     const newValue = event.target.value;
-    // Check if the input value is either empty or an integer
     if (newValue === '' || /^\d+$/.test(newValue)) {
-      setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
+      if (
+        Number(newValue) < Number(selectedBlueprint.mintLimit) ||
+        Number(selectedBlueprint.mintLimit) === 0
+      ) {
+        setBlueprintMintAmountValue(
+          newValue.trim() === '' ? '' : Number(newValue)
+        );
+      } else {
+        console.log('error');
+      }
     }
   };
 
-  const handleApproveClick = () => {
-    setIsApproved(true);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      !(
+        (event.key >= '0' && event.key <= '9') ||
+        event.key === 'Backspace' ||
+        event.key === 'Delete' ||
+        event.key === 'Tab' ||
+        event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight' ||
+        (event.key >= '0' &&
+          event.key <= '9' &&
+          event.getModifierState('NumLock'))
+      )
+    ) {
+      event.preventDefault();
+    }
+  };
+
+  const handleApproveClick = async () => {
+    try {
+      if (blueprintMintAmountValue === 0 || blueprintMintAmountValue === '') {
+        console.log('error');
+      } else {
+        // await blueprintWeb3.methods
+        //   .setApprovalForAll(blueprintAddress, true)
+        //   .send({ from: account });
+        // setIsApproved(true);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const handleMintBlueprintClick = async () => {
+    try {
+      const transition = await factoryWeb3.methods
+        .mintBlueprint(account, selectedBlueprint.id)
+        .send({ from: account });
+      setIsApproved(true);
+      console.log(transition);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleCopyButtonClicked = () => {
@@ -99,8 +160,9 @@ const MintBlueprintPage = () => {
                 className="inline w-full rounded-lg border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 step={1}
-                min={0}
+                min={1}
                 onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
                 value={blueprintMintAmountValue}
               />
             </div>
@@ -108,22 +170,30 @@ const MintBlueprintPage = () => {
               <p className="col-span-1 text-light-gray">
                 Blueprint Creation Fee
               </p>
-              <p className="col-span-1">0.1 ETH</p>
+              <p className="col-span-1">{blueprintMintFee} ETH</p>
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint Mint Price</p>
               <p className="col-span-1">
-                1{' '}
-                {selectedBlueprint.mintPriceUnit === 0
+                {Number(selectedBlueprint.mintPrice)}{' '}
+                {Number(selectedBlueprint.mintPriceUnit) === 0
                   ? 'ETH'
-                  : selectedBlueprint.mintPriceUnit === 1
+                  : Number(selectedBlueprint.mintPriceUnit) === 1
                   ? 'USDT'
                   : 'USDC'}
               </p>
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Total Mint fee</p>
-              <p className="col-span-1">0.1 ETH + 100000 * 1 USDT</p>
+              <p className="col-span-1">
+                {blueprintMintFee} ETH + {Number(blueprintMintAmountValue)} *{' '}
+                {Number(selectedBlueprint.mintPrice)}{' '}
+                {Number(selectedBlueprint.mintPriceUnit) === 0
+                  ? 'ETH'
+                  : Number(selectedBlueprint.mintPriceUnit) === 1
+                  ? 'USDT'
+                  : 'USDC'}
+              </p>
             </div>
             <div className="flex justify-center items-center gap-8 pt-0 xs:gap-28 sm:pt-2">
               <Button
@@ -145,6 +215,7 @@ const MintBlueprintPage = () => {
                       className="truncate !px-3"
                       text="Mint Blueprint"
                       variant="primary"
+                      onClick={handleMintBlueprintClick}
                     />
                   ) : (
                     <Button

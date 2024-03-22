@@ -53,27 +53,27 @@ const BlueprintDetailDrawer: FC<Props> = ({
   }, []);
 
   const handleMintBlueprintButtonClicked = () => {
-    navigate(`/blueprint/mint/${selectedBlueprint.id}`);
     sideDrawerClosedHandler();
     setBlueprintSelectionState(selectedBlueprint);
+    navigate(`/blueprint/mint/${selectedBlueprint.id}`);
   };
 
   const handleRecreateBlueprintButtonClicked = () => {
-    navigate(`/blueprint/recreate/${selectedBlueprint.id}`);
     sideDrawerClosedHandler();
     setBlueprintSelectionState(selectedBlueprint);
+    navigate(`/blueprint/recreate/${selectedBlueprint.id}`);
   };
 
   const handleUpdateBlueprintButtonClicked = () => {
-    navigate(`/blueprint/update/${selectedBlueprint.id}`);
     sideDrawerClosedHandler();
     setBlueprintSelectionState(selectedBlueprint);
+    navigate(`/blueprint/update/${selectedBlueprint.id}`);
   };
 
   const handleBlueprintOwnershipButtonClicked = () => {
-    navigate(`/blueprint/transfer-ownership/${selectedBlueprint.id}`);
     sideDrawerClosedHandler();
     setBlueprintSelectionState(selectedBlueprint);
+    navigate(`/blueprint/transfer-ownership/${selectedBlueprint.id}`);
   };
 
   const handleTabClick = (id: number) => {
