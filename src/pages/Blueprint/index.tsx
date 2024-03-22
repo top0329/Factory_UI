@@ -1,32 +1,87 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
+import axios from 'axios';
 
 import SearchBar from '../../components/SearchBar';
 import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
 import {
   blueprintSelectionState,
+  blueprintTokenListAtom,
   isCreatorModeAtom,
   selectedBlueprintAtom,
 } from '../../jotai/atoms';
 
-import blueprintData from '../../../blueprint-data.json';
+import useWeb3 from '../../hooks/useWeb3';
 
 const BlueprintPage = () => {
+  const { blueprintContract, account } = useWeb3();
+
+  const navigate = useNavigate();
+
+  const [blueprintTokenList, setBlueprintTokenList] = useAtom(
+    blueprintTokenListAtom
+  );
   const [, setSelectedBlueprint] = useAtom(selectedBlueprintAtom);
   const [, setBlueprintSelectionState] = useAtom(blueprintSelectionState);
   const [isCreatorMode, setIsCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    async function getBlueprints() {
+      try {
+        const blueprintTokenIds: string[] =
+          await blueprintContract.getBlueprintIds();
+        const blueprints: any[] = await Promise.all(
+          blueprintTokenIds.map(async (id: string) => {
+            const blueprint = await blueprintContract.getBlueprintNFTData(id);
+            const temp = [...blueprint];
+            try {
+              const {
+                data: { image },
+              } = await axios.get(temp[2]);
+              if (image) {
+                temp[2] = `https://ipfs.io/${image}`;
+              }
+            } catch (err) {
+              console.log(err);
+            }
+            return temp;
+          })
+        );
+        const keys = [
+          'id',
+          'name',
+          'uri',
+          'creator',
+          'totalSupply',
+          'mintPrice',
+          'mintPriceUnit',
+          'mintLimit',
+          'data',
+        ];
+        setBlueprintTokenList(
+          blueprints.map((item: any[]) => {
+            return keys.reduce(
+              (acc: any, key: string, index: number) => ({
+                ...acc,
+                [key]: item[index],
+              }),
+              {}
+            );
+          })
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    getBlueprints();
+  }, [blueprintContract, setBlueprintTokenList]);
 
-  // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
     setIsDrawerOpen(true);
-
-    // Disables Background Scrolling whilst the SideDrawer/Modal is open
     if (typeof window != 'undefined' && window.document) {
       document.body.style.overflow = 'hidden';
     }
@@ -83,19 +138,19 @@ const BlueprintPage = () => {
         placeholders="Search for Blueprint ID, Name and Creator"
       />
       <div className="grid grid-cols-2 pt-8 pb-16 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
-        {blueprintData.length > 0 &&
-          blueprintData.map((blueprint) => {
+        {blueprintTokenList.length > 0 &&
+          blueprintTokenList.map((blueprint) => {
             return (
-              <div className="flex justify-center" key={blueprint.id}>
+              <div className="flex justify-center" key={Number(blueprint.id)}>
                 <BlueprintCard
-                  blueprintId={blueprint.id}
+                  blueprintId={Number(blueprint.id)}
                   name={blueprint.name}
                   uri={blueprint.uri}
-                  mintUnit={blueprint.mintPriceUnit}
-                  totalSupply={blueprint.totalSupply}
-                  mintPrice={blueprint.mintPrice}
-                  mintLimit={blueprint.mintLimit}
-                  myBlueprint={blueprint.myBlueprint}
+                  myBlueprint={blueprint.creator === account}
+                  totalSupply={Number(blueprint.totalSupply)}
+                  mintPrice={Number(blueprint.mintPrice)}
+                  mintUnit={Number(blueprint.mintPriceUnit)}
+                  mintLimit={Number(blueprint.mintLimit)}
                   button={!isCreatorMode}
                   onClick={() => handleBlueprintCardClicked(blueprint)}
                   onClickMint={() => handleMintNowButtonClicked(blueprint)}

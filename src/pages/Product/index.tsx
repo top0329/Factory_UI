@@ -12,13 +12,11 @@ import { BlueprintNFT } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
 
 const ProductPage = () => {
-  const { blueprintContract, account } = useWeb3();
+  const { blueprintContract } = useWeb3();
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
-  const [blueprintTokenList, setBlueprintTokenList] = useAtom(
-    blueprintTokenListAtom
-  );
+  const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
 
   useEffect(() => {
     const getBlueprintTokenList = async () => {
@@ -53,7 +51,7 @@ const ProductPage = () => {
       }
     };
     getBlueprintTokenList();
-  }, []);
+  }, [blueprintContract, setBlueprintTokenList]);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -77,10 +75,10 @@ const ProductPage = () => {
         <SearchBar placeholders="Search for Blueprint ID, Name and Creator" />
       </div>
       <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-        {blueprintTokenList.length > 0 &&
-          blueprintTokenList.map((product) => {
+        {productData.length > 0 &&
+          productData.map((product) => {
             return (
-              <div className="flex justify-center" key={product[0]}>
+              <div className="flex justify-center" key={product.id}>
                 <OwnBlueprintCard
                   blueprintId={product.id}
                   name={product.name}

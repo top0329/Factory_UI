@@ -2,8 +2,9 @@ import { FC, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 // import { useAtom } from 'jotai';
+
 import Button from '../../Button';
-import { Image } from '../../Image';
+import Image from '../../Image';
 // import {
 //   selectedProductintAtom,
 //   productSelectionState,
@@ -58,6 +59,7 @@ const ProductCard: FC<Props> = ({
       <div className="relative xs:w-full sm:w-full md:w-full overflow-hidden">
         <div className="xs:w-full sm:w-full md:w-full md:h-full overflow-hidden object-cover">
           <Image
+            className="w-full aspect-square"
             src={uri}
             spinnerClassName="w-full aspect-square"
             alt="product-card"

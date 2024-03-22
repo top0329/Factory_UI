@@ -1,9 +1,8 @@
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
-import toast, { Toaster } from 'react-hot-toast';
 
 import ComponentButton from '../../components/Button/ComponentButton';
-import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard/BlueprintInfoCard';
+import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import AddComponentModal from '../../components/Modals/AddComponentModal';
@@ -15,9 +14,13 @@ import {
 } from '../../jotai/atoms';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
-import FailImage from '../../assets/images/fail.png';
+import useWeb3 from '../../hooks/useWeb3';
+import useToast from '../../hooks/useToast';
 
 const RecreateBlueprintPage = () => {
+  const { factoryContract } = useWeb3();
+  const { showToast } = useToast();
+
   const [selectedBlueprint] = useAtom(selectedBlueprintAtom);
   const [createBlueprint, setCreateBlueprint] = useAtom(createBlueprintAtom);
   const [availableComponent, setAvailableComponent] = useAtom(
@@ -30,64 +33,33 @@ const RecreateBlueprintPage = () => {
   }, [selectedBlueprint, setCreateBlueprint]);
 
   useEffect(() => {
-    setAvailableComponent(
-      7 -
-        (createBlueprint.data.erc20Data.length +
-          createBlueprint.data.erc721Data.length +
-          createBlueprint.data.erc1155Data.length)
-    );
+    async function init() {
+      try {
+        const availableComponentValue =
+          await factoryContract.componentTokenLimit();
+        setAvailableComponent(
+          availableComponentValue -
+            (createBlueprint.data.erc20Data.length +
+              createBlueprint.data.erc721Data.length +
+              createBlueprint.data.erc1155Data.length)
+        );
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    init();
   }, [
     createBlueprint.data.erc1155Data.length,
     createBlueprint.data.erc20Data.length,
     createBlueprint.data.erc721Data.length,
+    factoryContract,
     setAvailableComponent,
   ]);
 
   const handleAddComponentModalOpen = () => {
     if (availableComponent > 0) setIsAddComponentModalOpen(true);
     else {
-      toast.custom((t) => (
-        <div
-          className={`${
-            t.visible ? 'animate-enter' : 'animate-leave'
-          } max-w-96 w-full bg-[#141414] shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5`}
-        >
-          <div className="flex-1 w-0 p-4">
-            <div className="flex items-center">
-              <div className="pt-0.5">
-                <img
-                  className="h-10 w-10 rounded-full"
-                  src={FailImage}
-                  alt=""
-                />
-              </div>
-              <div className="ml-3 flex items-center">
-                <p className="text-base font-medium text-light-gray">
-                  Not able to add component tokens.
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="">
-            <button
-              onClick={() => toast.dismiss(t.id)}
-              className="w-full border border-transparent rounded-full flex items-center justify-center text-sm font-medium text-light-gray hover:text-light-gray focus:outline-none"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width={24}
-                height={24}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="currentColor"
-                  d="m13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29l-4.3 4.29a1 1 0 0 0 0 1.42a1 1 0 0 0 1.42 0l4.29-4.3l4.29 4.3a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42Z"
-                ></path>
-              </svg>
-            </button>
-          </div>
-        </div>
-      ));
+      showToast('fail', 'Not able to add component tokens.');
       setIsAddComponentModalOpen(false);
     }
   };
@@ -213,7 +185,6 @@ const RecreateBlueprintPage = () => {
         </div>
       </div>
       <AddComponentModal />
-      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 };

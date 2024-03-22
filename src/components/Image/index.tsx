@@ -1,13 +1,18 @@
 import React, { FunctionComponent, useState } from 'react';
 
-export interface Props {
+interface Props {
   src: string;
   className?: string;
   spinnerClassName?: string;
   alt?: string;
 }
 
-export const Image: FunctionComponent<Props> = ({ src, className, spinnerClassName, alt }) => {
+const Image: FunctionComponent<Props> = ({
+  src,
+  className,
+  spinnerClassName,
+  alt,
+}) => {
   const [isImageLoading, setIsImageLoading] = useState<boolean>(true);
 
   return (
@@ -18,11 +23,16 @@ export const Image: FunctionComponent<Props> = ({ src, className, spinnerClassNa
       <img
         src={src}
         className={`${className} ${isImageLoading ? 'hidden' : 'block'}`}
-        alt={alt}
         onLoad={() => {
           setIsImageLoading(false);
         }}
+        onError={() => {
+          setIsImageLoading(true);
+        }}
+        alt={alt}
       />
     </React.Fragment>
   );
 };
+
+export default Image;
