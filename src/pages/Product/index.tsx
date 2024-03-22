@@ -8,7 +8,6 @@ import {
   selectedOwnBlueprintAtom,
   blueprintTokenListAtom,
 } from '../../jotai/atoms';
-// import { BlueprintNFT } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
 
 interface TempObject {
