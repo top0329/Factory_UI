@@ -146,6 +146,10 @@ const MintBlueprintPage = () => {
             await erc20Approve(usdcAddress, approveValue.toString());
             setIsApproved(true);
           } else {
+            showToast(
+              'warning',
+              "You don't have enough USDC to approve this transaction"
+            );
             console.log(
               "You don't have enough USDC to approve this transaction"
             );
@@ -184,6 +188,7 @@ const MintBlueprintPage = () => {
             console.log(transition);
             setIsApproved(false);
           } else {
+            showToast('warning', "You don't have enough eth");
             console.log("You don't have enough eth");
           }
         }
@@ -205,12 +210,15 @@ const MintBlueprintPage = () => {
                 console.log(transition);
                 setIsApproved(false);
               } else {
+                showToast('warning', 'Not approved');
                 console.log('Not approved');
               }
             } else {
+              showToast('warning', "You don't have enough USDT");
               console.log("You don't have enough USDT");
             }
           } else {
+            showToast('warning', "You don't have enough eth");
             console.log("You don't have enough eth");
           }
         }
@@ -232,12 +240,15 @@ const MintBlueprintPage = () => {
                 console.log(transition);
                 setIsApproved(false);
               } else {
+                showToast('warning', 'Not approved');
                 console.log('Not approved');
               }
             } else {
+              showToast('warning', "You don't have enough USDC");
               console.log("You don't have enough USDC");
             }
           } else {
+            showToast('warning', "You don't have enough eth");
             console.log("You don't have enough eth");
           }
         }
