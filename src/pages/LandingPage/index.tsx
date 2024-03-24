@@ -242,7 +242,7 @@ const LandingPage = () => {
       </div>
       <div
         id="carousel"
-        className="relative h-[400px] sm:h-[550px] md:h-[620px] lg:h-[650px] xl:h-[680px]"
+        className="relative mt-10 h-[400px] sm:h-[550px] md:h-[620px] lg:h-[650px] xl:h-[680px]"
       >
         <h1 className="text-center text-xl font-semibold pt-6 sm:text-3xl">
           Most Minted Blueprints
