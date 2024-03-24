@@ -414,8 +414,7 @@
         "name": "newUnit",
         "type": "uint8"
       },
-      { "internalType": "uint256", "name": "newMintLimit", "type": "uint256" },
-      { "internalType": "address", "name": "newCreator", "type": "address" }
+      { "internalType": "uint256", "name": "newMintLimit", "type": "uint256" }
     ],
     "name": "updateBlueprintData",
     "outputs": [],
@@ -486,6 +485,20 @@
     "name": "updateTreasuryAddress",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "usdc",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "usdt",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
     "type": "function"
   }
 ]

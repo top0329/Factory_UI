@@ -1,9 +1,9 @@
 export const factoryAddress =
-  '0x93Ee6a9818072Ef3c5fcC5D42696FF57e66Fd417'.toLocaleLowerCase();
+  '0x55521473a5aeaB174BD26440d132fb29e895780b'.toLocaleLowerCase();
 export const blueprintAddress =
-  '0x73d950a091F070Ec73F22C9E7f2fFf916f2E099A'.toLocaleLowerCase();
+  '0x2d6f9822418a1319f7146fb7b25d1bcef3276a3a'.toLocaleLowerCase();
 export const productAddress =
-  '0x424d5A10Fa843b2bFe5485D0075569bC3bC272Ff'.toLocaleLowerCase();
+  '0x83c461d0d965e105af097cd795a465b18576ebb7'.toLocaleLowerCase();
 export const usdtAddress =
   '0xaa8e23fb1079ea71e0a56f48a2aa51851d8433d0'.toLocaleLowerCase();
 export const usdcAddress =
