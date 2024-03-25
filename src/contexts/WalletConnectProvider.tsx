@@ -8,6 +8,8 @@ import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
 
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
+  metaMaskWallet,
+  phantomWallet,
   walletConnectWallet,
   ledgerWallet,
   coinbaseWallet,
@@ -17,7 +19,7 @@ const connectors = connectorsForWallets(
   [
     {
       groupName: 'Recommended',
-      wallets: [ledgerWallet, coinbaseWallet, walletConnectWallet],
+      wallets: [metaMaskWallet, phantomWallet, ledgerWallet, coinbaseWallet, walletConnectWallet],
     },
   ],
   {
