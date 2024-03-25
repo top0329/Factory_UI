@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import axios from 'axios';
 
 import SearchBar from '../../components/SearchBar';
 import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
@@ -12,8 +11,8 @@ import {
   isCreatorModeAtom,
   selectedBlueprintAtom,
 } from '../../jotai/atoms';
-
 import useWeb3 from '../../hooks/useWeb3';
+import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
 
 const BlueprintPage = () => {
   const { blueprintContract, account } = useWeb3();
@@ -39,12 +38,7 @@ const BlueprintPage = () => {
             const blueprint = await blueprintContract.getBlueprintNFTData(id);
             const temp = [...blueprint];
             try {
-              const {
-                data: { image },
-              } = await axios.get(temp[2]);
-              if (image) {
-                temp[2] = `https://ipfs.io/${image}`;
-              }
+              temp[2] = await tokenUriToImageUri(temp[2]);
             } catch (err) {
               console.log(err);
             }
@@ -60,6 +54,7 @@ const BlueprintPage = () => {
           'mintPrice',
           'mintPriceUnit',
           'mintLimit',
+          'mintedAmount',
           'data',
         ];
         setBlueprintTokenList(
@@ -92,6 +87,7 @@ const BlueprintPage = () => {
   };
 
   const handleBlueprintCardClicked = (blueprint: any) => {
+    console.log(blueprint);
     setSelectedBlueprint(blueprint);
     showSidebar();
   };

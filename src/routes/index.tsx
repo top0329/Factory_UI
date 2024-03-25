@@ -3,29 +3,35 @@ import { useRoutes } from 'react-router-dom';
 
 import CommonLayout from '../components/Layout/CommonLayout';
 import LoadingLandingPage from '../pages/LandingPage/LoadingLanding';
+import Loadable from '../components/Loading';
 
+// const AuthLogin = Loadable(lazy(() => import('pages/auth/login')));
 const LandingPage = lazy(() => import('../pages/LandingPage'));
-const BlueprintPage = lazy(() => import('../pages/Blueprint'));
-const MintBlueprintPage = lazy(
-  () => import('../pages/Blueprint/MintBlueprint')
+const BlueprintPage = Loadable(lazy(() => import('../pages/Blueprint')));
+const MintBlueprintPage = Loadable(
+  lazy(() => import('../pages/Blueprint/MintBlueprint'))
 );
-const NewBlueprintPage = lazy(() => import('../pages/Blueprint/NewBlueprint'));
-const RecreateBlueprintPage = lazy(
-  () => import('../pages/Blueprint/RecreateBlueprint')
+const NewBlueprintPage = Loadable(
+  lazy(() => import('../pages/Blueprint/NewBlueprint'))
 );
-const UpdateBlueprintPage = lazy(
-  () => import('../pages/Blueprint/UpdateBlueprint')
+const RecreateBlueprintPage = Loadable(
+  lazy(() => import('../pages/Blueprint/RecreateBlueprint'))
 );
-const TransferOwnership = lazy(
-  () => import('../pages/Blueprint/TransferOwnership')
+const UpdateBlueprintPage = Loadable(
+  lazy(() => import('../pages/Blueprint/UpdateBlueprint'))
 );
-const ProductPage = lazy(() => import('../pages/Product'));
-const MintProductPage = lazy(() => import('../pages/Product/MintProduct'));
-const DecomposePage = lazy(() => import('../pages/Decompose'));
-const DecomposeProductPage = lazy(
-  () => import('../pages/Decompose/DecomposeProduct')
+const TransferOwnership = Loadable(
+  lazy(() => import('../pages/Blueprint/TransferOwnership'))
 );
-const ComponentPage = lazy(() => import('../pages/Component'));
+const ProductPage = Loadable(lazy(() => import('../pages/Product')));
+const MintProductPage = Loadable(
+  lazy(() => import('../pages/Product/MintProduct'))
+);
+const DecomposePage = Loadable(lazy(() => import('../pages/Decompose')));
+const DecomposeProductPage = Loadable(
+  lazy(() => import('../pages/Decompose/DecomposeProduct'))
+);
+const ComponentPage = Loadable(lazy(() => import('../pages/Component')));
 
 // project import
 const LandingRoute = {
