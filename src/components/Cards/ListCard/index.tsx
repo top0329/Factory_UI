@@ -26,6 +26,7 @@ export default function ListCard(props: ListCardInterface) {
   };
 
   const handleApprove = async () => {
+    console.log('props>>>>>>>>>>>>>', props);
     alert('Approve');
     const provider = new ethers.JsonRpcProvider(defaultRPC);
     const erc20Contract = new ethers.Contract(
@@ -132,8 +133,8 @@ export default function ListCard(props: ListCardInterface) {
               props.type == 4 ? '!text-white' : ''
             }`}
           >
-            {props.tokenAddress.substring(0, 8)} . . .{' '}
-            {props.tokenAddress.slice(-6)}
+            {/* {props.tokenAddress.substring(0, 8)} . . .{' '}
+            {props.tokenAddress.slice(-6)} */}
           </p>
           <div className="relative">
             <button>

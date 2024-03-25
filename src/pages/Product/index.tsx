@@ -9,6 +9,7 @@ import {
   ownBlueprintTokenListAtom,
 } from '../../jotai/atoms';
 import useWeb3 from '../../hooks/useWeb3';
+import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
 
 interface TempObject {
   id: number;
@@ -47,12 +48,15 @@ const ProductPage = () => {
             const balance: number = Number(
               await blueprintContract.balanceOf(blueprintToken.creator, id)
             );
-            console.log(balance);
+
+            const imageUri: string = String(
+              await tokenUriToImageUri(blueprintToken.uri)
+            );
 
             const tempObject = {
               id: Number(blueprintToken.id),
               name: blueprintToken.name,
-              uri: blueprintToken.uri,
+              uri: imageUri,
               creator: blueprintToken.creator,
               balance: balance,
               blueprintAddress: await blueprintContract.getAddress(),
@@ -81,6 +85,7 @@ const ProductPage = () => {
     }
   };
   const handleBlueprintCardClicked = (blueprint: any) => {
+    // console.log('blueprint>>>>>>>>', blueprint.data.erc20Data[0].tokenAddress);
     setSelectedBlueprint(blueprint);
     showSidebar();
   };
