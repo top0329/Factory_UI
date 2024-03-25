@@ -57,8 +57,14 @@ const MintProductPage = () => {
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
     useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const { isConnected, library, account, factoryContract, blueprintWeb3 } =
-    useWeb3();
+  const {
+    isConnected,
+    library,
+    account,
+    factoryContract,
+    blueprintWeb3,
+    blueprintContract,
+  } = useWeb3();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -97,19 +103,36 @@ const MintProductPage = () => {
 
   const handleApprove = async () => {
     try {
+      console.log(
+        'selectedOwnData.data.erc20Data>>>',
+        selectedOwnData.data.erc20Data[0].tokenAddress
+      );
       if (isConnected && library) {
-        if (blueprintMintAmountValue) {
-          const transaction = await blueprintWeb3.methods
-            .setApprovalForAll(await factoryContract.getAddress(), true)
-            .send({ from: account });
+        const isApproved = await blueprintContract.isApprovedForAll(
+          account,
+          await factoryContract.getAddress()
+        );
+        console.log('isApproved>>>>>>>', isApproved);
+        if (isApproved) {
+          console.log('Is Modal Opened', isModalOpen);
 
-          console.log('transaction successed', await transaction);
+          setIsModalOpen(true);
+        } else {
+          if (blueprintMintAmountValue) {
+            const transaction = await blueprintWeb3.methods
+              .setApprovalForAll(await factoryContract.getAddress(), true)
+              .send({ from: account });
+
+            console.log('transaction successed', await transaction);
+            await setIsModalOpen(!isModalOpen);
+          } else {
+            console.log('Please input the value');
+          }
         }
       }
     } catch (err) {
       console.log(err);
     }
-    await setIsModalOpen(!isModalOpen);
   };
   const closeModal = (event: React.MouseEvent) => {
     // Verify if the target is the backdrop to avoid closing when clicking inside the modal

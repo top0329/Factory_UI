@@ -47,7 +47,6 @@ const ProductPage = () => {
             const balance: number = Number(
               await blueprintContract.balanceOf(blueprintToken.creator, id)
             );
-            console.log(balance);
 
             const tempObject = {
               id: Number(blueprintToken.id),
@@ -81,6 +80,7 @@ const ProductPage = () => {
     }
   };
   const handleBlueprintCardClicked = (blueprint: any) => {
+    // console.log('blueprint>>>>>>>>', blueprint.data.erc20Data[0].tokenAddress);
     setSelectedBlueprint(blueprint);
     showSidebar();
   };

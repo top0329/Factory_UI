@@ -361,12 +361,6 @@
         "internalType": "uint256",
         "name": "newMintLimit",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "newCreator",
-        "type": "address"
       }
     ],
     "name": "BlueprintUpdated",
@@ -618,6 +612,7 @@
         "type": "uint8"
       },
       { "internalType": "uint256", "name": "mintLimit", "type": "uint256" },
+      { "internalType": "uint256", "name": "mintedAmount", "type": "uint256" },
       {
         "components": [
           {
@@ -870,6 +865,11 @@
           },
           { "internalType": "uint256", "name": "mintLimit", "type": "uint256" },
           {
+            "internalType": "uint256",
+            "name": "mintedAmount",
+            "type": "uint256"
+          },
+          {
             "components": [
               {
                 "components": [
@@ -1092,8 +1092,7 @@
         "name": "newUnit",
         "type": "uint8"
       },
-      { "internalType": "uint256", "name": "newMintLimit", "type": "uint256" },
-      { "internalType": "address", "name": "newCreator", "type": "address" }
+      { "internalType": "uint256", "name": "newMintLimit", "type": "uint256" }
     ],
     "name": "updateBlueprint",
     "outputs": [],
