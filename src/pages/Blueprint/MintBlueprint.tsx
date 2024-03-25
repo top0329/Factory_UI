@@ -52,7 +52,8 @@ const MintBlueprintPage = () => {
       const _usdcBalance = await usdcContract.balanceOf(account);
       const _usdcBalanceNumber = ethers.formatUnits(_usdcBalance, 6);
       const _blueprintMintFee = await factoryContract.blueprintCreationFee();
-      setBlueprintMintFee(Number(_blueprintMintFee));
+      const _blueprintMintFeeEth = ethers.formatEther(_blueprintMintFee);
+      setBlueprintMintFee(Number(_blueprintMintFeeEth));
       setCurrentUsdtBalance(Number(_usdtBalanceNumber));
       setCurrentUsdcBalance(Number(_usdcBalanceNumber));
       setCurrentEthBalance(Number(_ethBalanceNumber));
@@ -118,6 +119,7 @@ const MintBlueprintPage = () => {
             );
             await erc20Approve(usdtAddress, approveValue.toString());
             setIsApproved(true);
+            showToast('success', 'Approved successfully');
           } else {
             showToast(
               'warning',
@@ -141,6 +143,7 @@ const MintBlueprintPage = () => {
             );
             await erc20Approve(usdcAddress, approveValue.toString());
             setIsApproved(true);
+            showToast('success', 'Approved successfully');
           } else {
             showToast(
               'warning',
@@ -182,7 +185,9 @@ const MintBlueprintPage = () => {
               )
               .send({ from: account });
             console.log(transition);
+            showToast('success', 'Blueprint minted successfully');
             setIsApproved(false);
+            navigate('/product');
           } else {
             showToast('warning', "You don't have enough eth");
             console.log("You don't have enough eth");
@@ -204,7 +209,9 @@ const MintBlueprintPage = () => {
                   )
                   .send({ from: account });
                 console.log(transition);
+                showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
+                navigate('/product');
               } else {
                 showToast('warning', 'Not approved');
                 console.log('Not approved');
@@ -234,7 +241,9 @@ const MintBlueprintPage = () => {
                   )
                   .send({ from: account });
                 console.log(transition);
+                showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
+                navigate('/product');
               } else {
                 showToast('warning', 'Not approved');
                 console.log('Not approved');

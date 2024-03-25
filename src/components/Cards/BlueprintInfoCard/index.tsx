@@ -377,6 +377,22 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   )
                   .send({ from: account });
                 console.log('Blueprint created successfully', transaction);
+                setCreateInfo({
+                  name: '',
+                  uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+                  creator: '',
+                  totalSupply: '',
+                  mintPrice: '',
+                  mintPriceUnit: '',
+                  mintLimit: '',
+                  data: {
+                    erc20Data: [],
+                    erc721Data: [],
+                    erc1155Data: [],
+                  },
+                });
+                showToast('success', 'Blueprint created successfully');
+                navigate('/blueprint');
               }
             }
           } else {
@@ -443,6 +459,22 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     )
                     .send({ from: account });
                   console.log('Blueprint created successfully', transaction);
+                  setCreateInfo({
+                    name: '',
+                    uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+                    creator: '',
+                    totalSupply: '',
+                    mintPrice: '',
+                    mintPriceUnit: '',
+                    mintLimit: '',
+                    data: {
+                      erc20Data: [],
+                      erc721Data: [],
+                      erc1155Data: [],
+                    },
+                  });
+                  showToast('success', 'Blueprint created successfully');
+                  navigate('/blueprint');
                 }
               }
             } else {
@@ -777,23 +809,20 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 : 'bg-[#1F2937] text-[#718096]'
             }`}
             onClick={() => {
-              setEditable(false);
-              setButtonEnable(false);
-              setName('');
-              setTotalSupply('');
-              setMintPrice('');
-              setMintPriceLimit('');
-              setFileText('');
-              setUriChecked(false);
-              setMintPriceChecked(false);
-              setMintLimitChecked(false);
-              setImageSrc(createInfo.uri.substring(21));
-              setUploadedImageSrc('');
-
-              setCreateInfo((prevCreateInfo) => ({
-                ...prevCreateInfo,
-                totalSupply: 0,
-              }));
+              setCreateInfo({
+                name: '',
+                uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+                creator: '',
+                totalSupply: '',
+                mintPrice: '',
+                mintPriceUnit: '',
+                mintLimit: '',
+                data: {
+                  erc20Data: [],
+                  erc721Data: [],
+                  erc1155Data: [],
+                },
+              });
               navigate('/blueprint');
             }}
             disabled={!editable || !buttonEnable}
