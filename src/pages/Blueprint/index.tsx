@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
+import { ethers } from 'ethers';
 
 import SearchBar from '../../components/SearchBar';
 import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
@@ -39,6 +40,12 @@ const BlueprintPage = () => {
             const temp = [...blueprint];
             try {
               temp[2] = await tokenUriToImageUri(temp[2]);
+              if (Number(temp[6]) === 0) {
+                temp[5] = ethers.formatEther(temp[5]);
+              } else {
+                temp[5] = ethers.formatUnits(temp[5], 6);
+              }
+              console.log(temp[5]);
             } catch (err) {
               console.log(err);
             }
