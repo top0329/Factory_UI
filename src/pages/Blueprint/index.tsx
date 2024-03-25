@@ -106,7 +106,7 @@ const BlueprintPage = () => {
     <div className="min-w-[320px]">
       <div className="flex justify-between items-center py-3">
         <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl">
-          Blueprint
+          Blueprints
         </h1>
         <div className="flex justify-between items-center gap-4">
           <h4 className="text-light-gray text-base">Creator Mode</h4>
@@ -135,6 +135,7 @@ const BlueprintPage = () => {
       </div>
       <SearchBar
         isNewButton
+        advancedFilter
         placeholders="Search for Blueprint ID, Name and Creator"
       />
       <div className="grid grid-cols-2 pt-8 pb-16 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">

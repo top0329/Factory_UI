@@ -70,7 +70,10 @@ const localStorageEffect = (key: string) => (atomWithStorage: any) => {
     const nextValue =
       typeof update === 'function' ? update(get(anAtom)) : update;
     set(anAtom, nextValue);
-    localStorage.setItem(key, JSON.stringify(nextValue));
+    const stringified = JSON.stringify(nextValue, (_key, value) =>
+      typeof value === 'bigint' ? value.toString() : value
+    );
+    localStorage.setItem(key, stringified);
   });
   return anAtom;
 };
@@ -104,5 +107,6 @@ export const headerActiveItemAtom = atom<number>(0);
 
 // Store the blueprint token list
 export const blueprintTokenListAtom = atom<BlueprintNFT[]>([]);
+export const ownBlueprintTokenListAtom = atom<BlueprintNFT[]>([]);
 
 export const productTokenIdListAtom = atom<Array<number>>([]);

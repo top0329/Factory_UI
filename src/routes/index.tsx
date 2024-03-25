@@ -1,7 +1,8 @@
-import { lazy } from 'react';
+import { Suspense, lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
 
 import CommonLayout from '../components/Layout/CommonLayout';
+import LoadingLandingPage from '../pages/LandingPage/LoadingLanding';
 
 const LandingPage = lazy(() => import('../pages/LandingPage'));
 const BlueprintPage = lazy(() => import('../pages/Blueprint'));
@@ -24,12 +25,22 @@ const DecomposePage = lazy(() => import('../pages/Decompose'));
 const DecomposeProductPage = lazy(
   () => import('../pages/Decompose/DecomposeProduct')
 );
+const ComponentPage = lazy(() => import('../pages/Component'));
 
 // project import
 const LandingRoute = {
   path: '/',
   element: <CommonLayout layout="landing" />,
-  children: [{ path: '/', element: <LandingPage /> }],
+  children: [
+    {
+      path: '/',
+      element: (
+        <Suspense fallback={<LoadingLandingPage />}>
+          <LandingPage />
+        </Suspense>
+      ),
+    },
+  ],
 };
 
 const CommonRoutes = {
@@ -91,6 +102,15 @@ const CommonRoutes = {
             {
               path: 'product/:id',
               element: <DecomposeProductPage />,
+            },
+          ],
+        },
+        {
+          path: 'component',
+          children: [
+            {
+              path: '',
+              element: <ComponentPage />,
             },
           ],
         },

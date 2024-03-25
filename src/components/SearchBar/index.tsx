@@ -13,9 +13,14 @@ export interface Props {
   value?: string;
   isNewButton?: boolean;
   placeholders: string;
+  advancedFilter?: boolean;
 }
 
-const SearchBar: FC<Props> = ({ isNewButton, placeholders }) => {
+const SearchBar: FC<Props> = ({
+  isNewButton,
+  placeholders,
+  advancedFilter,
+}) => {
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
@@ -43,34 +48,40 @@ const SearchBar: FC<Props> = ({ isNewButton, placeholders }) => {
   return (
     <div className="my-5 gap-3 xs:flex xs:items-center">
       <div className="flex w-full relative">
-        <Icon
-          className="absolute z-20 text-light-gray min-w-6 min-h-6 m-2 cursor-pointer"
-          icon="icon-park-outline:setting-config"
-          onClick={handleFilterChange}
-        />
-        {showFilterOption && (
+        {advancedFilter && (
           <React.Fragment>
-            <div className="absolute top-0 left-0 mt-12 ml-2 z-40">
-              <AdvancedFilter />
-            </div>
-            <div
-              className="z-10 fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center bg-opacity-40 bg-[#1D2127]"
-              onClick={() => setShowFilterOption(false)}
-            ></div>
+            <Icon
+              className="absolute z-20 text-light-gray min-w-6 min-h-6 m-2 cursor-pointer"
+              icon="icon-park-outline:setting-config"
+              onClick={handleFilterChange}
+            />
+            {showFilterOption && (
+              <React.Fragment>
+                <div className="absolute top-0 left-0 mt-12 ml-2 z-40">
+                  <AdvancedFilter />
+                </div>
+                <div
+                  className="z-10 fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center bg-opacity-40 bg-[#1D2127]"
+                  onClick={() => setShowFilterOption(false)}
+                ></div>
+              </React.Fragment>
+            )}
           </React.Fragment>
         )}
-
         <div className="absolute left-0 inset-y-0 flex items-center">
           <Icon
             icon="ic:baseline-search"
-            className="text-light-gray w-6 h-6 ml-12"
+            className={`text-light-gray w-6 h-6 ${
+              advancedFilter ? 'ml-12' : 'ml-2'
+            }`}
           />
         </div>
         <input
           id="search"
           name="search"
-          className="inline w-full rounded-lg border border-light-gray text-white bg-black py-2 ml-10 pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-slate-600 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-slate-600 sm:text-sm"
-          // placeholder="Search for Blueprint ID, Name and Creator"
+          className={`inline w-full rounded-lg border border-light-gray text-white bg-black py-2 ${
+            advancedFilter && 'ml-10'
+          } pl-10 pr-3 leading-5 placeholder-gray-500 focus:border-slate-600 focus:placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-slate-600 sm:text-sm`}
           placeholder={placeholders}
           type="search"
           value={searchValue}

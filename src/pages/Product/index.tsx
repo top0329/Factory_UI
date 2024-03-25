@@ -6,7 +6,7 @@ import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDeta
 // import productData from '../../../own-blueprint-data.json';
 import {
   selectedOwnBlueprintAtom,
-  blueprintTokenListAtom,
+  ownBlueprintTokenListAtom,
 } from '../../jotai/atoms';
 import useWeb3 from '../../hooks/useWeb3';
 
@@ -26,7 +26,7 @@ const ProductPage = () => {
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
-  const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
+  const [, setOwnBlueprintTokenList] = useAtom(ownBlueprintTokenListAtom);
   const [productTokenList, setProductTokenList] = useState<Array<TempObject>>(
     []
   );
@@ -42,7 +42,7 @@ const ProductPage = () => {
               id
             );
 
-            setBlueprintTokenList(blueprintToken);
+            setOwnBlueprintTokenList(blueprintToken);
 
             const balance: number = Number(
               await blueprintContract.balanceOf(blueprintToken.creator, id)
@@ -68,7 +68,7 @@ const ProductPage = () => {
       }
     };
     getBlueprintTokenList();
-  }, [account, blueprintContract, setBlueprintTokenList]);
+  }, [account, blueprintContract, setOwnBlueprintTokenList]);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -90,7 +90,10 @@ const ProductPage = () => {
         Own Blueprints
       </h1>
       <div>
-        <SearchBar placeholders="Search for Blueprint ID, Name and Creator" />
+        <SearchBar
+          advancedFilter
+          placeholders="Search for Blueprint ID, Name and Creator"
+        />
       </div>
       <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
         {productTokenList.length > 0 &&

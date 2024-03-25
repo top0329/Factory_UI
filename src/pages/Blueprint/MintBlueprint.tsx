@@ -1,33 +1,261 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import copy from 'copy-to-clipboard';
 import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
-import copy from 'copy-to-clipboard';
+import { Contract, ethers } from 'ethers';
 
 import Button from '../../components/Button';
+import useWeb3 from '../../hooks/useWeb3';
+import useToast from '../../hooks/useToast';
+import erc20Abi from '../../abi/ERC20ABI.json';
 import { blueprintSelectionState } from '../../jotai/atoms';
+import { usdtAddress, usdcAddress } from '../../constants';
 
 const MintBlueprintPage = () => {
+  const { factoryContract, factoryWeb3, account, erc20Approve, library } =
+    useWeb3();
+  const { showToast } = useToast();
+
   const naviage = useNavigate();
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
-  const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
-    useState<string>('');
+  const [blueprintMintAmountValue, setBlueprintMintAmountValue] = useState<
+    number | ''
+  >('');
   const [isApproved, setIsApproved] = useState<boolean>(false);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isMintAmountOver, setIsMintAmountOver] = useState<boolean>(false);
+  const [isMintAmountEmpty, setIsMintAmountEmpty] = useState<boolean>(false);
+  const [blueprintMintFee, setBlueprintMintFee] = useState<number>(0);
+  const [currentEthBalance, setCurrentEthBalance] = useState<number>(0);
+  const [currentUsdtBalance, setCurrentUsdtBalance] = useState<number>(0);
+  const [currentUsdcBalance, setCurrentUsdcBalance] = useState<number>(0);
+
+  useEffect(() => {
+    async function init() {
+      const usdtContract: Contract = new ethers.Contract(
+        usdtAddress,
+        erc20Abi,
+        library
+      ) as Contract;
+      const usdcContract: Contract = new ethers.Contract(
+        usdcAddress,
+        erc20Abi,
+        library
+      ) as Contract;
+      const _ethBalance = await library?.provider?.getBalance(account!);
+      const _ethBalanceNumber = ethers.formatEther(_ethBalance!);
+      const _usdtBalance = await usdtContract.balanceOf(account);
+      const _usdtBalanceNumber = ethers.formatUnits(_usdtBalance, 6);
+      const _usdcBalance = await usdcContract.balanceOf(account);
+      const _usdcBalanceNumber = ethers.formatUnits(_usdcBalance, 6);
+      const _blueprintMintFee = await factoryContract.blueprintCreationFee();
+      console.log(_ethBalanceNumber);
+      console.log(_usdtBalanceNumber);
+      console.log(_usdcBalanceNumber);
+      console.log(_blueprintMintFee);
+      setBlueprintMintFee(Number(_blueprintMintFee));
+      setCurrentUsdtBalance(Number(_usdtBalanceNumber));
+      setCurrentUsdcBalance(Number(_usdcBalanceNumber));
+      setCurrentEthBalance(Number(_ethBalanceNumber));
+    }
+    init();
+  }, [account, factoryContract, library]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Allow only integer values
     const newValue = event.target.value;
-    // Check if the input value is either empty or an integer
     if (newValue === '' || /^\d+$/.test(newValue)) {
-      setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
+      if (
+        Number(newValue) < Number(selectedBlueprint.mintLimit) ||
+        Number(selectedBlueprint.mintLimit) === 0
+      ) {
+        setBlueprintMintAmountValue(
+          newValue.trim() === '' ? '' : Number(newValue)
+        );
+      } else {
+        setIsMintAmountOver(true);
+        setTimeout(() => {
+          setIsMintAmountOver(false);
+        }, 2000);
+      }
     }
   };
 
-  const handleApproveClick = () => {
-    setIsApproved(true);
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      !(
+        (event.key >= '0' && event.key <= '9') ||
+        event.key === 'Backspace' ||
+        event.key === 'Delete' ||
+        event.key === 'Tab' ||
+        event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight' ||
+        (event.key >= '0' &&
+          event.key <= '9' &&
+          event.getModifierState('NumLock'))
+      )
+    ) {
+      event.preventDefault();
+    }
+  };
+
+  const handleApproveClick = async () => {
+    try {
+      if (blueprintMintAmountValue === 0 || blueprintMintAmountValue === '') {
+        setIsMintAmountEmpty(true);
+        setTimeout(() => {
+          setIsMintAmountEmpty(false);
+        }, 2000);
+      } else {
+        if (Number(selectedBlueprint.mintPriceUnit) === 1) {
+          if (
+            currentUsdtBalance >=
+            blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+          ) {
+            const approveValue = ethers.parseUnits(
+              (
+                blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+              ).toString(),
+              6
+            );
+            await erc20Approve(usdtAddress, approveValue.toString());
+            setIsApproved(true);
+          } else {
+            showToast(
+              'warning',
+              "You don't have enough USDT to approve this transaction"
+            );
+            console.log(
+              "You don't have enough USDT to approve this transaction"
+            );
+            setIsApproved(false);
+          }
+        } else if (Number(selectedBlueprint.mintPriceUnit) === 2) {
+          if (
+            currentUsdcBalance >=
+            blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+          ) {
+            const approveValue = ethers.parseUnits(
+              (
+                blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+              ).toString(),
+              6
+            );
+            await erc20Approve(usdcAddress, approveValue.toString());
+            setIsApproved(true);
+          } else {
+            showToast(
+              'warning',
+              "You don't have enough USDC to approve this transaction"
+            );
+            console.log(
+              "You don't have enough USDC to approve this transaction"
+            );
+            setIsApproved(false);
+          }
+        }
+      }
+    } catch (err) {
+      setIsApproved(false);
+      console.log(err);
+    }
+  };
+
+  const handleMintBlueprintClick = async () => {
+    try {
+      if (blueprintMintAmountValue === 0 || blueprintMintAmountValue === '') {
+        setIsMintAmountEmpty(true);
+        setTimeout(() => {
+          setIsMintAmountEmpty(false);
+        }, 2000);
+      } else {
+        if (Number(selectedBlueprint.mintPriceUnit) === 0) {
+          if (
+            currentEthBalance >=
+            blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
+              blueprintMintFee
+          ) {
+            const transition = await factoryWeb3.methods
+              .mintBlueprint(
+                account,
+                selectedBlueprint.id,
+                blueprintMintAmountValue,
+                '0x'
+              )
+              .send({ from: account });
+            console.log(transition);
+            setIsApproved(false);
+          } else {
+            showToast('warning', "You don't have enough eth");
+            console.log("You don't have enough eth");
+          }
+        }
+        if (Number(selectedBlueprint.mintPriceUnit) === 1) {
+          if (currentEthBalance >= blueprintMintFee) {
+            if (
+              currentUsdtBalance >=
+              blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+            ) {
+              if (isApproved) {
+                const transition = await factoryWeb3.methods
+                  .mintBlueprint(
+                    account,
+                    selectedBlueprint.id,
+                    blueprintMintAmountValue,
+                    usdtAddress
+                  )
+                  .send({ from: account });
+                console.log(transition);
+                setIsApproved(false);
+              } else {
+                showToast('warning', 'Not approved');
+                console.log('Not approved');
+              }
+            } else {
+              showToast('warning', "You don't have enough USDT");
+              console.log("You don't have enough USDT");
+            }
+          } else {
+            showToast('warning', "You don't have enough eth");
+            console.log("You don't have enough eth");
+          }
+        }
+        if (Number(selectedBlueprint.mintPriceUnit) === 2) {
+          if (currentEthBalance >= blueprintMintFee) {
+            if (
+              currentUsdcBalance >=
+              blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+            ) {
+              if (isApproved) {
+                const transition = await factoryWeb3.methods
+                  .mintBlueprint(
+                    account,
+                    selectedBlueprint.id,
+                    blueprintMintAmountValue,
+                    usdcAddress
+                  )
+                  .send({ from: account });
+                console.log(transition);
+                setIsApproved(false);
+              } else {
+                showToast('warning', 'Not approved');
+                console.log('Not approved');
+              }
+            } else {
+              showToast('warning', "You don't have enough USDC");
+              console.log("You don't have enough USDC");
+            }
+          } else {
+            showToast('warning', "You don't have enough eth");
+            console.log("You don't have enough eth");
+          }
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const handleCopyButtonClicked = () => {
@@ -46,7 +274,7 @@ const MintBlueprintPage = () => {
     <div className="flex justify-center items-center py-10 text-white sm:py-10">
       <div className="relative rounded-3xl bg-[#060606] w-full pb-6 sm:w-[614px] sm:bg-[#060606] border-2 border-[#1f1f1f]">
         <header className="flex justify-start items-center pl-4 py-4 text-xl sm:text-3xl sm:justify-center">
-          Blueprint Mint
+          Mint Blueprint
         </header>
         <img
           className="w-full h-80 sm:h-96 object-cover"
@@ -61,7 +289,7 @@ const MintBlueprintPage = () => {
           <div className="flex flex-col gap-3 px-4">
             <div className="grid grid-cols-2 gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint ID</p>
-              <p className="col-span-1">{selectedBlueprint.id}</p>
+              <p className="col-span-1">{Number(selectedBlueprint.id)}</p>
             </div>
             <div className="flex flex-col justify-between items-start gap-2 font-mono sm:flex-row sm:items-center">
               <p className="text-light-gray">Creator</p>
@@ -89,7 +317,7 @@ const MintBlueprintPage = () => {
                 )}
               </div>
             </div>
-            <div className="grid grid-cols-2 items-center gap-3 font-mono">
+            <div className="relative grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">
                 Blueprint Mint Amount
               </p>
@@ -99,31 +327,56 @@ const MintBlueprintPage = () => {
                 className="inline w-full rounded-lg border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 step={1}
-                min={0}
+                min={1}
                 onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
                 value={blueprintMintAmountValue}
               />
+              {isMintAmountOver && (
+                <div
+                  className="absolute -bottom-12 right-2 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                  style={{ transition: 'opacity 0.3s' }}
+                >
+                  Blueprint Mint Amount Over!
+                </div>
+              )}
+              {isMintAmountEmpty && (
+                <div
+                  className="absolute -bottom-12 right-2 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
+                  style={{ transition: 'opacity 0.3s' }}
+                >
+                  Blueprint Mint Amount Empty!
+                </div>
+              )}
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">
                 Blueprint Creation Fee
               </p>
-              <p className="col-span-1">0.1 ETH</p>
+              <p className="col-span-1">{blueprintMintFee} ETH</p>
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint Mint Price</p>
               <p className="col-span-1">
-                1{' '}
-                {selectedBlueprint.mintPriceUnit === 0
+                {Number(selectedBlueprint.mintPrice)}{' '}
+                {Number(selectedBlueprint.mintPriceUnit) === 0
                   ? 'ETH'
-                  : selectedBlueprint.mintPriceUnit === 1
+                  : Number(selectedBlueprint.mintPriceUnit) === 1
                   ? 'USDT'
                   : 'USDC'}
               </p>
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Total Mint fee</p>
-              <p className="col-span-1">0.1 ETH + 100000 * 1 USDT</p>
+              <p className="col-span-1">
+                {blueprintMintFee} ETH + {Number(blueprintMintAmountValue)} *{' '}
+                {Number(selectedBlueprint.mintPrice)}{' '}
+                {Number(selectedBlueprint.mintPriceUnit) === 0
+                  ? 'ETH'
+                  : Number(selectedBlueprint.mintPriceUnit) === 1
+                  ? 'USDT'
+                  : 'USDC'}
+              </p>
             </div>
             <div className="flex justify-center items-center gap-8 pt-0 xs:gap-28 sm:pt-2">
               <Button
@@ -132,11 +385,12 @@ const MintBlueprintPage = () => {
                 variant="secondary"
                 onClick={() => naviage('/blueprint')}
               />
-              {selectedBlueprint.mintPriceUnit === 0 ? (
+              {Number(selectedBlueprint.mintPriceUnit) === 0 ? (
                 <Button
                   className="truncate !px-3"
                   text="Mint Blueprint"
                   variant="primary"
+                  onClick={handleMintBlueprintClick}
                 />
               ) : (
                 <React.Fragment>
@@ -145,6 +399,7 @@ const MintBlueprintPage = () => {
                       className="truncate !px-3"
                       text="Mint Blueprint"
                       variant="primary"
+                      onClick={handleMintBlueprintClick}
                     />
                   ) : (
                     <Button

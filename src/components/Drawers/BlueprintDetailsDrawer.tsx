@@ -15,6 +15,7 @@ import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 import Image from '../Image';
+import useWeb3 from '../../hooks/useWeb3';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -25,6 +26,8 @@ const BlueprintDetailDrawer: FC<Props> = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }) => {
+  const { account } = useWeb3();
+
   const navigate = useNavigate();
 
   const [selectedBlueprint] = useAtom<SelectedBlueprint>(selectedBlueprintAtom);
@@ -53,27 +56,27 @@ const BlueprintDetailDrawer: FC<Props> = ({
   }, []);
 
   const handleMintBlueprintButtonClicked = () => {
-    navigate(`/blueprint/mint/${selectedBlueprint.id}`);
     sideDrawerClosedHandler();
     setBlueprintSelectionState(selectedBlueprint);
+    navigate(`/blueprint/mint/${selectedBlueprint.id}`);
   };
 
   const handleRecreateBlueprintButtonClicked = () => {
-    navigate(`/blueprint/recreate/${selectedBlueprint.id}`);
     sideDrawerClosedHandler();
     setBlueprintSelectionState(selectedBlueprint);
+    navigate(`/blueprint/recreate/${selectedBlueprint.id}`);
   };
 
   const handleUpdateBlueprintButtonClicked = () => {
-    navigate(`/blueprint/update/${selectedBlueprint.id}`);
     sideDrawerClosedHandler();
     setBlueprintSelectionState(selectedBlueprint);
+    navigate(`/blueprint/update/${selectedBlueprint.id}`);
   };
 
   const handleBlueprintOwnershipButtonClicked = () => {
-    navigate(`/blueprint/transfer-ownership/${selectedBlueprint.id}`);
     sideDrawerClosedHandler();
     setBlueprintSelectionState(selectedBlueprint);
+    navigate(`/blueprint/transfer-ownership/${selectedBlueprint.id}`);
   };
 
   const handleTabClick = (id: number) => {
@@ -139,7 +142,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
           >
             {isCreatorMode && (
               <div className="flex flex-col justify-between gap-4 sm:gap-10 sm:flex-row">
-                {selectedBlueprint.myBlueprint === true && (
+                {selectedBlueprint.creator === account && (
                   <div className="flex justify-between w-full">
                     <Button
                       className="text-sm !py-1 !px-4 !bg-black xs:text-base xs:!px-7"
