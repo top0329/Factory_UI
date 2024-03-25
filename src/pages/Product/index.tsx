@@ -9,6 +9,7 @@ import {
   ownBlueprintTokenListAtom,
 } from '../../jotai/atoms';
 import useWeb3 from '../../hooks/useWeb3';
+import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
 
 interface TempObject {
   id: number;
@@ -48,10 +49,14 @@ const ProductPage = () => {
               await blueprintContract.balanceOf(blueprintToken.creator, id)
             );
 
+            const imageUri: string = String(
+              await tokenUriToImageUri(blueprintToken.uri)
+            );
+
             const tempObject = {
               id: Number(blueprintToken.id),
               name: blueprintToken.name,
-              uri: blueprintToken.uri,
+              uri: imageUri,
               creator: blueprintToken.creator,
               balance: balance,
               blueprintAddress: await blueprintContract.getAddress(),

@@ -26,7 +26,7 @@ export default function ListCard(props: ListCardInterface) {
   };
 
   const handleApprove = async () => {
-    console.log('props>>>>>>>>>>>>>', props[0]);
+    console.log('props>>>>>>>>>>>>>', props);
     alert('Approve');
     const provider = new ethers.JsonRpcProvider(defaultRPC);
     const erc20Contract = new ethers.Contract(

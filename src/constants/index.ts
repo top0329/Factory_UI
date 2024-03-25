@@ -4,6 +4,10 @@ export const blueprintAddress =
   '0x8bbF4B70eDB188d3f4c906921C6b8571220415f9'.toLocaleLowerCase();
 export const productAddress =
   '0xfA24C6D38CbDFE471d1f0F201A3cb3f39aE56bed'.toLocaleLowerCase();
+export const usdtAddress =
+  '0xaa8e23fb1079ea71e0a56f48a2aa51851d8433d0'.toLocaleLowerCase();
+export const usdcAddress =
+  '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLocaleLowerCase();
 
 export const defaultRPC = 'https://ethereum-sepolia-rpc.publicnode.com';
 
