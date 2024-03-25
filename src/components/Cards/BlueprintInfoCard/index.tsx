@@ -6,6 +6,7 @@ import { ethers } from 'ethers';
 
 import useWeb3 from '../../../hooks/useWeb3';
 import useToast from '../../../hooks/useToast';
+import useSpinner from '../../../hooks/useSpinner';
 import { createBlueprintAtom } from '../../../jotai/atoms';
 import { CreateBlueprint } from '../../../types';
 import { invalidChars } from '../../../constants';
@@ -57,6 +58,7 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
 const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const { isConnected, library, account, factoryWeb3 } = useWeb3();
   const { showToast } = useToast();
+  const { openSpin, closeSpin } = useSpinner();
 
   const navigate = useNavigate();
 
@@ -343,6 +345,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     6
                   );
                 }
+                openSpin('Creating Blueprint...');
                 const transaction = await factoryWeb3.methods
                   .createBlueprint(
                     createInfo.name,
@@ -425,6 +428,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       6
                     );
                   }
+                  openSpin('Creating Blueprint...');
                   const transaction = await factoryWeb3.methods
                     .createBlueprint(
                       createInfo.name,
@@ -490,6 +494,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     } catch (err) {
       console.log(err);
       showToast('fail', 'Blueprint creation failed!');
+    } finally{
+      closeSpin();
     }
   };
 
