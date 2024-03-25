@@ -38,7 +38,7 @@ const RecreateBlueprintPage = () => {
         const availableComponentValue =
           await factoryContract.componentTokenLimit();
         setAvailableComponent(
-          availableComponentValue -
+          Number(availableComponentValue) -
             (createBlueprint.data.erc20Data.length +
               createBlueprint.data.erc721Data.length +
               createBlueprint.data.erc1155Data.length)

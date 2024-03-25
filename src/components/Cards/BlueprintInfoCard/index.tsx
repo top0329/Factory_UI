@@ -2,13 +2,15 @@ import { FC, useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { ethers } from 'ethers';
 
-import DefaultBlueprintImage from '../../../assets/images/default-blueprint.png';
 import useWeb3 from '../../../hooks/useWeb3';
+import useToast from '../../../hooks/useToast';
 import { createBlueprintAtom } from '../../../jotai/atoms';
 import { CreateBlueprint } from '../../../types';
 import { invalidChars } from '../../../constants';
 import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
+import DefaultBlueprintImage from '../../../assets/images/default-blueprint.png';
 
 interface CustomCheckboxProps {
   editable: boolean;
@@ -54,6 +56,7 @@ function CustomCheckbox({ editable, checked, onChange }: CustomCheckboxProps) {
 
 const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const { isConnected, library, account, factoryWeb3 } = useWeb3();
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -97,10 +100,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   useEffect(() => {
     setIsIPFSSelected(isIPFSSelected);
     setName(createInfo.name);
-    setTotalSupply(createInfo.totalSupply);
+    setTotalSupply(Number(createInfo.totalSupply));
     setImageSrc(createInfo.uri);
-    setMintPrice(createInfo.mintPrice);
-    setMintPriceLimit(createInfo.mintLimit);
+    setMintPrice(Number(createInfo.mintPrice));
+    setMintPriceLimit(Number(createInfo.mintLimit));
   }, [
     createInfo.creator,
     createInfo.mintLimit,
@@ -191,6 +194,17 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         name: value,
       }));
       setName(value);
+      if (value.length > 0) {
+        setError((prevError) => ({
+          ...prevError,
+          name: '',
+        }));
+      } else {
+        setError((prevError) => ({
+          ...prevError,
+          name: 'Name is required',
+        }));
+      }
     }
   };
 
@@ -285,7 +299,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
       if (name === '') {
         setError((prevState) => ({
           ...prevState,
-          name: 'Name is Empty!',
+          name: 'Name is required!',
         }));
       } else {
         setError((prevState) => ({
@@ -313,88 +327,137 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
             0
           ) {
             console.log(imageSrc.substring(21));
-            const jsonHash = await uploadMetadataToIPFS(imageSrc.substring(21));
-            const transaction = await factoryWeb3.methods
-              .createBlueprint(
-                createInfo.name,
-                jsonHash,
-                createInfo.totalSupply,
-                createInfo.mintPrice,
-                createInfo.mintPriceUnit,
-                createInfo.mintLimit,
-                {
-                  erc20Data: createInfo.data.erc20Data.map((erc20) => {
-                    return {
-                      tokenAddress: erc20.tokenAddress,
-                      amount: erc20.amount,
-                    };
-                  }),
-                  erc721Data: createInfo.data.erc721Data.map((erc721) => {
-                    return {
-                      tokenAddress: erc721.tokenAddress,
-                      tokenId: erc721.tokenId,
-                    };
-                  }),
-                  erc1155Data: createInfo.data.erc1155Data.map((erc1155) => {
-                    return {
-                      tokenAddress: erc1155.tokenAddress,
-                      tokenId: erc1155.tokenId,
-                      amount: erc1155.amount,
-                    };
-                  }),
+            if (imageSrc.substring(21)) {
+              const jsonHash = await uploadMetadataToIPFS(
+                imageSrc.substring(21)
+              );
+              if (jsonHash) {
+                let mintPrice: bigint;
+                if (createInfo.mintPriceUnit === 0) {
+                  mintPrice = ethers.parseEther(
+                    createInfo.mintPrice.toString()
+                  );
+                } else {
+                  mintPrice = ethers.parseUnits(
+                    createInfo.mintPrice.toString(),
+                    6
+                  );
                 }
-              )
-              .send({ from: account });
-            console.log('Blueprint created successfully', transaction);
+                const transaction = await factoryWeb3.methods
+                  .createBlueprint(
+                    createInfo.name,
+                    jsonHash.substring(16),
+                    createInfo.totalSupply,
+                    mintPrice,
+                    createInfo.mintPriceUnit,
+                    createInfo.mintLimit,
+                    {
+                      erc20Data: createInfo.data.erc20Data.map((erc20) => {
+                        return {
+                          tokenAddress: erc20.tokenAddress,
+                          amount: erc20.amount,
+                        };
+                      }),
+                      erc721Data: createInfo.data.erc721Data.map((erc721) => {
+                        return {
+                          tokenAddress: erc721.tokenAddress,
+                          tokenId: erc721.tokenId,
+                        };
+                      }),
+                      erc1155Data: createInfo.data.erc1155Data.map(
+                        (erc1155) => {
+                          return {
+                            tokenAddress: erc1155.tokenAddress,
+                            tokenId: erc1155.tokenId,
+                            amount: erc1155.amount,
+                          };
+                        }
+                      ),
+                    }
+                  )
+                  .send({ from: account });
+                console.log('Blueprint created successfully', transaction);
+              }
+            }
           } else {
-            console.log('error');
+            showToast('warning', 'Please add at least one component');
+            console.log('you have to add at least one component');
           }
         } else {
-          console.log(selectedFile);
-          const imageHash = await uploadImageToIPFS();
-          console.log(imageHash);
-          if (imageHash) {
-            const jsonHash = await uploadMetadataToIPFS(imageHash);
-            console.log(jsonHash);
-            if (jsonHash) {
-              const transaction = await factoryWeb3.methods
-                .createBlueprint(
-                  createInfo.name,
-                  jsonHash,
-                  createInfo.totalSupply,
-                  createInfo.mintPrice,
-                  createInfo.mintPriceUnit,
-                  createInfo.mintLimit,
-                  {
-                    erc20Data: createInfo.data.erc20Data.map((erc20) => {
-                      return {
-                        tokenAddress: erc20.tokenAddress,
-                        amount: erc20.amount,
-                      };
-                    }),
-                    erc721Data: createInfo.data.erc721Data.map((erc721) => {
-                      return {
-                        tokenAddress: erc721.tokenAddress,
-                        tokenId: erc721.tokenId,
-                      };
-                    }),
-                    erc1155Data: createInfo.data.erc1155Data.map((erc1155) => {
-                      return {
-                        tokenAddress: erc1155.tokenAddress,
-                        tokenId: erc1155.tokenId,
-                        amount: erc1155.amount,
-                      };
-                    }),
+          if (
+            createInfo.data.erc20Data.length +
+              createInfo.data.erc721Data.length +
+              createInfo.data.erc1155Data.length >
+            0
+          ) {
+            if (selectedFile) {
+              console.log(selectedFile);
+              const imageHash = await uploadImageToIPFS();
+              console.log(imageHash);
+              if (imageHash) {
+                const jsonHash = await uploadMetadataToIPFS(imageHash);
+                console.log(jsonHash);
+                if (jsonHash) {
+                  let mintPrice: bigint;
+                  if (createInfo.mintPriceUnit === 0) {
+                    mintPrice = ethers.parseEther(
+                      createInfo.mintPrice.toString()
+                    );
+                  } else {
+                    mintPrice = ethers.parseUnits(
+                      createInfo.mintPrice.toString(),
+                      6
+                    );
                   }
-                )
-                .send({ from: account });
-              console.log('Blueprint created successfully', transaction);
+                  const transaction = await factoryWeb3.methods
+                    .createBlueprint(
+                      createInfo.name,
+                      jsonHash.substring(16),
+                      createInfo.totalSupply,
+                      mintPrice,
+                      createInfo.mintPriceUnit,
+                      createInfo.mintLimit,
+                      {
+                        erc20Data: createInfo.data.erc20Data.map((erc20) => {
+                          return {
+                            tokenAddress: erc20.tokenAddress,
+                            amount: erc20.amount,
+                          };
+                        }),
+                        erc721Data: createInfo.data.erc721Data.map((erc721) => {
+                          return {
+                            tokenAddress: erc721.tokenAddress,
+                            tokenId: erc721.tokenId,
+                          };
+                        }),
+                        erc1155Data: createInfo.data.erc1155Data.map(
+                          (erc1155) => {
+                            return {
+                              tokenAddress: erc1155.tokenAddress,
+                              tokenId: erc1155.tokenId,
+                              amount: erc1155.amount,
+                            };
+                          }
+                        ),
+                      }
+                    )
+                    .send({ from: account });
+                  console.log('Blueprint created successfully', transaction);
+                }
+              }
+            } else {
+              showToast('warning', 'Please add image');
+              console.log('you have to add image');
             }
+          } else {
+            showToast('warning', 'Please add at least one component');
+            console.log('you have to add at least one component');
           }
         }
       }
     } catch (err) {
       console.log(err);
+      showToast('fail', 'Blueprint creation failed!');
     }
   };
 
@@ -487,6 +550,19 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               setTotalSupply(
                 newSupplyNumber.trim() === '' ? '' : Number(newSupplyNumber)
               );
+              if (
+                newSupplyNumber.trim() === '' ? '' : Number(newSupplyNumber)
+              ) {
+                setError((prevError) => ({
+                  ...prevError,
+                  totalSupply: '',
+                }));
+              } else {
+                setError((prevError) => ({
+                  ...prevError,
+                  totalSupply: 'Total Supply is Empty!',
+                }));
+              }
             }}
             onKeyDown={handleKeyDownForTotalSupplyAndMintLimit}
             value={totalSupply === 0 ? '' : totalSupply}
@@ -622,7 +698,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 );
               }}
               onKeyDown={handleKeyDownForMintPrice}
-              value={mintPriceChecked ? mintPrice : ''}
+              value={mintPrice}
               disabled={!editable || !mintPriceChecked}
               required
             />
@@ -686,7 +762,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               );
             }}
             onKeyDown={handleKeyDownForTotalSupplyAndMintLimit}
-            value={mintLimitChecked ? mintPriceLimit : ''}
+            value={mintPriceLimit}
             disabled={!editable || !mintLimitChecked}
             required
           />
