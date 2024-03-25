@@ -17,7 +17,7 @@ const MintBlueprintPage = () => {
     useWeb3();
   const { showToast } = useToast();
 
-  const naviage = useNavigate();
+  const navigate = useNavigate();
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
@@ -52,10 +52,6 @@ const MintBlueprintPage = () => {
       const _usdcBalance = await usdcContract.balanceOf(account);
       const _usdcBalanceNumber = ethers.formatUnits(_usdcBalance, 6);
       const _blueprintMintFee = await factoryContract.blueprintCreationFee();
-      console.log(_ethBalanceNumber);
-      console.log(_usdtBalanceNumber);
-      console.log(_usdcBalanceNumber);
-      console.log(_blueprintMintFee);
       setBlueprintMintFee(Number(_blueprintMintFee));
       setCurrentUsdtBalance(Number(_usdtBalanceNumber));
       setCurrentUsdcBalance(Number(_usdcBalanceNumber));
@@ -383,7 +379,9 @@ const MintBlueprintPage = () => {
                 className="flex justify-center !w-28"
                 text="Cancel"
                 variant="secondary"
-                onClick={() => naviage('/blueprint')}
+                onClick={() => {
+                  navigate('/blueprint');
+                }}
               />
               {Number(selectedBlueprint.mintPriceUnit) === 0 ? (
                 <Button

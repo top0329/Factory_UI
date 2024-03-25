@@ -236,7 +236,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium px-2.5 rounded-xl opacity-90`}
                 >
-                  {selectedOwnBlueprint.data.erc20Data.length}
+                  {selectedOwnBlueprint.data.erc20Data &&
+                    selectedOwnBlueprint.data.erc20Data.length}
                 </p>
               </button>
               <button
@@ -255,7 +256,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium px-2.5 rounded-xl opacity-90`}
                 >
-                  {selectedOwnBlueprint.data.erc721Data.length}
+                  {selectedOwnBlueprint.data.erc721Data &&
+                    selectedOwnBlueprint.data.erc721Data.length}
                 </p>
               </button>
               <button
@@ -274,7 +276,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                       : 'bg-secondary text-light-gray'
                   } font-medium px-2.5 rounded-xl opacity-90`}
                 >
-                  {selectedOwnBlueprint.data.erc1155Data.length}
+                  {selectedOwnBlueprint.data.erc1155Data &&
+                    selectedOwnBlueprint.data.erc1155Data.length}
                 </p>
               </button>
             </div>
@@ -282,7 +285,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
           <div className="px-4 py-10 h-full md:px-12 xs:px-8">
             {activeTab === 1 && (
               <div className="grid grid-cols-2 gap-4 place-items-center">
-                {selectedOwnBlueprint.data.erc20Data.length > 0 &&
+                {selectedOwnBlueprint.data.erc20Data &&
+                  selectedOwnBlueprint.data.erc20Data.length > 0 &&
                   selectedOwnBlueprint.data.erc20Data.map(
                     (
                       erc20: {
@@ -308,7 +312,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             )}
             {activeTab === 2 && (
               <div className="grid grid-cols-2 gap-4 place-items-center">
-                {selectedOwnBlueprint.data.erc721Data.length > 0 &&
+                {selectedOwnBlueprint.data.erc721Data &&
+                  selectedOwnBlueprint.data.erc721Data.length > 0 &&
                   selectedOwnBlueprint.data.erc721Data.map(
                     (erc721: {
                       tokenId: number;
@@ -331,7 +336,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             )}
             {activeTab === 3 && (
               <div className="grid grid-cols-2 gap-4 place-items-center">
-                {selectedOwnBlueprint.data.erc1155Data.length > 0 &&
+                {selectedOwnBlueprint.data.erc1155Data &&
+                  selectedOwnBlueprint.data.erc1155Data.length > 0 &&
                   selectedOwnBlueprint.data.erc1155Data.map(
                     (erc1155: {
                       tokenId: number;
