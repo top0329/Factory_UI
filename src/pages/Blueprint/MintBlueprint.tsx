@@ -11,11 +11,13 @@ import useToast from '../../hooks/useToast';
 import erc20Abi from '../../abi/ERC20ABI.json';
 import { blueprintSelectionState } from '../../jotai/atoms';
 import { usdtAddress, usdcAddress } from '../../constants';
+import useSpinner from '../../hooks/useSpinner';
 
 const MintBlueprintPage = () => {
   const { factoryContract, factoryWeb3, account, erc20Approve, library } =
     useWeb3();
   const { showToast } = useToast();
+  const { openSpin, closeSpin } = useSpinner();
 
   const navigate = useNavigate();
 
@@ -117,6 +119,7 @@ const MintBlueprintPage = () => {
               ).toString(),
               6
             );
+            openSpin('Approving...');
             await erc20Approve(usdtAddress, approveValue.toString());
             setIsApproved(true);
             showToast('success', 'Approved successfully');
@@ -141,6 +144,7 @@ const MintBlueprintPage = () => {
               ).toString(),
               6
             );
+            openSpin('Approving...');
             await erc20Approve(usdcAddress, approveValue.toString());
             setIsApproved(true);
             showToast('success', 'Approved successfully');
@@ -159,6 +163,8 @@ const MintBlueprintPage = () => {
     } catch (err) {
       setIsApproved(false);
       console.log(err);
+    } finally {
+      closeSpin();
     }
   };
 
@@ -176,6 +182,7 @@ const MintBlueprintPage = () => {
             blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
               blueprintMintFee
           ) {
+            openSpin('Minting Blueprint...');
             const transition = await factoryWeb3.methods
               .mintBlueprint(
                 account,
@@ -200,6 +207,7 @@ const MintBlueprintPage = () => {
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
             ) {
               if (isApproved) {
+                openSpin('Minting Blueprint...');
                 const transition = await factoryWeb3.methods
                   .mintBlueprint(
                     account,
@@ -232,6 +240,7 @@ const MintBlueprintPage = () => {
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
             ) {
               if (isApproved) {
+                openSpin('Minting Blueprint...');
                 const transition = await factoryWeb3.methods
                   .mintBlueprint(
                     account,
@@ -260,6 +269,8 @@ const MintBlueprintPage = () => {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      closeSpin();
     }
   };
 
