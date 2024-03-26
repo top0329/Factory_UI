@@ -361,7 +361,7 @@ const MintBlueprintPage = () => {
                   className="absolute -bottom-12 right-2 mb-2 px-4 py-2 bg-gray-700 text-white text-xs rounded-lg transition-opacity opacity-100"
                   style={{ transition: 'opacity 0.3s' }}
                 >
-                  Blueprint Mint Amount Over!
+                  Blueprint Mint Limit Over!
                 </div>
               )}
               {isMintAmountEmpty && (
