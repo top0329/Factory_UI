@@ -5,6 +5,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../../Button';
 import Image from '../../Image';
+import { productAddress } from '../../../constants';
 // import {
 //   selectedProductintAtom,
 //   productSelectionState,
@@ -16,7 +17,6 @@ export interface Props {
   name: string;
   productId: number;
   balance: number;
-  address: string;
   onClick?: () => void;
   onClickDecompose: () => void;
 }
@@ -26,14 +26,13 @@ const ProductCard: FC<Props> = ({
   name,
   productId,
   balance,
-  address,
   onClick,
   onClickDecompose,
 }) => {
   const [tooltipMessage, setTooltipMessage] = useState('Copy to clipboard');
   // const navigate = useNavigate();
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(address).then(() => {
+    navigator.clipboard.writeText(productAddress).then(() => {
       setTooltipMessage('Copied!'); // Update tooltip message on success
       setTimeout(() => {
         setTooltipMessage('Copy to clipboard'); // Reset tooltip message after delay
@@ -105,7 +104,8 @@ const ProductCard: FC<Props> = ({
                     className="hidden md:block item-center my-auto"
                   />
                   <p>
-                    {address.substring(0, 7)}...{address.slice(-5)}
+                    {productAddress.substring(0, 7)}...
+                    {productAddress.slice(-5)}
                   </p>
                 </div>
                 <button

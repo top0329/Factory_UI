@@ -30,6 +30,7 @@ const NewBlueprintPage = () => {
     async function init() {
       try {
         setCreateBlueprint({
+          id: '',
           name: '',
           uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
           creator: '',

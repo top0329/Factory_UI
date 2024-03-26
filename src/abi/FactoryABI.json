@@ -176,13 +176,6 @@
     "type": "event"
   },
   {
-    "inputs": [],
-    "name": "BlueprintContract",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       { "internalType": "uint256", "name": "blueprintId", "type": "uint256" }
     ],
@@ -193,8 +186,28 @@
   },
   {
     "inputs": [],
-    "name": "ProductContract",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "_blueprint",
+    "outputs": [
+      { "internalType": "contract Blueprint", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_custody",
+    "outputs": [
+      { "internalType": "contract Custody", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "_product",
+    "outputs": [
+      { "internalType": "contract Product", "name": "", "type": "address" }
+    ],
     "stateMutability": "view",
     "type": "function"
   },
@@ -202,13 +215,6 @@
     "inputs": [],
     "name": "blueprintCreationFee",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "blueprintCreators",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -321,11 +327,12 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "getBlueprintCreators",
-    "outputs": [
-      { "internalType": "address[]", "name": "", "type": "address[]" }
+    "inputs": [
+      { "internalType": "uint256", "name": "blueprintId", "type": "uint256" },
+      { "internalType": "uint256", "name": "amount", "type": "uint256" }
     ],
+    "name": "getExpectedFee",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -346,6 +353,19 @@
     "name": "mintBlueprint",
     "outputs": [],
     "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "operator", "type": "address" },
+      { "internalType": "address", "name": "from", "type": "address" },
+      { "internalType": "uint256", "name": "id", "type": "uint256" },
+      { "internalType": "uint256", "name": "value", "type": "uint256" },
+      { "internalType": "bytes", "name": "data", "type": "bytes" }
+    ],
+    "name": "onERC1155Received",
+    "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
+    "stateMutability": "pure",
     "type": "function"
   },
   {

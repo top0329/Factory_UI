@@ -111,6 +111,7 @@ export type SelectedProduct = {
 };
 
 export type CreateBlueprint = {
+  id: number | '';
   name: string;
   uri: string;
   creator: Address | '' | undefined;

@@ -30,6 +30,7 @@
   "devDependencies": {
     "@iconify/react": "^4.1.1",
     "@types/glidejs__glide": "^3.6.5",
+    "@types/json-schema": "^7.0.15",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
