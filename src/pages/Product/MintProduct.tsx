@@ -62,10 +62,11 @@ const MintProductPage = () => {
     library,
     account,
     factoryContract,
+    factoryWeb3,
     blueprintWeb3,
     blueprintContract,
   } = useWeb3();
-  const defauktERC20Image =
+  const defaultERC20Image =
     'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,11 +106,7 @@ const MintProductPage = () => {
 
   const handleApprove = async () => {
     try {
-      // console.log(
-      //   'selectedOwnData.data.erc20Data>>>',
-      //   selectedOwnData.data.length
-      // );
-      if (isConnected && library) {
+      if (isConnected && library && blueprintMintAmountValue) {
         const isApproved = await blueprintContract.isApprovedForAll(
           account,
           await factoryContract.getAddress()
@@ -144,12 +141,9 @@ const MintProductPage = () => {
   };
 
   const handleMintProduct = async () => {
-    await factoryContract.createProduct(
-      selectedOwnBlueprint.id,
-      blueprintMintAmountValue,
-      '0x'
-    );
-    alert('Mint Product');
+    await factoryWeb3.methods
+      .createProduct(selectedOwnBlueprint.id, blueprintMintAmountValue, '0x')
+      .send({ from: account });
   };
 
   return (
@@ -253,7 +247,7 @@ const MintProductPage = () => {
                     key={index}
                     {...dataItem}
                     type={0}
-                    uri={defauktERC20Image}
+                    uri={defaultERC20Image}
                   />
                 ))}
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
