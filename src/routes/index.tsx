@@ -23,13 +23,13 @@ const UpdateBlueprintPage = Loadable(
 const TransferOwnership = Loadable(
   lazy(() => import('../pages/Blueprint/TransferOwnership'))
 );
-const ProductPage = Loadable(lazy(() => import('../pages/Product')));
+const MyBlueprint = Loadable(lazy(() => import('../pages/MyBlueprint')));
 const MintProductPage = Loadable(
-  lazy(() => import('../pages/Product/MintProduct'))
+  lazy(() => import('../pages/MyBlueprint/MintProduct'))
 );
-const DecomposePage = Loadable(lazy(() => import('../pages/Decompose')));
+const Product = Loadable(lazy(() => import('../pages/Product')));
 const DecomposeProductPage = Loadable(
-  lazy(() => import('../pages/Decompose/DecomposeProduct'))
+  lazy(() => import('../pages/Product/DecomposeProduct'))
 );
 const ComponentPage = Loadable(lazy(() => import('../pages/Component')));
 
@@ -86,11 +86,11 @@ const CommonRoutes = {
           ],
         },
         {
-          path: 'product',
+          path: 'my-blueprint',
           children: [
             {
               path: '',
-              element: <ProductPage />,
+              element: <MyBlueprint />,
             },
             {
               path: 'mint/:id',
@@ -99,14 +99,14 @@ const CommonRoutes = {
           ],
         },
         {
-          path: 'decompose',
+          path: 'product',
           children: [
             {
               path: '',
-              element: <DecomposePage />,
+              element: <Product />,
             },
             {
-              path: 'product/:id',
+              path: 'decompose/:id',
               element: <DecomposeProductPage />,
             },
           ],

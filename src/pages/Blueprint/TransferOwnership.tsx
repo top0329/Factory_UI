@@ -7,7 +7,7 @@ import copy from 'copy-to-clipboard';
 import Button from '../../components/Button';
 import { blueprintSelectionState } from '../../jotai/atoms';
 const TransferOwnership = () => {
-  const naviage = useNavigate();
+  const navigate = useNavigate();
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
@@ -143,7 +143,7 @@ const TransferOwnership = () => {
                     className="flex justify-center px-12 h-9"
                     text="Cancel"
                     variant="secondary"
-                    onClick={() => naviage('/blueprint')}
+                    onClick={() => navigate('/blueprint')}
                   />
                   <Button
                     onClick={toggleModal}

@@ -214,7 +214,7 @@ const MintProductPage = () => {
                 className="flex justify-center w-[160px] !h-9 rounded-xl"
                 text="Cancel"
                 variant="secondary"
-                onClick={() => navigate('/product')}
+                onClick={() => navigate('/my-blueprint')}
               />
               <Button
                 onClick={handleApprove}

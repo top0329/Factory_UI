@@ -102,22 +102,22 @@ function Footer() {
                 headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
-                navigate('/product');
+                navigate('/my-blueprint');
                 setHeaderActiveItem(2);
               }}
             >
-              Product
+              My Blueprint
             </button>
             <button
               className={`text-left ${
                 headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
-                navigate('/decompose');
+                navigate('/product');
                 setHeaderActiveItem(3);
               }}
             >
-              Decompose
+              Product
             </button>
             <button
               className={`text-left ${

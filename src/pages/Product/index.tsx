@@ -1,79 +1,38 @@
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
-import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
-import SearchBar from '../../components/SearchBar';
-import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
-// import productData from '../../../own-blueprint-data.json';
-import {
-  selectedOwnBlueprintAtom,
-  ownBlueprintTokenListAtom,
-} from '../../jotai/atoms';
-import useWeb3 from '../../hooks/useWeb3';
-import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
+import { useNavigate } from 'react-router-dom';
 
-interface TempObject {
-  id: number;
-  name: string;
-  uri: string;
-  creator: string;
-  balance: number;
-  blueprintAddress: string;
-  myBlueprint: boolean;
-  data: any;
-}
+import SearchBar from '../../components/SearchBar';
+import productData from '../../../own-blueprint-data.json';
+import {
+  selectedProductintAtom,
+  productSelectionState,
+  productTokenIdListAtom,
+  // blueprintTokenListAtom,
+} from '../../jotai/atoms';
+import ProductCard from '../../components/Cards/BlueprintCard/ProductCard';
+import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer';
+import useWeb3 from '../../hooks/useWeb3';
 
 const ProductPage = () => {
-  const { blueprintContract, account } = useWeb3();
-
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-  const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
-  const [, setOwnBlueprintTokenList] = useAtom(ownBlueprintTokenListAtom);
-  const [productTokenList, setProductTokenList] = useState<Array<TempObject>>(
-    []
-  );
+  const [, setSelectedProduct] = useAtom(selectedProductintAtom);
+  const [, setProductSelectionState] = useAtom(productSelectionState);
+  const [, setProductTokenIdList] = useAtom(productTokenIdListAtom);
+  const navigate = useNavigate();
+
+  const { productContract } = useWeb3();
+
   useEffect(() => {
-    const getBlueprintTokenList = async () => {
-      try {
-        const blueprintTokenIds: Array<number> =
-          await blueprintContract.getBlueprintIds();
-
-        const tempTokenList = await Promise.all(
-          blueprintTokenIds.map(async (id: number) => {
-            const blueprintToken = await blueprintContract.getBlueprintNFTData(
-              id
-            );
-
-            setOwnBlueprintTokenList(blueprintToken);
-
-            const balance: number = Number(
-              await blueprintContract.balanceOf(blueprintToken.creator, id)
-            );
-
-            const imageUri: string = String(
-              await tokenUriToImageUri(blueprintToken.uri)
-            );
-
-            const tempObject = {
-              id: Number(blueprintToken.id),
-              name: blueprintToken.name,
-              uri: imageUri,
-              creator: blueprintToken.creator,
-              balance: balance,
-              blueprintAddress: await blueprintContract.getAddress(),
-              myBlueprint: blueprintToken.creator == account,
-              data: blueprintToken.data,
-            };
-            return tempObject;
-          })
-        );
-
-        setProductTokenList(tempTokenList);
-      } catch (error) {
-        console.log(error);
-      }
+    const getTokenList = async () => {
+      const tokenIdList = await productContract.getProductIDs();
+      setProductTokenIdList(tokenIdList);
+      // let productTokenItems = blueprintTokenListAtom.filter((data) =>
+      //   productTokenIdListAtom.includes(data.id)
+      // );
     };
-    getBlueprintTokenList();
-  }, [account, blueprintContract, setOwnBlueprintTokenList]);
+    getTokenList();
+  });
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -84,45 +43,52 @@ const ProductPage = () => {
       document.body.style.overflow = 'hidden';
     }
   };
-  const handleBlueprintCardClicked = (blueprint: any) => {
-    // console.log('blueprint>>>>>>>>', blueprint.data.erc20Data[0].tokenAddress);
-    setSelectedBlueprint(blueprint);
+  const handleProductCardClicked = (product: any) => {
+    setSelectedProduct(product);
     showSidebar();
   };
+
+  const handleDecomposeProduct = (product: any) => {
+    setSelectedProduct(product);
+    setProductSelectionState(product);
+    navigate(`/product/decompose/${product.id}`);
+  };
   return (
-    <div className="flex flex-col min-w-[320px] gap-2 text-white">
-      <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
-        Own Blueprints
-      </h1>
-      <div>
-        <SearchBar
-          pageFilter="normal"
-          advancedFilter
-          placeholders="Search for Blueprint ID, Name and Creator"
+    <div className="text-white">
+      <div className="flex flex-col min-w-[320px] gap-2 text-white">
+        <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
+          My Products
+        </h1>
+        <div>
+          <SearchBar
+            pageFilter="decompose"
+            advancedFilter
+            placeholders="Search for Proudct ID and Name."
+          />
+        </div>
+        <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
+          {productData.length > 0 &&
+            productData.map((product) => {
+              return (
+                <div className="flex justify-center" key={product.id}>
+                  <ProductCard
+                    productId={product.id}
+                    name={product.name}
+                    uri={product.uri}
+                    balance={product.balance}
+                    address={product.blueprintAddress}
+                    onClick={() => handleProductCardClicked(product)}
+                    onClickDecompose={() => handleDecomposeProduct(product)}
+                  />
+                </div>
+              );
+            })}
+        </div>
+        <ProductDetailsDrawer
+          isDrawerOpen={isDrawerOpen}
+          setIsDrawerOpen={setIsDrawerOpen}
         />
       </div>
-      <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-        {productTokenList.length > 0 &&
-          productTokenList.map((product) => {
-            return (
-              <div className="flex justify-center" key={product.id}>
-                <OwnBlueprintCard
-                  blueprintId={product.id}
-                  name={product.name}
-                  uri={product.uri}
-                  balance={product.balance}
-                  address={product.creator}
-                  myBlueprint={product.myBlueprint}
-                  onClick={() => handleBlueprintCardClicked(product)}
-                />
-              </div>
-            );
-          })}
-      </div>
-      <OwnBlueprintDetailsDrawer
-        isDrawerOpen={isDrawerOpen}
-        setIsDrawerOpen={setIsDrawerOpen}
-      />
     </div>
   );
 };

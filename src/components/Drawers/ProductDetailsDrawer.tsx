@@ -56,8 +56,8 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []); // Empty array ensures that effect is only run on mount and unmount
 
-  const handleMintProductButtonClicked = () => {
-    navigate(`/decompose/product/${selectedProduct.id}`);
+  const handleDecomposeButtonClicked = () => {
+    navigate(`/product/decompose/${selectedProduct.id}`);
     sideDrawerClosedHandler();
     setProductSelectionState(selectedProduct);
   };
@@ -135,7 +135,7 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
                 text="Decompose"
                 variant="outline"
                 icon={<Icon className="w-6 h-6" icon="ri:exchange-line" />}
-                onClick={handleMintProductButtonClicked}
+                onClick={handleDecomposeButtonClicked}
               />
             </div>
             <div className="flex justify-start items-start mt-5 md:justify-between">

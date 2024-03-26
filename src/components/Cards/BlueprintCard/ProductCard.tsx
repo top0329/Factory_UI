@@ -46,8 +46,7 @@ const ProductCard: FC<Props> = ({
   // );
   // const onClickDecompose = () => {
   //   setProductSelectionState(selectedProduct);
-  //   navigate(`/decompose/product/${selectedProduct.id}`);
-
+  //   navigate(`/product/decompose/${selectedProduct.id}`);
   // };
 
   return (
