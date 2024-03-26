@@ -92,12 +92,21 @@ export default function ListCard(props: ListCardInterface) {
         if (props.type == 0) {
           erc20Approve(
             tokenAddress,
+            await factoryContract.getAddress(),
             String(ethers.parseUnits(String(tokenAmount), decimal))
           );
         } else if (props.type == 1) {
-          erc721Approve(tokenAddress, String(tokenId));
+          erc721Approve(
+            tokenAddress,
+            await factoryContract.getAddress(),
+            String(tokenId)
+          );
         } else if (props.type == 2) {
-          erc1155Approve(tokenAddress);
+          erc1155Approve(
+            tokenAddress,
+            await factoryContract.getAddress(),
+            true
+          );
         } else if (props.type == 4) {
           await blueprintContract.setApprovalForAll(
             await factoryContract.getAddress(),

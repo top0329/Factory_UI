@@ -120,7 +120,11 @@ const MintBlueprintPage = () => {
               6
             );
             openSpin('Approving...');
-            await erc20Approve(usdtAddress, approveValue.toString());
+            await erc20Approve(
+              usdtAddress,
+              await factoryContract.getAddress(),
+              approveValue.toString()
+            );
             setIsApproved(true);
             showToast('success', 'Approved successfully');
           } else {
@@ -145,7 +149,11 @@ const MintBlueprintPage = () => {
               6
             );
             openSpin('Approving...');
-            await erc20Approve(usdcAddress, approveValue.toString());
+            await erc20Approve(
+              usdcAddress,
+              await factoryContract.getAddress(),
+              approveValue.toString()
+            );
             setIsApproved(true);
             showToast('success', 'Approved successfully');
           } else {
