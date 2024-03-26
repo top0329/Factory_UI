@@ -14,19 +14,20 @@ export interface Props {
   isNewButton?: boolean;
   placeholders: string;
   advancedFilter?: boolean;
+  pageFilter?: 'normal' | 'decompose' | 'component';
 }
 
 const SearchBar: FC<Props> = ({
   isNewButton,
   placeholders,
   advancedFilter,
+  pageFilter,
 }) => {
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
-
   const [showFilterOption, setShowFilterOption] = useState<boolean>(false);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,7 +47,7 @@ const SearchBar: FC<Props> = ({
   };
 
   return (
-    <div className="my-5 gap-3 xs:flex xs:items-center">
+    <div className="my-5 gap-3 sm:flex sm:items-center">
       <div className="flex w-full relative">
         {advancedFilter && (
           <React.Fragment>
@@ -99,13 +100,15 @@ const SearchBar: FC<Props> = ({
       <div
         className={`flex ${
           isNewButton === true ? 'justify-between' : ''
-        } items-center xs:mt-0 mt-2 xs:w-auto w-full`}
+        } items-center sm:mt-0 mt-2 sm:w-auto w-full gap-2`}
       >
-        <AdvancedSort />
+        <div className="w-full sm:w-[200px]">
+          <AdvancedSort filterOption={pageFilter} />
+        </div>
         <Button
           className={`${
             isNewButton === true ? 'flex' : 'hidden'
-          } truncate justify-center px-0.5 py-2 search-button-width rounded-lg border border-primary bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm sm:min-w-36`}
+          } truncate !text-base justify-center px-0.5 py-1 search-button-width rounded-lg bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:w-auto sm:text-sm sm:min-w-36`}
           text="New Blueprint"
           variant="primary"
           onClick={() => navigate('/blueprint/new')}

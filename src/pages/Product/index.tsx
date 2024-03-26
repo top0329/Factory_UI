@@ -96,6 +96,7 @@ const ProductPage = () => {
       </h1>
       <div>
         <SearchBar
+          pageFilter="normal"
           advancedFilter
           placeholders="Search for Blueprint ID, Name and Creator"
         />
