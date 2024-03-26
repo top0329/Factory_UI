@@ -408,7 +408,7 @@ const MintBlueprintPage = () => {
                 text="Cancel"
                 variant="secondary"
                 onClick={() => {
-                  navigate('/my-blueprint');
+                  navigate('/blueprint');
                 }}
               />
               {Number(selectedBlueprint.mintPriceUnit) === 0 ? (
