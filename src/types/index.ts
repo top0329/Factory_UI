@@ -125,6 +125,9 @@ export interface ListCardInterface {
   tokenAddress: string;
   tokenId?: number;
   amount?: number;
+  0?: string;
+  1?: string;
+  2?: string;
 }
 
 export type AddComponentModalInputValue = {

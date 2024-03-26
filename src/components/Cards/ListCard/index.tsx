@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import { erc20Abi, erc721Abi } from 'viem';
 import { Icon } from '@iconify/react/dist/iconify.js';
@@ -8,15 +8,76 @@ import useWeb3 from '../../../hooks/useWeb3';
 import erc1155Abi from '../../../abi/ERC1155ABI.json';
 import { ListCardInterface } from '../../../types';
 import { defaultRPC } from '../../../constants';
+import Web3, { HttpProvider } from 'web3';
+import { tokenUriToName } from '../../../utils/tokenUriToName';
+import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
 
 export default function ListCard(props: ListCardInterface) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const { factoryContract, blueprintContract } = useWeb3();
+  const {
+    factoryContract,
+    isConnected,
+    library,
+    blueprintContract,
+    account,
+    erc20Approve,
+    erc721Approve,
+    erc1155Approve,
+  } = useWeb3();
+  const [componentName, setComponentName] = useState<string>('');
+  const [tokenAmount, setTokenAmount] = useState<number>();
+  const [tokenAddress, setTokenAddress] = useState<string>('');
+  const [tokenImage, setTokenImage] = useState<string>('');
+  const [tokenId, setTokenId] = useState<number>();
+  const [decimal, setDecimal] = useState<number>();
+  useEffect(() => {
+    const getContractInfo = async () => {
+      const web3 = new Web3(new HttpProvider(defaultRPC));
+      const erc20Contract = new web3.eth.Contract(erc20Abi, props[0]);
+
+      const erc721Contract = new web3.eth.Contract(erc721Abi, props[0]);
+
+      const erc1155Contract = new web3.eth.Contract(erc1155Abi, props[0]);
+
+      if (props.type == 0) {
+        const name: string = await erc20Contract.methods
+          .name()
+          .call({ from: account });
+
+        const _decimal: number = await erc20Contract.methods
+          .decimals()
+          .call({ from: account });
+        setComponentName(name);
+        setTokenAmount(Number(props[1]));
+        setTokenAddress(String(props[0]));
+        setTokenImage(props.uri);
+        setDecimal(_decimal);
+      } else if (props.type == 1) {
+        const name: string = await erc721Contract.methods
+          .name()
+          .call({ from: account });
+        setComponentName(name);
+        setTokenId(Number(props[1]));
+        setTokenAddress(String(props[0]));
+      } else if (props.type == 2) {
+        const uri: string = await erc1155Contract.methods
+          .uri(props[1])
+          .call({ from: account });
+
+        setComponentName(await tokenUriToName(uri));
+        setTokenAddress(String(props[0]));
+        setTokenAmount(Number(props[2]));
+        setTokenId(Number(props[1]));
+        setTokenImage(String(await tokenUriToImageUri(uri)));
+      }
+    };
+    getContractInfo();
+  });
 
   const handleCopyButtonClicked = () => {
     try {
       setIsCopied(true);
-      copy(props.tokenAddress);
+      copy(tokenAddress);
       setTimeout(() => {
         setIsCopied(false);
       }, 2000);
@@ -26,49 +87,28 @@ export default function ListCard(props: ListCardInterface) {
   };
 
   const handleApprove = async () => {
-    console.log('props>>>>>>>>>>>>>', props);
-    alert('Approve');
-    const provider = new ethers.JsonRpcProvider(defaultRPC);
-    const erc20Contract = new ethers.Contract(
-      props.tokenAddress,
-      erc20Abi,
-      provider
-    );
-
-    const erc721Contract = new ethers.Contract(
-      props.tokenAddress,
-      erc721Abi,
-      provider
-    );
-
-    const erc1155Contract = new ethers.Contract(
-      props.tokenAddress,
-      erc1155Abi,
-      provider
-    );
-
-    if (props.type == 1) {
-      await erc20Contract.approve(
-        await factoryContract.getAddress(),
-        props.amount
-      );
-    } else if (props.type == 2) {
-      await erc721Contract.setApprovalForAll(
-        await factoryContract.getAddress(),
-        true
-      );
-    } else if (props.type == 3) {
-      await erc1155Contract.setApprovalForAll(
-        await factoryContract.getAddress(),
-        true
-      );
-    } else if (props.type == 4) {
-      await blueprintContract.setApprovalForAll(
-        await factoryContract.getAddress(),
-        true
-      );
-    } else {
-      console.log('Invalid Component');
+    try {
+      if (isConnected && library) {
+        if (props.type == 0) {
+          erc20Approve(
+            tokenAddress,
+            String(ethers.parseUnits(String(tokenAmount), decimal))
+          );
+        } else if (props.type == 1) {
+          erc721Approve(tokenAddress, String(tokenId));
+        } else if (props.type == 2) {
+          erc1155Approve(tokenAddress);
+        } else if (props.type == 4) {
+          await blueprintContract.setApprovalForAll(
+            await factoryContract.getAddress(),
+            true
+          );
+        } else {
+          console.log('Invalid Component');
+        }
+      }
+    } catch (err: any) {
+      console.log(err);
     }
   };
 
@@ -90,7 +130,7 @@ export default function ListCard(props: ListCardInterface) {
     >
       <div id="icon" className="flex justify-center py-2">
         <img
-          src={props.uri}
+          src={tokenImage}
           className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
         />
       </div>
@@ -118,7 +158,7 @@ export default function ListCard(props: ListCardInterface) {
             props.type == 4 ? '!text-white' : ''
           } truncate`}
         >
-          {props.name}
+          {componentName}
         </p>
       </div>
 
@@ -133,8 +173,7 @@ export default function ListCard(props: ListCardInterface) {
               props.type == 4 ? '!text-white' : ''
             }`}
           >
-            {/* {props.tokenAddress.substring(0, 8)} . . .{' '}
-            {props.tokenAddress.slice(-6)} */}
+            {tokenAddress.substring(0, 8)} . . . {tokenAddress.slice(-6)}
           </p>
           <div className="relative">
             <button>
@@ -167,7 +206,7 @@ export default function ListCard(props: ListCardInterface) {
                 props.type == 4 ? '!text-white' : ''
               }`}
             >
-              {props.tokenId}
+              {tokenId}
             </p>
           </div>
         )}
@@ -179,7 +218,7 @@ export default function ListCard(props: ListCardInterface) {
             <p className="text-[#858584] text-xs">
               {props.type == 4 ? 'Balance' : 'Amount'}
             </p>
-            <p className="text-center">{props.amount}</p>
+            <p className="text-center">{tokenAmount}</p>
           </div>
         )}
       </div>
