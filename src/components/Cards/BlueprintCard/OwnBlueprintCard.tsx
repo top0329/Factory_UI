@@ -34,11 +34,11 @@ const OwnBlueprintCard: FC<Props> = ({
   return (
     <div
       id="container"
-      className=" h-min xs:w-full sm:w-full md:w-full border-2 border-[#00F0FF]/30 bg-[#011018] rounded-3xl border-block overflow-clip"
+      className="h-min w-full border-2 border-[#00F0FF]/30 bg-[#011018] rounded-3xl border-block overflow-clip"
       onClick={onClick}
     >
-      <div className="relative xs:w-full sm:w-full md:w-full overflow-hidden">
-        <div className="xs:w-full sm:w-full md:w-full md:h-full overflow-hidden object-cover">
+      <div className="relative w-full overflow-hidden">
+        <div className="w-full overflow-hidden object-cover">
           <Image
             className="w-full aspect-square"
             src={uri}
