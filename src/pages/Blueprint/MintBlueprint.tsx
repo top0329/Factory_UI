@@ -202,7 +202,7 @@ const MintBlueprintPage = () => {
             console.log(transition);
             showToast('success', 'Blueprint minted successfully');
             setIsApproved(false);
-            navigate('/product');
+            navigate('/my-blueprint');
           } else {
             showToast('warning', "You don't have enough eth");
             console.log("You don't have enough eth");
@@ -227,7 +227,7 @@ const MintBlueprintPage = () => {
                 console.log(transition);
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
-                navigate('/product');
+                navigate('/my-blueprint');
               } else {
                 showToast('warning', 'Not approved');
                 console.log('Not approved');
@@ -260,7 +260,7 @@ const MintBlueprintPage = () => {
                 console.log(transition);
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
-                navigate('/product');
+                navigate('/my-blueprint');
               } else {
                 showToast('warning', 'Not approved');
                 console.log('Not approved');
@@ -408,7 +408,7 @@ const MintBlueprintPage = () => {
                 text="Cancel"
                 variant="secondary"
                 onClick={() => {
-                  navigate('/blueprint');
+                  navigate('/my-blueprint');
                 }}
               />
               {Number(selectedBlueprint.mintPriceUnit) === 0 ? (

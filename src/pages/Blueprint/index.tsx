@@ -45,7 +45,6 @@ const BlueprintPage = () => {
               } else {
                 temp[5] = ethers.formatUnits(temp[5], 6);
               }
-              console.log(temp[5]);
             } catch (err) {
               console.log(err);
             }

@@ -56,7 +56,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
   }, []);
 
   const handleMintProductButtonClicked = () => {
-    navigate(`/product/mint/${selectedOwnBlueprint.id}`);
+    navigate(`/my-blueprint/mint/${selectedOwnBlueprint.id}`);
     sideDrawerClosedHandler();
     setBlueprintSelectionState(selectedOwnBlueprint);
   };

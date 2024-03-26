@@ -47,22 +47,22 @@ function Header() {
                 headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
               }`}
               onClick={() => {
-                navigate('/product');
+                navigate('/my-blueprint');
                 setHeaderActiveItem(2);
               }}
             >
-              Product
+              My Blueprint
             </button>
             <button
               className={`${
                 headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
               }`}
               onClick={() => {
-                navigate('/decompose');
+                navigate('/product');
                 setHeaderActiveItem(3);
               }}
             >
-              Decompose
+              Product
             </button>
             <button
               className={`${
@@ -127,12 +127,12 @@ function Header() {
                       headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
                     } w-full hover:bg-secondary`}
                     onClick={() => {
-                      navigate('/product');
+                      navigate('/my-blueprint');
                       setHeaderActiveItem(2);
                       setIsListButtonClicked(false);
                     }}
                   >
-                    Product
+                    My Blueprint
                   </button>
                 </li>
                 <li>
@@ -141,12 +141,12 @@ function Header() {
                       headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
                     } w-full hover:bg-secondary`}
                     onClick={() => {
-                      navigate('/decompose');
+                      navigate('/product');
                       setHeaderActiveItem(3);
                       setIsListButtonClicked(false);
                     }}
                   >
-                    Decompose
+                    Product
                   </button>
                 </li>
                 <li>
