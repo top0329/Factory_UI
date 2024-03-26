@@ -13,7 +13,10 @@ const Component = () => {
           Components
         </h1>
       </div>
-      <SearchBar placeholders="Search for Blueprint ID, Name and Creator" />
+      <SearchBar
+        pageFilter="component"
+        placeholders="Search for Blueprint ID, Name and Creator"
+      />
       <div className="grid grid-cols-2 pt-8 pb-16 gap-2 xs:grid-cols-2 sm:grid-cols-2 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
         {Components.erc20Data.length > 0 &&
           Components.erc20Data.map(

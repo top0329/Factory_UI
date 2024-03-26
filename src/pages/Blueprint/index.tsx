@@ -137,6 +137,7 @@ const BlueprintPage = () => {
         </div>
       </div>
       <SearchBar
+        pageFilter="normal"
         isNewButton
         advancedFilter
         placeholders="Search for Blueprint ID, Name and Creator"
