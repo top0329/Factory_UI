@@ -89,6 +89,7 @@ export const productSelectionState = localStorageEffect('selected-product')(
 );
 export const isCreatorModeAtom = atom<boolean>(false);
 export const createBlueprintAtom = atom<CreateBlueprint>({
+  id: '',
   name: '',
   uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
   creator: '',

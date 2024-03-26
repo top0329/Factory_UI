@@ -76,7 +76,6 @@ const ProductPage = () => {
                     name={product.name}
                     uri={product.uri}
                     balance={product.balance}
-                    address={product.blueprintAddress}
                     onClick={() => handleProductCardClicked(product)}
                     onClickDecompose={() => handleDecomposeProduct(product)}
                   />

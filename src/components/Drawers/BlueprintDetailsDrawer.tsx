@@ -200,7 +200,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 </div>
                 <div className="flex gap-3">
                   <p className="text-light-gray text-sm">Creator</p>
-                  {selectedBlueprint.myBlueprint === true && (
+                  {selectedBlueprint.creator === account && (
                     <p className="flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
                       My Blueprint
                     </p>
