@@ -224,7 +224,7 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
-                Product Type
+                Component Type
               </p>
             </li>
             <li>
