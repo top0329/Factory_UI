@@ -110,11 +110,11 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   }, [init]);
 
   const erc20Approve = useCallback(
-    async (erc20Address: string, amount: string) => {
+    async (erc20Address: string, spender: string, amount: string) => {
       try {
         const erc20Contract = new web3.eth.Contract(erc20Abi, erc20Address);
         await erc20Contract.methods
-          .approve(erc20Address, amount)
+          .approve(spender, amount)
           .send({ from: address });
       } catch (err) {
         console.log(err);
@@ -124,11 +124,11 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   );
 
   const erc721Approve = useCallback(
-    async (erc721Address: string, tokenId: string) => {
+    async (erc721Address: string, spender: string, tokenId: string) => {
       try {
         const erc721Contract = new web3.eth.Contract(erc721Abi, erc721Address);
         await erc721Contract.methods
-          .approve(erc721Address, tokenId)
+          .approve(spender, tokenId)
           .send({ from: address });
       } catch (err) {
         console.log(err);
@@ -138,14 +138,14 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   );
 
   const erc1155Approve = useCallback(
-    async (erc1155Address: string) => {
+    async (erc1155Address: string, spender: string, approved: boolean) => {
       try {
         const erc1155Contract = new web3.eth.Contract(
           erc1155Abi,
           erc1155Address
         );
         await erc1155Contract.methods
-          .setApprovalForAll(erc1155Address, true)
+          .setApprovalForAll(spender, approved)
           .send({ from: address });
       } catch (err) {
         console.log(err);

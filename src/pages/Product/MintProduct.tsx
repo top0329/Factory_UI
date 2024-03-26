@@ -12,6 +12,7 @@ import {
   ownBlueprintSelectionState,
   selectedOwnBlueprintAtom,
 } from '../../jotai/atoms';
+import { factoryAddress } from '../../constants';
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -61,7 +62,6 @@ const MintProductPage = () => {
     isConnected,
     library,
     account,
-    factoryContract,
     factoryWeb3,
     blueprintWeb3,
     blueprintContract,
@@ -109,7 +109,7 @@ const MintProductPage = () => {
       if (isConnected && library && blueprintMintAmountValue) {
         const isApproved = await blueprintContract.isApprovedForAll(
           account,
-          await factoryContract.getAddress()
+          factoryAddress
         );
         console.log('isApproved>>>>>>>', isApproved);
         if (isApproved) {
@@ -119,7 +119,7 @@ const MintProductPage = () => {
         } else {
           if (blueprintMintAmountValue) {
             const transaction = await blueprintWeb3.methods
-              .setApprovalForAll(await factoryContract.getAddress(), true)
+              .setApprovalForAll(factoryAddress, true)
               .send({ from: account });
 
             console.log('transaction successed', await transaction);

@@ -10,7 +10,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
 import erc20Abi from '../../abi/ERC20ABI.json';
 import { blueprintSelectionState } from '../../jotai/atoms';
-import { usdtAddress, usdcAddress } from '../../constants';
+import { usdtAddress, usdcAddress, factoryAddress } from '../../constants';
 import useSpinner from '../../hooks/useSpinner';
 
 const MintBlueprintPage = () => {
@@ -120,7 +120,11 @@ const MintBlueprintPage = () => {
               6
             );
             openSpin('Approving...');
-            await erc20Approve(usdtAddress, approveValue.toString());
+            await erc20Approve(
+              usdtAddress,
+              factoryAddress,
+              approveValue.toString()
+            );
             setIsApproved(true);
             showToast('success', 'Approved successfully');
           } else {
@@ -145,7 +149,11 @@ const MintBlueprintPage = () => {
               6
             );
             openSpin('Approving...');
-            await erc20Approve(usdcAddress, approveValue.toString());
+            await erc20Approve(
+              usdcAddress,
+              factoryAddress,
+              approveValue.toString()
+            );
             setIsApproved(true);
             showToast('success', 'Approved successfully');
           } else {
