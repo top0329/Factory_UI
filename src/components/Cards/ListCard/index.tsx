@@ -7,7 +7,7 @@ import copy from 'copy-to-clipboard';
 import useWeb3 from '../../../hooks/useWeb3';
 import erc1155Abi from '../../../abi/ERC1155ABI.json';
 import { ListCardInterface } from '../../../types';
-import { defaultRPC } from '../../../constants';
+import { defaultRPC, factoryAddress } from '../../../constants';
 import Web3, { HttpProvider } from 'web3';
 import { tokenUriToName } from '../../../utils/tokenUriToName';
 import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
@@ -15,7 +15,6 @@ import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
 export default function ListCard(props: ListCardInterface) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const {
-    factoryContract,
     isConnected,
     library,
     blueprintContract,
@@ -92,26 +91,15 @@ export default function ListCard(props: ListCardInterface) {
         if (props.type == 0) {
           erc20Approve(
             tokenAddress,
-            await factoryContract.getAddress(),
+            factoryAddress,
             String(ethers.parseUnits(String(tokenAmount), decimal))
           );
         } else if (props.type == 1) {
-          erc721Approve(
-            tokenAddress,
-            await factoryContract.getAddress(),
-            String(tokenId)
-          );
+          erc721Approve(tokenAddress, factoryAddress, String(tokenId));
         } else if (props.type == 2) {
-          erc1155Approve(
-            tokenAddress,
-            await factoryContract.getAddress(),
-            true
-          );
+          erc1155Approve(tokenAddress, factoryAddress, true);
         } else if (props.type == 4) {
-          await blueprintContract.setApprovalForAll(
-            await factoryContract.getAddress(),
-            true
-          );
+          await blueprintContract.setApprovalForAll(factoryAddress, true);
         } else {
           console.log('Invalid Component');
         }
