@@ -15,6 +15,7 @@ export interface Props {
   placeholders: string;
   advancedFilter?: boolean;
   pageFilter?: 'normal' | 'decompose' | 'component';
+  isProduct?: boolean;
 }
 
 const SearchBar: FC<Props> = ({
@@ -22,6 +23,7 @@ const SearchBar: FC<Props> = ({
   placeholders,
   advancedFilter,
   pageFilter,
+  isProduct,
 }) => {
   const navigate = useNavigate();
 
@@ -59,7 +61,7 @@ const SearchBar: FC<Props> = ({
             {showFilterOption && (
               <React.Fragment>
                 <div className="absolute top-0 left-0 mt-12 ml-2 z-40">
-                  <AdvancedFilter />
+                  <AdvancedFilter isProduct={isProduct} />
                 </div>
                 <div
                   className="z-10 fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center bg-opacity-40 bg-[#1D2127]"

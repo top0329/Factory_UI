@@ -161,6 +161,10 @@ export interface AdvancedFilterValue {
   totalSupplyMax: number | '';
   mintedAmountMin: number | '';
   mintedAmountMax: number | '';
+  productIdMin: number | '';
+  productIdMax: number | '';
+  productBalanceMin: number | '';
+  productBalanceMax: number | '';
 }
 
 export enum MintPriceUnit {
