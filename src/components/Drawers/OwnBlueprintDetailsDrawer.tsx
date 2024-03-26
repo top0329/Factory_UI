@@ -10,6 +10,7 @@ import {
   ownBlueprintSelectionState,
   selectedOwnBlueprintAtom,
 } from '../../jotai/atoms';
+import useWeb3 from '../../hooks/useWeb3';
 import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
@@ -24,6 +25,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }) => {
+  const { account } = useWeb3();
+
   const navigate = useNavigate();
 
   const [selectedOwnBlueprint] = useAtom<SelectedOwnBlueprint>(
@@ -149,7 +152,14 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
             </div>
             <div className="flex justify-start items-start mt-5 md:justify-between">
               <div className="flex flex-col items-start text-white gap-2">
-                <p className="text-light-gray text-sm">Creator</p>
+                <div className="flex gap-3">
+                  <p className="text-light-gray text-sm">Creator</p>
+                  {selectedOwnBlueprint.creator === account && (
+                    <p className="flex top-[148px] z-50 right-[10px] block-content font-mono items-center rounded-2xl bg-[#06DCEC]/20 text-[11px] px-[6px] border border-[#06DCEC]/50 text-[#06DCEC]/50 text-center">
+                      My Blueprint
+                    </p>
+                  )}
+                </div>
                 <div className="relative flex items-center gap-1">
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <a
