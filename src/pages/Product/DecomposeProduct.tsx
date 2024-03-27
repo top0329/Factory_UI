@@ -18,6 +18,8 @@ const DecomposeProductPage = () => {
     productWeb3,
   } = useWeb3();
   const navigate = useNavigate();
+  const defaultERC20Image =
+    'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
 
   const handleApprove = async () => {
     if (isConnected && library) {
@@ -59,14 +61,14 @@ const DecomposeProductPage = () => {
                 Product Decompose Fee
               </p>
               <p className="xs:text-[24px] text-[16px] font-semibold">
-                0.1 ETH
+                {selectedOwnData.decomposeFee}ETH
               </p>
             </div>
             <div className=" flex justify-between gap-6 items-center">
               <input
                 type="number"
-                placeholder="Enter the number of decompose Product token"
-                className="md:w-[70%] w-1/2 h-[40px] rounded-xl placeholder-gray-600 bg-black border border-white px-2 hide-arrows"
+                placeholder="Product Amount"
+                className="md:w-[70%] w-1/2 h-[40px] rounded-xl placeholder-gray-600 bg-black border border-white px-4 hide-arrows"
               ></input>
               <Button
                 className="flex justify-center w-[160px] h-9 rounded-xl"
@@ -80,12 +82,22 @@ const DecomposeProductPage = () => {
             <p className="xs:text-[24px] text-[18px] text-left mb-4 text-[#BABABA]">
               Preview
             </p>
+            <OwnBlueprintListCard
+              isDecompose={true}
+              type={3}
+              uri={selectedOwnData.uri}
+              name={selectedOwnData.name}
+              tokenAddress={selectedOwnData.blueprintAddress}
+              tokenId={selectedOwnData.id}
+              amount={selectedOwnData.balance}
+            />
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
               <OwnBlueprintListCard
                 key={index}
                 isDecompose={true}
                 {...dataItem}
                 type={0}
+                uri={defaultERC20Image}
               />
             ))}
             {selectedOwnData.data.erc721Data.map((dataItem, index) => (

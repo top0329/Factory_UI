@@ -7,6 +7,7 @@ import Button from '../../components/Button';
 import ProductListCard from '../../components/Cards/ListCard';
 import { SelectedOwnBlueprint } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
+import useToast from '../../hooks/useToast';
 
 import {
   ownBlueprintSelectionState,
@@ -66,6 +67,8 @@ const MintProductPage = () => {
     blueprintWeb3,
     blueprintContract,
   } = useWeb3();
+  const { showToast } = useToast();
+
   const defaultERC20Image =
     'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
 
@@ -128,6 +131,11 @@ const MintProductPage = () => {
             console.log('Please input the value');
           }
         }
+      } else if (!isConnected) {
+        console.log('Wallet Connect Faile');
+        showToast('warning', 'Wallet Connect failed');
+      } else if (!blueprintMintAmountValue) {
+        showToast('warning', 'You didnt import the Blueprint Amount');
       }
     } catch (err) {
       console.log(err);
