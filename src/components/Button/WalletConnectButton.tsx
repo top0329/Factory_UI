@@ -38,7 +38,7 @@ export const WalletConnectButton = () => {
                   <button
                     onClick={openConnectModal}
                     type="button"
-                    className=" text-base text-light-gray sm:text-white justify-center truncate lg:text-lg sm:text-sm sm:block sm:border-2 border-white bg-opacity-100 py-2 sm:px-5 rounded-2xl flex gap-3 items-center"
+                    className="text-base text-light-gray sm:text-white justify-center truncate lg:text-lg sm:text-sm sm:block sm:border-2 border-white bg-opacity-100 py-2 sm:px-5 rounded-2xl flex gap-3 items-center"
                   >
                     Connect Wallet
                   </button>
@@ -47,7 +47,11 @@ export const WalletConnectButton = () => {
 
               if (chain.unsupported) {
                 return (
-                  <button onClick={openChainModal} type="button">
+                  <button
+                    className="text-base text-red-600 justify-center items-center truncate py-2 lg:text-lg sm:text-sm sm:block sm:text-red-600"
+                    onClick={openChainModal}
+                    type="button"
+                  >
                     Wrong network
                   </button>
                 );

@@ -29,7 +29,7 @@ function Header() {
             setHeaderActiveItem(0);
           }}
         />
-        <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-6 xl:gap-10">
+        <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-6">
           <div className="hidden items-center text-light-gray text-base gap-2 xl:text-2xl lg:text-xl lg:gap-4 md:flex md:gap-2 md:text-base">
             <button
               className={`${

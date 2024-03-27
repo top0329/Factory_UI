@@ -30,7 +30,7 @@ const MintBlueprintPage = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isMintAmountOver, setIsMintAmountOver] = useState<boolean>(false);
   const [isMintAmountEmpty, setIsMintAmountEmpty] = useState<boolean>(false);
-  const [blueprintMintFee, setBlueprintMintFee] = useState<number>(0);
+  const [blueprintCreationFee, setBlueprintCreationFee] = useState<number>(0);
   const [currentEthBalance, setCurrentEthBalance] = useState<number>(0);
   const [currentUsdtBalance, setCurrentUsdtBalance] = useState<number>(0);
   const [currentUsdcBalance, setCurrentUsdcBalance] = useState<number>(0);
@@ -53,9 +53,12 @@ const MintBlueprintPage = () => {
       const _usdtBalanceNumber = ethers.formatUnits(_usdtBalance, 6);
       const _usdcBalance = await usdcContract.balanceOf(account);
       const _usdcBalanceNumber = ethers.formatUnits(_usdcBalance, 6);
-      const _blueprintMintFee = await factoryContract.blueprintCreationFee();
-      const _blueprintMintFeeEth = ethers.formatEther(_blueprintMintFee);
-      setBlueprintMintFee(Number(_blueprintMintFeeEth));
+      const _blueprintCreationFee =
+        await factoryContract.blueprintCreationFee();
+      const _blueprintCreationFeeEth = ethers.formatEther(
+        _blueprintCreationFee
+      );
+      setBlueprintCreationFee(Number(_blueprintCreationFeeEth));
       setCurrentUsdtBalance(Number(_usdtBalanceNumber));
       setCurrentUsdcBalance(Number(_usdcBalanceNumber));
       setCurrentEthBalance(Number(_ethBalanceNumber));
@@ -125,8 +128,8 @@ const MintBlueprintPage = () => {
               factoryAddress,
               approveValue.toString()
             );
-            setIsApproved(true);
             showToast('success', 'Approved successfully');
+            setIsApproved(true);
           } else {
             showToast(
               'warning',
@@ -154,8 +157,8 @@ const MintBlueprintPage = () => {
               factoryAddress,
               approveValue.toString()
             );
-            setIsApproved(true);
             showToast('success', 'Approved successfully');
+            setIsApproved(true);
           } else {
             showToast(
               'warning',
@@ -170,6 +173,7 @@ const MintBlueprintPage = () => {
       }
     } catch (err) {
       setIsApproved(false);
+      showToast('fail', 'Approve failed!');
       console.log(err);
     } finally {
       closeSpin();
@@ -188,9 +192,13 @@ const MintBlueprintPage = () => {
           if (
             currentEthBalance >=
             blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
-              blueprintMintFee
+              blueprintCreationFee
           ) {
             openSpin('Minting Blueprint...');
+            const _mintFee =
+              blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
+              blueprintCreationFee;
+            const _mintFeeWei = ethers.parseEther(_mintFee.toString());
             const transition = await factoryWeb3.methods
               .mintBlueprint(
                 account,
@@ -198,7 +206,7 @@ const MintBlueprintPage = () => {
                 blueprintMintAmountValue,
                 '0x'
               )
-              .send({ from: account });
+              .send({ from: account, value: _mintFeeWei });
             console.log(transition);
             showToast('success', 'Blueprint minted successfully');
             setIsApproved(false);
@@ -209,21 +217,24 @@ const MintBlueprintPage = () => {
           }
         }
         if (Number(selectedBlueprint.mintPriceUnit) === 1) {
-          if (currentEthBalance >= blueprintMintFee) {
+          if (currentEthBalance >= blueprintCreationFee) {
             if (
               currentUsdtBalance >=
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
             ) {
               if (isApproved) {
                 openSpin('Minting Blueprint...');
+                const _blueprintCreationFeeWei = ethers.parseEther(
+                  blueprintCreationFee.toString()
+                );
                 const transition = await factoryWeb3.methods
                   .mintBlueprint(
                     account,
                     selectedBlueprint.id,
                     blueprintMintAmountValue,
-                    usdtAddress
+                    '0x'
                   )
-                  .send({ from: account });
+                  .send({ from: account, value: _blueprintCreationFeeWei });
                 console.log(transition);
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
@@ -242,21 +253,24 @@ const MintBlueprintPage = () => {
           }
         }
         if (Number(selectedBlueprint.mintPriceUnit) === 2) {
-          if (currentEthBalance >= blueprintMintFee) {
+          if (currentEthBalance >= blueprintCreationFee) {
             if (
               currentUsdcBalance >=
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
             ) {
               if (isApproved) {
                 openSpin('Minting Blueprint...');
+                const _blueprintCreationFeeWei = ethers.parseEther(
+                  blueprintCreationFee.toString()
+                );
                 const transition = await factoryWeb3.methods
                   .mintBlueprint(
                     account,
                     selectedBlueprint.id,
                     blueprintMintAmountValue,
-                    usdcAddress
+                    '0x'
                   )
-                  .send({ from: account });
+                  .send({ from: account, value: _blueprintCreationFeeWei });
                 console.log(transition);
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
@@ -277,6 +291,7 @@ const MintBlueprintPage = () => {
       }
     } catch (err) {
       console.log(err);
+      showToast('fail', 'Mint failed!');
     } finally {
       closeSpin();
     }
@@ -377,7 +392,7 @@ const MintBlueprintPage = () => {
               <p className="col-span-1 text-light-gray">
                 Blueprint Creation Fee
               </p>
-              <p className="col-span-1">{blueprintMintFee} ETH</p>
+              <p className="col-span-1">{blueprintCreationFee} ETH</p>
             </div>
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Blueprint Mint Price</p>
@@ -393,8 +408,8 @@ const MintBlueprintPage = () => {
             <div className="grid grid-cols-2 items-center gap-3 font-mono">
               <p className="col-span-1 text-light-gray">Total Mint fee</p>
               <p className="col-span-1">
-                {blueprintMintFee} ETH + {Number(blueprintMintAmountValue)} *{' '}
-                {Number(selectedBlueprint.mintPrice)}{' '}
+                {blueprintCreationFee} ETH + {Number(blueprintMintAmountValue)}{' '}
+                * {Number(selectedBlueprint.mintPrice)}{' '}
                 {Number(selectedBlueprint.mintPriceUnit) === 0
                   ? 'ETH'
                   : Number(selectedBlueprint.mintPriceUnit) === 1
