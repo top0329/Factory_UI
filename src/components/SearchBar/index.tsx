@@ -49,7 +49,7 @@ const SearchBar: FC<Props> = ({
   };
 
   return (
-    <div className="my-5 gap-3 sm:flex sm:items-center">
+    <div className="my-5 gap-2 sm:flex sm:items-center">
       <div className="flex w-full relative">
         {advancedFilter && (
           <React.Fragment>

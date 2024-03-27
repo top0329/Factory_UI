@@ -46,7 +46,7 @@ const MyBlueprintPage = () => {
               name: blueprintToken.name,
               uri: imageUri,
               creator: blueprintToken.creator,
-              balance: balance,
+              balance: Number(balance),
               blueprintAddress: await blueprintContract.getAddress(),
               myBlueprint: blueprintToken.creator == account,
               data: blueprintToken.data,
@@ -94,6 +94,7 @@ const MyBlueprintPage = () => {
       </h1>
       <div>
         <SearchBar
+          pageFilter="normal"
           advancedFilter
           placeholders="Search for Blueprint ID, Name and Creator"
         />

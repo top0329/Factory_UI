@@ -116,6 +116,7 @@ const ProductPage = () => {
         </h1>
         <div>
           <SearchBar
+            pageFilter="decompose"
             advancedFilter
             placeholders="Search for Proudct ID and Name."
           />
