@@ -121,7 +121,7 @@ const DecomposeProductPage = () => {
                 className="flex justify-center w-[160px] !h-9 rounded-xl"
                 text="Cancel"
                 variant="secondary"
-                onClick={() => navigate('/decompose')}
+                onClick={() => navigate('/product')}
               />
               <Button
                 className="flex justify-center w-[160px] h-9 rounded-xl"

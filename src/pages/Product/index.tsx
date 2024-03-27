@@ -106,7 +106,7 @@ const ProductPage = () => {
   const handleDecomposeProduct = (product: any) => {
     setSelectedProduct(product);
     setProductSelectionState(product);
-    navigate(`/decompose/product/${product.id}`);
+    navigate(`/product/product/${product.id}`);
   };
   return (
     <div className="text-white">
