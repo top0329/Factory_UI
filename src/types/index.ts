@@ -96,6 +96,18 @@ export type SelectedOwnBlueprint = {
   };
 };
 
+export type ProductToken = {
+  id: number;
+  name: string;
+  uri: string;
+  creator: string;
+  balance: number;
+  blueprintAddress: string;
+  myBlueprint: boolean;
+  data: any;
+  decomposeFee?: number;
+};
+
 export type SelectedProduct = {
   id: number;
   name: string;
@@ -108,6 +120,7 @@ export type SelectedProduct = {
     erc721Data: ERC721Data[];
     erc1155Data: ERC1155Data[];
   };
+  decomposeFee?: number;
 };
 
 export type CreateBlueprint = {

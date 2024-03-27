@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
+import useToast from '../../hooks/useToast';
 import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
 import SearchBar from '../../components/SearchBar';
 import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
@@ -11,26 +12,14 @@ import {
 import useWeb3 from '../../hooks/useWeb3';
 import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
 
-interface TempObject {
-  id: number;
-  name: string;
-  uri: string;
-  creator: string;
-  balance: number;
-  blueprintAddress: string;
-  myBlueprint: boolean;
-  data: any;
-}
-
 const MyBlueprintPage = () => {
-  const { blueprintContract, account } = useWeb3();
-
+  const { blueprintContract, account, isConnected } = useWeb3();
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
   const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
-  const [, setOwnBlueprintTokenList] = useAtom(ownBlueprintTokenListAtom);
-  const [productTokenList, setProductTokenList] = useState<Array<TempObject>>(
-    []
+  const [ownBlueprintTokenList, setOwnBlueprintTokenList] = useAtom(
+    ownBlueprintTokenListAtom
   );
+  const { showToast } = useToast();
   useEffect(() => {
     const getBlueprintTokenList = async () => {
       try {
@@ -43,10 +32,9 @@ const MyBlueprintPage = () => {
               id
             );
 
-            setOwnBlueprintTokenList(blueprintToken);
-
-            const balance: number = Number(
-              await blueprintContract.balanceOf(blueprintToken.creator, id)
+            const balance: number = await blueprintContract.balanceOf(
+              account,
+              id
             );
 
             const imageUri: string = String(
@@ -67,13 +55,23 @@ const MyBlueprintPage = () => {
           })
         );
 
-        setProductTokenList(tempTokenList);
+        setOwnBlueprintTokenList(tempTokenList);
       } catch (error) {
         console.log(error);
       }
     };
-    getBlueprintTokenList();
-  }, [account, blueprintContract, setOwnBlueprintTokenList]);
+    if (isConnected) {
+      getBlueprintTokenList();
+    } else {
+      showToast('warning', 'Please connect wallet');
+    }
+  }, [
+    account,
+    blueprintContract,
+    isConnected,
+    setOwnBlueprintTokenList,
+    showToast,
+  ]);
 
   // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
@@ -92,18 +90,17 @@ const MyBlueprintPage = () => {
   return (
     <div className="flex flex-col min-w-[320px] gap-2 text-white">
       <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
-        My Blueprints
+        Own Blueprints
       </h1>
       <div>
         <SearchBar
-          pageFilter="normal"
           advancedFilter
           placeholders="Search for Blueprint ID, Name and Creator"
         />
       </div>
       <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-        {productTokenList.length > 0 &&
-          productTokenList.map((product) => {
+        {ownBlueprintTokenList.length > 0 &&
+          ownBlueprintTokenList.map((product) => {
             return (
               <div className="flex justify-center" key={product.id}>
                 <OwnBlueprintCard
