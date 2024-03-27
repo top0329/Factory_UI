@@ -90,7 +90,7 @@ const MyBlueprintPage = () => {
   return (
     <div className="flex flex-col min-w-[320px] gap-2 text-white">
       <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
-        Own Blueprints
+        My Blueprints
       </h1>
       <div>
         <SearchBar
