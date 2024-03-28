@@ -236,9 +236,6 @@ const AddComponentModal = () => {
   };
 
   const handleAddButtonClicked = () => {
-    console.log(
-      ethers.parseUnits(String(inputValues.erc20Amount), tokenData.decimals)
-    );
     if (activeItem === 0) {
       setCreateBlueprint((prevBlueprint) => {
         return {

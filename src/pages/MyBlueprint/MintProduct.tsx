@@ -69,9 +69,6 @@ const MintProductPage = () => {
   } = useWeb3();
   const { showToast } = useToast();
 
-  const defaultERC20Image =
-    'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
-
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     if (newValue === '' || /^\d+$/.test(newValue)) {
@@ -255,7 +252,6 @@ const MintProductPage = () => {
                     key={index}
                     {...dataItem}
                     type={0}
-                    uri={defaultERC20Image}
                   />
                 ))}
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (

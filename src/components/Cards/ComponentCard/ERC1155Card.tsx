@@ -1,13 +1,13 @@
-import { FC, useState } from 'react';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { FC, useEffect, useState } from 'react';
 import copy from 'copy-to-clipboard';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Address } from 'viem';
 
 import Image from '../../Image';
+import getERC1155Data from '../../../utils/getERC1155Data';
 
 export interface Props {
   tokenId: number;
-  name: string;
-  uri: string;
   amount: number;
   tokenAddress: string;
   icon?: boolean;
@@ -17,15 +17,34 @@ export interface Props {
 
 const ERC1155Card: FC<Props> = ({
   tokenId,
-  name,
-  uri,
   amount,
   tokenAddress,
   icon = false,
   onEditIconClicked,
   onDeleteIconClicked,
 }) => {
+  const [name, setName] = useState<string>('');
+  const [uri, setUri] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function init() {
+      try {
+        const erc1155Data = await getERC1155Data(
+          tokenAddress as Address,
+          tokenId
+        );
+        if (erc1155Data) {
+          const { name, uri } = erc1155Data;
+          setName(name);
+          setUri(uri);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    init();
+  }, [tokenAddress, tokenId]);
 
   const handleCopyButtonClicked = () => {
     try {

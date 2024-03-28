@@ -25,7 +25,7 @@ export default async function getERC721Data(
     console.log(`Owner of Token #${tokenId}: ${owner}`);
     const tokenUri = await erc721Contract.tokenURI(tokenId);
     console.log(`Token URI: ${tokenUri}`);
-    const metaData = await axios.get(tokenUri);
+    const metaData = await axios.get(`https://ipfs.io/${tokenUri}`);
     const uri = metaData.data.image;
 
     console.log(metaData);

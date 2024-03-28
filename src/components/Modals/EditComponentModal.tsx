@@ -290,17 +290,6 @@ const EditComponentModal = () => {
     setError('');
   };
 
-  //   const showError = (message: string) => {
-  //   setError(message);
-
-  //   const timer = setTimeout(() => {
-  //     setError(''); // Hide the error message after 3 seconds
-  //   }, 3000);
-
-  // Cleanup function to clear the timeout if the component unmounts
-  //   return () => clearTimeout(timer);
-  // };
-
   return (
     <div
       className={`fixed right-0 bottom-0 top-0 left-0 z-30 flex h-full min-h-screen w-full items-center justify-center px-4 py-5 ${
