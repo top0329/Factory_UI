@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { Toaster } from 'react-hot-toast';
 
 import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
@@ -137,7 +136,6 @@ const UpdateBlueprintPage = () => {
           })}
         </div>
       </div>
-      <Toaster />
     </div>
   );
 };

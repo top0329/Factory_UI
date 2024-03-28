@@ -33,7 +33,6 @@ const LandingPage = () => {
 
   useEffect(() => {
     const config = {
-      type: 'carousel',
       startAt: 0,
       perView: 5,
       autoplay: 3000,

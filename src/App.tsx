@@ -5,13 +5,13 @@ import { Web3Provider } from './contexts/web3Context';
 
 function App() {
   return (
+        <ToastProvider>
     <SpinnerProvider>
-      <ToastProvider>
-        <Web3Provider>
+      <Web3Provider>
           <CoreRoutes />
-        </Web3Provider>
-      </ToastProvider>
+      </Web3Provider>
     </SpinnerProvider>
+        </ToastProvider>
   );
 }
 
