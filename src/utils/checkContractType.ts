@@ -57,11 +57,13 @@ async function checkContractType(contractAddress: Address | '') {
     try {
       const totalSupply = await erc20Contract.totalSupply();
       const tokenName = await erc20Contract.name();
+      const decimal = await erc20Contract.decimals();
       console.log('This is an ERC20 contract');
       console.log(totalSupply);
       console.log(tokenName);
+      console.log(decimal);
       const tokenData = await getTokenDetailsByAddress(contractAddress);
-      data = { name: tokenName, logo: tokenData?.logo };
+      data = { name: tokenName, logo: tokenData?.logo, decimals: decimal };
       // If totalSupply succeeds, then return, assuming ERC20
       return { type: 'ERC20', payload: data };
     } catch (error) {
@@ -71,44 +73,6 @@ async function checkContractType(contractAddress: Address | '') {
       return { type: 'Unknown' };
     }
   }
-
-  // try {
-  //   // Checking if the contract is ERC20 by calling totalSupply
-  //   const totalSupply = await erc20Contract.totalSupply();
-  //   const tokenName = await erc20Contract.name();
-  //   console.log('This is an ERC20 contract');
-  //   console.log(totalSupply);
-  //   console.log(tokenName);
-  //   const tokenData = await getTokenDetailsByAddress(contractAddress);
-  //   data = { name: tokenName, logo: tokenData?.logo };
-  //   // If totalSupply succeeds, then return, assuming ERC20
-  //   return { type: 'ERC20', payload: data };
-  // } catch (erc20Error) {
-  //   // If the call fails, it could be ERC721 or ERC1155 or others
-  //   try {
-  //     // Checking if the contract is ERC721 by querying ownerOf for tokenId 1
-  //     await erc721Contract.ownerOf(1);
-  //     console.log('This is an ERC721 contract');
-  //     // If ownerOf succeeds, then assume ERC721
-  //     return { type: 'ERC721' };
-  //   } catch (erc721Error) {
-  //     try {
-  //       // Checking if the contract is ERC1155 by calling balanceOf
-  //       await erc1155Contract.balanceOf(
-  //         '0xf4B2A7e6DC9560128A9d6BBfd474aC8B1f04032B',
-  //         1
-  //       );
-  //       console.log('This is an ERC1155 contract');
-  //       // If balanceOf succeeds, then assume ERC1155
-  //       return { type: 'ERC1155' };
-  //     } catch (erc1155Error) {
-  //       console.error(
-  //         'Could not determine the contract type, or it is none of the above.'
-  //       );
-  //       return { type: 'Unknown' };
-  //     }
-  //   }
-  // }
 }
 
 export default checkContractType;
