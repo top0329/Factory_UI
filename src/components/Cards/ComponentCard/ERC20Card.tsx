@@ -23,7 +23,7 @@ const ERC20Card: FC<Props> = ({
   onEditIconClicked,
   onDeleteIconClicked,
 }) => {
-  const [decimal, setDecimal] = useState<number>(0);
+  const [decimal, setDecimal] = useState<number | undefined>(undefined);
   const [tokenName, setTokenName] = useState<string>('');
   const [imageUri, setImageUri] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);

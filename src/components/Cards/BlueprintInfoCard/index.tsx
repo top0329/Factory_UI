@@ -487,7 +487,9 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       6
                     );
                   }
-                  const jsonHashUri = await blueprintContract.uri(createInfo.id);
+                  const jsonHashUri = await blueprintContract.uri(
+                    createInfo.id
+                  );
                   const _mintLimit =
                     createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
                   console.log(
@@ -926,7 +928,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 //   _mintLimit = 0;
                 // } else {
                 const _mintLimit =
-                    createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                  createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
                 // }
                 openSpin('Recreating Blueprint...');
                 const transaction = await factoryWeb3.methods
