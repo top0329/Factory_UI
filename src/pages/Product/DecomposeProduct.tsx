@@ -33,6 +33,7 @@ const DecomposeProductPage = () => {
   };
 
   const handleDecompose = async () => {
+    console.log(selectedOwnData.balance);
     const transaction = await factoryWeb3.methods
       .decomposeProduct(selectedOwnData.id, selectedOwnData.balance, {
         value: ethers.parseEther(
