@@ -6,6 +6,7 @@ import Button from '../../components/Button';
 import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedProduct } from '../../types';
 import { selectedProductintAtom } from '../../jotai/atoms';
+import { ethers } from 'ethers';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
@@ -33,7 +34,11 @@ const DecomposeProductPage = () => {
 
   const handleDecompose = async () => {
     const transaction = await factoryWeb3.methods
-      .decomposeProduct(selectedOwnData.id, selectedOwnData.balance)
+      .decomposeProduct(selectedOwnData.id, selectedOwnData.balance, {
+        value: ethers.parseEther(
+          Number(selectedOwnData.decomposeFee).toString()
+        ),
+      })
       .send({ from: account });
 
     console.log('Product token decompose is successed', await transaction);
