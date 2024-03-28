@@ -475,6 +475,55 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   }
                 } else {
                   console.log('here is uri not checked');
+                  openSpin('Updating Blueprint...');
+                  let _mintPrice: bigint;
+                  if (Number(createInfo.mintPriceUnit) === 0) {
+                    _mintPrice = ethers.parseEther(
+                      createInfo.mintPrice.toString()
+                    );
+                  } else {
+                    _mintPrice = ethers.parseUnits(
+                      createInfo.mintPrice.toString(),
+                      6
+                    );
+                  }
+                  const jsonHashUri = await blueprintContract.uri(createInfo.id);
+                  const _mintLimit =
+                    createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                  console.log(
+                    createInfo.id,
+                    jsonHashUri,
+                    _mintPrice,
+                    createInfo.mintPriceUnit,
+                    _mintLimit
+                  );
+                  const transaction = await factoryWeb3.methods
+                    .updateBlueprintData(
+                      createInfo.id,
+                      jsonHashUri,
+                      _mintPrice,
+                      createInfo.mintPriceUnit,
+                      _mintLimit
+                    )
+                    .send({ from: account });
+                  console.log('Blueprint updated successfully', transaction);
+                  setCreateInfo({
+                    id: '',
+                    name: '',
+                    uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+                    creator: '',
+                    totalSupply: '',
+                    mintPrice: '',
+                    mintPriceUnit: '',
+                    mintLimit: '',
+                    data: {
+                      erc20Data: [],
+                      erc721Data: [],
+                      erc1155Data: [],
+                    },
+                  });
+                  showToast('success', 'Blueprint updated successfully');
+                  navigate('/blueprint');
                 }
               } else if (uriChecked) {
                 console.log('uri is checked');
