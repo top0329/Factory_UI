@@ -253,11 +253,9 @@ const AddComponentModal = () => {
                   tokenData.logo ||
                   'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
                 tokenAddress: inputValues.erc20Address as Address,
-                amount: Number(
-                  ethers.parseUnits(
-                    String(inputValues.erc20Amount),
-                    tokenData.decimals
-                  )
+                amount: ethers.parseUnits(
+                  String(inputValues.erc20Amount),
+                  tokenData.decimals
                 ),
               },
             ],

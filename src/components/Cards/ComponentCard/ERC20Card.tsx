@@ -10,7 +10,7 @@ import checkContractType from '../../../utils/checkContractType';
 export interface Props {
   name: string;
   uri: string;
-  amount: number;
+  amount: bigint;
   tokenAddress: string;
   icon?: boolean;
   onEditIconClicked?: () => void;

@@ -34,7 +34,7 @@ const Component = () => {
                   key={idx}
                   name={erc20.name}
                   uri={erc20.uri}
-                  amount={erc20.amount}
+                  amount={BigInt(erc20.amount)}
                   tokenAddress={erc20.tokenAddress}
                 />
               );
