@@ -7,7 +7,7 @@ import copy from 'copy-to-clipboard';
 import useWeb3 from '../../../hooks/useWeb3';
 import erc1155Abi from '../../../abi/ERC1155ABI.json';
 import { ListCardInterface } from '../../../types';
-import { defaultRPC, factoryAddress } from '../../../constants';
+import { defaultRPC, factoryAddress, productAddress } from '../../../constants';
 import Web3, { HttpProvider } from 'web3';
 import { tokenUriToName } from '../../../utils/tokenUriToName';
 import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
@@ -37,7 +37,6 @@ export default function ListCard(props: ListCardInterface) {
       const erc721Contract = new web3.eth.Contract(erc721Abi, props[0]);
 
       const erc1155Contract = new web3.eth.Contract(erc1155Abi, props[0]);
-
       if (props.type == 0) {
         const name: string = await erc20Contract.methods
           .name()
@@ -68,6 +67,18 @@ export default function ListCard(props: ListCardInterface) {
         setTokenAmount(Number(props[2]));
         setTokenId(Number(props[1]));
         setTokenImage(String(await tokenUriToImageUri(uri)));
+      } else if (props.type == 3) {
+        setComponentName(props.name);
+        setTokenAddress(productAddress);
+        setTokenAmount(props.amount);
+        setTokenId(props.tokenId);
+        setTokenImage(props.uri);
+      } else if (props.type == 4) {
+        setComponentName(props.name);
+        setTokenAddress(productAddress);
+        setTokenAmount(props.amount);
+        setTokenId(props.tokenId);
+        setTokenImage(props.uri);
       }
     };
     getContractInfo();
