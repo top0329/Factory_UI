@@ -5,11 +5,10 @@ import { ethers } from 'ethers';
 import { Address } from 'viem';
 
 import Image from '../../Image';
-import checkContractType from '../../../utils/checkContractType';
+import getTokenData from '../../../utils/getTokenData';
+import { getTokenDetailsByAddress } from '../../../utils/checkContractType';
 
 export interface Props {
-  name: string;
-  uri: string;
   amount: bigint;
   tokenAddress: string;
   icon?: boolean;
@@ -18,23 +17,41 @@ export interface Props {
 }
 
 const ERC20Card: FC<Props> = ({
-  name,
   amount,
   tokenAddress,
-  uri,
   icon = false,
   onEditIconClicked,
   onDeleteIconClicked,
 }) => {
   const [decimal, setDecimal] = useState<number>(0);
+  const [tokenName, setTokenName] = useState<string>('');
+  const [imageUri, setImageUri] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
 
   useEffect(() => {
-    async function getDecimal() {
-      const data = await checkContractType(tokenAddress as Address | '');
-      setDecimal(data.payload.decimals);
+    async function init() {
+      try {
+        const tokenData = await getTokenData(tokenAddress as Address);
+        if (tokenData) {
+          const { decimal, tokenName } = tokenData;
+          const details = await getTokenDetailsByAddress(
+            tokenAddress as Address
+          );
+          setTokenName(tokenName);
+          if (details) {
+            setImageUri(details?.logo as string);
+          } else {
+            setImageUri(
+              'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
+            );
+          }
+          setDecimal(decimal);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
-    getDecimal();
+    init();
   }, [tokenAddress]);
 
   const handleCopyButtonClicked = () => {
@@ -64,7 +81,7 @@ const ERC20Card: FC<Props> = ({
             icon && 'transition duration-300 ease-in-out group-hover:blur-sm'
           }`}
           spinnerClassName="w-full h-44"
-          src={uri}
+          src={imageUri}
           alt="erc20-card"
         />
         {icon && (
@@ -93,7 +110,9 @@ const ERC20Card: FC<Props> = ({
       <div className="z-20 absolute top-[172px] right-0 rounded-l-3xl bg-gradient-to-l from-slate-800 gray via-transparent to-transparent w-[20px] h-full"></div>
       <div className="absolute bottom-0 left-0 rounded-l-3xl bg-gradient-to-t from-slate-800 gray via-transparent to-transparent w-full h-[20px] rounded-b-[-24px]"></div>
       <div className="flex flex-col gap-1 px-4 pt-0 pb-2 text-white">
-        <p className="truncate z-20 text-lg font-medium mt-[-12px]">{name}</p>
+        <p className="truncate z-20 text-lg font-medium mt-[-12px]">
+          {tokenName}
+        </p>
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">Amount</p>
           <p className="truncate">

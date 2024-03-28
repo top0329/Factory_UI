@@ -18,23 +18,17 @@ export type CarouselModel = {
 };
 
 export interface ERC20Data {
-  name: string;
-  uri: string;
   amount: bigint;
   tokenAddress: Address;
 }
 
 export interface ERC721Data {
   tokenId: number;
-  name: string;
-  uri: string;
   tokenAddress: Address;
 }
 
 export interface ERC1155Data {
   tokenId: number;
-  name: string;
-  uri: string;
   amount: number;
   tokenAddress: Address;
 }
@@ -142,8 +136,6 @@ export type CreateBlueprint = {
 export interface ListCardInterface {
   isDecompose: boolean;
   type: number;
-  uri: string;
-  name: string;
   tokenAddress: string;
   tokenId?: number;
   amount?: number | bigint;
@@ -184,22 +176,6 @@ export enum MintPriceUnit {
   ETH,
   USDT,
   USDC,
-}
-
-export interface ERC20Data {
-  tokenAddress: Address;
-  amount: bigint;
-}
-
-export interface ERC721Data {
-  tokenAddress: Address;
-  tokenId: number;
-}
-
-export interface ERC1155Data {
-  tokenAddress: Address;
-  tokenId: number;
-  amount: number;
 }
 
 export interface BlueprintData {

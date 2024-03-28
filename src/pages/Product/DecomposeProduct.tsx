@@ -19,8 +19,6 @@ const DecomposeProductPage = () => {
     productWeb3,
   } = useWeb3();
   const navigate = useNavigate();
-  const defaultERC20Image =
-    'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
 
   const handleApprove = async () => {
     if (isConnected && library) {
@@ -56,8 +54,6 @@ const DecomposeProductPage = () => {
             <OwnBlueprintListCard
               isDecompose={true}
               type={4}
-              uri={selectedOwnData.uri}
-              name={selectedOwnData.name}
               tokenAddress={selectedOwnData.blueprintAddress}
               tokenId={selectedOwnData.id}
               amount={selectedOwnData.balance}
@@ -91,8 +87,6 @@ const DecomposeProductPage = () => {
             <OwnBlueprintListCard
               isDecompose={true}
               type={3}
-              uri={selectedOwnData.uri}
-              name={selectedOwnData.name}
               tokenAddress={selectedOwnData.blueprintAddress}
               tokenId={selectedOwnData.id}
               amount={selectedOwnData.balance}
@@ -103,7 +97,6 @@ const DecomposeProductPage = () => {
                 isDecompose={true}
                 {...dataItem}
                 type={0}
-                uri={defaultERC20Image}
               />
             ))}
             {selectedOwnData.data.erc721Data.map((dataItem, index) => (

@@ -48,7 +48,9 @@ export default function ListCard(props: ListCardInterface) {
         setComponentName(name);
         setTokenAmount(Number(props[1]));
         setTokenAddress(String(props[0]));
-        setTokenImage(props.uri);
+        setTokenImage(
+          'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
+        );
         setDecimal(_decimal);
       } else if (props.type == 1) {
         const name: string = await erc721Contract.methods
@@ -68,17 +70,17 @@ export default function ListCard(props: ListCardInterface) {
         setTokenId(Number(props[1]));
         setTokenImage(String(await tokenUriToImageUri(uri)));
       } else if (props.type == 3) {
-        setComponentName(props.name);
+        setComponentName('');
         setTokenAddress(productAddress);
         setTokenAmount(Number(props.amount));
         setTokenId(props.tokenId);
-        setTokenImage(props.uri);
+        setTokenImage('');
       } else if (props.type == 4) {
-        setComponentName(props.name);
+        setComponentName('');
         setTokenAddress(productAddress);
         setTokenAmount(Number(props.amount));
         setTokenId(props.tokenId);
-        setTokenImage(props.uri);
+        setTokenImage('');
       }
     };
     getContractInfo();

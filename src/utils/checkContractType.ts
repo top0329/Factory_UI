@@ -7,15 +7,19 @@ import erc721Abi from '../abi/ERC721ABI.json';
 import erc1155Abi from '../abi/ERC1155ABI.json';
 import { defaultRPC } from '../constants';
 
-const getTokenDetailsByAddress = async (contractAddress: Address) => {
+export const getTokenDetailsByAddress = async (contractAddress: Address) => {
   try {
     const response = await axios.get(
       `https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}`
     );
-
     const tokenId = response.data.id; // Token ID
-    const logo = response.data.image.large; // Token logo URL
-
+    let logo: string;
+    if (response.data.image.large) {
+      logo = response.data.image.large;
+    } else {
+      logo =
+        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+    }
     return { tokenId, logo };
   } catch (error) {
     console.error('Error fetching token details:', error);

@@ -31,12 +31,6 @@
       "tokenAddress": "0x2130cDE08B8007c6EEFD86388B046fEF91e8Cb15"
     },
     {
-      "name": "Pottery Clay",
-      "uri": "https://ipfs.io/ipfs/bafkreifcadzygok4jubpdhz7bewukztk66adcdsc4nyujsr6yfywladhzm",
-      "amount": 1,
-      "tokenAddress": "0x48C281DB38eAD8050bBd821d195FaE85A235d8fc"
-    },
-    {
       "name": "Coffee Beans",
       "uri": "https://ipfs.io/ipfs/bafkreifs3mzco3ohvp7nxinps6y674ey5pxabugh2uebvm45wpf4p23hye",
       "amount": 1,

@@ -142,8 +142,6 @@ const RecreateBlueprintPage = () => {
             return (
               <ERC20Card
                 key={idx}
-                name={erc20.name}
-                uri={erc20.uri}
                 amount={erc20.amount}
                 tokenAddress={erc20.tokenAddress}
                 icon
@@ -156,8 +154,6 @@ const RecreateBlueprintPage = () => {
               <ERC721Card
                 key={erc721.tokenId}
                 tokenId={erc721.tokenId}
-                name={erc721.name}
-                uri={erc721.uri}
                 tokenAddress={erc721.tokenAddress}
                 icon
                 onDeleteIconClicked={() =>
@@ -171,8 +167,6 @@ const RecreateBlueprintPage = () => {
               <ERC1155Card
                 key={erc1155.tokenId}
                 tokenId={erc1155.tokenId}
-                name={erc1155.name}
-                uri={erc1155.uri}
                 amount={erc1155.amount}
                 tokenAddress={erc1155.tokenAddress}
                 icon

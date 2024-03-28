@@ -1,13 +1,13 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import copy from 'copy-to-clipboard';
 
 import Image from '../../Image';
+import getERC721Data from '../../../utils/getERC721Data';
+import { Address } from 'viem';
 
 export interface Props {
   tokenId: number;
-  name: string;
-  uri: string;
   tokenAddress: string;
   icon?: boolean;
   onEditIconClicked?: () => void;
@@ -16,14 +16,33 @@ export interface Props {
 
 const ERC721Card: FC<Props> = ({
   tokenId,
-  name,
-  uri,
   tokenAddress,
   icon = false,
   onEditIconClicked,
   onDeleteIconClicked,
 }) => {
+  const [name, setName] = useState<string>('');
+  const [uri, setUri] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function init() {
+      try {
+        const erc721Data = await getERC721Data(
+          tokenAddress as Address,
+          tokenId
+        );
+        if (erc721Data) {
+          const { name, uri } = erc721Data;
+          setName(name);
+          setUri(`https://ipfs.io/${uri}`);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    init();
+  }, [tokenAddress, tokenId]);
 
   const handleCopyButtonClicked = () => {
     try {

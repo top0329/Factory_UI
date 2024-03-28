@@ -5,7 +5,13 @@ import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
-import { ERC20Data, SelectedBlueprint, WindowSize } from '../../types';
+import {
+  ERC1155Data,
+  ERC20Data,
+  ERC721Data,
+  SelectedBlueprint,
+  WindowSize,
+} from '../../types';
 import {
   blueprintSelectionState,
   isCreatorModeAtom,
@@ -325,15 +331,10 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 {selectedBlueprint.data.erc20Data &&
                   selectedBlueprint.data.erc20Data.length > 0 &&
                   selectedBlueprint.data.erc20Data.map(
-                    (
-                      erc20: ERC20Data,
-                      idx: React.Key | null | undefined
-                    ) => {
+                    (erc20: ERC20Data, idx: React.Key | null | undefined) => {
                       return (
                         <ERC20Card
                           key={idx}
-                          name={erc20.name}
-                          uri={erc20.uri}
                           amount={erc20.amount}
                           tokenAddress={erc20.tokenAddress}
                         />
@@ -347,18 +348,11 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 {selectedBlueprint.data.erc721Data &&
                   selectedBlueprint.data.erc721Data.length > 0 &&
                   selectedBlueprint.data.erc721Data.map(
-                    (erc721: {
-                      tokenId: number;
-                      name: string;
-                      uri: string;
-                      tokenAddress: string;
-                    }) => {
+                    (erc721: ERC721Data) => {
                       return (
                         <ERC721Card
                           key={erc721.tokenId}
                           tokenId={erc721.tokenId}
-                          name={erc721.name}
-                          uri={erc721.uri}
                           tokenAddress={erc721.tokenAddress}
                         />
                       );
@@ -371,19 +365,11 @@ const BlueprintDetailDrawer: FC<Props> = ({
                 {selectedBlueprint.data.erc1155Data &&
                   selectedBlueprint.data.erc1155Data.length > 0 &&
                   selectedBlueprint.data.erc1155Data.map(
-                    (erc1155: {
-                      tokenId: number;
-                      name: string;
-                      uri: string;
-                      amount: number;
-                      tokenAddress: string;
-                    }) => {
+                    (erc1155: ERC1155Data) => {
                       return (
                         <ERC1155Card
                           key={erc1155.tokenId}
                           tokenId={erc1155.tokenId}
-                          name={erc1155.name}
-                          uri={erc1155.uri}
                           amount={erc1155.amount}
                           tokenAddress={erc1155.tokenAddress}
                         />
