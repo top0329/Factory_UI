@@ -902,7 +902,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 }
               } else {
                 let _mintPrice: bigint;
-                let _mintLimit: number;
+                // let _mintLimit: number;
                 let jsonHashUri: string;
                 if (Number(createInfo.mintPriceUnit) === 0) {
                   _mintPrice = ethers.parseEther(
@@ -921,13 +921,13 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   jsonHashUri =
                     'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
                 }
-                if (!mintPriceChecked) _mintPrice = 0n;
-                if (!mintLimitChecked) {
-                  _mintLimit = 0;
-                } else {
-                  _mintLimit =
+                // if (!mintPriceChecked) _mintPrice = 0n;
+                // if (!mintLimitChecked) {
+                //   _mintLimit = 0;
+                // } else {
+                const _mintLimit =
                     createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
-                }
+                // }
                 openSpin('Recreating Blueprint...');
                 const transaction = await factoryWeb3.methods
                   .createBlueprint(
@@ -1520,7 +1520,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   mintPriceUnit: newMintPriceUnit,
                 }));
               }}
-              defaultValue={Number(createInfo.mintPriceUnit)}
+              value={Number(createInfo.mintPriceUnit)}
               disabled={!mintPriceChecked}
             >
               <option value={0} className="!bg-[#4A4A4A]">
