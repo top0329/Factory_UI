@@ -3,29 +3,34 @@ import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
+import useToast from '../../hooks/useToast';
 
 import Button from '../../components/Button';
 import { blueprintSelectionState } from '../../jotai/atoms';
+import useWeb3 from '../../hooks/useWeb3';
 const TransferOwnership = () => {
   const navigate = useNavigate();
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
-  const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
-    useState<string>('');
+  const [newOwner, setNewOwner] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const { showToast } = useToast();
+  const { factoryWeb3, account } = useWeb3();
 
   const toggleModal = () => {
     setIsModalOpen(true);
   };
+
+  function isValidEthereumAddress(address: any) {
+    return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
+  }
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // Allow only integer values
-    const newValue = event.target.value;
-    // Check if the input value is either empty or an integer
-    if (newValue === '' || /^\d+$/.test(newValue)) {
-      setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
-    }
+    const value = event.target.value.trim();
+
+    setNewOwner(value);
   };
 
   const handleCopyButtonClicked = () => {
@@ -39,6 +44,27 @@ const TransferOwnership = () => {
       console.log('failed to copy', err);
     }
   };
+
+  const handleTransfer = () => {
+    if (isValidEthereumAddress(newOwner)) {
+      toggleModal();
+    } else {
+      showToast('warning', 'Invalid address type for new owner');
+    }
+  };
+
+  const handleConfirm = () => {
+    if (isValidEthereumAddress(newOwner)) {
+      factoryWeb3.methods
+        .updateBlueprintCreator(selectedBlueprint.id, newOwner)
+        .send({ from: account })
+        .then((result: any) => console.log(result))
+        .catch((err: any) => console.log(err));
+    } else {
+      showToast('warning', 'Invalid address type for new owner');
+    }
+  };
+
   const closeModal = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {
       setIsModalOpen(false);
@@ -78,12 +104,12 @@ const TransferOwnership = () => {
               <div className="flex flex-col gap-3 px-4">
                 <div className="grid grid-cols-3 gap-3 font-mono">
                   <p className="col-span-1 text-light-gray">Blueprint ID</p>
-                  <p className="col-span-1">{selectedBlueprint.id}</p>
+                  <p className="col-span-1">{Number(selectedBlueprint.id)}</p>
                 </div>
                 <div className="grid grid-cols-3 items-center gap-3 font-mono">
                   <p className="col-span-1 text-light-gray">Mint Price</p>
                   <p className="col-span-1">
-                    1{' '}
+                    {Number(selectedBlueprint.mintPrice)}{' '}
                     {selectedBlueprint.mintPriceUnit === 0
                       ? 'ETH'
                       : selectedBlueprint.mintPriceUnit === 1
@@ -93,11 +119,15 @@ const TransferOwnership = () => {
                 </div>
                 <div className="grid grid-cols-3 items-center gap-3 font-mono">
                   <p className="col-span-1 text-light-gray">Mint Limit</p>
-                  <p className="col-span-1">{selectedBlueprint.mintLimit}</p>
+                  <p className="col-span-1">
+                    {Number(selectedBlueprint.mintLimit)}
+                  </p>
                 </div>
                 <div className="grid grid-cols-3 items-center gap-3 font-mono">
                   <p className="col-span-1 text-light-gray">Mint Amount</p>
-                  <p className="col-span-1">{selectedBlueprint.mintedAmount}</p>
+                  <p className="col-span-1">
+                    {Number(selectedBlueprint.mintedAmount)}
+                  </p>
                 </div>
                 <div className="grid grid-cols-3 justify-between items-start gap-2 font-mono sm:flex-row sm:items-center">
                   <p className="text-light-gray">Owner</p>
@@ -131,11 +161,10 @@ const TransferOwnership = () => {
                     id="blueprint-mint-amount"
                     name="blueprint-mint-amount"
                     className="col-span-2 inline w-full rounded-lg border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
-                    type="number"
-                    step={1}
+                    type="text"
                     min={0}
                     onChange={handleInputChange}
-                    value={blueprintMintAmountValue}
+                    value={newOwner}
                   />
                 </div>
                 <div className="flex justify-center items-center gap-8 pt-0 xs:gap-20 sm:pt-2">
@@ -146,7 +175,7 @@ const TransferOwnership = () => {
                     onClick={() => navigate('/blueprint')}
                   />
                   <Button
-                    onClick={toggleModal}
+                    onClick={handleTransfer}
                     className="truncate px-12 h-9"
                     text="Transfer"
                     variant="primary"
@@ -180,7 +209,7 @@ const TransferOwnership = () => {
                 to the
                 <span className="text-white sm:text-[16px] text-[14px] break-all">
                   {' '}
-                  {selectedBlueprint.creator}.
+                  {newOwner}.
                 </span>
               </p>
               <p className="mt-6">Are you sure?</p>
@@ -193,6 +222,7 @@ const TransferOwnership = () => {
                 onClick={closeModal}
               />
               <Button
+                onClick={handleConfirm}
                 className="truncate px-8 h-8"
                 text="Confirm"
                 variant="primary"
