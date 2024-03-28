@@ -1,13 +1,16 @@
-import { FC, useState } from 'react';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { FC, useEffect, useState } from 'react';
 import copy from 'copy-to-clipboard';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { ethers } from 'ethers';
+import { Address } from 'viem';
 
 import Image from '../../Image';
+import checkContractType from '../../../utils/checkContractType';
 
 export interface Props {
   name: string;
   uri: string;
-  amount: number;
+  amount: bigint;
   tokenAddress: string;
   icon?: boolean;
   onEditIconClicked?: () => void;
@@ -23,7 +26,16 @@ const ERC20Card: FC<Props> = ({
   onEditIconClicked,
   onDeleteIconClicked,
 }) => {
+  const [decimal, setDecimal] = useState<number>(0);
   const [isCopied, setIsCopied] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function getDecimal() {
+      const data = await checkContractType(tokenAddress as Address | '');
+      setDecimal(data.payload.decimals);
+    }
+    getDecimal();
+  }, [tokenAddress]);
 
   const handleCopyButtonClicked = () => {
     try {
@@ -84,7 +96,9 @@ const ERC20Card: FC<Props> = ({
         <p className="truncate z-20 text-lg font-medium mt-[-12px]">{name}</p>
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">Amount</p>
-          <p className="truncate">{Number(amount)}</p>
+          <p className="truncate">
+            {Number(ethers.formatUnits(amount, decimal))}
+          </p>
         </div>
         <div className="hidden sm:flex sm:flex-row sm:justify-between">
           <p className="text-sm text-light-gray">Address</p>

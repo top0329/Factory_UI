@@ -20,7 +20,7 @@ export type CarouselModel = {
 export interface ERC20Data {
   name: string;
   uri: string;
-  amount: number;
+  amount: bigint;
   tokenAddress: Address;
 }
 
@@ -146,7 +146,7 @@ export interface ListCardInterface {
   name: string;
   tokenAddress: string;
   tokenId?: number;
-  amount?: number;
+  amount?: number | bigint;
   0?: string;
   1?: string;
   2?: string;
@@ -188,7 +188,7 @@ export enum MintPriceUnit {
 
 export interface ERC20Data {
   tokenAddress: Address;
-  amount: number;
+  amount: bigint;
 }
 
 export interface ERC721Data {

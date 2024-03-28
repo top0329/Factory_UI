@@ -5,7 +5,7 @@ import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
-import { SelectedProduct, WindowSize } from '../../types';
+import { ERC20Data, SelectedProduct, WindowSize } from '../../types';
 import {
   selectedProductintAtom,
   productSelectionState,
@@ -245,12 +245,7 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
                   selectedProduct.data.erc20Data.length > 0 &&
                   selectedProduct.data.erc20Data.map(
                     (
-                      erc20: {
-                        name: string;
-                        uri: string;
-                        amount: number;
-                        tokenAddress: string;
-                      },
+                      erc20: ERC20Data,
                       idx: React.Key | null | undefined
                     ) => {
                       return (

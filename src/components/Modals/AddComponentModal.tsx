@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { ethers } from 'ethers';
 import { Address } from 'viem';
 
 import Button from '../Button';
@@ -235,6 +236,9 @@ const AddComponentModal = () => {
   };
 
   const handleAddButtonClicked = () => {
+    console.log(
+      ethers.parseUnits(String(inputValues.erc20Amount), tokenData.decimals)
+    );
     if (activeItem === 0) {
       setCreateBlueprint((prevBlueprint) => {
         return {
@@ -249,7 +253,10 @@ const AddComponentModal = () => {
                   tokenData.logo ||
                   'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
                 tokenAddress: inputValues.erc20Address as Address,
-                amount: Number(inputValues.erc20Amount),
+                amount: ethers.parseUnits(
+                  String(inputValues.erc20Amount),
+                  tokenData.decimals
+                ),
               },
             ],
           },
@@ -306,17 +313,6 @@ const AddComponentModal = () => {
     setInputValues(initialValues);
     setError('');
   };
-
-  //   const showError = (message: string) => {
-  //   setError(message);
-
-  //   const timer = setTimeout(() => {
-  //     setError(''); // Hide the error message after 3 seconds
-  //   }, 3000);
-
-  //   // Cleanup function to clear the timeout if the component unmounts
-  //   return () => clearTimeout(timer);
-  // };
 
   return (
     <div
@@ -395,7 +391,7 @@ const AddComponentModal = () => {
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 onChange={handleERC20AmountChange}
-                onKeyPress={handleErc20KeyPress}
+                onKeyDown={handleErc20KeyPress}
                 value={inputValues.erc20Amount}
               />
             </div>
@@ -434,7 +430,7 @@ const AddComponentModal = () => {
                 type="number"
                 step={1}
                 onChange={handleNumberChange}
-                onKeyPress={handleNumberKeyPress}
+                onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc721Id}
               />
             </div>
@@ -473,7 +469,7 @@ const AddComponentModal = () => {
                 type="number"
                 step={1}
                 onChange={handleNumberChange}
-                onKeyPress={handleNumberKeyPress}
+                onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc1155Id}
               />
             </div>
@@ -488,7 +484,7 @@ const AddComponentModal = () => {
                 type="number"
                 step={1}
                 onChange={handleNumberChange}
-                onKeyPress={handleNumberKeyPress}
+                onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc1155Amount}
               />
             </div>

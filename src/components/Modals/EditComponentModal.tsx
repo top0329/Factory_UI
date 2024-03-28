@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
+import { ethers } from 'ethers';
 import { Address } from 'viem';
 
 import Button from '../Button';
@@ -228,7 +229,10 @@ const EditComponentModal = () => {
                   tokenData.logo ||
                   'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
                 tokenAddress: inputValues.erc20Address as Address,
-                amount: Number(inputValues.erc20Amount),
+                amount: ethers.parseUnits(
+                  String(inputValues.erc20Amount),
+                  tokenData.decimals
+                ),
               },
             ],
           },
@@ -349,7 +353,7 @@ const EditComponentModal = () => {
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 onChange={handleERC20AmountChange}
-                onKeyPress={handleErc20KeyPress}
+                onKeyDown={handleErc20KeyPress}
                 value={inputValues.erc20Amount}
               />
             </div>
@@ -388,7 +392,7 @@ const EditComponentModal = () => {
                 type="number"
                 step={1}
                 onChange={handleNumberChange}
-                onKeyPress={handleNumberKeyPress}
+                onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc721Id}
               />
             </div>
@@ -427,7 +431,7 @@ const EditComponentModal = () => {
                 type="number"
                 step={1}
                 onChange={handleNumberChange}
-                onKeyPress={handleNumberKeyPress}
+                onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc1155Id}
               />
             </div>
@@ -442,7 +446,7 @@ const EditComponentModal = () => {
                 type="number"
                 step={1}
                 onChange={handleNumberChange}
-                onKeyPress={handleNumberKeyPress}
+                onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc1155Amount}
               />
             </div>

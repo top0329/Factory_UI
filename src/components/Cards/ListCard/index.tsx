@@ -70,13 +70,13 @@ export default function ListCard(props: ListCardInterface) {
       } else if (props.type == 3) {
         setComponentName(props.name);
         setTokenAddress(productAddress);
-        setTokenAmount(props.amount);
+        setTokenAmount(Number(props.amount));
         setTokenId(props.tokenId);
         setTokenImage(props.uri);
       } else if (props.type == 4) {
         setComponentName(props.name);
         setTokenAddress(productAddress);
-        setTokenAmount(props.amount);
+        setTokenAmount(Number(props.amount));
         setTokenId(props.tokenId);
         setTokenImage(props.uri);
       }

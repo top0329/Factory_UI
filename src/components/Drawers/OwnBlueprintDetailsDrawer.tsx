@@ -5,7 +5,7 @@ import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
-import { SelectedOwnBlueprint, WindowSize } from '../../types';
+import { ERC20Data, SelectedOwnBlueprint, WindowSize } from '../../types';
 import {
   ownBlueprintSelectionState,
   selectedOwnBlueprintAtom,
@@ -299,12 +299,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                   selectedOwnBlueprint.data.erc20Data.length > 0 &&
                   selectedOwnBlueprint.data.erc20Data.map(
                     (
-                      erc20: {
-                        name: string;
-                        uri: string;
-                        amount: number;
-                        tokenAddress: string;
-                      },
+                      erc20: ERC20Data,
                       idx: React.Key | null | undefined
                     ) => {
                       return (
