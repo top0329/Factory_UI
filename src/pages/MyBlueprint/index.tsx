@@ -25,7 +25,6 @@ const MyBlueprintPage = () => {
       try {
         const blueprintTokenIds: any =
           await blueprintContract.getBlueprintIds();
-        console.log(blueprintTokenIds);
 
         const tempTokenList = await Promise.all(
           blueprintTokenIds.map(async (id: number) => {

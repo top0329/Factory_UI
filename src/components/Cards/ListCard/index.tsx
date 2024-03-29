@@ -207,8 +207,8 @@ export default function ListCard(props: ListCardInterface) {
           </div>
         </div>
       </div>
-      <div id="id" className="w-[3%] ">
-        {props.type !== 0 && props.type !== 3 && (
+      <div id="id" className="w-[3%]">
+        {props.type !== 0 && (
           <div>
             <p className="text-[#858584] text-xs">ID</p>
             <p
@@ -222,7 +222,7 @@ export default function ListCard(props: ListCardInterface) {
         )}
       </div>
 
-      <div id="amount" className="truncate sm:w-auto ">
+      <div id="amount" className="truncate sm:w-auto">
         {props.type != 1 && (
           <div>
             <p className="text-[#858584] text-xs">

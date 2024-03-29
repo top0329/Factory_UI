@@ -7,6 +7,7 @@ import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedProduct } from '../../types';
 import { selectedProductintAtom } from '../../jotai/atoms';
 import { ethers } from 'ethers';
+import { ERC20DecomposeListCard } from '../../components/Cards/ListCard/ERC20ListCard';
 import ProductListCard from '../../components/Cards/ListCard/ProductListCard';
 
 const DecomposeProductPage = () => {
@@ -101,12 +102,7 @@ const DecomposeProductPage = () => {
               amount={selectedOwnData.balance}
             />
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
-              <OwnBlueprintListCard
-                key={index}
-                isDecompose={true}
-                {...dataItem}
-                type={0}
-              />
+              <ERC20DecomposeListCard key={index} {...dataItem} />
             ))}
             {selectedOwnData.data.erc721Data.map((dataItem, index) => (
               <OwnBlueprintListCard
