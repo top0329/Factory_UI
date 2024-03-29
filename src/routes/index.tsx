@@ -4,6 +4,7 @@ import { useRoutes } from 'react-router-dom';
 import CommonLayout from '../components/Layout/CommonLayout';
 import LoadingLandingPage from '../pages/LandingPage/LoadingLanding';
 import Loadable from '../components/Loading';
+import AuthGuard from './AuthGuard';
 
 // const AuthLogin = Loadable(lazy(() => import('pages/auth/login')));
 const LandingPage = lazy(() => import('../pages/LandingPage'));
@@ -65,23 +66,43 @@ const CommonRoutes = {
             },
             {
               path: 'mint/:id',
-              element: <MintBlueprintPage />,
+              element: (
+                <AuthGuard>
+                  <MintBlueprintPage />
+                </AuthGuard>
+              ),
             },
             {
               path: 'new',
-              element: <NewBlueprintPage />,
+              element: (
+                <AuthGuard>
+                  <NewBlueprintPage />
+                </AuthGuard>
+              ),
             },
             {
               path: 'recreate/:id',
-              element: <RecreateBlueprintPage />,
+              element: (
+                <AuthGuard>
+                  <RecreateBlueprintPage />
+                </AuthGuard>
+              ),
             },
             {
               path: 'update/:id',
-              element: <UpdateBlueprintPage />,
+              element: (
+                <AuthGuard>
+                  <UpdateBlueprintPage />
+                </AuthGuard>
+              ),
             },
             {
               path: 'transfer-ownership/:id',
-              element: <TransferOwnership />,
+              element: (
+                <AuthGuard>
+                  <TransferOwnership />
+                </AuthGuard>
+              ),
             },
           ],
         },
@@ -90,11 +111,19 @@ const CommonRoutes = {
           children: [
             {
               path: '',
-              element: <MyBlueprint />,
+              element: (
+                <AuthGuard>
+                  <MyBlueprint />
+                </AuthGuard>
+              ),
             },
             {
               path: 'mint/:id',
-              element: <MintProductPage />,
+              element: (
+                <AuthGuard>
+                  <MintProductPage />
+                </AuthGuard>
+              ),
             },
           ],
         },
@@ -103,11 +132,19 @@ const CommonRoutes = {
           children: [
             {
               path: '',
-              element: <Product />,
+              element: (
+                <AuthGuard>
+                  <Product />
+                </AuthGuard>
+              ),
             },
             {
               path: 'decompose/:id',
-              element: <DecomposeProductPage />,
+              element: (
+                <AuthGuard>
+                  <DecomposeProductPage />
+                </AuthGuard>
+              ),
             },
           ],
         },

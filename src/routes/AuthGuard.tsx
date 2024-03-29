@@ -13,12 +13,7 @@ const AuthGuard = ({ children }: GuardProps) => {
 
   useEffect(() => {
     if (!isConnected) {
-      navigate('', {
-        state: {
-          from: location.pathname,
-        },
-        replace: true,
-      });
+      navigate(-1);
     }
   }, [isConnected, navigate, location]);
 
