@@ -98,7 +98,7 @@ function Footer() {
               Blueprint
             </button>
             <button
-              className={`text-left ${
+              className={`truncate text-left ${
                 headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {

@@ -119,7 +119,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   }, [isRecreate, isUpdate]);
 
   const handleRadioClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.currentTarget.id; // Use currentTarget when dealing with mouse events
+    const value = event.currentTarget.id;
     if (value === 'files-radio') {
       if (selectedFile) {
         const reader = new FileReader();
@@ -138,10 +138,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     setIsIPFSSelected(value === 'ipfs-radio');
   };
 
-  // const handleEditable = () => {
-  //   setEditable(true);
-  // };
-
   const handleUriCheckedChange = () => {
     setUriChecked(!uriChecked);
   };
@@ -154,10 +150,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     setMintLimitChecked(!mintLimitChecked);
   };
 
-  // const handleButtonEnable = () => {
-  //   setButtonEnable(true);
-  // };
-
   const handleFileNameChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
@@ -167,8 +159,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files ? event.target.files[0] : null;
     if (file) {
-      console.log(file);
-      // Create a URL for the uploaded file
       const reader = new FileReader();
       reader.onloadend = () => {
         setSelectedFile(file);
@@ -182,7 +172,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
 
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-
     if (invalidChars.test(value)) {
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 3000);
@@ -251,7 +240,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const triggerFileInputClick = (
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
-    event.preventDefault(); // Prevent the default form submission behavior
+    event.preventDefault();
 
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -723,7 +712,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     );
                     if (jsonHash) {
                       let _mintPrice: bigint;
-                      // let mintLimit: number;
                       if (Number(createInfo.mintPriceUnit) === 0) {
                         _mintPrice = ethers.parseEther(
                           createInfo.mintPrice.toString()
@@ -734,13 +722,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           6
                         );
                       }
-                      // if (!mintPriceChecked) mintPrice = 0n;
-                      // if (!mintLimitChecked) {
-                      //   mintLimit = 0;
-                      // } else {
                       const _mintLimit =
                         createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
-                      // }
                       openSpin('Recreating Blueprint...');
                       const transaction = await factoryWeb3.methods
                         .createBlueprint(
@@ -816,7 +799,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       console.log(jsonHash);
                       if (jsonHash) {
                         let _mintPrice: bigint;
-                        // let mintLimit: number;
                         if (Number(createInfo.mintPriceUnit) === 0) {
                           _mintPrice = ethers.parseEther(
                             createInfo.mintPrice.toString()
@@ -827,15 +809,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             6
                           );
                         }
-                        // if (!mintPriceChecked) mintPrice = 0n;
-                        // if (!mintLimitChecked) {
-                        //   mintLimit = 0;
-                        // } else {
                         const _mintLimit =
                           createInfo.mintLimit === ''
                             ? 0
                             : createInfo.mintLimit;
-                        // }
                         openSpin('Rereating Blueprint...');
                         const transaction = await factoryWeb3.methods
                           .createBlueprint(
@@ -904,7 +881,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 }
               } else {
                 let _mintPrice: bigint;
-                // let _mintLimit: number;
                 let jsonHashUri: string;
                 if (Number(createInfo.mintPriceUnit) === 0) {
                   _mintPrice = ethers.parseEther(
@@ -923,13 +899,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   jsonHashUri =
                     'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
                 }
-                // if (!mintPriceChecked) _mintPrice = 0n;
-                // if (!mintLimitChecked) {
-                //   _mintLimit = 0;
-                // } else {
                 const _mintLimit =
                   createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
-                // }
                 openSpin('Recreating Blueprint...');
                 const transaction = await factoryWeb3.methods
                   .createBlueprint(
@@ -1282,20 +1253,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     <div className="flex flex-col  w-full rounded-3xl bg-[#011018] border border-[#858584]/30 gap-y-1 pb-[30px] ">
       <div className="flex justify-between items-center py-3 text-[#AEAEAE] pl-[24px] pr-[12px]">
         <p className="lg:md:sm:text-2xl xs:text-lg truncate">Blueprint Info</p>
-        {/* <button
-          onClick={editable ? handleButtonEnable : handleEditable}
-          className="my-[4px]"
-        >
-          {editable ? (
-            buttonEnable ? (
-              <Icon icon="line-md:confirm-circle-twotone" className="w-6 h-6" />
-            ) : (
-              <Icon icon="fa6-regular:circle-check" className="w-5 h-5" />
-            )
-          ) : (
-            <Icon icon="basil:edit-outline" className="w-6 h-6" />
-          )}
-        </button> */}
       </div>
       <div className="flex flex-col gap-0 justify-center">
         <input
@@ -1320,13 +1277,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         <div className="relative flex flex-col w-full gap-y-1">
           <p className="text-xs text-[#858584]">Name</p>
           <input
-            // className={`border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg
-            // ${
-            //   !editable
-            //     ? 'bg-[#010B10] border-[#191313]'
-            //     : 'bg-[#03070F] border-[#8B8B8B]'
-            // }`}
-            className="border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg bg-[#010B10] border-[#191313]"
+            className="border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg bg-[#010B10] border-secondary"
             maxLength={20}
             onChange={handleNameChange}
             value={name}
@@ -1350,7 +1301,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         <div className="flex flex-col w-full gap-y-1">
           <p className="text-xs text-[#858584]">Total Supply</p>
           <input
-            className="border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows bg-[#010B10] border-[#191313]"
+            className="border-[0.5px] w-full h-[28px] py-1 px-2 rounded-lg hide-arrows bg-[#010B10] border-secondary"
             type="number"
             min={1}
             onChange={(event) => {
@@ -1436,7 +1387,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 } ${
                   uriChecked && isIPFSSelected
                     ? 'bg-[#03070F] border-[#8B8B8B] mr-0.5'
-                    : 'bg-[#010B10] border-[#191313] '
+                    : 'bg-[#010B10] border-secondary '
                 }`}
                 type="text"
                 value={
@@ -1465,7 +1416,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 className={`px-[17.5px] flex justify-center items-center !bg-[#4A4A4A]/20 rounded-r-lg border-[0.5px] ${
                   uriChecked && !isIPFSSelected
                     ? 'bg-[#03070F] border-[#8B8B8B] '
-                    : 'bg-[#010B10] border-[#191313]'
+                    : 'bg-[#010B10] border-secondary'
                 }`}
                 onClick={triggerFileInputClick}
                 disabled={!uriChecked || isIPFSSelected}
@@ -1489,7 +1440,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 ${
                   mintPriceChecked
                     ? ' bg-[#03070F] border-[#8B8B8B]'
-                    : ' bg-[#010B10] border-[#191313]'
+                    : ' bg-[#010B10] border-secondary'
                 }`}
               type="number"
               min={0}
@@ -1513,7 +1464,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               className={`!bg-[#4A4A4A]/20 rounded-r-lg text-center text-[11px] w-[50px] border-[0.5px] border-l-0 ${
                 mintPriceChecked
                   ? 'bg-[#03070F] border-[#8B8B8B]'
-                  : 'bg-[#010B10] border-[#191313]'
+                  : 'bg-[#010B10] border-secondary'
               }`}
               onChange={(event) => {
                 const newMintPriceUnit = Number(event.target.value);
@@ -1550,7 +1501,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
             ${
               mintLimitChecked
                 ? ' bg-[#03070F] border-[#8B8B8B]'
-                : ' bg-[#010B10] border-[#191313]'
+                : ' bg-[#010B10] border-secondary'
             }`}
             type="number"
             min={0}
