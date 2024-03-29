@@ -30,7 +30,7 @@ function Header() {
           }}
         />
         <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-6">
-          <div className="hidden items-center text-light-gray text-base gap-2 xl:text-2xl lg:text-xl lg:gap-4 md:flex md:gap-2 md:text-base">
+          <div className="hidden items-center text-light-gray text-base gap-2 xl:text-2xl lg:text-xl lg:gap-4 md:flex md:gap-2">
             <button
               className={`${
                 headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
@@ -43,7 +43,7 @@ function Header() {
               Blueprint
             </button>
             <button
-              className={`${
+              className={`truncate ${
                 headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
               }`}
               onClick={() => {
@@ -123,7 +123,7 @@ function Header() {
                 </li>
                 <li>
                   <button
-                    className={`block my-1 px-4 py-3 text-left rounded ${
+                    className={`truncate block my-1 px-4 py-3 text-left rounded ${
                       headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
                     } w-full hover:bg-secondary`}
                     onClick={() => {
