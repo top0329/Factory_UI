@@ -1,3 +1,4 @@
+import { ReactElement } from 'react';
 import { Contract, ContractRunner } from 'ethers';
 import { Address } from 'viem';
 
@@ -195,3 +196,7 @@ export interface BlueprintNFT {
   mintLimit: number;
   data: BlueprintData;
 }
+
+export type GuardProps = {
+  children: ReactElement | null;
+};

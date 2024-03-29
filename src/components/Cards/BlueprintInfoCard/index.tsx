@@ -63,11 +63,9 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
 
   const [createInfo, setCreateInfo] =
     useAtom<CreateBlueprint>(createBlueprintAtom);
-  // const [editable, setEditable] = useState(false);
   const [uriChecked, setUriChecked] = useState(false);
   const [mintPriceChecked, setMintPriceChecked] = useState(false);
   const [mintLimitChecked, setMintLimitChecked] = useState(false);
-  // const [buttonEnable, setButtonEnable] = useState(false);
   const [fileText, setFileText] = useState('');
   const [isIPFSSelected, setIsIPFSSelected] = useState(false);
   const [name, setName] = useState('');
@@ -702,101 +700,20 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
             }
           } else if (isRecreate) {
             try {
-              if (uriChecked) {
-                if (isIPFSSelected) {
-                  console.log(imageSrc.substring(21));
-                  if (imageSrc.substring(21)) {
-                    openSpin('Uploading metadata to ipfs...');
-                    const jsonHash = await uploadMetadataToIPFS(
-                      imageSrc.substring(21)
-                    );
-                    if (jsonHash) {
-                      let _mintPrice: bigint;
-                      if (Number(createInfo.mintPriceUnit) === 0) {
-                        _mintPrice = ethers.parseEther(
-                          createInfo.mintPrice.toString()
-                        );
-                      } else {
-                        _mintPrice = ethers.parseUnits(
-                          createInfo.mintPrice.toString(),
-                          6
-                        );
-                      }
-                      const _mintLimit =
-                        createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
-                      openSpin('Recreating Blueprint...');
-                      const transaction = await factoryWeb3.methods
-                        .createBlueprint(
-                          createInfo.name,
-                          jsonHash.substring(16),
-                          createInfo.totalSupply,
-                          _mintPrice,
-                          createInfo.mintPriceUnit,
-                          _mintLimit,
-                          {
-                            erc20Data: createInfo.data.erc20Data.map(
-                              (erc20) => {
-                                return {
-                                  tokenAddress: erc20.tokenAddress,
-                                  amount: erc20.amount,
-                                };
-                              }
-                            ),
-                            erc721Data: createInfo.data.erc721Data.map(
-                              (erc721) => {
-                                return {
-                                  tokenAddress: erc721.tokenAddress,
-                                  tokenId: erc721.tokenId,
-                                };
-                              }
-                            ),
-                            erc1155Data: createInfo.data.erc1155Data.map(
-                              (erc1155) => {
-                                return {
-                                  tokenAddress: erc1155.tokenAddress,
-                                  tokenId: erc1155.tokenId,
-                                  amount: erc1155.amount,
-                                };
-                              }
-                            ),
-                          }
-                        )
-                        .send({ from: account });
-                      console.log(
-                        'Blueprint created successfully',
-                        transaction
-                      );
-                      setCreateInfo({
-                        id: '',
-                        name: '',
-                        uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
-                        creator: '',
-                        totalSupply: '',
-                        mintPrice: '',
-                        mintPriceUnit: '',
-                        mintLimit: '',
-                        data: {
-                          erc20Data: [],
-                          erc721Data: [],
-                          erc1155Data: [],
-                        },
-                      });
-                      showToast('success', 'Blueprint recreated successfully');
-                      navigate('/blueprint');
-                    }
-                  } else {
-                    showToast('warning', 'Please input ipfs image hash');
-                  }
-                } else {
-                  if (selectedFile) {
-                    console.log(selectedFile);
-                    openSpin('Uploading image to ipfs...');
-                    const imageHash = await uploadImageToIPFS();
-                    console.log(imageHash);
-                    if (imageHash) {
+              if (
+                error.name === '' &&
+                error.totalSupply === '' &&
+                name !== '' &&
+                totalSupply !== 0
+              ) {
+                if (uriChecked) {
+                  if (isIPFSSelected) {
+                    console.log(imageSrc.substring(21));
+                    if (imageSrc.substring(21)) {
                       openSpin('Uploading metadata to ipfs...');
-                      const jsonHash = await uploadMetadataToIPFS(imageHash);
-                      console.log(jsonHash);
+                      const jsonHash = await uploadMetadataToIPFS(
+                        imageSrc.substring(21)
+                      );
                       if (jsonHash) {
                         let _mintPrice: bigint;
                         if (Number(createInfo.mintPriceUnit) === 0) {
@@ -810,10 +727,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           );
                         }
                         const _mintLimit =
-                          createInfo.mintLimit === ''
-                            ? 0
-                            : createInfo.mintLimit;
-                        openSpin('Rereating Blueprint...');
+                          createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                        openSpin('Recreating Blueprint...');
                         const transaction = await factoryWeb3.methods
                           .createBlueprint(
                             createInfo.name,
@@ -852,7 +767,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           )
                           .send({ from: account });
                         console.log(
-                          'Blueprint recreated successfully',
+                          'Blueprint created successfully',
                           transaction
                         );
                         setCreateInfo({
@@ -870,89 +785,179 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             erc1155Data: [],
                           },
                         });
-                        showToast('success', 'Blueprint created successfully');
+                        showToast('success', 'Blueprint recreated successfully');
                         navigate('/blueprint');
                       }
+                    } else {
+                      showToast('warning', 'Please input ipfs image hash');
                     }
                   } else {
-                    showToast('warning', 'Please upload image');
-                    console.log('you have to add image');
-                  }
-                }
-              } else {
-                let _mintPrice: bigint;
-                let jsonHashUri: string;
-                if (Number(createInfo.mintPriceUnit) === 0) {
-                  _mintPrice = ethers.parseEther(
-                    createInfo.mintPrice.toString()
-                  );
-                } else {
-                  _mintPrice = ethers.parseUnits(
-                    createInfo.mintPrice.toString(),
-                    6
-                  );
-                }
-                if (isRecreate) {
-                  jsonHashUri = await blueprintContract.uri(createInfo.id);
-                  console.log(jsonHashUri);
-                } else {
-                  jsonHashUri =
-                    'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
-                }
-                const _mintLimit =
-                  createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
-                openSpin('Recreating Blueprint...');
-                const transaction = await factoryWeb3.methods
-                  .createBlueprint(
-                    createInfo.name,
-                    jsonHashUri,
-                    createInfo.totalSupply,
-                    _mintPrice,
-                    createInfo.mintPriceUnit,
-                    _mintLimit,
-                    {
-                      erc20Data: createInfo.data.erc20Data.map((erc20) => {
-                        return {
-                          tokenAddress: erc20.tokenAddress,
-                          amount: erc20.amount,
-                        };
-                      }),
-                      erc721Data: createInfo.data.erc721Data.map((erc721) => {
-                        return {
-                          tokenAddress: erc721.tokenAddress,
-                          tokenId: erc721.tokenId,
-                        };
-                      }),
-                      erc1155Data: createInfo.data.erc1155Data.map(
-                        (erc1155) => {
-                          return {
-                            tokenAddress: erc1155.tokenAddress,
-                            tokenId: erc1155.tokenId,
-                            amount: erc1155.amount,
-                          };
+                    if (selectedFile) {
+                      console.log(selectedFile);
+                      openSpin('Uploading image to ipfs...');
+                      const imageHash = await uploadImageToIPFS();
+                      console.log(imageHash);
+                      if (imageHash) {
+                        openSpin('Uploading metadata to ipfs...');
+                        const jsonHash = await uploadMetadataToIPFS(imageHash);
+                        console.log(jsonHash);
+                        if (jsonHash) {
+                          let _mintPrice: bigint;
+                          if (Number(createInfo.mintPriceUnit) === 0) {
+                            _mintPrice = ethers.parseEther(
+                              createInfo.mintPrice.toString()
+                            );
+                          } else {
+                            _mintPrice = ethers.parseUnits(
+                              createInfo.mintPrice.toString(),
+                              6
+                            );
+                          }
+                          const _mintLimit =
+                            createInfo.mintLimit === ''
+                              ? 0
+                              : createInfo.mintLimit;
+                          openSpin('Rereating Blueprint...');
+                          const transaction = await factoryWeb3.methods
+                            .createBlueprint(
+                              createInfo.name,
+                              jsonHash.substring(16),
+                              createInfo.totalSupply,
+                              _mintPrice,
+                              createInfo.mintPriceUnit,
+                              _mintLimit,
+                              {
+                                erc20Data: createInfo.data.erc20Data.map(
+                                  (erc20) => {
+                                    return {
+                                      tokenAddress: erc20.tokenAddress,
+                                      amount: erc20.amount,
+                                    };
+                                  }
+                                ),
+                                erc721Data: createInfo.data.erc721Data.map(
+                                  (erc721) => {
+                                    return {
+                                      tokenAddress: erc721.tokenAddress,
+                                      tokenId: erc721.tokenId,
+                                    };
+                                  }
+                                ),
+                                erc1155Data: createInfo.data.erc1155Data.map(
+                                  (erc1155) => {
+                                    return {
+                                      tokenAddress: erc1155.tokenAddress,
+                                      tokenId: erc1155.tokenId,
+                                      amount: erc1155.amount,
+                                    };
+                                  }
+                                ),
+                              }
+                            )
+                            .send({ from: account });
+                          console.log(
+                            'Blueprint recreated successfully',
+                            transaction
+                          );
+                          setCreateInfo({
+                            id: '',
+                            name: '',
+                            uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+                            creator: '',
+                            totalSupply: '',
+                            mintPrice: '',
+                            mintPriceUnit: '',
+                            mintLimit: '',
+                            data: {
+                              erc20Data: [],
+                              erc721Data: [],
+                              erc1155Data: [],
+                            },
+                          });
+                          showToast('success', 'Blueprint created successfully');
+                          navigate('/blueprint');
                         }
-                      ),
+                      }
+                    } else {
+                      showToast('warning', 'Please upload image');
+                      console.log('you have to add image');
                     }
-                  )
-                  .send({ from: account });
-                console.log('Blueprint recreated successfully', transaction);
-                setCreateInfo({
-                  id: '',
-                  name: '',
-                  uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
-                  creator: '',
-                  totalSupply: '',
-                  mintPrice: '',
-                  mintPriceUnit: '',
-                  mintLimit: '',
-                  data: {
-                    erc20Data: [],
-                    erc721Data: [],
-                    erc1155Data: [],
-                  },
-                });
-                showToast('success', 'Blueprint recreated successfully');
-                navigate('/blueprint');
+                  }
+                } else {
+                  let _mintPrice: bigint;
+                  let jsonHashUri: string;
+                  if (Number(createInfo.mintPriceUnit) === 0) {
+                    _mintPrice = ethers.parseEther(
+                      createInfo.mintPrice.toString()
+                    );
+                  } else {
+                    _mintPrice = ethers.parseUnits(
+                      createInfo.mintPrice.toString(),
+                      6
+                    );
+                  }
+                  if (isRecreate) {
+                    jsonHashUri = await blueprintContract.uri(createInfo.id);
+                    console.log(jsonHashUri);
+                  } else {
+                    jsonHashUri =
+                      'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
+                  }
+                  const _mintLimit =
+                    createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                  openSpin('Recreating Blueprint...');
+                  const transaction = await factoryWeb3.methods
+                    .createBlueprint(
+                      createInfo.name,
+                      jsonHashUri,
+                      createInfo.totalSupply,
+                      _mintPrice,
+                      createInfo.mintPriceUnit,
+                      _mintLimit,
+                      {
+                        erc20Data: createInfo.data.erc20Data.map((erc20) => {
+                          return {
+                            tokenAddress: erc20.tokenAddress,
+                            amount: erc20.amount,
+                          };
+                        }),
+                        erc721Data: createInfo.data.erc721Data.map((erc721) => {
+                          return {
+                            tokenAddress: erc721.tokenAddress,
+                            tokenId: erc721.tokenId,
+                          };
+                        }),
+                        erc1155Data: createInfo.data.erc1155Data.map(
+                          (erc1155) => {
+                            return {
+                              tokenAddress: erc1155.tokenAddress,
+                              tokenId: erc1155.tokenId,
+                              amount: erc1155.amount,
+                            };
+                          }
+                        ),
+                      }
+                    )
+                    .send({ from: account });
+                  console.log('Blueprint recreated successfully', transaction);
+                  setCreateInfo({
+                    id: '',
+                    name: '',
+                    uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+                    creator: '',
+                    totalSupply: '',
+                    mintPrice: '',
+                    mintPriceUnit: '',
+                    mintLimit: '',
+                    data: {
+                      erc20Data: [],
+                      erc721Data: [],
+                      erc1155Data: [],
+                    },
+                  });
+                  showToast('success', 'Blueprint recreated successfully');
+                  navigate('/blueprint');
+                }
               }
             } catch (err) {
               console.log(err);
@@ -960,109 +965,20 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
             }
           } else {
             try {
-              if (uriChecked) {
-                if (isIPFSSelected) {
-                  console.log(imageSrc.substring(21));
-                  if (imageSrc.substring(21)) {
-                    openSpin('Uploading metadata to ipfs...');
-                    const jsonHash = await uploadMetadataToIPFS(
-                      imageSrc.substring(21)
-                    );
-                    if (jsonHash) {
-                      let _mintPrice: bigint;
-                      let _mintLimit: number;
-                      if (Number(createInfo.mintPriceUnit) === 0) {
-                        _mintPrice = ethers.parseEther(
-                          createInfo.mintPrice.toString()
-                        );
-                      } else {
-                        _mintPrice = ethers.parseUnits(
-                          createInfo.mintPrice.toString(),
-                          6
-                        );
-                      }
-                      if (!mintPriceChecked) _mintPrice = 0n;
-                      if (!mintLimitChecked) {
-                        _mintLimit = 0;
-                      } else {
-                        _mintLimit =
-                          createInfo.mintLimit === ''
-                            ? 0
-                            : createInfo.mintLimit;
-                      }
-                      openSpin('Creating Blueprint...');
-                      const transaction = await factoryWeb3.methods
-                        .createBlueprint(
-                          createInfo.name,
-                          jsonHash.substring(16),
-                          createInfo.totalSupply,
-                          _mintPrice,
-                          createInfo.mintPriceUnit,
-                          _mintLimit,
-                          {
-                            erc20Data: createInfo.data.erc20Data.map(
-                              (erc20) => {
-                                return {
-                                  tokenAddress: erc20.tokenAddress,
-                                  amount: erc20.amount,
-                                };
-                              }
-                            ),
-                            erc721Data: createInfo.data.erc721Data.map(
-                              (erc721) => {
-                                return {
-                                  tokenAddress: erc721.tokenAddress,
-                                  tokenId: erc721.tokenId,
-                                };
-                              }
-                            ),
-                            erc1155Data: createInfo.data.erc1155Data.map(
-                              (erc1155) => {
-                                return {
-                                  tokenAddress: erc1155.tokenAddress,
-                                  tokenId: erc1155.tokenId,
-                                  amount: erc1155.amount,
-                                };
-                              }
-                            ),
-                          }
-                        )
-                        .send({ from: account });
-                      console.log(
-                        'Blueprint created successfully',
-                        transaction
-                      );
-                      setCreateInfo({
-                        id: '',
-                        name: '',
-                        uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
-                        creator: '',
-                        totalSupply: '',
-                        mintPrice: '',
-                        mintPriceUnit: '',
-                        mintLimit: '',
-                        data: {
-                          erc20Data: [],
-                          erc721Data: [],
-                          erc1155Data: [],
-                        },
-                      });
-                      showToast('success', 'Blueprint created successfully');
-                      navigate('/blueprint');
-                    }
-                  } else {
-                    showToast('warning', 'Please input ipfs image hash');
-                  }
-                } else {
-                  if (selectedFile) {
-                    console.log(selectedFile);
-                    openSpin('Uploading image to ipfs...');
-                    const imageHash = await uploadImageToIPFS();
-                    console.log(imageHash);
-                    if (imageHash) {
+              if (
+                error.name === '' &&
+                error.totalSupply === '' &&
+                name !== '' &&
+                totalSupply !== 0
+              ) {
+                if (uriChecked) {
+                  if (isIPFSSelected) {
+                    console.log(imageSrc.substring(21));
+                    if (imageSrc.substring(21)) {
                       openSpin('Uploading metadata to ipfs...');
-                      const jsonHash = await uploadMetadataToIPFS(imageHash);
-                      console.log(jsonHash);
+                      const jsonHash = await uploadMetadataToIPFS(
+                        imageSrc.substring(21)
+                      );
                       if (jsonHash) {
                         let _mintPrice: bigint;
                         let _mintLimit: number;
@@ -1145,92 +1061,191 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         showToast('success', 'Blueprint created successfully');
                         navigate('/blueprint');
                       }
+                    } else {
+                      showToast('warning', 'Please input ipfs image hash');
                     }
                   } else {
-                    showToast('warning', 'Please upload image');
-                    console.log('you have to add image');
-                  }
-                }
-              } else {
-                let _mintPrice: bigint;
-                let _mintLimit: number;
-                let jsonHashUri: string;
-                if (Number(createInfo.mintPriceUnit) === 0) {
-                  _mintPrice = ethers.parseEther(
-                    createInfo.mintPrice.toString()
-                  );
-                } else {
-                  _mintPrice = ethers.parseUnits(
-                    createInfo.mintPrice.toString(),
-                    6
-                  );
-                }
-                if (isRecreate) {
-                  jsonHashUri = await blueprintContract.uri(createInfo.id);
-                  console.log(jsonHashUri);
-                } else {
-                  jsonHashUri =
-                    'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
-                }
-                if (!mintPriceChecked) _mintPrice = 0n;
-                if (!mintLimitChecked) {
-                  _mintLimit = 0;
-                } else {
-                  _mintLimit =
-                    createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
-                }
-                openSpin('Creating Blueprint...');
-                const transaction = await factoryWeb3.methods
-                  .createBlueprint(
-                    createInfo.name,
-                    jsonHashUri,
-                    createInfo.totalSupply,
-                    _mintPrice,
-                    createInfo.mintPriceUnit,
-                    _mintLimit,
-                    {
-                      erc20Data: createInfo.data.erc20Data.map((erc20) => {
-                        return {
-                          tokenAddress: erc20.tokenAddress,
-                          amount: erc20.amount,
-                        };
-                      }),
-                      erc721Data: createInfo.data.erc721Data.map((erc721) => {
-                        return {
-                          tokenAddress: erc721.tokenAddress,
-                          tokenId: erc721.tokenId,
-                        };
-                      }),
-                      erc1155Data: createInfo.data.erc1155Data.map(
-                        (erc1155) => {
-                          return {
-                            tokenAddress: erc1155.tokenAddress,
-                            tokenId: erc1155.tokenId,
-                            amount: erc1155.amount,
-                          };
+                    if (selectedFile) {
+                      console.log(selectedFile);
+                      openSpin('Uploading image to ipfs...');
+                      const imageHash = await uploadImageToIPFS();
+                      console.log(imageHash);
+                      if (imageHash) {
+                        openSpin('Uploading metadata to ipfs...');
+                        const jsonHash = await uploadMetadataToIPFS(imageHash);
+                        console.log(jsonHash);
+                        if (jsonHash) {
+                          let _mintPrice: bigint;
+                          let _mintLimit: number;
+                          if (Number(createInfo.mintPriceUnit) === 0) {
+                            _mintPrice = ethers.parseEther(
+                              createInfo.mintPrice.toString()
+                            );
+                          } else {
+                            _mintPrice = ethers.parseUnits(
+                              createInfo.mintPrice.toString(),
+                              6
+                            );
+                          }
+                          if (!mintPriceChecked) _mintPrice = 0n;
+                          if (!mintLimitChecked) {
+                            _mintLimit = 0;
+                          } else {
+                            _mintLimit =
+                              createInfo.mintLimit === ''
+                                ? 0
+                                : createInfo.mintLimit;
+                          }
+                          openSpin('Creating Blueprint...');
+                          const transaction = await factoryWeb3.methods
+                            .createBlueprint(
+                              createInfo.name,
+                              jsonHash.substring(16),
+                              createInfo.totalSupply,
+                              _mintPrice,
+                              createInfo.mintPriceUnit,
+                              _mintLimit,
+                              {
+                                erc20Data: createInfo.data.erc20Data.map(
+                                  (erc20) => {
+                                    return {
+                                      tokenAddress: erc20.tokenAddress,
+                                      amount: erc20.amount,
+                                    };
+                                  }
+                                ),
+                                erc721Data: createInfo.data.erc721Data.map(
+                                  (erc721) => {
+                                    return {
+                                      tokenAddress: erc721.tokenAddress,
+                                      tokenId: erc721.tokenId,
+                                    };
+                                  }
+                                ),
+                                erc1155Data: createInfo.data.erc1155Data.map(
+                                  (erc1155) => {
+                                    return {
+                                      tokenAddress: erc1155.tokenAddress,
+                                      tokenId: erc1155.tokenId,
+                                      amount: erc1155.amount,
+                                    };
+                                  }
+                                ),
+                              }
+                            )
+                            .send({ from: account });
+                          console.log(
+                            'Blueprint created successfully',
+                            transaction
+                          );
+                          setCreateInfo({
+                            id: '',
+                            name: '',
+                            uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+                            creator: '',
+                            totalSupply: '',
+                            mintPrice: '',
+                            mintPriceUnit: '',
+                            mintLimit: '',
+                            data: {
+                              erc20Data: [],
+                              erc721Data: [],
+                              erc1155Data: [],
+                            },
+                          });
+                          showToast(
+                            'success',
+                            'Blueprint created successfully'
+                          );
+                          navigate('/blueprint');
                         }
-                      ),
+                      }
+                    } else {
+                      showToast('warning', 'Please upload image');
+                      console.log('you have to add image');
                     }
-                  )
-                  .send({ from: account });
-                console.log('Blueprint created successfully', transaction);
-                setCreateInfo({
-                  id: '',
-                  name: '',
-                  uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
-                  creator: '',
-                  totalSupply: '',
-                  mintPrice: '',
-                  mintPriceUnit: '',
-                  mintLimit: '',
-                  data: {
-                    erc20Data: [],
-                    erc721Data: [],
-                    erc1155Data: [],
-                  },
-                });
-                showToast('success', 'Blueprint created successfully');
-                navigate('/blueprint');
+                  }
+                } else {
+                  let _mintPrice: bigint;
+                  let _mintLimit: number;
+                  let jsonHashUri: string;
+                  if (Number(createInfo.mintPriceUnit) === 0) {
+                    _mintPrice = ethers.parseEther(
+                      createInfo.mintPrice.toString()
+                    );
+                  } else {
+                    _mintPrice = ethers.parseUnits(
+                      createInfo.mintPrice.toString(),
+                      6
+                    );
+                  }
+                  if (isRecreate) {
+                    jsonHashUri = await blueprintContract.uri(createInfo.id);
+                    console.log(jsonHashUri);
+                  } else {
+                    jsonHashUri =
+                      'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
+                  }
+                  if (!mintPriceChecked) _mintPrice = 0n;
+                  if (!mintLimitChecked) {
+                    _mintLimit = 0;
+                  } else {
+                    _mintLimit =
+                      createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                  }
+                  openSpin('Creating Blueprint...');
+                  const transaction = await factoryWeb3.methods
+                    .createBlueprint(
+                      createInfo.name,
+                      jsonHashUri,
+                      createInfo.totalSupply,
+                      _mintPrice,
+                      createInfo.mintPriceUnit,
+                      _mintLimit,
+                      {
+                        erc20Data: createInfo.data.erc20Data.map((erc20) => {
+                          return {
+                            tokenAddress: erc20.tokenAddress,
+                            amount: erc20.amount,
+                          };
+                        }),
+                        erc721Data: createInfo.data.erc721Data.map((erc721) => {
+                          return {
+                            tokenAddress: erc721.tokenAddress,
+                            tokenId: erc721.tokenId,
+                          };
+                        }),
+                        erc1155Data: createInfo.data.erc1155Data.map(
+                          (erc1155) => {
+                            return {
+                              tokenAddress: erc1155.tokenAddress,
+                              tokenId: erc1155.tokenId,
+                              amount: erc1155.amount,
+                            };
+                          }
+                        ),
+                      }
+                    )
+                    .send({ from: account });
+                  console.log('Blueprint created successfully', transaction);
+                  setCreateInfo({
+                    id: '',
+                    name: '',
+                    uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+                    creator: '',
+                    totalSupply: '',
+                    mintPrice: '',
+                    mintPriceUnit: '',
+                    mintLimit: '',
+                    data: {
+                      erc20Data: [],
+                      erc721Data: [],
+                      erc1155Data: [],
+                    },
+                  });
+                  showToast('success', 'Blueprint created successfully');
+                  navigate('/blueprint');
+                }
               }
             } catch (err) {
               console.log(err);
