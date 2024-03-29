@@ -12,15 +12,12 @@ export const WalletConnectButton = () => {
         authenticationStatus,
         mounted,
       }) => {
-        // Note: If your app doesn't use authentication, you
-        // can remove all 'authenticationStatus' checks
         const ready = mounted && authenticationStatus !== 'loading';
         const connected =
           ready &&
           account &&
           chain &&
           (!authenticationStatus || authenticationStatus === 'authenticated');
-
         return (
           <div
             {...(!ready && {
@@ -44,7 +41,6 @@ export const WalletConnectButton = () => {
                   </button>
                 );
               }
-
               if (chain.unsupported) {
                 return (
                   <button
@@ -56,7 +52,6 @@ export const WalletConnectButton = () => {
                   </button>
                 );
               }
-
               return (
                 <div style={{ display: 'flex', gap: 6, paddingTop: 4 }}>
                   <button
@@ -89,19 +84,14 @@ export const WalletConnectButton = () => {
                         )}
                       </div>
                     )}
-                    {/* {chain.name} */}
                   </button>
-
                   <button
                     onClick={openAccountModal}
                     type="button"
-                    className="text-white"
+                    className="text-white text-base xl:text-2xl lg:text-xl"
                   >
                     {account.address.substring(0, 6)}...
                     {account.address.substring(account.address.length - 4)}
-                    {/* {account.displayBalance
-                      ? ` (${account.displayBalance})`
-                      : ''} */}
                   </button>
                 </div>
               );
