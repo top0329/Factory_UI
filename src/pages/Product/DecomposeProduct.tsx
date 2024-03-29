@@ -7,6 +7,7 @@ import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedProduct } from '../../types';
 import { selectedProductintAtom } from '../../jotai/atoms';
 import { ethers } from 'ethers';
+import ProductListCard from '../../components/Cards/ListCard/ProductListCard';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
@@ -51,13 +52,21 @@ const DecomposeProductPage = () => {
             Decompose Product
           </h3>
           <div className="flex flex-col gap-6 p-6 sm:bg-[#040404] ">
-            <OwnBlueprintListCard
+            <ProductListCard
+              type="Product"
+              name={selectedOwnData.name}
+              address={selectedOwnData.blueprintAddress}
+              id={selectedOwnData.id}
+              balance={selectedOwnData.balance}
+              uri={selectedOwnData.uri}
+            />
+            {/* <OwnBlueprintListCard
               isDecompose={true}
               type={4}
               tokenAddress={selectedOwnData.blueprintAddress}
               tokenId={selectedOwnData.id}
               amount={selectedOwnData.balance}
-            />
+            /> */}
             <div className=" flex justify-between items-center">
               <p className="xs:text-[22px] text-[16px] text-[#BABABA]">
                 Product Decompose Fee

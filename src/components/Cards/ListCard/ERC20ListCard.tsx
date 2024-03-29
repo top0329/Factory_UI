@@ -9,6 +9,7 @@ export interface Props {
 }
 
 export function ERC20MintListCard(props: Props) {
+  console.log(props);
   return (
     <div
       className="flex gap-0 md:gap-3 w-[300px] sm:w-[400px] md:w-[85%] h-[80px] justify-between items-center md:px-[40px] py-2 border bg-[#09F5D8]/10 border-[#09F5D8]
