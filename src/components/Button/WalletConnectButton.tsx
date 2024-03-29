@@ -44,7 +44,7 @@ export const WalletConnectButton = () => {
               if (chain.unsupported) {
                 return (
                   <button
-                    className="text-base text-red-600 justify-center items-center truncate py-2 lg:text-lg sm:text-sm sm:block sm:text-red-600"
+                    className="text-base text-red-600 truncate py-2 lg:text-xl xl:text-[20px]"
                     onClick={openChainModal}
                     type="button"
                   >
@@ -88,7 +88,7 @@ export const WalletConnectButton = () => {
                   <button
                     onClick={openAccountModal}
                     type="button"
-                    className="text-white text-base xl:text-2xl lg:text-xl"
+                    className="text-white text-base xl:text-[20px] lg:text-xl"
                   >
                     {account.address.substring(0, 6)}...
                     {account.address.substring(account.address.length - 4)}
