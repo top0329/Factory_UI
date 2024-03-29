@@ -74,7 +74,7 @@ const LandingPage = () => {
   useEffect(() => {
     async function fetchData() {
       const _blueprintIds = await blueprintContract.getBlueprintIds();
-      const _blueprintCreators = await factoryContract.getBlueprintCreators();
+      const _blueprintCreators = await blueprintContract.getBlueprintCreators();
       const _totalMintedBlueprintTokens =
         await blueprintContract.totalMintedBlueprintTokens();
       const _productIds = await productContract.getProductIDs();
