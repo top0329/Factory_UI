@@ -63,17 +63,35 @@ const BlueprintPage = () => {
           'mintedAmount',
           'data',
         ];
-        setBlueprintTokenList(
-          blueprints.map((item: any[]) => {
-            return keys.reduce(
-              (acc: any, key: string, index: number) => ({
-                ...acc,
-                [key]: item[index],
-              }),
-              {}
-            );
-          })
-        );
+
+        const _blueprints = blueprints.map((item: any[]) => {
+          return keys.reduce(
+            (acc: any, key: string, index: number) => ({
+              ...acc,
+              [key]: item[index],
+            }),
+            {}
+          );
+        });
+        for (let i = 0; i < _blueprints.length; i++) {
+          const _item = _blueprints[i].data;
+          _blueprints[i].data = {
+            erc20Data: _item[0].map((params: any) => ({
+              tokenAddress: params[0],
+              amount: params[1],
+            })),
+            erc721Data: _item[1].map((params: any) => ({
+              tokenAddress: params[0],
+              tokenId: params[1],
+            })),
+            erc1155Data: _item[2].map((params: any) => ({
+              tokenAddress: params[0],
+              tokenId: params[1],
+              amount: params[2],
+            })),
+          };
+        }
+        setBlueprintTokenList(_blueprints);
       } catch (err) {
         console.log(err);
       }

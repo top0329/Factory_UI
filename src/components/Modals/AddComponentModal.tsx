@@ -245,10 +245,6 @@ const AddComponentModal = () => {
             erc20Data: [
               ...prevBlueprint.data.erc20Data,
               {
-                name: tokenData.name,
-                uri:
-                  tokenData.logo ||
-                  'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
                 tokenAddress: inputValues.erc20Address as Address,
                 amount: ethers.parseUnits(
                   String(inputValues.erc20Amount),
@@ -270,8 +266,6 @@ const AddComponentModal = () => {
               ...prevBlueprint.data.erc721Data,
               {
                 tokenId: Number(inputValues.erc721Id),
-                name: tokenData.name,
-                uri: tokenData.uri,
                 tokenAddress: inputValues.erc721Address as Address,
               },
             ],
@@ -289,8 +283,6 @@ const AddComponentModal = () => {
               ...prevBlueprint.data.erc1155Data,
               {
                 tokenId: Number(inputValues.erc1155Id),
-                name: tokenData.name,
-                uri: tokenData.uri,
                 tokenAddress: inputValues.erc1155Address as Address,
                 amount: Number(inputValues.erc1155Amount),
               },
