@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 
@@ -8,6 +8,7 @@ import { headerActiveItemAtom } from '../../../jotai/atoms';
 
 function Footer() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [headerActiveItem, setHeaderActiveItem] =
     useAtom<number>(headerActiveItemAtom);
@@ -29,6 +30,14 @@ function Footer() {
     handleResize();
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    location.pathname.includes('blueprint') && setHeaderActiveItem(1);
+    location.pathname.includes('my-blueprint') && setHeaderActiveItem(2);
+    location.pathname.includes('product') && setHeaderActiveItem(3);
+    location.pathname.includes('component') && setHeaderActiveItem(4);
+    location.pathname === '/' && setHeaderActiveItem(0);
+  }, [location.pathname, setHeaderActiveItem]);
 
   useEffect(() => {
     function handleResize() {
@@ -92,7 +101,6 @@ function Footer() {
               } cursor-pointer`}
               onClick={() => {
                 navigate('/blueprint');
-                setHeaderActiveItem(1);
               }}
             >
               Blueprint
@@ -103,7 +111,6 @@ function Footer() {
               } cursor-pointer`}
               onClick={() => {
                 navigate('/my-blueprint');
-                setHeaderActiveItem(2);
               }}
             >
               My Blueprint
@@ -114,7 +121,6 @@ function Footer() {
               } cursor-pointer`}
               onClick={() => {
                 navigate('/product');
-                setHeaderActiveItem(3);
               }}
             >
               Product
@@ -125,7 +131,6 @@ function Footer() {
               } cursor-pointer`}
               onClick={() => {
                 navigate('/component');
-                setHeaderActiveItem(4);
               }}
             >
               Component

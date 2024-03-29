@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 
@@ -11,12 +11,21 @@ import { headerActiveItemAtom } from '../../../jotai/atoms';
 
 function Header() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [headerActiveItem, setHeaderActiveItem] =
     useAtom<number>(headerActiveItemAtom);
 
   const [isListButtonClicked, setIsListButtonClicked] =
     useState<boolean>(false);
+
+  useEffect(() => {
+    location.pathname.includes('blueprint') && setHeaderActiveItem(1);
+    location.pathname.includes('my-blueprint') && setHeaderActiveItem(2);
+    location.pathname.includes('product') && setHeaderActiveItem(3);
+    location.pathname.includes('component') && setHeaderActiveItem(4);
+    location.pathname === '/' && setHeaderActiveItem(0);
+  }, [location.pathname, setHeaderActiveItem]);
 
   return (
     <div className="flex px-4 py-3 bg-[#05050a] h-14 items-center 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full xl:px-20 lg:px-16 lg:h-24 md:h-20 md:px-12 sm:h-16 sm:px-10">
@@ -26,7 +35,6 @@ function Header() {
           url={LogoImage}
           handleLogoClicked={() => {
             navigate('/');
-            setHeaderActiveItem(0);
           }}
         />
         <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-6">
@@ -37,7 +45,6 @@ function Header() {
               }`}
               onClick={() => {
                 navigate('/blueprint');
-                setHeaderActiveItem(1);
               }}
             >
               Blueprint
@@ -48,7 +55,6 @@ function Header() {
               }`}
               onClick={() => {
                 navigate('/my-blueprint');
-                setHeaderActiveItem(2);
               }}
             >
               My Blueprint
@@ -59,7 +65,6 @@ function Header() {
               }`}
               onClick={() => {
                 navigate('/product');
-                setHeaderActiveItem(3);
               }}
             >
               Product
@@ -70,7 +75,6 @@ function Header() {
               }`}
               onClick={() => {
                 navigate('/component');
-                setHeaderActiveItem(4);
               }}
             >
               Component
@@ -114,7 +118,6 @@ function Header() {
                     } w-full hover:bg-secondary`}
                     onClick={() => {
                       navigate('/blueprint');
-                      setHeaderActiveItem(1);
                       setIsListButtonClicked(false);
                     }}
                   >
@@ -128,7 +131,6 @@ function Header() {
                     } w-full hover:bg-secondary`}
                     onClick={() => {
                       navigate('/my-blueprint');
-                      setHeaderActiveItem(2);
                       setIsListButtonClicked(false);
                     }}
                   >
@@ -142,7 +144,6 @@ function Header() {
                     } w-full hover:bg-secondary`}
                     onClick={() => {
                       navigate('/product');
-                      setHeaderActiveItem(3);
                       setIsListButtonClicked(false);
                     }}
                   >
@@ -156,7 +157,6 @@ function Header() {
                     } w-full hover:bg-secondary`}
                     onClick={() => {
                       navigate('/component');
-                      setHeaderActiveItem(4);
                       setIsListButtonClicked(false);
                     }}
                   >
