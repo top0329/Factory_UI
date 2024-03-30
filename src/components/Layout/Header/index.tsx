@@ -92,7 +92,7 @@ function Header() {
             </button>
           </div>
           <div className="flex items-center">
-            <div className="hidden sm:block">
+            <div className="hidden md:block">
               <WalletConnectButton />
             </div>
             <Button

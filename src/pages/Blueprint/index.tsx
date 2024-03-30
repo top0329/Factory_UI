@@ -111,7 +111,6 @@ const BlueprintPage = () => {
   };
 
   const handleBlueprintCardClicked = (blueprint: any) => {
-    console.log(blueprint);
     setSelectedBlueprint(blueprint);
     showSidebar();
   };

@@ -10,7 +10,6 @@ export const usdcAddress =
   '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLocaleLowerCase();
 
 export const defaultRPC = 'https://ethereum-sepolia-rpc.publicnode.com';
-// export const defaultRPC = 'https://eth-sepolia.api.onfinality.io/public	';
 
 export const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 
