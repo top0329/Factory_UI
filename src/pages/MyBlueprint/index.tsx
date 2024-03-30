@@ -11,6 +11,8 @@ import {
 } from '../../jotai/atoms';
 import useWeb3 from '../../hooks/useWeb3';
 import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
+import { runMain } from '../../utils/getDataFromAlchemy';
+import { blueprintAddress } from '../../constants';
 
 const MyBlueprintPage = () => {
   const { blueprintContract, account, isConnected } = useWeb3();
@@ -22,9 +24,14 @@ const MyBlueprintPage = () => {
   const { showToast } = useToast();
   useEffect(() => {
     const getBlueprintTokenList = async () => {
+      const myBluprints = await runMain(blueprintAddress, String(account));
+      console.log('myBluprints>>>>>>>>', myBluprints);
       try {
-        const blueprintTokenIds: any =
-          await blueprintContract.getBlueprintIds();
+        const blueprintTokenIds: any = await myBluprints.map(
+          (blueprint: any) => {
+            return blueprint.tokenId;
+          }
+        );
 
         const tempTokenList = await Promise.all(
           blueprintTokenIds.map(async (id: number) => {
