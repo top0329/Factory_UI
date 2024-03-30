@@ -61,7 +61,7 @@ export function ERC20MintListCard(props: Props) {
   };
 
   return (
-    <div className="flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] px-[4px]  py-2 mb-2 borderpy-2 border  rounded-3xl text-white text-base bg-[#858584]/10 border-gray-500">
+    <div className="flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] px-[4px]  py-2 mb-2 borderpy-2 border  rounded-3xl text-white text-base bg-[#09F5D8]/10 border-[#09F5D8]">
       <div id="icon" className="flex justify-center py-2">
         <img
           src={tokenImage}
