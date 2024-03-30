@@ -1,15 +1,20 @@
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import useWeb3 from '../../hooks/useWeb3';
-
 import Button from '../../components/Button';
 import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedProduct } from '../../types';
 import { selectedProductintAtom } from '../../jotai/atoms';
 import { ethers } from 'ethers';
+import { ERC20DecomposeListCard } from '../../components/Cards/ListCard/ERC20ListCard';
+import { ProductListCard } from '../../components/Cards/ListCard/ProductListCard';
+import { BlueprintListCard } from '../../components/Cards/ListCard/BlueprintListCard';
+import { blueprintAddress, productAddress } from '../../constants';
+import { useState } from 'react';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
+  const [productAmount, setProductAmount] = useState<number>();
   const {
     isConnected,
     library,
@@ -27,6 +32,14 @@ const DecomposeProductPage = () => {
         .send({ from: account });
 
       console.log('Product token approve is successed', await transaction);
+    }
+  };
+
+  const handleChange = (e: any) => {
+    const inputValue = e.target.value;
+    if (/^\d*$/.test(inputValue)) {
+      // Check if the input is a non-negative integer
+      setProductAmount(inputValue);
     }
   };
 
@@ -51,27 +64,29 @@ const DecomposeProductPage = () => {
             Decompose Product
           </h3>
           <div className="flex flex-col gap-6 p-6 sm:bg-[#040404] ">
-            <OwnBlueprintListCard
-              isDecompose={true}
-              type={4}
-              tokenAddress={selectedOwnData.blueprintAddress}
-              tokenId={selectedOwnData.id}
-              amount={selectedOwnData.balance}
+            <ProductListCard
+              name={selectedOwnData.name}
+              address={productAddress}
+              id={selectedOwnData.id}
+              balance={selectedOwnData.balance}
+              uri={selectedOwnData.uri}
             />
             <div className=" flex justify-between items-center">
               <p className="xs:text-[22px] text-[16px] text-[#BABABA]">
                 Product Decompose Fee
               </p>
               <p className="xs:text-[24px] text-[16px] font-semibold">
-                {selectedOwnData.decomposeFee}ETH
+                {selectedOwnData.decomposeFee} ETH
               </p>
             </div>
             <div className=" flex justify-between gap-6 items-center">
               <input
                 type="number"
                 placeholder="Product Amount"
+                onChange={handleChange}
+                value={productAmount}
                 className="md:w-[70%] w-1/2 h-[40px] rounded-xl placeholder-gray-600 bg-black border border-white px-4 hide-arrows"
-              ></input>
+              />
               <Button
                 className="flex justify-center w-[160px] h-9 rounded-xl"
                 text="Approve"
@@ -84,20 +99,15 @@ const DecomposeProductPage = () => {
             <p className="xs:text-[24px] text-[18px] text-left mb-4 text-[#BABABA]">
               Preview
             </p>
-            <OwnBlueprintListCard
-              isDecompose={true}
-              type={3}
-              tokenAddress={selectedOwnData.blueprintAddress}
-              tokenId={selectedOwnData.id}
+            <BlueprintListCard
+              id={selectedOwnData.id}
               amount={selectedOwnData.balance}
+              uri={selectedOwnData.uri}
+              address={blueprintAddress}
+              name={selectedOwnData.name}
             />
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
-              <OwnBlueprintListCard
-                key={index}
-                isDecompose={true}
-                {...dataItem}
-                type={0}
-              />
+              <ERC20DecomposeListCard key={index} {...dataItem} />
             ))}
             {selectedOwnData.data.erc721Data.map((dataItem, index) => (
               <OwnBlueprintListCard

@@ -14,6 +14,7 @@ import {
   selectedOwnBlueprintAtom,
 } from '../../jotai/atoms';
 import { factoryAddress } from '../../constants';
+import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard';
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -247,12 +248,7 @@ const MintProductPage = () => {
               </h3>
               <div className="flex flex-col items-center xs:p-6 px-1 py-4 border-t border-gray-200 rounded-b">
                 {selectedOwnData.data.erc20Data.map((dataItem, index) => (
-                  <ProductListCard
-                    isDecompose={false}
-                    key={index}
-                    {...dataItem}
-                    type={0}
-                  />
+                  <ERC20MintListCard key={index} {...dataItem} />
                 ))}
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
                   <ProductListCard
