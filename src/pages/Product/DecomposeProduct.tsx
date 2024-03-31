@@ -44,16 +44,19 @@ const DecomposeProductPage = () => {
   };
 
   const handleDecompose = async () => {
-    console.log(selectedOwnData.balance);
-    const transaction = await factoryWeb3.methods
-      .decomposeProduct(selectedOwnData.id, selectedOwnData.balance, {
-        value: ethers.parseEther(
-          Number(selectedOwnData.decomposeFee).toString()
-        ),
-      })
-      .send({ from: account });
+    try {
+      const transaction = await factoryWeb3.methods
+        .decomposeProduct(selectedOwnData.id, selectedOwnData.balance, {
+          value: ethers.parseEther(
+            Number(selectedOwnData.decomposeFee).toString()
+          ),
+        })
+        .send({ from: account });
 
-    console.log('Product token decompose is successed', await transaction);
+      console.log(transaction);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
