@@ -147,6 +147,8 @@ const MintProductPage = () => {
   };
 
   const handleMintProduct = async () => {
+    console.log('BlueprintID>>>', selectedOwnBlueprint.id);
+    console.log('Amount>>>', blueprintMintAmountValue);
     await factoryWeb3.methods
       .createProduct(selectedOwnBlueprint.id, blueprintMintAmountValue, '0x')
       .send({ from: account });
