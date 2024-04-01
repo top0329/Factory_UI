@@ -6,10 +6,13 @@ import { useAtom } from 'jotai';
 import Logo from '../../Logo';
 import Button from '../../Button';
 import LogoImage from '../../../assets/images/blueprint-logo.png';
+import useWeb3 from '../../../hooks/useWeb3';
 import { WalletConnectButton } from '../../Button/WalletConnectButton';
 import { headerActiveItemAtom } from '../../../jotai/atoms';
 
 function Header() {
+  const { isConnected } = useWeb3();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -56,6 +59,7 @@ function Header() {
               onClick={() => {
                 navigate('/my-blueprint');
               }}
+              hidden={!isConnected}
             >
               My Blueprint
             </button>
@@ -66,6 +70,7 @@ function Header() {
               onClick={() => {
                 navigate('/product');
               }}
+              hidden={!isConnected}
             >
               Product
             </button>
@@ -124,7 +129,7 @@ function Header() {
                     Blueprint
                   </button>
                 </li>
-                <li>
+                <li hidden={!isConnected}>
                   <button
                     className={`truncate block my-1 px-4 py-3 text-left rounded ${
                       headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
@@ -137,7 +142,7 @@ function Header() {
                     My Blueprint
                   </button>
                 </li>
-                <li>
+                <li hidden={!isConnected}>
                   <button
                     className={`block my-1 px-4 py-3 text-left rounded ${
                       headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
@@ -179,7 +184,10 @@ function Header() {
                 </li>
               </ul>
               <hr className="mx-4" />
-              <div className="block mx-4 my-3 px-4 py-1.5 rounded text-base text-light-gray hover:bg-secondary">
+              <div
+                className="block mx-4 my-3 px-4 py-1.5 rounded text-base text-light-gray hover:bg-secondary"
+                onClick={() => setIsListButtonClicked(false)}
+              >
                 <WalletConnectButton />
               </div>
             </div>

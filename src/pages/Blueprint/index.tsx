@@ -13,10 +13,12 @@ import {
   selectedBlueprintAtom,
 } from '../../jotai/atoms';
 import useWeb3 from '../../hooks/useWeb3';
+import useToast from '../../hooks/useToast';
 import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
 
 const BlueprintPage = () => {
-  const { blueprintContract, account } = useWeb3();
+  const { blueprintContract, account, isConnected } = useWeb3();
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -116,9 +118,13 @@ const BlueprintPage = () => {
   };
 
   const handleMintNowButtonClicked = (blueprint: any) => {
-    setSelectedBlueprint(blueprint);
-    setBlueprintSelectionState(blueprint);
-    navigate(`/blueprint/mint/${blueprint.id}`);
+    if (isConnected) {
+      setSelectedBlueprint(blueprint);
+      setBlueprintSelectionState(blueprint);
+      navigate(`/blueprint/mint/${blueprint.id}`);
+    } else {
+      showToast('warning', 'Please connect your wallet first');
+    }
   };
 
   return (

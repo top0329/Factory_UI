@@ -35,7 +35,7 @@ export const WalletConnectButton = () => {
                   <button
                     onClick={openConnectModal}
                     type="button"
-                    className="truncate text-base text-light-gray rounded-2xl border-white bg-opacity-100 py-2 md:text-white lg:text-lg md:block md:border-2 md:px-5"
+                    className="w-full truncate text-base text-left text-light-gray rounded-2xl border-white bg-opacity-100 py-2 md:text-white lg:text-lg md:block md:border-2 md:px-5"
                   >
                     Connect Wallet
                   </button>

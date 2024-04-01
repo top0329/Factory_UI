@@ -5,8 +5,11 @@ import { useAtom } from 'jotai';
 
 import { WindowSize } from '../../../types';
 import { headerActiveItemAtom } from '../../../jotai/atoms';
+import useWeb3 from '../../../hooks/useWeb3';
 
 function Footer() {
+  const { isConnected } = useWeb3();
+
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -94,7 +97,11 @@ function Footer() {
           />
         )}
         <div className="flex flex-row items-start justify-between px-2 md:items-end md:flex-col md:justify-start">
-          <div className="flex flex-col gap-2 py-5 text-base font-bold xl:gap-6 xl:text-2xl lg:gap-4 lg:text-xl lg:font-normal md:gap-2 md:text-base md:flex-row md:font-medium">
+          <div
+            className={`flex flex-col ${
+              isConnected ? 'gap-2' : 'gap-4'
+            } py-5 text-base font-bold xl:gap-6 xl:text-2xl lg:gap-4 lg:text-xl lg:font-normal md:gap-2 md:text-base md:flex-row md:font-medium`}
+          >
             <button
               className={`text-left ${
                 headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
@@ -112,6 +119,7 @@ function Footer() {
               onClick={() => {
                 navigate('/my-blueprint');
               }}
+              hidden={!isConnected}
             >
               My Blueprint
             </button>
@@ -122,6 +130,7 @@ function Footer() {
               onClick={() => {
                 navigate('/product');
               }}
+              hidden={!isConnected}
             >
               Product
             </button>
