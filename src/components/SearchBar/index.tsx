@@ -8,7 +8,7 @@ import AdvancedSort from './AdvancedSort';
 import AdvancedFilter from './AdvancedFilter';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
-import { searchValueAtom } from '../../jotai/atoms';
+import { isCreatorModeAtom, searchValueAtom } from '../../jotai/atoms';
 import { invalidChars } from '../../constants';
 
 export interface Props {
@@ -33,6 +33,7 @@ const SearchBar: FC<Props> = ({
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
+  const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [showFilterOption, setShowFilterOption] = useState<boolean>(false);
@@ -121,7 +122,7 @@ const SearchBar: FC<Props> = ({
         </div>
         <Button
           className={`${
-            isNewButton === true ? 'flex' : 'hidden'
+            isNewButton && isCreatorMode ? 'flex' : 'hidden'
           } truncate !text-base justify-center px-0.5 py-1 search-button-width rounded-lg bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:w-auto sm:text-sm sm:min-w-36`}
           text="New Blueprint"
           variant="primary"
