@@ -11,6 +11,7 @@ export interface Props {
   amount?: bigint;
   0?: string;
   1?: number;
+  productAmount?: number;
 }
 
 export function ERC20MintListCard(props: Props) {
@@ -221,7 +222,9 @@ export function ERC20DecomposeListCard(props: Props) {
 
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
-        <p className="text-center">{tokenAmount}</p>
+        <p className="text-center">
+          {Number(tokenAmount) * Number(props.productAmount)}
+        </p>
       </div>
     </div>
   );
