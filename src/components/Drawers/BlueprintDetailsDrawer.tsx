@@ -22,6 +22,7 @@ import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 import Image from '../Image';
 import useWeb3 from '../../hooks/useWeb3';
+import useToast from '../../hooks/useToast';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -32,7 +33,8 @@ const BlueprintDetailDrawer: FC<Props> = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }) => {
-  const { account } = useWeb3();
+  const { account, isConnected } = useWeb3();
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -62,15 +64,23 @@ const BlueprintDetailDrawer: FC<Props> = ({
   }, []);
 
   const handleMintBlueprintButtonClicked = () => {
-    sideDrawerClosedHandler();
-    setBlueprintSelectionState(selectedBlueprint);
-    navigate(`/blueprint/mint/${selectedBlueprint.id}`);
+    if (isConnected) {
+      sideDrawerClosedHandler();
+      setBlueprintSelectionState(selectedBlueprint);
+      navigate(`/blueprint/mint/${selectedBlueprint.id}`);
+    } else {
+      showToast('warning', 'Please connect your wallet first');
+    }
   };
 
   const handleRecreateBlueprintButtonClicked = () => {
-    sideDrawerClosedHandler();
-    setBlueprintSelectionState(selectedBlueprint);
-    navigate(`/blueprint/recreate/${selectedBlueprint.id}`);
+    if (isConnected) {
+      sideDrawerClosedHandler();
+      setBlueprintSelectionState(selectedBlueprint);
+      navigate(`/blueprint/recreate/${selectedBlueprint.id}`);
+    } else {
+      showToast('warning', 'Please connect your wallet first');
+    }
   };
 
   const handleUpdateBlueprintButtonClicked = () => {

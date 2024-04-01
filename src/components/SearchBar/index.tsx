@@ -6,6 +6,8 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import Button from '../Button';
 import AdvancedSort from './AdvancedSort';
 import AdvancedFilter from './AdvancedFilter';
+import useWeb3 from '../../hooks/useWeb3';
+import useToast from '../../hooks/useToast';
 import { searchValueAtom } from '../../jotai/atoms';
 import { invalidChars } from '../../constants';
 
@@ -25,6 +27,9 @@ const SearchBar: FC<Props> = ({
   pageFilter,
   isProduct,
 }) => {
+  const { isConnected } = useWeb3();
+  const { showToast } = useToast();
+
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
@@ -46,6 +51,13 @@ const SearchBar: FC<Props> = ({
 
   const handleFilterChange = () => {
     setShowFilterOption(!showFilterOption);
+  };
+
+  const handleNewBlueprintButtonClicked = () => {
+    if (isConnected) navigate('/blueprint/new');
+    else {
+      showToast('warning', 'Please connect your wallet first');
+    }
   };
 
   return (
@@ -113,7 +125,7 @@ const SearchBar: FC<Props> = ({
           } truncate !text-base justify-center px-0.5 py-1 search-button-width rounded-lg bg-black font-medium text-light-gray shadow-sm sm:mt-0 sm:w-auto sm:text-sm sm:min-w-36`}
           text="New Blueprint"
           variant="primary"
-          onClick={() => navigate('/blueprint/new')}
+          onClick={handleNewBlueprintButtonClicked}
         />
       </div>
     </div>
