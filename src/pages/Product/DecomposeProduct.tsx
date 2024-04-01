@@ -37,21 +37,24 @@ const DecomposeProductPage = () => {
 
   const handleChange = (e: any) => {
     const inputValue = e.target.value;
-    if (/^\d*$/.test(inputValue)) {
-      // Check if the input is a non-negative integer
-      setProductAmount(inputValue);
-    }
+    // if (/^\d*$/.test(inputValue)) {
+    // Check if the input is a non-negative integer
+    setProductAmount(inputValue);
+    // }
   };
 
   const handleDecompose = async () => {
     try {
+      console.log('productAmount>>>>>>', productAmount);
+      console.log('product token id>>>>>', selectedOwnData.id);
       const transaction = await factoryWeb3.methods
-        .decomposeProduct(selectedOwnData.id, selectedOwnData.balance, {
+        .decomposeProduct(selectedOwnData.id, productAmount)
+        .send({
+          from: account,
           value: ethers.parseEther(
             Number(selectedOwnData.decomposeFee).toString()
           ),
-        })
-        .send({ from: account });
+        });
 
       console.log(transaction);
     } catch (err) {
