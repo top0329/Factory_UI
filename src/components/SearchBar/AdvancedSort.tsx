@@ -150,7 +150,7 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
             </li>
           </ul>
         )}
-        {filterOption === 'decompose' && (
+        {filterOption === 'product' && (
           <ul
             className="py-2 text-sm text-[#858584] !leading-5 !font-[400]"
             aria-labelledby="dropdownDefaultButton"

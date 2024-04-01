@@ -16,7 +16,7 @@ export interface Props {
   isNewButton?: boolean;
   placeholders: string;
   advancedFilter?: boolean;
-  pageFilter?: 'normal' | 'decompose' | 'component';
+  pageFilter?: 'normal' | 'product' | 'component';
   isProduct?: boolean;
 }
 
