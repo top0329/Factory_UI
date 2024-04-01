@@ -4,7 +4,6 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 import Button from '../../components/Button';
-import ProductListCard from '../../components/Cards/ListCard';
 import { SelectedOwnBlueprint } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
@@ -15,12 +14,14 @@ import {
 } from '../../jotai/atoms';
 import { factoryAddress } from '../../constants';
 import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard';
+import { ERC721MintListCard } from '../../components/Cards/ListCard/ERC721ListCard';
+import { ERC1155MintListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 const CheckboxIcon = btoa(
-  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><pathgit  fill="white" d="M20.292 6.708a1 1 0 0 0-1.414-1.414l-10.334 10.333-4.25-4.25a1 1 0 1 0-1.415 1.414l5 5a1 1 0 0 0 1.415 0L20.292 6.708z"/></svg>'
+  '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="white" d="M20.292 6.708a1 1 0 0 0-1.414-1.414l-10.334 10.333-4.25-4.25a1 1 0 1 0-1.415 1.414l5 5a1 1 0 0 0 1.415 0L20.292 6.708z"/></svg>'
 );
 
 function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
@@ -253,20 +254,10 @@ const MintProductPage = () => {
                   <ERC20MintListCard key={index} {...dataItem} />
                 ))}
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
-                  <ProductListCard
-                    isDecompose={false}
-                    key={index}
-                    {...dataItem}
-                    type={1}
-                  />
+                  <ERC721MintListCard key={index} {...dataItem} />
                 ))}
                 {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
-                  <ProductListCard
-                    isDecompose={false}
-                    key={index}
-                    {...dataItem}
-                    type={2}
-                  />
+                  <ERC1155MintListCard key={index} {...dataItem} />
                 ))}
 
                 <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">

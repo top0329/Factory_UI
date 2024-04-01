@@ -25,7 +25,6 @@ const MyBlueprintPage = () => {
   useEffect(() => {
     const getBlueprintTokenList = async () => {
       const myBluprints = await runMain(blueprintAddress, String(account));
-      console.log('myBluprints>>>>>>>>', myBluprints);
       try {
         const blueprintTokenIds: any = await myBluprints.map(
           (blueprint: any) => {

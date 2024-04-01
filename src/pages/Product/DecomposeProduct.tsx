@@ -113,7 +113,11 @@ const DecomposeProductPage = () => {
               name={selectedOwnData.name}
             />
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
-              <ERC20DecomposeListCard key={index} {...dataItem} />
+              <ERC20DecomposeListCard
+                key={index}
+                {...dataItem}
+                productAmount={productAmount}
+              />
             ))}
             {selectedOwnData.data.erc721Data.map((dataItem, index) => (
               <OwnBlueprintListCard
