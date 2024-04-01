@@ -4,7 +4,6 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 import Button from '../../components/Button';
-import ProductListCard from '../../components/Cards/ListCard';
 import { SelectedOwnBlueprint } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
