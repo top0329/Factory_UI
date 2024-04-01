@@ -62,7 +62,7 @@ export function ERC20MintListCard(props: Props) {
   };
 
   return (
-    <div className="flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] px-[4px]  py-2 mb-2 borderpy-2 border  rounded-3xl text-white text-base bg-[#09F5D8]/10 border-[#09F5D8]">
+    <div className="flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] px-[4px] py-2 mb-2 border rounded-3xl text-white text-base bg-[#09F5D8]/10 border-[#09F5D8]">
       <div id="icon" className="flex justify-center py-2">
         <img
           src={tokenImage}
@@ -71,18 +71,18 @@ export function ERC20MintListCard(props: Props) {
       </div>
 
       <div
-        id="type"
         className="hidden sm:block text-white justify-center  items-center w-[15%] md:text-[24px] text-[16px] text-xl"
+        id="type"
       >
         ERC20
       </div>
 
       <div
         id="name"
-        className="flex flex-col justify-center sm:w-[12%] w-[30%] xs:block"
+        className="xs:block flex flex-col justify-center sm:w-[12%] w-[30%]"
       >
         <p className="text-[#858584] text-xs">Name</p>
-        <p className="text-[#BABABA] truncate">{componentName}</p>
+        <p className="truncate">{componentName}</p>
       </div>
 
       <div
@@ -91,7 +91,9 @@ export function ERC20MintListCard(props: Props) {
       >
         <p className="text-[#858584] text-xs">Address</p>
         <div className="flex gap-2">
-          {String(tokenAddress).substring(0, 9)} ... {tokenAddress.slice(-7)}
+          <p className=" truncate">
+            {tokenAddress.substring(0, 8)} . . . {tokenAddress.slice(-6)}
+          </p>
           <div className="relative">
             <button>
               <Icon
@@ -112,18 +114,18 @@ export function ERC20MintListCard(props: Props) {
           </div>
         </div>
       </div>
-
-      <div id="id" className="flex flex-col justify-center w-[5%]"></div>
+      <div id="id" className="w-[3%]"></div>
 
       <div id="amount" className="truncate sm:w-auto">
-        <p className="text-[#858584] text-xs">Amount</p>
-        <p className="text-center">{tokenAmount}</p>
+        <div>
+          <p className="text-[#858584] text-xs">Amount</p>
+          <p className="text-center">{tokenAmount}</p>
+        </div>
       </div>
-
-      <div id="approve" className="md:w-[15%]">
+      <div id="approve" className="xs:w-auto w-[20%]">
         <button
           onClick={handleApprove}
-          className="bg-[#000000] rounded-2xl text-xl px-[11.5px] py-[4px] border border-[#2E2E2E]"
+          className="bg-[#000000] rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]"
         >
           Approve
         </button>

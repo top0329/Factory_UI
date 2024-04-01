@@ -15,6 +15,8 @@ import {
 } from '../../jotai/atoms';
 import { factoryAddress } from '../../constants';
 import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard';
+import { ERC721MintListCard } from '../../components/Cards/ListCard/ERC721ListCard';
+import { ERC1155MintListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -253,20 +255,10 @@ const MintProductPage = () => {
                   <ERC20MintListCard key={index} {...dataItem} />
                 ))}
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
-                  <ProductListCard
-                    isDecompose={false}
-                    key={index}
-                    {...dataItem}
-                    type={1}
-                  />
+                  <ERC721MintListCard key={index} {...dataItem} />
                 ))}
                 {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
-                  <ProductListCard
-                    isDecompose={false}
-                    key={index}
-                    {...dataItem}
-                    type={2}
-                  />
+                  <ERC1155MintListCard key={index} {...dataItem} />
                 ))}
 
                 <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">
