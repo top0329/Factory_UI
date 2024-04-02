@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import useToast from '../../hooks/useToast';
+import { runMain } from '../../utils/getDataFromAlchemy';
 
 import SearchBar from '../../components/SearchBar';
 // import productData from '../../../own-blueprint-data.json';
@@ -15,6 +16,7 @@ import ProductCard from '../../components/Cards/BlueprintCard/ProductCard';
 import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer';
 import useWeb3 from '../../hooks/useWeb3';
 import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
+import { productAddress } from '../../constants';
 
 const ProductPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -35,11 +37,18 @@ const ProductPage = () => {
 
   useEffect(() => {
     const getProductTokenList = async () => {
-      try {
-        const tokenIdList = await productContract.getProductIDs();
+      const myProducts = await runMain(productAddress, String(account));
+      console.log(myProducts);
 
+      try {
+        // const tokenIdList = await productContract.getProductIDs();
+        // const myTokenList = await myProducts.map((bleuprint: any) => {});
+
+        const productTokenIds: any = await myProducts.map((blueprint: any) => {
+          return blueprint.tokenId;
+        });
         const tempTokenList = await Promise.all(
-          tokenIdList.map(async (id: number) => {
+          productTokenIds.map(async (id: number) => {
             const blueprintToken = await blueprintContract.getBlueprintNFTData(
               id
             );
