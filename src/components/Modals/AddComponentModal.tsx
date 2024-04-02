@@ -52,7 +52,7 @@ const AddComponentModal = () => {
   const [isAddComponentModalOpen, setIsAddComponentModalOpen] = useAtom(
     isAddComponentModalAtom
   );
-  const [activeItem] = useAtom<number>(activeAddComponentTokenAtom);
+  const [activeItem, setActiveItem] = useAtom<number>(activeAddComponentTokenAtom);
   const [createBlueprint, setCreateBlueprint] =
     useAtom<CreateBlueprint>(createBlueprintAtom);
   const [, setAvailableComponent] = useAtom<number>(availableComponentAtom);
@@ -160,11 +160,33 @@ const AddComponentModal = () => {
           setTokenData(result.payload);
         }
       } else if (activeItem === 1 && result.type === 'ERC721') {
-        setError('');
-        setTokenData(result.payload);
+        if (
+          createBlueprint.data.erc721Data.some(
+            (erc721) => erc721.tokenAddress === value
+          ) &&
+          createBlueprint.data.erc721Data.some(
+            (erc721) => erc721.tokenId === inputValues.erc721Id
+          )
+        )
+          setError('This token already added');
+        else {
+          setError('');
+          setTokenData(result.payload);
+        }
       } else if (activeItem === 2 && result.type === 'ERC1155') {
-        setError('');
-        setTokenData(result.payload);
+        if (
+          createBlueprint.data.erc1155Data.some(
+            (erc1155) => erc1155.tokenAddress === value
+          ) &&
+          createBlueprint.data.erc1155Data.some(
+            (erc1155) => erc1155.tokenId === inputValues.erc1155Id
+          )
+        )
+          setError('This token already added');
+        else {
+          setError('');
+          setTokenData(result.payload);
+        }
       } else {
         switch (activeItem) {
           case 0:
@@ -192,11 +214,29 @@ const AddComponentModal = () => {
         ...prevValues,
         [name]: value,
       }));
+      if (
+        (createBlueprint.data.erc721Data.some(
+          (erc721) => erc721.tokenAddress === inputValues.erc721Address
+        ) &&
+          createBlueprint.data.erc721Data.some(
+            (erc721) => erc721.tokenId === parseInt(value)
+          )) ||
+        (createBlueprint.data.erc1155Data.some(
+          (erc1155) => erc1155.tokenAddress === inputValues.erc1155Address
+        ) &&
+          createBlueprint.data.erc1155Data.some(
+            (erc1155) => erc1155.tokenId === parseInt(value)
+          ))
+      )
+        setError('This token already added');
+      else {
+        setError('');
+      }
     } else if (value === '') {
       setInputValues((prevValues) => ({
         ...prevValues,
         [name]: value,
-      })); // Allow empty string so user can delete content
+      }));
     }
   };
 
@@ -222,7 +262,7 @@ const AddComponentModal = () => {
       setInputValues((prevValues) => ({
         ...prevValues,
         [name]: value,
-      })); // Allow empty string so user can delete content
+      }));
     }
     if (inputValues.erc20Address) setError('');
   };
@@ -295,12 +335,14 @@ const AddComponentModal = () => {
     setInputValues(initialValues);
     setTokenData(null);
     setAvailableComponent((prevValue) => prevValue - 1);
+    setActiveItem(0);
   };
 
   const handleCancelButtonClicked = () => {
     setIsAddComponentModalOpen(false);
     setInputValues(initialValues);
     setError('');
+    setActiveItem(0);
   };
 
   return (
