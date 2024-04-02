@@ -52,7 +52,9 @@ const AddComponentModal = () => {
   const [isAddComponentModalOpen, setIsAddComponentModalOpen] = useAtom(
     isAddComponentModalAtom
   );
-  const [activeItem, setActiveItem] = useAtom<number>(activeAddComponentTokenAtom);
+  const [activeItem, setActiveItem] = useAtom<number>(
+    activeAddComponentTokenAtom
+  );
   const [createBlueprint, setCreateBlueprint] =
     useAtom<CreateBlueprint>(createBlueprintAtom);
   const [, setAvailableComponent] = useAtom<number>(availableComponentAtom);
@@ -207,7 +209,7 @@ const AddComponentModal = () => {
     }
   };
 
-  const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
       setInputValues((prevValues) => ({
@@ -232,6 +234,21 @@ const AddComponentModal = () => {
       else {
         setError('');
       }
+    } else if (value === '') {
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
     } else if (value === '') {
       setInputValues((prevValues) => ({
         ...prevValues,
@@ -460,7 +477,7 @@ const AddComponentModal = () => {
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 step={1}
-                onChange={handleNumberChange}
+                onChange={handleIdChange}
                 onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc721Id}
               />
@@ -499,7 +516,7 @@ const AddComponentModal = () => {
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 step={1}
-                onChange={handleNumberChange}
+                onChange={handleIdChange}
                 onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc1155Id}
               />
@@ -514,7 +531,7 @@ const AddComponentModal = () => {
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 step={1}
-                onChange={handleNumberChange}
+                onChange={handleAmountChange}
                 onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc1155Amount}
               />
