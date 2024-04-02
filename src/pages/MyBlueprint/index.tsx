@@ -100,7 +100,7 @@ const MyBlueprintPage = () => {
       </h1>
       <div>
         <SearchBar
-          pageFilter="normal"
+          pageFilter="my-blueprint"
           advancedFilter
           placeholders="Search for Blueprint ID, Name and Creator"
         />

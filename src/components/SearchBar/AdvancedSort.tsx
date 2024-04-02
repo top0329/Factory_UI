@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
 interface AdvancedSortProps {
@@ -64,7 +64,7 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
           isDropdownOpen ? 'translate-y-0' : 'translate-y-[-700px]'
         } z-30 absolute bg-[#000] mt-1 p-1 divide-y  rounded-lg shadow xs:w-[200px] w-[92.5%] `}
       >
-        {filterOption === 'normal' && (
+        {filterOption === 'blueprint' && (
           <ul
             className="py-2 text-sm text-[#858584] !leading-5 !font-[400]"
             aria-labelledby="dropdownDefaultButton"
@@ -146,6 +146,52 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
                 Minted Amount
+              </p>
+            </li>
+          </ul>
+        )}
+        {filterOption === 'my-blueprint' && (
+          <ul
+            className="py-2 text-sm text-[#858584] !leading-5 !font-[400]"
+            aria-labelledby="dropdownDefaultButton"
+          >
+            <li>
+              <p
+                onClick={() => {
+                  setSelectedValue(<>Blueprint ID</>);
+                  setDefaultIcon(true);
+                  setIsDropdownOpen(false);
+                  // setisSortDown(!isSortDown);
+                }}
+                className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+              >
+                Blueprint ID
+              </p>
+            </li>
+            <li>
+              <p
+                onClick={() => {
+                  setSelectedValue(<>Blueprint Name</>);
+                  setDefaultIcon(true);
+                  setIsDropdownOpen(false);
+                  // setisSortDown(!isSortDown);
+                }}
+                className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+              >
+                Blueprint Name
+              </p>
+            </li>
+            <li>
+              <p
+                onClick={() => {
+                  setSelectedValue(<>Balance</>);
+                  setDefaultIcon(true);
+                  setIsDropdownOpen(false);
+                  // setisSortDown(!isSortDown);
+                }}
+                className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
+              >
+                Balance
               </p>
             </li>
           </ul>
