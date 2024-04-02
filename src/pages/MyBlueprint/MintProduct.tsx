@@ -181,7 +181,6 @@ const MintProductPage = () => {
               <div className=" flex justify-start items-center gap-1">
                 {selectedOwnBlueprint.creator.substring(0, 5)}...
                 {selectedOwnBlueprint.creator.slice(-5)}
-                {/* {selectedOwnBlueprint.creator} */}
                 <div className="relative">
                   <Icon
                     className="w-5 h-5 cursor-pointer"
