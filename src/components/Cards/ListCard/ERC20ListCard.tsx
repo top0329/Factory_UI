@@ -34,9 +34,17 @@ export function ERC20MintListCard(props: Props) {
       const _decimal: number = await erc20Contract.methods
         .decimals()
         .call({ from: account });
+
+      const _tokenAmount: number =
+        Number(props[1]) *
+        10 ** (Number(_decimal) * -1) *
+        Number(props.productAmount);
+
+      console.log('_tokenAmount>>>>>', _tokenAmount);
+      console.log('productAmount>>>>', props.productAmount);
       setDecimal(_decimal);
       setComponentName(name);
-      setTokenAmount(Number(props[1]) * 10 ** (Number(_decimal) * -1));
+      setTokenAmount(_tokenAmount);
       setTokenAddress(String(props[0]));
       setTokenImage(
         'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
@@ -124,9 +132,7 @@ export function ERC20MintListCard(props: Props) {
       <div id="amount" className="truncate sm:w-auto">
         <div>
           <p className="text-[#858584] text-xs">Amount</p>
-          <p className="text-center">
-            {Number(tokenAmount) * Number(props.productAmount)}
-          </p>
+          <p className="text-center">{Number(tokenAmount)}</p>
         </div>
       </div>
       <div id="approve" className="xs:w-auto w-[20%]">
@@ -161,8 +167,14 @@ export function ERC20DecomposeListCard(props: Props) {
       const _decimal: number = await erc20Contract.methods
         .decimals()
         .call({ from: account });
+
+      const _tokenAmount: number =
+        Number(props[1]) *
+        10 ** (Number(_decimal) * -1) *
+        Number(props.productAmount);
+
       setComponentName(name);
-      setTokenAmount(Number(props[1]) * 10 ** (Number(_decimal) * -1));
+      setTokenAmount(_tokenAmount);
       setTokenAddress(String(props[0]));
       setTokenImage(
         'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
@@ -231,9 +243,7 @@ export function ERC20DecomposeListCard(props: Props) {
 
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
-        <p className="text-center">
-          {Number(tokenAmount) * Number(props.productAmount)}
-        </p>
+        <p className="text-center">{Number(tokenAmount)}</p>
       </div>
     </div>
   );

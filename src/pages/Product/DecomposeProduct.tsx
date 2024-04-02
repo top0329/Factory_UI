@@ -11,6 +11,7 @@ import { ERC20DecomposeListCard } from '../../components/Cards/ListCard/ERC20Lis
 import { ProductListCard } from '../../components/Cards/ListCard/ProductListCard';
 import { BlueprintListCard } from '../../components/Cards/ListCard/BlueprintListCard';
 import { blueprintAddress, productAddress } from '../../constants';
+import { ERC1155DecomposeListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
@@ -37,10 +38,10 @@ const DecomposeProductPage = () => {
 
   const handleChange = (e: any) => {
     const inputValue = e.target.value;
-    // if (/^\d*$/.test(inputValue)) {
-    // Check if the input is a non-negative integer
-    setProductAmount(inputValue);
-    // }
+    if (/^\d*$/.test(inputValue)) {
+      // Check if the input is a non-negative integer
+      setProductAmount(inputValue);
+    }
   };
 
   const handleDecompose = async () => {
@@ -111,6 +112,7 @@ const DecomposeProductPage = () => {
               uri={selectedOwnData.uri}
               address={blueprintAddress}
               name={selectedOwnData.name}
+              productAmount={productAmount}
             />
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
               <ERC20DecomposeListCard
@@ -128,11 +130,10 @@ const DecomposeProductPage = () => {
               />
             ))}
             {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
-              <OwnBlueprintListCard
+              <ERC1155DecomposeListCard
                 key={index}
-                isDecompose={true}
                 {...dataItem}
-                type={2}
+                productAmount={productAmount}
               />
             ))}
             <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">

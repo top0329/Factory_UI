@@ -168,7 +168,7 @@ const MintProductPage = () => {
         />
         <div className="z-10 absolute top-[268px] bg-gradient-to-t from-[#011018] to-transparent w-full h-28 sm:top-[340px]"></div>
         <div className="flex flex-col gap-4 sm:px-8">
-          <h1 className="z-20 font-semibold text-lg mt-[-36px] pl-4 sm:text-xl">
+          <h1 className="z-20 font-semibold text-lg mt-[-36px] pl-9 sm:text-xl">
             {selectedOwnBlueprint.name}
           </h1>
           <div className="flex flex-col gap-3 px-9">
