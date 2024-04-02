@@ -113,28 +113,40 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     async (erc20Address: string, spender: string, amount: string) => {
       try {
         const erc20Contract = new web3.eth.Contract(erc20Abi, erc20Address);
-        await erc20Contract.methods
+        const tx = await erc20Contract.methods
           .approve(spender, amount)
           .send({ from: address });
+        console.log('tx.transactionHash', tx.transactionHash);
+
+        const receipt = await web3.eth.getTransactionReceipt(
+          tx.transactionHash
+        );
+
+        return receipt.status;
       } catch (err) {
         console.log(err);
       }
     },
-    [address, web3.eth.Contract]
+    [address, web3.eth]
   );
 
   const erc721Approve = useCallback(
     async (erc721Address: string, spender: string, tokenId: string) => {
       try {
         const erc721Contract = new web3.eth.Contract(erc721Abi, erc721Address);
-        await erc721Contract.methods
+        const tx = await erc721Contract.methods
           .approve(spender, tokenId)
           .send({ from: address });
+        const receipt = await web3.eth.getTransactionReceipt(
+          tx.transactionHash
+        );
+
+        return receipt.status;
       } catch (err) {
         console.log(err);
       }
     },
-    [address, web3.eth.Contract]
+    [address, web3.eth]
   );
 
   const erc1155Approve = useCallback(
@@ -144,14 +156,20 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
           erc1155Abi,
           erc1155Address
         );
-        await erc1155Contract.methods
+        const tx = await erc1155Contract.methods
           .setApprovalForAll(spender, approved)
           .send({ from: address });
+
+        const receipt = await web3.eth.getTransactionReceipt(
+          tx.transactionHash
+        );
+
+        return receipt.status;
       } catch (err) {
         console.log(err);
       }
     },
-    [address, web3.eth.Contract]
+    [address, web3.eth]
   );
 
   const value = useMemo(

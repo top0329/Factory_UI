@@ -10,14 +10,16 @@ import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
 export interface Props {
   address?: string;
   id?: bigint;
+  productAmount?: number;
+  setApprovedCount: any;
   0?: string;
   1?: number;
-  productAmount?: number;
 }
 
 export function ERC721MintListCard(props: Props) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const { isConnected, library, account, erc721Approve } = useWeb3();
+  const [isApproved, setIsApproved] = useState<boolean>();
   const [componentName, setComponentName] = useState<string>('');
   const [tokenId, setTokenId] = useState<number>();
   const [tokenAddress, setTokenAddress] = useState<string>('');
@@ -48,7 +50,15 @@ export function ERC721MintListCard(props: Props) {
   const handleApprove = async () => {
     try {
       if (isConnected && library) {
-        erc721Approve(String(props[0]), factoryAddress, String(tokenId));
+        const res = erc721Approve(
+          String(props[0]),
+          factoryAddress,
+          String(tokenId)
+        );
+        if (res == 1) {
+          setIsApproved(true);
+          props.setApprovedCount((current: number) => current + 1);
+        }
       }
     } catch (err: any) {
       console.log(err);
@@ -119,7 +129,8 @@ export function ERC721MintListCard(props: Props) {
       <div id="approve" className="xs:w-auto w-[20%]">
         <button
           onClick={handleApprove}
-          className="bg-[#000000] rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]"
+          disabled={isApproved}
+          className="bg-[#000000] disabled:bg-gray-900 rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]"
         >
           Approve
         </button>

@@ -55,7 +55,7 @@ const MintProductPage = () => {
   );
   const navigate = useNavigate();
   const [maxChecked, setMaxChecked] = useState(false);
-
+  const [approvedCount, setApprovedCount] = useState<number>(0);
   const [selectedOwnBlueprint] = useAtom(ownBlueprintSelectionState);
 
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
@@ -148,8 +148,11 @@ const MintProductPage = () => {
   };
 
   const handleMintProduct = async () => {
-    console.log('BlueprintID>>>', selectedOwnBlueprint.id);
-    console.log('Amount>>>', blueprintMintAmountValue);
+    console.log(
+      'selectedOwnBlueprint.data.erc20Data.length',
+      selectedOwnBlueprint.data.erc20Data.length
+    );
+
     await factoryWeb3.methods
       .createProduct(selectedOwnBlueprint.id, blueprintMintAmountValue, '0x')
       .send({ from: account });
@@ -254,16 +257,22 @@ const MintProductPage = () => {
                     key={index}
                     {...dataItem}
                     productAmount={Number(blueprintMintAmountValue)}
+                    setApprovedCount={setApprovedCount}
                   />
                 ))}
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
-                  <ERC721MintListCard key={index} {...dataItem} />
+                  <ERC721MintListCard
+                    key={index}
+                    {...dataItem}
+                    setApprovedCount={setApprovedCount}
+                  />
                 ))}
                 {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
                   <ERC1155MintListCard
                     key={index}
                     {...dataItem}
                     productAmount={Number(blueprintMintAmountValue)}
+                    setApprovedCount={setApprovedCount}
                   />
                 ))}
 
@@ -276,7 +285,13 @@ const MintProductPage = () => {
                   />
                   <Button
                     onClick={handleMintProduct}
-                    className="flex justify-center xs:w-[160px] w-[140px] h-9 rounded-xl"
+                    disabled={
+                      approvedCount !=
+                      selectedOwnBlueprint.data.erc20Data.length +
+                        selectedOwnBlueprint.data.erc721Data.length +
+                        selectedOwnBlueprint.data.erc1155Data.length
+                    }
+                    className="flex disabled:bg-gray-900 justify-center xs:w-[160px] w-[140px] h-9 rounded-xl"
                     text="Mint Product"
                     variant="primary"
                   />

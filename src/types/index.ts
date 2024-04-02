@@ -45,17 +45,17 @@ export type Web3ContextType = {
   factoryWeb3: any;
   blueprintWeb3: any;
   productWeb3: any;
-  erc20Approve: (erc20Address: string, spender: string, amount: string) => void;
+  erc20Approve: (erc20Address: string, spender: string, amount: string) => any;
   erc721Approve: (
     erc721Address: string,
     spedner: string,
     tokenId: string
-  ) => void;
+  ) => any;
   erc1155Approve: (
     erc1155Address: string,
     spender: string,
     approved: boolean
-  ) => void;
+  ) => any;
 };
 
 export type SelectedBlueprint = {
