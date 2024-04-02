@@ -9,9 +9,9 @@ import { erc20Abi } from 'viem';
 export interface Props {
   address?: string;
   amount?: bigint;
+  productAmount?: number;
   0?: string;
   1?: number;
-  productAmount?: number;
 }
 
 export function ERC20MintListCard(props: Props) {
@@ -53,7 +53,12 @@ export function ERC20MintListCard(props: Props) {
         erc20Approve(
           String(props[0]),
           factoryAddress,
-          String(ethers.parseUnits(String(tokenAmount), decimal))
+          String(
+            ethers.parseUnits(
+              Number(tokenAmount).toFixed(Number(decimal)),
+              decimal
+            )
+          )
         );
       }
     } catch (err: any) {
@@ -119,7 +124,9 @@ export function ERC20MintListCard(props: Props) {
       <div id="amount" className="truncate sm:w-auto">
         <div>
           <p className="text-[#858584] text-xs">Amount</p>
-          <p className="text-center">{tokenAmount}</p>
+          <p className="text-center">
+            {Number(tokenAmount) * Number(props.productAmount)}
+          </p>
         </div>
       </div>
       <div id="approve" className="xs:w-auto w-[20%]">

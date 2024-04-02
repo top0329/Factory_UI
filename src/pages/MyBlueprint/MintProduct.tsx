@@ -251,13 +251,21 @@ const MintProductPage = () => {
               </h3>
               <div className="flex flex-col items-center xs:p-6 px-1 py-4 border-t border-gray-200 rounded-b">
                 {selectedOwnData.data.erc20Data.map((dataItem, index) => (
-                  <ERC20MintListCard key={index} {...dataItem} />
+                  <ERC20MintListCard
+                    key={index}
+                    {...dataItem}
+                    productAmount={Number(blueprintMintAmountValue)}
+                  />
                 ))}
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
                   <ERC721MintListCard key={index} {...dataItem} />
                 ))}
                 {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
-                  <ERC1155MintListCard key={index} {...dataItem} />
+                  <ERC1155MintListCard
+                    key={index}
+                    {...dataItem}
+                    productAmount={Number(blueprintMintAmountValue)}
+                  />
                 ))}
 
                 <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">
