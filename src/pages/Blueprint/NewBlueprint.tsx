@@ -120,14 +120,14 @@ const NewBlueprintPage = () => {
         <h1 className="text-lg xs:text-xl lg:text-2xl xl:text-3xl">
           New Blueprint
         </h1>
-        <h3 className="text-sm fixed bg-primary rounded-full px-2 py-1 bottom-6 right-6 z-20 xs:text-base lg:text-lg xl:text-xl xs:block xs:static xs:bg-transparent">
+        <h3 className="text-sm fixed bg-[#243e81] rounded-full px-2 py-1 bottom-6 right-6 z-20 xs:text-base lg:text-lg xl:text-xl xs:block xs:static xs:bg-transparent">
           <span className="xs:hidden">Available</span>
           <span className="hidden xs:inline-block">
             Available Components
           </span>: <span>{availableComponent}</span>
         </h3>
       </div>
-      <div className="flex flex-col justify-start items-start pt-6 pb-16 gap-4 lg:gap-6 xs:flex-row">
+      <div className="flex flex-col justify-start items-start pt-2 pb-16 gap-4 lg:pt-6 lg:gap-6 xs:flex-row">
         <div className="min-w-48 w-full md:w-auto lg:min-w-72 md:min-w-[33.3%] sm:min-w-64">
           <BlueprintInfoCard />
         </div>

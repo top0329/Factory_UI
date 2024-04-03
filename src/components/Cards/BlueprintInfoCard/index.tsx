@@ -1256,6 +1256,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
           showToast('warning', 'Please add at least one component');
           console.log('you have to add at least one component');
         }
+      } else {
+        showToast('warning', 'Please connect your wallet first');
       }
     } catch (err) {
       console.log(err);
