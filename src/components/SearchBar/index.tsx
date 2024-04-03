@@ -16,8 +16,7 @@ export interface Props {
   isNewButton?: boolean;
   placeholders: string;
   advancedFilter?: boolean;
-  pageFilter?: 'normal' | 'decompose' | 'component';
-  isProduct?: boolean;
+  pageFilter?: 'blueprint' | 'my-blueprint' | 'product' | 'component';
 }
 
 const SearchBar: FC<Props> = ({
@@ -25,7 +24,6 @@ const SearchBar: FC<Props> = ({
   placeholders,
   advancedFilter,
   pageFilter,
-  isProduct,
 }) => {
   const { isConnected } = useWeb3();
   const { showToast } = useToast();
@@ -74,7 +72,7 @@ const SearchBar: FC<Props> = ({
             {showFilterOption && (
               <React.Fragment>
                 <div className="absolute top-0 left-0 mt-12 ml-2 z-40">
-                  <AdvancedFilter isProduct={isProduct} />
+                  <AdvancedFilter pageFilter={pageFilter} />
                 </div>
                 <div
                   className="z-10 fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center bg-opacity-40 bg-[#1D2127]"
