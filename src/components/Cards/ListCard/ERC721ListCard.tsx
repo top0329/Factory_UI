@@ -6,6 +6,7 @@ import { factoryAddress, defaultRPC } from '../../../constants';
 // import { ethers } from 'ethers';
 import { erc721Abi } from 'viem';
 import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
+import copy from 'copy-to-clipboard';
 
 export interface Props {
   address?: string;
@@ -45,6 +46,7 @@ export function ERC721MintListCard(props: Props) {
     getContractInfo();
   }, [account, props]);
   const handleCopyButtonClicked = () => {
+    copy(tokenAddress);
     setIsCopied(true);
   };
   const handleApprove = async () => {

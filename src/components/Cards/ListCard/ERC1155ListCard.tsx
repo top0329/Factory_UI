@@ -7,6 +7,7 @@ import { factoryAddress, defaultRPC } from '../../../constants';
 import erc1155Abi from '../../../abi/ERC1155ABI.json';
 import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
 import { tokenUriToName } from '../../../utils/tokenUriToName';
+import copy from 'copy-to-clipboard';
 
 export interface Props {
   address?: string;
@@ -42,12 +43,13 @@ export function ERC1155MintListCard(props: Props) {
       setTokenAddress(String(props[0]));
       setComponentName(await tokenUriToName(uri));
       setTokenId(Number(props[1]));
-      setTokenAmount(Number(props[2]));
+      setTokenAmount(Number(props[2]) * Number(props.productAmount));
       setTokenImage(String(await tokenUriToImageUri(uri)));
     };
     getContractInfo();
   }, [account, props]);
   const handleCopyButtonClicked = () => {
+    copy(tokenAddress);
     setIsCopied(true);
   };
   const handleApprove = async () => {
@@ -167,6 +169,7 @@ export function ERC1155DecomposeListCard(props: Props) {
     getContractInfo();
   }, [account, props]);
   const handleCopyButtonClicked = () => {
+    copy(tokenAddress);
     setIsCopied(true);
   };
   return (

@@ -5,6 +5,7 @@ import useWeb3 from '../../../hooks/useWeb3';
 import { factoryAddress, defaultRPC } from '../../../constants';
 import { ethers } from 'ethers';
 import { erc20Abi } from 'viem';
+import copy from 'copy-to-clipboard';
 
 export interface Props {
   address?: string;
@@ -55,6 +56,7 @@ export function ERC20MintListCard(props: Props) {
     getContractInfo();
   }, [account, decimal, props]);
   const handleCopyButtonClicked = () => {
+    copy(tokenAddress);
     setIsCopied(true);
   };
   const handleApprove = async () => {
@@ -193,6 +195,7 @@ export function ERC20DecomposeListCard(props: Props) {
     getContractInfo();
   }, [account, props]);
   const handleCopyButtonClicked = () => {
+    copy(tokenAddress);
     setIsCopied(true);
   };
   return (
