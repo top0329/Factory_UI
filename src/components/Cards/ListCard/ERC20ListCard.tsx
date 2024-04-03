@@ -10,6 +10,7 @@ export interface Props {
   address?: string;
   amount?: bigint;
   productAmount?: number;
+  setApprovedCount?: any;
   0?: string;
   1?: number;
 }
@@ -18,6 +19,7 @@ export function ERC20MintListCard(props: Props) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [decimal, setDecimal] = useState<number>();
   const { isConnected, library, account, erc20Approve } = useWeb3();
+  const [isApproved, setIsApproved] = useState<boolean>();
   const [componentName, setComponentName] = useState<string>('');
   const [tokenAmount, setTokenAmount] = useState<number>();
   const [tokenAddress, setTokenAddress] = useState<string>('');
@@ -34,9 +36,17 @@ export function ERC20MintListCard(props: Props) {
       const _decimal: number = await erc20Contract.methods
         .decimals()
         .call({ from: account });
+
+      const _tokenAmount: number =
+        Number(props[1]) *
+        10 ** (Number(_decimal) * -1) *
+        Number(props.productAmount);
+
+      console.log('_tokenAmount>>>>>', _tokenAmount);
+      console.log('productAmount>>>>', props.productAmount);
       setDecimal(_decimal);
       setComponentName(name);
-      setTokenAmount(Number(props[1]) * 10 ** (Number(_decimal) * -1));
+      setTokenAmount(_tokenAmount);
       setTokenAddress(String(props[0]));
       setTokenImage(
         'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
@@ -50,7 +60,7 @@ export function ERC20MintListCard(props: Props) {
   const handleApprove = async () => {
     try {
       if (isConnected && library) {
-        erc20Approve(
+        const res = await erc20Approve(
           String(props[0]),
           factoryAddress,
           String(
@@ -60,6 +70,10 @@ export function ERC20MintListCard(props: Props) {
             )
           )
         );
+        if (res == 1) {
+          setIsApproved(true);
+          props.setApprovedCount((current: number) => current + 1);
+        }
       }
     } catch (err: any) {
       console.log(err);
@@ -124,15 +138,16 @@ export function ERC20MintListCard(props: Props) {
       <div id="amount" className="truncate sm:w-auto">
         <div>
           <p className="text-[#858584] text-xs">Amount</p>
-          <p className="text-center">
-            {Number(tokenAmount) * Number(props.productAmount)}
-          </p>
+          <p className="text-center">{Number(tokenAmount)}</p>
         </div>
       </div>
       <div id="approve" className="xs:w-auto w-[20%]">
         <button
           onClick={handleApprove}
-          className="bg-[#000000] rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]"
+          disabled={isApproved}
+          className={`${
+            isApproved ? 'bg-gray-900' : 'bg-[#000000]'
+          } rounded-xl md:text-xl text-[14px] md:h-[35px] h-[30px] px-2 sm:w-[99px] border border-[#2E2E2E]`}
         >
           Approve
         </button>
@@ -161,8 +176,14 @@ export function ERC20DecomposeListCard(props: Props) {
       const _decimal: number = await erc20Contract.methods
         .decimals()
         .call({ from: account });
+
+      const _tokenAmount: number =
+        Number(props[1]) *
+        10 ** (Number(_decimal) * -1) *
+        Number(props.productAmount);
+
       setComponentName(name);
-      setTokenAmount(Number(props[1]) * 10 ** (Number(_decimal) * -1));
+      setTokenAmount(_tokenAmount);
       setTokenAddress(String(props[0]));
       setTokenImage(
         'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
@@ -231,9 +252,7 @@ export function ERC20DecomposeListCard(props: Props) {
 
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
-        <p className="text-center">
-          {Number(tokenAmount) * Number(props.productAmount)}
-        </p>
+        <p className="text-center">{Number(tokenAmount)}</p>
       </div>
     </div>
   );

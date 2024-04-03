@@ -55,7 +55,7 @@ const MintProductPage = () => {
   );
   const navigate = useNavigate();
   const [maxChecked, setMaxChecked] = useState(false);
-
+  const [approvedCount, setApprovedCount] = useState<number>(0);
   const [selectedOwnBlueprint] = useAtom(ownBlueprintSelectionState);
 
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
@@ -148,8 +148,11 @@ const MintProductPage = () => {
   };
 
   const handleMintProduct = async () => {
-    console.log('BlueprintID>>>', selectedOwnBlueprint.id);
-    console.log('Amount>>>', blueprintMintAmountValue);
+    console.log(
+      'selectedOwnBlueprint.data.erc20Data.length',
+      selectedOwnBlueprint.data.erc20Data.length
+    );
+
     await factoryWeb3.methods
       .createProduct(selectedOwnBlueprint.id, blueprintMintAmountValue, '0x')
       .send({ from: account });
@@ -168,7 +171,7 @@ const MintProductPage = () => {
         />
         <div className="z-10 absolute top-[268px] bg-gradient-to-t from-[#011018] to-transparent w-full h-28 sm:top-[340px]"></div>
         <div className="flex flex-col gap-4 sm:px-8">
-          <h1 className="z-20 font-semibold text-lg mt-[-36px] pl-4 sm:text-xl">
+          <h1 className="z-20 font-semibold text-lg mt-[-36px] pl-9 sm:text-xl">
             {selectedOwnBlueprint.name}
           </h1>
           <div className="flex flex-col gap-3 px-9">
@@ -181,7 +184,6 @@ const MintProductPage = () => {
               <div className=" flex justify-start items-center gap-1">
                 {selectedOwnBlueprint.creator.substring(0, 5)}...
                 {selectedOwnBlueprint.creator.slice(-5)}
-                {/* {selectedOwnBlueprint.creator} */}
                 <div className="relative">
                   <Icon
                     className="w-5 h-5 cursor-pointer"
@@ -255,16 +257,22 @@ const MintProductPage = () => {
                     key={index}
                     {...dataItem}
                     productAmount={Number(blueprintMintAmountValue)}
+                    setApprovedCount={setApprovedCount}
                   />
                 ))}
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
-                  <ERC721MintListCard key={index} {...dataItem} />
+                  <ERC721MintListCard
+                    key={index}
+                    {...dataItem}
+                    setApprovedCount={setApprovedCount}
+                  />
                 ))}
                 {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
                   <ERC1155MintListCard
                     key={index}
                     {...dataItem}
                     productAmount={Number(blueprintMintAmountValue)}
+                    setApprovedCount={setApprovedCount}
                   />
                 ))}
 
@@ -277,7 +285,13 @@ const MintProductPage = () => {
                   />
                   <Button
                     onClick={handleMintProduct}
-                    className="flex justify-center xs:w-[160px] w-[140px] h-9 rounded-xl"
+                    disabled={
+                      approvedCount !=
+                      selectedOwnBlueprint.data.erc20Data.length +
+                        selectedOwnBlueprint.data.erc721Data.length +
+                        selectedOwnBlueprint.data.erc1155Data.length
+                    }
+                    className="flex disabled:bg-gray-900 justify-center xs:w-[160px] w-[140px] h-9 rounded-xl"
                     text="Mint Product"
                     variant="primary"
                   />

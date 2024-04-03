@@ -29,8 +29,15 @@ const TransferOwnership = () => {
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.trim();
-
-    setNewOwner(value);
+    console.log(value);
+    if (value[0] != '0') {
+      console.log('Wrong Address type');
+    }
+    if (value[1] != 'x') {
+      console.log('Wrong Address type');
+    } else {
+      setNewOwner(value);
+    }
   };
 
   const handleCopyButtonClicked = () => {

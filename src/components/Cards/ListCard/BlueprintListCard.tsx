@@ -8,6 +8,7 @@ export interface Props {
   id: number;
   address: string;
   amount: number;
+  productAmount?: number;
 }
 
 export function BlueprintListCard(props: Props) {
@@ -20,7 +21,7 @@ export function BlueprintListCard(props: Props) {
   useEffect(() => {
     const getContractInfo = async () => {
       setComponentName(props.name);
-      setTokenAmount(props.amount);
+      setTokenAmount(props.amount * Number(props.productAmount));
       setTokenAddress(props.address);
       setTokenImage(props.uri);
     };
