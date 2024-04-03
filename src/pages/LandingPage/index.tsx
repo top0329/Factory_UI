@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
-// import Glide from '@glidejs/glide';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
