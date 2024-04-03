@@ -1,24 +1,83 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
-import Glide from '@glidejs/glide';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
+import useWeb3 from '../../hooks/useWeb3';
 import ScrollButton from '../../components/Button/ScrollDownButton';
 import FAQ from '../../components/FAQ';
 import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
-import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
-import { searchValueAtom } from '../../jotai/atoms';
-
+import BlueprintCardForCarousel from '../../components/Cards/BlueprintCard/BlueprintCardForCarousel';
 import Union from '../../assets/images/union.png';
 import CardFront from '../../assets/svg/card-front.svg';
 import SmallBlueprintCardImage from '../../assets/svg/small-blueprint-card.svg';
-import useWeb3 from '../../hooks/useWeb3';
-import { invalidChars } from '../../constants';
 import Image from '../../components/Image';
+import { searchValueAtom } from '../../jotai/atoms';
+import { invalidChars } from '../../constants';
 
 const LandingPage = () => {
+  function SampleNextArrow(props: React.HTMLAttributes<SVGSVGElement>) {
+    const { className, onClick } = props;
+    return (
+      <Icon
+        className={`${className} !w-7 !h-7 !mr-4 !text-light-gray !bg-gray-800 rounded-full duration-300 ease-in-out hover:!bg-default sm:!h-9 sm:!w-9 sm:!mr-2`}
+        icon="material-symbols:keyboard-arrow-right"
+        onClick={onClick}
+      />
+    );
+  }
+
+  function SamplePrevArrow(props: React.HTMLAttributes<SVGSVGElement>) {
+    const { className, onClick } = props;
+    return (
+      <Icon
+        className={`${className} z-30 !w-7 !h-7 !ml-4 !text-light-gray !bg-gray-800 rounded-full duration-300 ease-in-out hover:!bg-default sm:!h-9 sm:!w-9 sm:!ml-2`}
+        icon="material-symbols:keyboard-arrow-left"
+        onClick={onClick}
+      />
+    );
+  }
+  const settings = {
+    swipeToSlide: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    initialSlide: 0,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+    responsive: [
+      {
+        breakpoint: 1535,
+        settings: {
+          slidesToShow: 4,
+          slidesToScroll: 1,
+          infinite: true,
+        },
+      },
+      {
+        breakpoint: 1100,
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 1,
+        },
+      },
+      {
+        breakpoint: 459,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+        },
+      },
+    ],
+  };
+
   const { blueprintContract, factoryContract, productContract } = useWeb3();
   const navigate = useNavigate();
 
@@ -30,46 +89,6 @@ const LandingPage = () => {
   const [mintedBlueprintsValue, setMintedBlueprintsValue] = useState<number>(0);
   const [productsValue, setProductsValue] = useState<number>(0);
   const [isScrollAtBottom, setIsScrollAtBottom] = useState<boolean>(false);
-
-  useEffect(() => {
-    const config = {
-      startAt: 0,
-      perView: 5,
-      autoplay: 3000,
-      gap: 16,
-      breakpoints: {
-        1535: {
-          perView: 4,
-        },
-        1279: {
-          perView: 4,
-        },
-        1100: {
-          perView: 3,
-        },
-        640: {
-          perView: 3,
-          gap: 8,
-        },
-        459: {
-          perView: 2,
-          gap: 8,
-        },
-        389: {
-          perView: 1.5,
-          gap: 2,
-        },
-      },
-    };
-    const glide = new Glide('.glide', {
-      ...config,
-      type: 'carousel',
-    });
-    glide.mount();
-    return () => {
-      glide.destroy();
-    };
-  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -246,128 +265,87 @@ const LandingPage = () => {
         <h1 className="text-center text-xl font-semibold pt-6 sm:text-3xl">
           Most Minted Blueprints
         </h1>
-        <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent w-full px-6 pt-4 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full">
-          <div className="glide w-full">
-            <div className="glide__track" data-glide-el="track">
-              <ul className="glide__slides overflow-hidden">
-                <li className="glide__slide">
-                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
-                    <BlueprintCard
-                      blueprintId={95}
-                      mintLimit={10000}
-                      mintPrice={0.001}
-                      mintUnit={1}
-                      totalSupply={100000000}
-                      name="Iron Sword"
-                      uri="https://ipfs.io/ipfs/bafkreih47rxou2qm5kmc6ye5fxae37aih2qkjvlizrgzrzhjp7tqsvkzh4"
-                    />
-                  </div>
-                </li>
-                <li className="glide__slide">
-                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
-                    <BlueprintCard
-                      blueprintId={95}
-                      mintLimit={10000}
-                      mintUnit={2}
-                      mintPrice={0.001}
-                      totalSupply={100000000}
-                      name="Black Tea"
-                      uri="https://ipfs.io/ipfs/bafkreigw4ex37u2tl3tt5kocwacrbq3ucox2pkmmlojg3f3lc2545vzcza"
-                    />
-                  </div>
-                </li>
-                <li className="glide__slide">
-                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
-                    <BlueprintCard
-                      blueprintId={95}
-                      mintLimit={10000}
-                      mintUnit={0}
-                      mintPrice={0.001}
-                      totalSupply={100000000}
-                      name="Spear"
-                      uri="https://ipfs.io/ipfs/bafkreigc7k7kmuc6nh2ykdn4hto26nnqpltnvrjh2mu5zsioaeo5cic3kq"
-                    />
-                  </div>
-                </li>
-                <li className="glide__slide">
-                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
-                    <BlueprintCard
-                      blueprintId={95}
-                      mintLimit={10000}
-                      mintUnit={1}
-                      mintPrice={0.001}
-                      totalSupply={100000000}
-                      name="Gold Coin"
-                      uri="https://ipfs.io/ipfs/bafkreiaw3v4sctoiryu5wmwcqznzngjymfrgjswt667zb4msda6lg54boy"
-                    />
-                  </div>
-                </li>
-                <li className="glide__slide">
-                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
-                    <BlueprintCard
-                      blueprintId={95}
-                      mintLimit={10000}
-                      mintUnit={0}
-                      mintPrice={0.001}
-                      totalSupply={100000000}
-                      name="Milk Tea"
-                      uri="https://ipfs.io/ipfs/bafkreie4shaao65odx4ie7oqfdr5vldbbg4pbwib4gragksb7z6ae3eabq"
-                    />
-                  </div>
-                </li>
-                <li className="glide__slide">
-                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
-                    <BlueprintCard
-                      blueprintId={95}
-                      mintLimit={10000}
-                      mintUnit={1}
-                      mintPrice={0.001}
-                      totalSupply={100000000}
-                      name="Coffee"
-                      uri="https://ipfs.io/ipfs/bafybeig6qdkvvfa2o24x7xbwsyyd3n3nichylckgyqgygots22pzi3amjm"
-                    />
-                  </div>
-                </li>
-                <li className="glide__slide">
-                  <div className="relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
-                    <BlueprintCard
-                      blueprintId={95}
-                      mintUnit={0}
-                      mintLimit={10000}
-                      mintPrice={0.001}
-                      totalSupply={100000000}
-                      name="Silver Coin"
-                      uri="https://ipfs.io/ipfs/bafybeibp23rhdzkvgkek2zj4jxg3ti7qqcgmfpwevz3ni4dnicw2kvz77a"
-                    />
-                  </div>
-                </li>
-              </ul>
+        <div className="absolute top-20 inset-x-0 z-30 bg-transparent w-full px-6 pt-4 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full">
+          {/* <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent w-full px-6 pt-4 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"> */}
+          <Slider {...settings}>
+            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+              <BlueprintCardForCarousel
+                blueprintId={95}
+                mintLimit={10000}
+                mintPrice={0.001}
+                mintUnit={1}
+                totalSupply={100000000}
+                name="Iron Sword"
+                uri="https://ipfs.io/ipfs/bafkreih47rxou2qm5kmc6ye5fxae37aih2qkjvlizrgzrzhjp7tqsvkzh4"
+              />
             </div>
-            <div className="glide__arrows" data-glide-el="controls">
-              <button
-                className="glide__arrow glide__arrow--left -left-2 border-none p-0 sm:-left-3"
-                data-glide-dir="<"
-              >
-                <div className="h-7 w-7 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out hover:bg-default sm:h-9 sm:w-9">
-                  <Icon
-                    className="w-10 h-10 text-light-gray"
-                    icon="material-symbols:keyboard-arrow-left"
-                  />
-                </div>
-              </button>
-              <button
-                className="glide__arrow glide__arrow--right -right-2 border-none p-0 sm:-right-3"
-                data-glide-dir=">"
-              >
-                <div className="h-7 w-7 bg-gray-800 rounded-full flex justify-center items-center my-auto duration-300 ease-in-out hover:bg-default sm:h-9 sm:w-9">
-                  <Icon
-                    className="w-10 h-10 text-light-gray"
-                    icon="material-symbols:keyboard-arrow-right"
-                  />
-                </div>
-              </button>
+            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+              <BlueprintCardForCarousel
+                blueprintId={95}
+                mintLimit={10000}
+                mintUnit={2}
+                mintPrice={0.001}
+                totalSupply={100000000}
+                name="Black Tea"
+                uri="https://ipfs.io/ipfs/bafkreigw4ex37u2tl3tt5kocwacrbq3ucox2pkmmlojg3f3lc2545vzcza"
+              />
             </div>
-          </div>
+            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+              <BlueprintCardForCarousel
+                blueprintId={95}
+                mintLimit={10000}
+                mintUnit={0}
+                mintPrice={0.001}
+                totalSupply={100000000}
+                name="Spear"
+                uri="https://ipfs.io/ipfs/bafkreigc7k7kmuc6nh2ykdn4hto26nnqpltnvrjh2mu5zsioaeo5cic3kq"
+              />
+            </div>
+            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+              <BlueprintCardForCarousel
+                blueprintId={95}
+                mintLimit={10000}
+                mintUnit={1}
+                mintPrice={0.001}
+                totalSupply={100000000}
+                name="Gold Coin"
+                uri="https://ipfs.io/ipfs/bafkreiaw3v4sctoiryu5wmwcqznzngjymfrgjswt667zb4msda6lg54boy"
+              />
+            </div>
+            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+              <BlueprintCardForCarousel
+                blueprintId={95}
+                mintLimit={10000}
+                mintUnit={0}
+                mintPrice={0.001}
+                totalSupply={100000000}
+                name="Milk Tea"
+                uri="https://ipfs.io/ipfs/bafkreie4shaao65odx4ie7oqfdr5vldbbg4pbwib4gragksb7z6ae3eabq"
+              />
+            </div>
+            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+              <BlueprintCardForCarousel
+                blueprintId={95}
+                mintLimit={10000}
+                mintUnit={1}
+                mintPrice={0.001}
+                totalSupply={100000000}
+                name="Coffee"
+                uri="https://ipfs.io/ipfs/bafybeig6qdkvvfa2o24x7xbwsyyd3n3nichylckgyqgygots22pzi3amjm"
+              />
+            </div>
+            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+              <BlueprintCardForCarousel
+                blueprintId={95}
+                mintUnit={0}
+                mintLimit={10000}
+                mintPrice={0.001}
+                totalSupply={100000000}
+                name="Silver Coin"
+                uri="https://ipfs.io/ipfs/bafybeibp23rhdzkvgkek2zj4jxg3ti7qqcgmfpwevz3ni4dnicw2kvz77a"
+              />
+            </div>
+          </Slider>
         </div>
       </div>
       <PlatformStatus
