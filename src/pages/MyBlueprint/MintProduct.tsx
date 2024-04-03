@@ -16,6 +16,7 @@ import { factoryAddress } from '../../constants';
 import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard';
 import { ERC721MintListCard } from '../../components/Cards/ListCard/ERC721ListCard';
 import { ERC1155MintListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
+import Web3 from 'web3';
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -148,14 +149,19 @@ const MintProductPage = () => {
   };
 
   const handleMintProduct = async () => {
-    console.log(
-      'selectedOwnBlueprint.data.erc20Data.length',
-      selectedOwnBlueprint.data.erc20Data.length
-    );
+    const web3 = new Web3(window.ethereum);
+    if (!isConnected || !library || blueprintMintAmountValue) {
+      const tx = await factoryWeb3.methods
+        .createProduct(selectedOwnBlueprint.id, blueprintMintAmountValue, '0x')
+        .send({ from: account });
 
-    await factoryWeb3.methods
-      .createProduct(selectedOwnBlueprint.id, blueprintMintAmountValue, '0x')
-      .send({ from: account });
+      const receipt = await web3.eth.getTransactionReceipt(tx.transactionHash);
+      console.log(receipt.status);
+      if (receipt && Number(receipt.status) === 1) {
+        console.log('SUccessssssssssssssss');
+        navigate('/product');
+      }
+    }
   };
 
   return (

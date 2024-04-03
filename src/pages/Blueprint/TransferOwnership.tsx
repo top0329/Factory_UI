@@ -26,18 +26,40 @@ const TransferOwnership = () => {
   function isValidEthereumAddress(address: any) {
     return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
   }
+  let inputValue: string = '';
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const value = event.target.value.trim();
-    console.log(value);
-    if (value[0] != '0') {
-      console.log('Wrong Address type');
-    }
-    if (value[1] != 'x') {
-      console.log('Wrong Address type');
+    const initialValue: any = event.target.value.trim();
+    inputValue = inputValue.concat(initialValue);
+    if (inputValue[0] == '0') {
+      event.target.value = inputValue;
+      if (inputValue[1] == 'x') {
+        console.log('OK');
+        setNewOwner(inputValue);
+      }
     } else {
-      setNewOwner(value);
+      console.log('ASDFAS');
     }
+    console.log(inputValue);
+
+    // inputValue = inputValue.replace(/[^0-9a-fA-F]/g, '');
+    // console.log(inputValue);
+    // if (!inputValue.startsWith('0x')) {
+    //   inputValue = '0x' + inputValue;
+    // }
+    // if (inputValue.length > 42) {
+    //   inputValue = inputValue.slice(0, 42);
+    // }
+    // event.target.value = inputValue;
+
+    // if (inputValue[0] == '0') {
+    //   if (inputValue.length >= 2 && inputValue[1] == 'x') {
+    //     console.log(inputValue[0]);
+    //     setNewOwner[inputValue];
+    //   }
+    // }
+
+    // setNewOwner(inputValue);
   };
 
   const handleCopyButtonClicked = () => {
