@@ -13,10 +13,13 @@ import { BlueprintListCard } from '../../components/Cards/ListCard/BlueprintList
 import { blueprintAddress, productAddress } from '../../constants';
 import { ERC1155DecomposeListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
 import Web3 from 'web3';
+import useSpinner from '../../hooks/useSpinner';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
   const [productAmount, setProductAmount] = useState<number>(0);
+  const { openSpin, closeSpin } = useSpinner();
+
   const {
     isConnected,
     library,
@@ -28,20 +31,44 @@ const DecomposeProductPage = () => {
   const navigate = useNavigate();
 
   const handleApprove = async () => {
-    if (isConnected && library) {
-      const transaction = await productWeb3.methods
-        .setApprovalForAll(await factoryContract.getAddress(), true)
-        .send({ from: account });
+    const web3 = new Web3(window.ethereum);
 
-      console.log('Product token approve is successed', await transaction);
+    if (isConnected && library) {
+      let receipt = null;
+      while (receipt === null || receipt.status === undefined) {
+        const transaction = productWeb3.methods
+          .setApprovalForAll(await factoryContract.getAddress(), true)
+          .send({ from: account });
+
+        openSpin('Transaction Pending...');
+        receipt = await web3.eth.getTransactionReceipt(
+          (
+            await transaction
+          ).transactionHash
+        );
+
+        if (receipt && receipt.status !== undefined) {
+          if (receipt.status) {
+            closeSpin();
+          } else {
+            closeSpin();
+          }
+        } else {
+          alert('Transaction is still pending');
+          await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+        }
+      }
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     if (inputValue === '' || /^\d*$/.test(inputValue)) {
-      // Check if the input is a non-negative integer
-      setProductAmount(Number(inputValue));
+      if (Number(inputValue) > selectedOwnData.balance) {
+        setProductAmount(selectedOwnData.balance);
+      } else {
+        setProductAmount(Number(inputValue));
+      }
     }
   };
 
@@ -49,24 +76,35 @@ const DecomposeProductPage = () => {
     const web3 = new Web3(window.ethereum);
 
     try {
-      console.log('productAmount>>>>>>', productAmount);
-      console.log('product token id>>>>>', selectedOwnData.id);
-      const transaction = await factoryWeb3.methods
-        .decomposeProduct(selectedOwnData.id, productAmount)
-        .send({
-          from: account,
-          value: ethers.parseEther(
-            Number(selectedOwnData.decomposeFee).toString()
-          ),
-        });
+      let receipt = null;
+      while (receipt === null || receipt.status === undefined) {
+        const transaction = factoryWeb3.methods
+          .decomposeProduct(selectedOwnData.id, productAmount)
+          .send({
+            from: account,
+            value: ethers.parseEther(
+              Number(selectedOwnData.decomposeFee).toString()
+            ),
+          });
+        openSpin('Transaction Pending...');
 
-      const receipt = await web3.eth.getTransactionReceipt(
-        transaction.transactionHash
-      );
+        receipt = await web3.eth.getTransactionReceipt(
+          (
+            await transaction
+          ).transactionHash
+        );
 
-      if (receipt && Number(receipt.status) === 1) {
-        console.log('SUccessssssssssssssss');
-        navigate('/product');
+        if (receipt && receipt.status !== undefined) {
+          if (receipt.status) {
+            closeSpin();
+            navigate('/product');
+          } else {
+            closeSpin();
+          }
+        } else {
+          alert('Transaction is still pending');
+          await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+        }
       }
     } catch (err) {
       console.log(err);

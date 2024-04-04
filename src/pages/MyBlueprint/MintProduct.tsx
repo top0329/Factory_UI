@@ -75,7 +75,11 @@ const MintProductPage = () => {
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
     if (newValue === '' || /^\d+$/.test(newValue)) {
-      setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
+      if (Number(newValue) > Number(selectedOwnBlueprint.balance.toString())) {
+        setBlueprintMintAmountValue(selectedOwnBlueprint.balance.toString());
+      } else {
+        setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
+      }
     }
   };
 
@@ -108,6 +112,7 @@ const MintProductPage = () => {
   };
 
   const handleApprove = async () => {
+    // const web3 = new Web3(window.ethereum);
     try {
       if (isConnected && library && blueprintMintAmountValue) {
         const isApproved = await blueprintContract.isApprovedForAll(
@@ -117,7 +122,6 @@ const MintProductPage = () => {
         console.log('isApproved>>>>>>>', isApproved);
         if (isApproved) {
           console.log('Is Modal Opened', isModalOpen);
-
           setIsModalOpen(true);
         } else {
           if (blueprintMintAmountValue) {
@@ -125,8 +129,12 @@ const MintProductPage = () => {
               .setApprovalForAll(factoryAddress, true)
               .send({ from: account });
 
+            // const receipt = await web3.eth.getTransactionReceipt(
+            //   transaction.transactionHash
+            // );
+
             console.log('transaction successed', await transaction);
-            await setIsModalOpen(!isModalOpen);
+            setIsModalOpen(!isModalOpen);
           } else {
             console.log('Please input the value');
           }

@@ -8,6 +8,8 @@ import useToast from '../../hooks/useToast';
 import Button from '../../components/Button';
 import { blueprintSelectionState } from '../../jotai/atoms';
 import useWeb3 from '../../hooks/useWeb3';
+import Web3 from 'web3';
+import useSpinner from '../../hooks/useSpinner';
 const TransferOwnership = () => {
   const navigate = useNavigate();
 
@@ -17,7 +19,8 @@ const TransferOwnership = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { showToast } = useToast();
-  const { factoryWeb3, account } = useWeb3();
+  const { factoryWeb3, account, isConnected, library } = useWeb3();
+  const { openSpin, closeSpin } = useSpinner();
 
   const toggleModal = () => {
     setIsModalOpen(true);
@@ -75,22 +78,49 @@ const TransferOwnership = () => {
   };
 
   const handleTransfer = () => {
-    if (isValidEthereumAddress(newOwner)) {
-      toggleModal();
-    } else {
-      showToast('warning', 'Invalid address type for new owner');
+    if (isConnected && library) {
+      if (isValidEthereumAddress(newOwner)) {
+        toggleModal();
+      } else {
+        showToast('warning', 'Invalid address type for new owner');
+      }
     }
   };
 
-  const handleConfirm = () => {
-    if (isValidEthereumAddress(newOwner)) {
-      factoryWeb3.methods
-        .updateBlueprintCreator(selectedBlueprint.id, newOwner)
-        .send({ from: account })
-        .then((result: any) => console.log(result))
-        .catch((err: any) => console.log(err));
-    } else {
-      showToast('warning', 'Invalid address type for new owner');
+  const handleConfirm = async () => {
+    const web3 = new Web3(window.ethereum);
+    try {
+      let receipt = null;
+      while (receipt === null || receipt.status === undefined) {
+        if (isValidEthereumAddress(newOwner)) {
+          const res = factoryWeb3.methods
+            .updateBlueprintCreator(selectedBlueprint.id, newOwner)
+            .send({ from: account });
+
+          openSpin('Transaction Pending...');
+          receipt = await web3.eth.getTransactionReceipt(
+            (
+              await res
+            ).transactionHash
+          );
+
+          if (receipt && receipt.status !== undefined) {
+            if (receipt.status) {
+              closeSpin();
+              navigate('/blueprint');
+            } else {
+              closeSpin();
+            }
+          } else {
+            alert('Transaction is still pending');
+            await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+          }
+        } else {
+          showToast('warning', 'Invalid address type for new owner');
+        }
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 

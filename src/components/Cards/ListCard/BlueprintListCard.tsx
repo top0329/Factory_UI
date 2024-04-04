@@ -21,7 +21,7 @@ export function BlueprintListCard(props: Props) {
   useEffect(() => {
     const getContractInfo = async () => {
       setComponentName(props.name);
-      setTokenAmount(props.amount * Number(props.productAmount));
+      setTokenAmount(props.productAmount);
       setTokenAddress(props.address);
       setTokenImage(props.uri);
     };

@@ -116,13 +116,8 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         const tx = await erc20Contract.methods
           .approve(spender, amount)
           .send({ from: address });
-        console.log('tx.transactionHash', tx.transactionHash);
 
-        const receipt = await web3.eth.getTransactionReceipt(
-          tx.transactionHash
-        );
-
-        return receipt.status;
+        return tx;
       } catch (err) {
         console.log(err);
       }
@@ -137,11 +132,8 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         const tx = await erc721Contract.methods
           .approve(spender, tokenId)
           .send({ from: address });
-        const receipt = await web3.eth.getTransactionReceipt(
-          tx.transactionHash
-        );
 
-        return receipt.status;
+        return tx;
       } catch (err) {
         console.log(err);
       }
@@ -160,11 +152,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
           .setApprovalForAll(spender, approved)
           .send({ from: address });
 
-        const receipt = await web3.eth.getTransactionReceipt(
-          tx.transactionHash
-        );
-
-        return receipt.status;
+        return tx;
       } catch (err) {
         console.log(err);
       }
