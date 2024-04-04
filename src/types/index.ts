@@ -200,3 +200,29 @@ export interface BlueprintNFT {
 export type GuardProps = {
   children: ReactElement | null;
 };
+
+export type SelectedComponentData = {
+  id: number;
+  tokenId?: number;
+  tokenAddress: string;
+  tokenAmount?: bigint;
+};
+
+export type ERC20ComponentData = {
+  name: string;
+  address: string;
+  amount: string;
+};
+
+export type ERC721ComponentData = {
+  name: string;
+  id: string;
+  address: string;
+};
+
+export type ERC1155ComponentData = {
+  name: string;
+  id: string;
+  amount: string;
+  address: string;
+};

@@ -49,7 +49,7 @@ const AddComponentModal = () => {
     erc1155Amount: '',
   };
 
-  const [isAddComponentModalOpen, setIsAddComponentModalOpen] = useAtom(
+  const [isAddComponentModalOpen, setIsAddComponentModalOpen] = useAtom<boolean>(
     isAddComponentModalAtom
   );
   const [activeItem, setActiveItem] = useAtom<number>(

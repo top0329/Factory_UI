@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 
 import ComponentButton from '../../components/Button/ComponentButton';
@@ -6,16 +6,24 @@ import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import AddComponentModal from '../../components/Modals/AddComponentModal';
+import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
+import useWeb3 from '../../hooks/useWeb3';
+import useToast from '../../hooks/useToast';
 import {
+  activeAddComponentTokenAtom,
   availableComponentAtom,
   createBlueprintAtom,
   isAddComponentModalAtom,
+  isEditComponentModalAtom,
   selectedBlueprintAtom,
 } from '../../jotai/atoms';
-import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
-import { ERC1155Data, ERC20Data, ERC721Data } from '../../types';
-import useWeb3 from '../../hooks/useWeb3';
-import useToast from '../../hooks/useToast';
+import {
+  ERC1155Data,
+  ERC20Data,
+  ERC721Data,
+  SelectedComponentData,
+} from '../../types';
+import EditComponentModal from '../../components/Modals/EditComponentModal';
 
 const RecreateBlueprintPage = () => {
   const { factoryContract } = useWeb3();
@@ -26,7 +34,23 @@ const RecreateBlueprintPage = () => {
   const [availableComponent, setAvailableComponent] = useAtom(
     availableComponentAtom
   );
-  const [, setIsAddComponentModalOpen] = useAtom(isAddComponentModalAtom);
+  const [, setIsAddComponentModalOpen] = useAtom<boolean>(
+    isAddComponentModalAtom
+  );
+  const [, setIsEditComponentModalOpen] = useAtom<boolean>(
+    isEditComponentModalAtom
+  );
+  const [activeItem, setActiveItem] = useAtom<number>(
+    activeAddComponentTokenAtom
+  );
+
+  const [selectedComponentData, setSelectedComponentData] =
+    useState<SelectedComponentData>({
+      id: 0,
+      tokenAddress: '',
+      tokenId: 0,
+      tokenAmount: 0n,
+    });
 
   useEffect(() => {
     setCreateBlueprint(selectedBlueprint);
@@ -62,6 +86,16 @@ const RecreateBlueprintPage = () => {
       showToast('fail', 'Not able to add component tokens.');
       setIsAddComponentModalOpen(false);
     }
+  };
+
+  const handleEditERC20CardClicked = (erc20: ERC20Data, idx: number) => {
+    setIsEditComponentModalOpen(true);
+    setSelectedComponentData({
+      id: idx,
+      tokenAddress: erc20.tokenAddress,
+      tokenAmount: erc20.amount,
+    });
+    setActiveItem(0);
   };
 
   const handleDeleteERC20CardClicked = (erc20: ERC20Data) => {
@@ -145,11 +179,12 @@ const RecreateBlueprintPage = () => {
                 amount={erc20.amount}
                 tokenAddress={erc20.tokenAddress}
                 icon
+                onEditIconClicked={() => handleEditERC20CardClicked(erc20, idx)}
                 onDeleteIconClicked={() => handleDeleteERC20CardClicked(erc20)}
               />
             );
           })}
-          {createBlueprint.data.erc721Data.map((erc721) => {
+          {createBlueprint.data.erc721Data.map((erc721, idx) => {
             return (
               <ERC721Card
                 key={erc721.tokenId}
@@ -162,7 +197,7 @@ const RecreateBlueprintPage = () => {
               />
             );
           })}
-          {createBlueprint.data.erc1155Data.map((erc1155) => {
+          {createBlueprint.data.erc1155Data.map((erc1155, idx) => {
             return (
               <ERC1155Card
                 key={erc1155.tokenId}
@@ -179,6 +214,7 @@ const RecreateBlueprintPage = () => {
         </div>
       </div>
       <AddComponentModal />
+      <EditComponentModal selectedComponentData={selectedComponentData} />
     </div>
   );
 };

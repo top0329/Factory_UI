@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { ethers } from 'ethers';
 import { Address } from 'viem';
 
@@ -11,13 +12,25 @@ import {
   activeAddComponentTokenAtom,
   availableComponentAtom,
   createBlueprintAtom,
-  isAddComponentModalAtom,
+  isEditComponentModalAtom,
 } from '../../jotai/atoms';
-import { AddComponentModalInputValue, CreateBlueprint } from '../../types';
+import {
+  AddComponentModalInputValue,
+  CreateBlueprint,
+  ERC1155ComponentData,
+  ERC20ComponentData,
+  ERC721ComponentData,
+  SelectedComponentData,
+} from '../../types';
+import getTokenData from '../../utils/getTokenData';
 
 // TODO: edit modal implementation
 
-const EditComponentModal = () => {
+const EditComponentModal = ({
+  selectedComponentData,
+}: {
+  selectedComponentData: SelectedComponentData;
+}) => {
   const initialValues: AddComponentModalInputValue = {
     erc20Address: '',
     erc20Amount: '',
@@ -28,9 +41,8 @@ const EditComponentModal = () => {
     erc1155Amount: '',
   };
 
-  const [isAddComponentModalOpen, setIsAddComponentModalOpen] = useAtom(
-    isAddComponentModalAtom
-  );
+  const [isEditComponentModalOpen, setIsEditComponentModalOpen] =
+    useAtom<boolean>(isEditComponentModalAtom);
   const [activeItem] = useAtom<number>(activeAddComponentTokenAtom);
   const [createBlueprint, setCreateBlueprint] =
     useAtom<CreateBlueprint>(createBlueprintAtom);
@@ -41,13 +53,55 @@ const EditComponentModal = () => {
   const [isAddButtonDisabled, setIsAddButtonDisabled] = useState<boolean>(true);
   const [error, setError] = useState<string | boolean>(false);
   const [tokenData, setTokenData] = useState<any>(null);
+  const [selectedComponentTokenData, setSelectedComponentTokenData] =
+    useState<SelectedComponentData>();
+  const [erc20Data, setErc20Data] = useState<ERC20ComponentData>();
+  const [erc721Data, setErc721Data] = useState<ERC721ComponentData>();
+  const [erc1155Data, setErc1155Data] = useState<ERC1155ComponentData>();
 
   const modal = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    console.log(selectedComponentData.tokenAddress);
+    async function init() {
+      if (activeItem === 0) {
+        const tokenDetails = await getTokenData(
+          selectedComponentData.tokenAddress as Address
+        );
+        console.log(tokenDetails);
+        setErc20Data({
+          name: tokenDetails?.tokenName,
+          address: selectedComponentData.tokenAddress,
+          amount: selectedComponentData.tokenAmount
+            ? ethers.formatUnits(
+                selectedComponentData.tokenAmount.toString(),
+                tokenDetails?.decimal
+              )
+            : '',
+        });
+        console.log(
+          tokenDetails?.tokenName,
+          selectedComponentData.tokenAddress,
+          selectedComponentData.tokenAmount
+            ? ethers.formatUnits(
+                selectedComponentData.tokenAmount.toString(),
+                tokenDetails?.decimal
+              )
+            : ''
+        );
+      }
+    }
+    init();
+  }, [
+    activeItem,
+    selectedComponentData.tokenAddress,
+    selectedComponentData.tokenAmount,
+  ]);
+
+  useEffect(() => {
     const keyHandler = ({ keyCode }: KeyboardEvent) => {
-      if (!isAddComponentModalOpen || keyCode !== 27) return;
-      setIsAddComponentModalOpen(false);
+      if (!isEditComponentModalOpen || keyCode !== 27) return;
+      setIsEditComponentModalOpen(false);
     };
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
@@ -139,11 +193,33 @@ const EditComponentModal = () => {
           setTokenData(result.payload);
         }
       } else if (activeItem === 1 && result.type === 'ERC721') {
-        setError('');
-        setTokenData(result.payload);
+        if (
+          createBlueprint.data.erc721Data.some(
+            (erc721) => erc721.tokenAddress === value
+          ) &&
+          createBlueprint.data.erc721Data.some(
+            (erc721) => erc721.tokenId === inputValues.erc721Id
+          )
+        )
+          setError('This token already added');
+        else {
+          setError('');
+          setTokenData(result.payload);
+        }
       } else if (activeItem === 2 && result.type === 'ERC1155') {
-        setError('');
-        setTokenData(result.payload);
+        if (
+          createBlueprint.data.erc1155Data.some(
+            (erc1155) => erc1155.tokenAddress === value
+          ) &&
+          createBlueprint.data.erc1155Data.some(
+            (erc1155) => erc1155.tokenId === inputValues.erc1155Id
+          )
+        )
+          setError('This token already added');
+        else {
+          setError('');
+          setTokenData(result.payload);
+        }
       } else {
         switch (activeItem) {
           case 0:
@@ -164,7 +240,40 @@ const EditComponentModal = () => {
     }
   };
 
-  const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+      if (
+        (createBlueprint.data.erc721Data.some(
+          (erc721) => erc721.tokenAddress === inputValues.erc721Address
+        ) &&
+          createBlueprint.data.erc721Data.some(
+            (erc721) => erc721.tokenId === parseInt(value)
+          )) ||
+        (createBlueprint.data.erc1155Data.some(
+          (erc1155) => erc1155.tokenAddress === inputValues.erc1155Address
+        ) &&
+          createBlueprint.data.erc1155Data.some(
+            (erc1155) => erc1155.tokenId === parseInt(value)
+          ))
+      )
+        setError('This token already added');
+      else {
+        setError('');
+      }
+    } else if (value === '') {
+      setInputValues((prevValues) => ({
+        ...prevValues,
+        [name]: value,
+      }));
+    }
+  };
+
+  const handleAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
       setInputValues((prevValues) => ({
@@ -175,7 +284,7 @@ const EditComponentModal = () => {
       setInputValues((prevValues) => ({
         ...prevValues,
         [name]: value,
-      })); // Allow empty string so user can delete content
+      }));
     }
   };
 
@@ -201,7 +310,7 @@ const EditComponentModal = () => {
       setInputValues((prevValues) => ({
         ...prevValues,
         [name]: value,
-      })); // Allow empty string so user can delete content
+      }));
     }
     if (inputValues.erc20Address) setError('');
   };
@@ -224,10 +333,6 @@ const EditComponentModal = () => {
             erc20Data: [
               ...prevBlueprint.data.erc20Data,
               {
-                name: tokenData.name,
-                uri:
-                  tokenData.logo ||
-                  'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi',
                 tokenAddress: inputValues.erc20Address as Address,
                 amount: ethers.parseUnits(
                   String(inputValues.erc20Amount),
@@ -249,8 +354,6 @@ const EditComponentModal = () => {
               ...prevBlueprint.data.erc721Data,
               {
                 tokenId: Number(inputValues.erc721Id),
-                name: tokenData.name,
-                uri: tokenData.uri,
                 tokenAddress: inputValues.erc721Address as Address,
               },
             ],
@@ -268,8 +371,6 @@ const EditComponentModal = () => {
               ...prevBlueprint.data.erc1155Data,
               {
                 tokenId: Number(inputValues.erc1155Id),
-                name: tokenData.name,
-                uri: tokenData.uri,
                 tokenAddress: inputValues.erc1155Address as Address,
                 amount: Number(inputValues.erc1155Amount),
               },
@@ -278,14 +379,14 @@ const EditComponentModal = () => {
         };
       });
     }
-    setIsAddComponentModalOpen(false);
+    setIsEditComponentModalOpen(false);
     setInputValues(initialValues);
     setTokenData(null);
     setAvailableComponent((prevValue) => prevValue - 1);
   };
 
   const handleCancelButtonClicked = () => {
-    setIsAddComponentModalOpen(false);
+    setIsEditComponentModalOpen(false);
     setInputValues(initialValues);
     setError('');
   };
@@ -293,7 +394,7 @@ const EditComponentModal = () => {
   return (
     <div
       className={`fixed right-0 bottom-0 top-0 left-0 z-30 flex h-full min-h-screen w-full items-center justify-center px-4 py-5 ${
-        isAddComponentModalOpen ? 'block' : 'hidden'
+        isEditComponentModalOpen ? 'block' : 'hidden'
       }`}
     >
       <div
@@ -305,7 +406,7 @@ const EditComponentModal = () => {
         className="z-30 w-full max-w-[400px] rounded-3xl bg-[#040a0f] text-white pt-4 pb-6 text-center sm:w-[560px] sm:py-8 sm:rounded-[48px] md:py-[40px] sm:max-w-[600px]"
       >
         <h3 className="pb-4 text-lg font-semibold text-white px-4 sm:pb-8 sm:text-2xl sm:px-8 md:px-[60px]">
-          Add Component to Your Blueprint
+          Edit Component of Your Blueprint
         </h3>
         <div className="z-40 overflow-x-hidden overflow-y-auto flex justify-center items-center">
           <img src="bafkreiauw5d4ri7xabohd2eezjuh3tpgzwffjytddbjx5b3fmtx7nlbiqa" />
@@ -324,13 +425,9 @@ const EditComponentModal = () => {
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm"
                 type="text"
                 onChange={handleAddressChange}
-                value={inputValues.erc20Address}
+                value={erc20Data?.address}
+                disabled
               />
-              {error && (
-                <div className="col-start-2 col-end-4 text-red-600 text-xs text-left pl-2">
-                  {error}
-                </div>
-              )}
             </div>
             <div className="items-center grid grid-cols-4">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
@@ -343,7 +440,7 @@ const EditComponentModal = () => {
                 type="number"
                 onChange={handleERC20AmountChange}
                 onKeyDown={handleErc20KeyPress}
-                value={inputValues.erc20Amount}
+                value={erc20Data?.amount}
               />
             </div>
           </div>
@@ -380,7 +477,7 @@ const EditComponentModal = () => {
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 step={1}
-                onChange={handleNumberChange}
+                onChange={handleIdChange}
                 onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc721Id}
               />
@@ -419,7 +516,7 @@ const EditComponentModal = () => {
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 step={1}
-                onChange={handleNumberChange}
+                onChange={handleIdChange}
                 onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc1155Id}
               />
@@ -434,7 +531,7 @@ const EditComponentModal = () => {
                 className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
                 type="number"
                 step={1}
-                onChange={handleNumberChange}
+                onChange={handleAmountChange}
                 onKeyDown={handleNumberKeyPress}
                 value={inputValues.erc1155Amount}
               />
@@ -452,7 +549,7 @@ const EditComponentModal = () => {
             className={`flex justify-center !w-32 text-sm xs:text-base ${
               isAddButtonDisabled ? 'opacity-50 cursor-not-allowed' : ''
             }`}
-            text="Add"
+            text="Update"
             variant="primary"
             disabled={isAddButtonDisabled}
             onClick={handleAddButtonClicked}
