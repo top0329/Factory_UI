@@ -7,6 +7,7 @@ import { factoryAddress, defaultRPC } from '../../../constants';
 import { erc721Abi } from 'viem';
 import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
 import copy from 'copy-to-clipboard';
+import useSpinner from '../../../hooks/useSpinner';
 
 export interface Props {
   address?: string;
@@ -25,6 +26,8 @@ export function ERC721MintListCard(props: Props) {
   const [tokenId, setTokenId] = useState<number>();
   const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
+  const { openSpin, closeSpin } = useSpinner();
+
   useEffect(() => {
     const getContractInfo = async () => {
       const web3 = new Web3(new HttpProvider(defaultRPC));
@@ -50,16 +53,37 @@ export function ERC721MintListCard(props: Props) {
     setIsCopied(true);
   };
   const handleApprove = async () => {
+    const web3 = new Web3(window.ethereum);
+
     try {
       if (isConnected && library) {
-        const res = erc721Approve(
-          String(props[0]),
-          factoryAddress,
-          String(tokenId)
-        );
-        if (res == 1) {
-          setIsApproved(true);
-          props.setApprovedCount((current: number) => current + 1);
+        let receipt = null;
+        while (receipt === null || receipt.status === undefined) {
+          const res = erc721Approve(
+            String(props[0]),
+            factoryAddress,
+            String(tokenId)
+          );
+          openSpin('Transaction Pending...');
+          receipt = await web3.eth.getTransactionReceipt(
+            (
+              await res
+            ).transactionHash
+          );
+
+          if (receipt && receipt.status !== undefined) {
+            if (receipt.status) {
+              setIsApproved(true);
+              props.setApprovedCount((current: number) => current + 1);
+              closeSpin();
+            } else {
+              setIsApproved(false);
+              closeSpin();
+            }
+          } else {
+            alert('Transaction is still pending');
+            await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+          }
         }
       }
     } catch (err: any) {
