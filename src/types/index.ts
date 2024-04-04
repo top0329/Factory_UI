@@ -205,13 +205,15 @@ export type SelectedComponentData = {
   id: number;
   tokenId?: number;
   tokenAddress: string;
-  tokenAmount?: bigint;
+  erc20Amount?: bigint;
+  erc1155Amount?: number;
 };
 
 export type ERC20ComponentData = {
   name: string;
   address: string;
   amount: string;
+  decimal: number;
 };
 
 export type ERC721ComponentData = {

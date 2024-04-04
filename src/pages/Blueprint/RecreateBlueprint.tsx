@@ -23,7 +23,7 @@ import {
   ERC721Data,
   SelectedComponentData,
 } from '../../types';
-import EditComponentModal from '../../components/Modals/EditComponentModal';
+import UpdateComponentModal from '../../components/Modals/UpdateComponentModal';
 
 const RecreateBlueprintPage = () => {
   const { factoryContract } = useWeb3();
@@ -40,7 +40,7 @@ const RecreateBlueprintPage = () => {
   const [, setIsEditComponentModalOpen] = useAtom<boolean>(
     isEditComponentModalAtom
   );
-  const [activeItem, setActiveItem] = useAtom<number>(
+  const [, setActiveItem] = useAtom<number>(
     activeAddComponentTokenAtom
   );
 
@@ -49,7 +49,8 @@ const RecreateBlueprintPage = () => {
       id: 0,
       tokenAddress: '',
       tokenId: 0,
-      tokenAmount: 0n,
+      erc20Amount: 0n,
+      erc1155Amount: 0,
     });
 
   useEffect(() => {
@@ -93,9 +94,30 @@ const RecreateBlueprintPage = () => {
     setSelectedComponentData({
       id: idx,
       tokenAddress: erc20.tokenAddress,
-      tokenAmount: erc20.amount,
+      erc20Amount: erc20.amount,
     });
     setActiveItem(0);
+  };
+
+  const handleEditERC721CardClicked = (erc721: ERC721Data, idx: number) => {
+    setIsEditComponentModalOpen(true);
+    setSelectedComponentData({
+      id: idx,
+      tokenAddress: erc721.tokenAddress,
+      tokenId: erc721.tokenId,
+    });
+    setActiveItem(1);
+  };
+
+  const handleEditERC1155CardClicked = (erc1155: ERC1155Data, idx: number) => {
+    setIsEditComponentModalOpen(true);
+    setSelectedComponentData({
+      id: idx,
+      tokenAddress: erc1155.tokenAddress,
+      tokenId: erc1155.tokenId,
+      erc1155Amount: erc1155.amount,
+    });
+    setActiveItem(2);
   };
 
   const handleDeleteERC20CardClicked = (erc20: ERC20Data) => {
@@ -191,6 +213,9 @@ const RecreateBlueprintPage = () => {
                 tokenId={erc721.tokenId}
                 tokenAddress={erc721.tokenAddress}
                 icon
+                onEditIconClicked={() =>
+                  handleEditERC721CardClicked(erc721, idx)
+                }
                 onDeleteIconClicked={() =>
                   handleDeleteERC721CardClicked(erc721)
                 }
@@ -205,6 +230,9 @@ const RecreateBlueprintPage = () => {
                 amount={erc1155.amount}
                 tokenAddress={erc1155.tokenAddress}
                 icon
+                onEditIconClicked={() =>
+                  handleEditERC1155CardClicked(erc1155, idx)
+                }
                 onDeleteIconClicked={() =>
                   handleDeleteERC1155CardClicked(erc1155)
                 }
@@ -214,7 +242,7 @@ const RecreateBlueprintPage = () => {
         </div>
       </div>
       <AddComponentModal />
-      <EditComponentModal selectedComponentData={selectedComponentData} />
+      <UpdateComponentModal selectedComponentData={selectedComponentData} />
     </div>
   );
 };

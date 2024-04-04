@@ -49,9 +49,8 @@ const AddComponentModal = () => {
     erc1155Amount: '',
   };
 
-  const [isAddComponentModalOpen, setIsAddComponentModalOpen] = useAtom<boolean>(
-    isAddComponentModalAtom
-  );
+  const [isAddComponentModalOpen, setIsAddComponentModalOpen] =
+    useAtom<boolean>(isAddComponentModalAtom);
   const [activeItem, setActiveItem] = useAtom<number>(
     activeAddComponentTokenAtom
   );
@@ -79,7 +78,11 @@ const AddComponentModal = () => {
   useEffect(() => {
     async function getContractData() {
       if (activeItem === 0) {
-        if (error === '' && inputValues.erc20Amount !== '') {
+        if (
+          error === '' &&
+          inputValues.erc20Amount !== '' &&
+          inputValues.erc20Address
+        ) {
           setIsAddButtonDisabled(false);
         } else setIsAddButtonDisabled(true);
       }
