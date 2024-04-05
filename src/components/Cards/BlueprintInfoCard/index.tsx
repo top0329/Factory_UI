@@ -101,8 +101,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     setName(createInfo.name);
     setTotalSupply(Number(createInfo.totalSupply));
     setImageSrc(createInfo.uri);
-    setMintPrice(Number(createInfo.mintPrice));
-    setMintPriceLimit(Number(createInfo.mintLimit));
+    setMintPrice(createInfo.mintPrice);
+    setMintPriceLimit(createInfo.mintLimit);
   }, [
     createInfo.mintLimit,
     createInfo.mintPrice,
