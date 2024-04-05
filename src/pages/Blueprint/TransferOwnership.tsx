@@ -122,7 +122,7 @@ const TransferOwnership = () => {
       }
     } catch (err) {
       showToast('fail', 'User Rejected');
-      console.log(err);
+      console.log('err>>', err);
     } finally {
       closeSpin();
     }
