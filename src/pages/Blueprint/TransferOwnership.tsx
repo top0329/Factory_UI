@@ -97,7 +97,7 @@ const TransferOwnership = () => {
             .updateBlueprintCreator(selectedBlueprint.id, newOwner)
             .send({ from: account });
 
-          openSpin('Approving...');
+          openSpin('Transferring ownership...');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await res
@@ -121,6 +121,7 @@ const TransferOwnership = () => {
         }
       }
     } catch (err) {
+      showToast('fail', 'User Rejected');
       console.log(err);
     } finally {
       closeSpin();

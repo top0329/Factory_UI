@@ -142,9 +142,11 @@ const MintProductPage = () => {
 
                 if (receipt && receipt.status !== undefined) {
                   if (receipt.status) {
+                    showToast('success', 'Approve Success');
                     setIsModalOpen(!isModalOpen);
                     closeSpin();
                   } else {
+                    showToast('fail', 'Approve failed');
                     closeSpin();
                   }
                 } else {
@@ -153,19 +155,17 @@ const MintProductPage = () => {
                 }
               }
             } catch (err) {
+              showToast('fail', 'User Rejected');
               console.log(err);
             } finally {
               closeSpin();
             }
-          } else {
-            console.log('Please input the value');
           }
         }
       } else if (!isConnected) {
-        console.log('Wallet Connect Faile');
         showToast('warning', 'Wallet Connect failed');
       } else if (!blueprintMintAmountValue) {
-        showToast('warning', 'You didnt import the Blueprint Amount');
+        showToast('warning', `You didn't input the Blueprint Amount`);
       }
     } catch (err) {
       console.log(err);
@@ -192,7 +192,7 @@ const MintProductPage = () => {
             )
             .send({ from: account });
 
-          openSpin('Approving...');
+          openSpin('Minting Product...');
 
           receipt = await web3.eth.getTransactionReceipt(
             (
@@ -201,9 +201,11 @@ const MintProductPage = () => {
           );
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
+              showToast('success', 'Mint product success');
               closeSpin();
               navigate('/product');
             } else {
+              showToast('fail', 'Mint product failed');
               closeSpin();
             }
           } else {
@@ -212,6 +214,7 @@ const MintProductPage = () => {
           }
         }
       } catch (err) {
+        showToast('fail', 'User Rejected');
         console.log(err);
       } finally {
         closeSpin();

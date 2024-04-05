@@ -14,11 +14,13 @@ import { blueprintAddress, productAddress } from '../../constants';
 import { ERC1155DecomposeListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
 import Web3 from 'web3';
 import useSpinner from '../../hooks/useSpinner';
+import useToast from '../../hooks/useToast';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
   const [productAmount, setProductAmount] = useState<number>(0);
   const { openSpin, closeSpin } = useSpinner();
+  const { showToast } = useToast();
 
   const {
     isConnected,
@@ -50,6 +52,7 @@ const DecomposeProductPage = () => {
 
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
+              showToast('success', 'Approve success!');
               closeSpin();
             } else {
               closeSpin();
@@ -60,6 +63,7 @@ const DecomposeProductPage = () => {
           }
         }
       } catch (err) {
+        showToast('fail', 'User rejected!');
         console.log(err);
       } finally {
         closeSpin();
@@ -92,7 +96,7 @@ const DecomposeProductPage = () => {
               Number(selectedOwnData.decomposeFee).toString()
             ),
           });
-        openSpin('Approving...');
+        openSpin('Decomposing Product...');
 
         receipt = await web3.eth.getTransactionReceipt(
           (
@@ -102,6 +106,7 @@ const DecomposeProductPage = () => {
 
         if (receipt && receipt.status !== undefined) {
           if (receipt.status) {
+            showToast('success', 'Decompose success!');
             closeSpin();
             navigate('/product');
           } else {
@@ -113,6 +118,7 @@ const DecomposeProductPage = () => {
         }
       }
     } catch (err) {
+      showToast('fail', 'User rejected!');
       console.log(err);
     } finally {
       closeSpin();
