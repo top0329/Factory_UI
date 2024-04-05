@@ -19,7 +19,9 @@ import useToast from '../../hooks/useToast';
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
   const [productAmount, setProductAmount] = useState<number>(0);
-  const [isApproved, setIsApproved] = useState<boolean>(false);
+  const [isDecomposeApproved, setIsDecomposeApproved] =
+    useState<boolean>(false);
+  const [isApproveEnable, setIsApproveEnable] = useState<boolean>(false);
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
 
@@ -53,7 +55,7 @@ const DecomposeProductPage = () => {
 
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
-              setIsApproved(true);
+              setIsDecomposeApproved(true);
               showToast('success', 'Approve success!');
               closeSpin();
             } else {
@@ -75,12 +77,20 @@ const DecomposeProductPage = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    if (inputValue === '' || /^\d*$/.test(inputValue)) {
+    if (
+      (inputValue === '' || /^\d*$/.test(inputValue)) &&
+      Number(inputValue) != 0
+    ) {
+      setIsApproveEnable(true);
+
       if (Number(inputValue) > selectedOwnData.balance) {
         setProductAmount(selectedOwnData.balance);
       } else {
         setProductAmount(Number(inputValue));
       }
+    } else {
+      setIsApproveEnable(false);
+      setProductAmount(Number(inputValue));
     }
   };
 
@@ -159,8 +169,9 @@ const DecomposeProductPage = () => {
                 className="md:w-[70%] w-1/2 h-[40px] rounded-xl placeholder-gray-600 bg-black border border-white px-4 hide-arrows"
               />
               <Button
-                className="flex justify-center w-[160px] h-9 rounded-xl"
+                className="flex disabled:bg-gray-900 justify-center w-[160px] h-9 rounded-xl"
                 text="Approve"
+                disabled={!isApproveEnable}
                 onClick={handleApprove}
                 variant="primary"
               />
@@ -209,7 +220,7 @@ const DecomposeProductPage = () => {
               />
               <Button
                 className="flex justify-center disabled:bg-gray-900 w-[160px] h-9 rounded-xl"
-                disabled={!isApproved}
+                disabled={!isDecomposeApproved}
                 text="Decompose"
                 variant="primary"
                 onClick={handleDecompose}

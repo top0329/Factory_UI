@@ -27,7 +27,8 @@
     "slick-carousel": "^1.8.1",
     "viem": "2.x",
     "wagmi": "^2.5.11",
-    "web3": "^4.5.0"
+    "web3": "^4.5.0",
+    "web3-validator": "^2.0.5"
   },
   "devDependencies": {
     "@iconify/react": "^4.1.1",
