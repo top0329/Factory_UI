@@ -341,10 +341,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             6
                           );
                         }
-                        const _mintLimit =
-                          createInfo.mintLimit === ''
-                            ? 0
-                            : createInfo.mintLimit;
+                        const _mintLimit = createInfo.mintLimit;
                         console.log(
                           createInfo.id,
                           jsonHash.substring(16),
@@ -409,10 +406,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               6
                             );
                           }
-                          const _mintLimit =
-                            createInfo.mintLimit === ''
-                              ? 0
-                              : createInfo.mintLimit;
+                          const _mintLimit = createInfo.mintLimit;
                           console.log(
                             createInfo.id,
                             jsonHash.substring(16),
@@ -477,8 +471,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   const jsonHashUri = await blueprintContract.uri(
                     createInfo.id
                   );
-                  const _mintLimit =
-                    createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                  const _mintLimit = createInfo.mintLimit;
                   console.log(
                     createInfo.id,
                     jsonHashUri,
@@ -659,8 +652,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 navigate('/blueprint');
               } else if (mintLimitChecked) {
                 console.log('mint limit is checked');
-                const _mintLimit =
-                  createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                const _mintLimit = createInfo.mintLimit;
                 openSpin('Updating Blueprint MintLimit...');
                 console.log(createInfo.id, _mintLimit);
                 const transaction = await factoryWeb3.methods
@@ -726,8 +718,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             6
                           );
                         }
-                        const _mintLimit =
-                          createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                        const _mintLimit = createInfo.mintLimit;
                         openSpin('Recreating Blueprint...');
                         const transaction = await factoryWeb3.methods
                           .createBlueprint(
@@ -785,7 +776,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             erc1155Data: [],
                           },
                         });
-                        showToast('success', 'Blueprint recreated successfully');
+                        showToast(
+                          'success',
+                          'Blueprint recreated successfully'
+                        );
                         navigate('/blueprint');
                       }
                     } else {
@@ -813,10 +807,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               6
                             );
                           }
-                          const _mintLimit =
-                            createInfo.mintLimit === ''
-                              ? 0
-                              : createInfo.mintLimit;
+                          const _mintLimit = createInfo.mintLimit;
                           openSpin('Rereating Blueprint...');
                           const transaction = await factoryWeb3.methods
                             .createBlueprint(
@@ -874,7 +865,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               erc1155Data: [],
                             },
                           });
-                          showToast('success', 'Blueprint created successfully');
+                          showToast(
+                            'success',
+                            'Blueprint created successfully'
+                          );
                           navigate('/blueprint');
                         }
                       }
@@ -903,8 +897,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     jsonHashUri =
                       'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
                   }
-                  const _mintLimit =
-                    createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                  const _mintLimit = createInfo.mintLimit;
                   openSpin('Recreating Blueprint...');
                   const transaction = await factoryWeb3.methods
                     .createBlueprint(
@@ -982,7 +975,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       if (jsonHash) {
                         let _mintPrice: bigint;
                         let _mintLimit: number;
-                        if (Number(createInfo.mintPriceUnit) === 0) {
+                        if (!mintPriceChecked) {
+                          _mintPrice = 0n;
+                        } else if (createInfo.mintPrice === '') {
+                          _mintPrice = 0n;
+                        } else if (Number(createInfo.mintPriceUnit) === 0) {
                           _mintPrice = ethers.parseEther(
                             createInfo.mintPrice.toString()
                           );
@@ -992,7 +989,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             6
                           );
                         }
-                        if (!mintPriceChecked) _mintPrice = 0n;
                         if (!mintLimitChecked) {
                           _mintLimit = 0;
                         } else {
@@ -1169,7 +1165,9 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   let _mintPrice: bigint;
                   let _mintLimit: number;
                   let jsonHashUri: string;
-                  if (Number(createInfo.mintPriceUnit) === 0) {
+                  if (!mintPriceChecked) {
+                    _mintPrice = 0n;
+                  } else if (Number(createInfo.mintPriceUnit) === 0) {
                     _mintPrice = ethers.parseEther(
                       createInfo.mintPrice.toString()
                     );
@@ -1179,19 +1177,18 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       6
                     );
                   }
+                  if (!mintLimitChecked) {
+                    _mintLimit = 0;
+                  } else {
+                    _mintLimit =
+                      createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
+                  }
                   if (isRecreate) {
                     jsonHashUri = await blueprintContract.uri(createInfo.id);
                     console.log(jsonHashUri);
                   } else {
                     jsonHashUri =
                       'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
-                  }
-                  if (!mintPriceChecked) _mintPrice = 0n;
-                  if (!mintLimitChecked) {
-                    _mintLimit = 0;
-                  } else {
-                    _mintLimit =
-                      createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
                   }
                   openSpin('Creating Blueprint...');
                   const transaction = await factoryWeb3.methods
@@ -1536,7 +1533,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               );
             }}
             onKeyDown={handleKeyDownForTotalSupplyAndMintLimit}
-            value={mintPriceLimit}
+            value={mintPriceLimit === '' ? '' : Number(mintPriceLimit)}
             disabled={!mintLimitChecked}
             required
           />

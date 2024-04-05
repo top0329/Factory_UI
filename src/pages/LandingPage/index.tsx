@@ -62,7 +62,7 @@ const LandingPage = () => {
         },
       },
       {
-        breakpoint: 1100,
+        breakpoint: 1023,
         settings: {
           slidesToShow: 3,
           slidesToScroll: 1,
@@ -266,9 +266,8 @@ const LandingPage = () => {
           Most Minted Blueprints
         </h1>
         <div className="absolute top-20 inset-x-0 z-30 bg-transparent w-full px-6 pt-4 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full">
-          {/* <div className="absolute top-20 inset-x-0 z-30 flex justify-center items-center bg-transparent w-full px-6 pt-4 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"> */}
           <Slider {...settings}>
-            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+            <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
               <BlueprintCardForCarousel
                 blueprintId={95}
                 mintLimit={10000}
@@ -279,7 +278,7 @@ const LandingPage = () => {
                 uri="https://ipfs.io/ipfs/bafkreih47rxou2qm5kmc6ye5fxae37aih2qkjvlizrgzrzhjp7tqsvkzh4"
               />
             </div>
-            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+            <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
               <BlueprintCardForCarousel
                 blueprintId={95}
                 mintLimit={10000}
@@ -290,7 +289,7 @@ const LandingPage = () => {
                 uri="https://ipfs.io/ipfs/bafkreigw4ex37u2tl3tt5kocwacrbq3ucox2pkmmlojg3f3lc2545vzcza"
               />
             </div>
-            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+            <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
               <BlueprintCardForCarousel
                 blueprintId={95}
                 mintLimit={10000}
@@ -301,7 +300,7 @@ const LandingPage = () => {
                 uri="https://ipfs.io/ipfs/bafkreigc7k7kmuc6nh2ykdn4hto26nnqpltnvrjh2mu5zsioaeo5cic3kq"
               />
             </div>
-            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+            <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
               <BlueprintCardForCarousel
                 blueprintId={95}
                 mintLimit={10000}
@@ -312,7 +311,7 @@ const LandingPage = () => {
                 uri="https://ipfs.io/ipfs/bafkreiaw3v4sctoiryu5wmwcqznzngjymfrgjswt667zb4msda6lg54boy"
               />
             </div>
-            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+            <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
               <BlueprintCardForCarousel
                 blueprintId={95}
                 mintLimit={10000}
@@ -323,7 +322,7 @@ const LandingPage = () => {
                 uri="https://ipfs.io/ipfs/bafkreie4shaao65odx4ie7oqfdr5vldbbg4pbwib4gragksb7z6ae3eabq"
               />
             </div>
-            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+            <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
               <BlueprintCardForCarousel
                 blueprintId={95}
                 mintLimit={10000}
@@ -334,7 +333,7 @@ const LandingPage = () => {
                 uri="https://ipfs.io/ipfs/bafybeig6qdkvvfa2o24x7xbwsyyd3n3nichylckgyqgygots22pzi3amjm"
               />
             </div>
-            <div className="px-1 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+            <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
               <BlueprintCardForCarousel
                 blueprintId={95}
                 mintUnit={0}
