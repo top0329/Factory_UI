@@ -441,21 +441,22 @@ const UpdateComponentModal = ({
       ></div>
       <div
         ref={modal}
-        className="z-30 w-full max-w-[400px] rounded-3xl bg-[#040a0f] text-white pt-4 pb-6 text-center sm:w-[560px] sm:py-6 sm:rounded-[48px] md:pb-[40px] sm:max-w-[600px]"
+        className="z-30 w-full max-w-[400px] rounded-3xl bg-[#040a0f] text-white pt-4 pb-6 text-center sm:w-[610px] sm:py-6 sm:rounded-[32px] sm:pb-[40px] sm:max-w-[610px]"
       >
         <h3 className="pb-4 text-lg font-semibold text-white px-4 sm:pb-6 sm:text-2xl sm:px-8 md:px-[60px]">
           Edit Your Component
         </h3>
-        <img className="h-[300px] w-full object-cover" src={imageUri} />
+        <img
+          className="h-[200px] w-full object-cover sm:h-[300px]"
+          src={imageUri}
+        />
         {activeItem === 0 && (
-          <div
-            className={`flex flex-col gap-3 py-8 px-6 text-base md:text-lg justify-center sm:px-[70px] xs:px-10 xs:gap-5`}
-          >
+          <div className="flex flex-col gap-1 py-6 px-6 text-base justify-center md:text-lg sm:pb-8 xs:px-8 sm:px-14">
             <div className="grid grid-cols-4">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 Name
               </p>
-              <label className="text-left col-span-3 inline w-full rounded-xl text-white text-lg py-1.5 leading-5 sm:text-sm">
+              <label className="text-left col-span-3 inline w-full rounded-xl text-white text-sm py-1.5 leading-5 xs:text-base">
                 {erc20Data?.name}
               </label>
             </div>
@@ -463,53 +464,51 @@ const UpdateComponentModal = ({
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 Address
               </p>
-              <label className="col-span-3 inline w-full rounded-xl text-white text-lg py-1.5 leading-5 sm:text-sm">
+              <label className="text-left col-span-3 inline w-full rounded-xl text-white text-sm py-1.5 leading-5 break-words xs:text-base">
                 {erc20Data?.address}
               </label>
             </div>
-            <div className="items-center grid grid-cols-4">
+            <div className="items-center grid grid-cols-4 mt-2">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 Amount
               </p>
               <input
                 id="erc20-amount"
-                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
+                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-sm bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary xs:text-base hide-arrows"
                 type="number"
                 onChange={handleERC20AmountChange}
                 onKeyDown={handleErc20KeyPress}
-                value={erc20Data?.amount}
+                value={Number(erc20Data?.amount)}
               />
             </div>
           </div>
         )}
         {activeItem === 1 && (
-          <div
-            className={`flex flex-col gap-3 py-8 px-6 text-base md:text-lg justify-center sm:px-[70px] xs:px-10 xs:gap-5`}
-          >
+          <div className="flex flex-col gap-1 py-6 px-6 text-base justify-center md:text-lg sm:pb-8 xs:px-8 sm:px-14">
             <div className="grid grid-cols-4">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 Name
               </p>
-              <label className="text-left col-span-3 inline w-full rounded-xl text-white text-lg py-1.5 leading-5 sm:text-sm">
+              <label className="text-left col-span-3 inline w-full rounded-xl text-white text-sm py-1.5 leading-5 xs:text-base">
                 {erc721Data?.name}
               </label>
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 Address
               </p>
-              <label className="col-span-3 inline w-full rounded-xl text-white text-lg py-1.5 leading-5 sm:text-sm">
+              <label className="text-left col-span-3 inline w-full rounded-xl text-white text-sm py-1.5 leading-5 break-words xs:text-base">
                 {erc721Data?.address}
               </label>
             </div>
-            <div className="grid grid-cols-4">
+            <div className="items-center grid grid-cols-4 mt-2">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 ID
               </p>
               <input
                 id="erc721-id"
                 name="erc721Id"
-                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
+                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-sm bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary xs:text-base hide-arrows"
                 type="number"
                 step={1}
                 onChange={handleERC721IdChange}
@@ -520,32 +519,30 @@ const UpdateComponentModal = ({
           </div>
         )}
         {activeItem === 2 && (
-          <div
-            className={`flex flex-col gap-3 py-3 px-6 text-base md:text-lg justify-center sm:px-[70px] xs:px-10 xs:gap-3`}
-          >
+          <div className="flex flex-col gap-1 py-6 px-6 text-base justify-center md:text-lg sm:pb-8 xs:px-8 sm:px-14">
             <div className="grid grid-cols-4">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 Name
               </p>
-              <label className="text-left col-span-3 inline w-full rounded-xl text-white text-lg py-1.5 leading-5 sm:text-sm">
+              <label className="text-left col-span-3 inline w-full rounded-xl text-white text-sm py-1.5 leading-5 xs:text-base">
                 {erc1155Data?.name}
               </label>
             </div>
-            <div className="grid grid-cols-4 gap-2">
+            <div className="grid grid-cols-4">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 Address
               </p>
-              <label className="col-span-3 inline w-full rounded-xl text-white text-lg py-1.5 leading-5 sm:text-sm">
+              <label className="text-left col-span-3 inline w-full rounded-xl text-white text-sm py-1.5 leading-5 break-words xs:text-base">
                 {erc1155Data?.address}
               </label>
             </div>
-            <div className="grid grid-cols-4">
+            <div className="items-center grid grid-cols-4 mt-2">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 ID
               </p>
               <input
                 id="erc1155-id"
-                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
+                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-sm bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary xs:text-base hide-arrows"
                 type="number"
                 step={1}
                 onChange={handleERC1155IdChange}
@@ -553,13 +550,13 @@ const UpdateComponentModal = ({
                 value={erc1155Data?.id}
               />
             </div>
-            <div className="items-center grid grid-cols-4">
+            <div className="items-center grid grid-cols-4 mt-3">
               <p className="text-sm items-center col-span-1 flex text-light-gray xs:text-base">
                 Amount
               </p>
               <input
                 id="erc1155-amount"
-                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-lg bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary sm:text-sm hide-arrows"
+                className="col-span-3 inline w-full rounded-xl border border-light-gray text-white text-sm bg-black py-1.5 px-2 leading-5 placeholder-gray-500 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary xs:text-base hide-arrows"
                 type="number"
                 step={1}
                 onChange={handleERC1155AmountChange}

@@ -43,9 +43,9 @@ const BlueprintPage = () => {
             try {
               temp[2] = await tokenUriToImageUri(temp[2]);
               if (Number(temp[6]) === 0) {
-                temp[5] = ethers.formatEther(temp[5]);
+                temp[5] = Number(ethers.formatEther(temp[5]));
               } else {
-                temp[5] = ethers.formatUnits(temp[5], 6);
+                temp[5] = Number(ethers.formatUnits(temp[5], 6));
               }
             } catch (err) {
               console.log(err);
