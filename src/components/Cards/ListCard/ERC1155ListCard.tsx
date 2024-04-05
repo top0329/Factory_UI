@@ -63,7 +63,7 @@ export function ERC1155MintListCard(props: Props) {
         let receipt = null;
         while (receipt === null || receipt.status === undefined) {
           const res = erc1155Approve(tokenAddress, factoryAddress, true);
-          openSpin('Transaction Pending...');
+          openSpin('Approving...');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await res
@@ -86,6 +86,8 @@ export function ERC1155MintListCard(props: Props) {
       }
     } catch (err: any) {
       console.log(err);
+    } finally {
+      closeSpin();
     }
   };
 

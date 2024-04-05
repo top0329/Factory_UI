@@ -17,6 +17,7 @@ import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard
 import { ERC721MintListCard } from '../../components/Cards/ListCard/ERC721ListCard';
 import { ERC1155MintListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
 import Web3 from 'web3';
+import useSpinner from '../../hooks/useSpinner';
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -58,6 +59,7 @@ const MintProductPage = () => {
   const [maxChecked, setMaxChecked] = useState(false);
   const [approvedCount, setApprovedCount] = useState<number>(0);
   const [selectedOwnBlueprint] = useAtom(ownBlueprintSelectionState);
+  const { openSpin, closeSpin } = useSpinner();
 
   const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
     useState<string>('');
@@ -112,29 +114,49 @@ const MintProductPage = () => {
   };
 
   const handleApprove = async () => {
-    // const web3 = new Web3(window.ethereum);
+    const web3 = new Web3(window.ethereum);
     try {
       if (isConnected && library && blueprintMintAmountValue) {
         const isApproved = await blueprintContract.isApprovedForAll(
           account,
           factoryAddress
         );
-        console.log('isApproved>>>>>>>', isApproved);
         if (isApproved) {
-          console.log('Is Modal Opened', isModalOpen);
           setIsModalOpen(true);
         } else {
           if (blueprintMintAmountValue) {
-            const transaction = await blueprintWeb3.methods
-              .setApprovalForAll(factoryAddress, true)
-              .send({ from: account });
+            try {
+              let receipt = null;
+              while (receipt === null || receipt.status === undefined) {
+                const transaction = blueprintWeb3.methods
+                  .setApprovalForAll(factoryAddress, true)
+                  .send({ from: account });
 
-            // const receipt = await web3.eth.getTransactionReceipt(
-            //   transaction.transactionHash
-            // );
+                openSpin('Approving...');
 
-            console.log('transaction successed', await transaction);
-            setIsModalOpen(!isModalOpen);
+                receipt = await web3.eth.getTransactionReceipt(
+                  (
+                    await transaction
+                  ).transactionHash
+                );
+
+                if (receipt && receipt.status !== undefined) {
+                  if (receipt.status) {
+                    setIsModalOpen(!isModalOpen);
+                    closeSpin();
+                  } else {
+                    closeSpin();
+                  }
+                } else {
+                  alert('Transaction is still pending');
+                  await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+                }
+              }
+            } catch (err) {
+              console.log(err);
+            } finally {
+              closeSpin();
+            }
           } else {
             console.log('Please input the value');
           }
@@ -159,15 +181,40 @@ const MintProductPage = () => {
   const handleMintProduct = async () => {
     const web3 = new Web3(window.ethereum);
     if (!isConnected || !library || blueprintMintAmountValue) {
-      const tx = await factoryWeb3.methods
-        .createProduct(selectedOwnBlueprint.id, blueprintMintAmountValue, '0x')
-        .send({ from: account });
+      try {
+        let receipt = null;
+        while (receipt === null || receipt.status === undefined) {
+          const tx = factoryWeb3.methods
+            .createProduct(
+              selectedOwnBlueprint.id,
+              blueprintMintAmountValue,
+              '0x'
+            )
+            .send({ from: account });
 
-      const receipt = await web3.eth.getTransactionReceipt(tx.transactionHash);
-      console.log(receipt.status);
-      if (receipt && Number(receipt.status) === 1) {
-        console.log('SUccessssssssssssssss');
-        navigate('/product');
+          openSpin('Approving...');
+
+          receipt = await web3.eth.getTransactionReceipt(
+            (
+              await tx
+            ).transactionHash
+          );
+          if (receipt && receipt.status !== undefined) {
+            if (receipt.status) {
+              closeSpin();
+              navigate('/product');
+            } else {
+              closeSpin();
+            }
+          } else {
+            alert('Transaction is still pending');
+            await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        closeSpin();
       }
     }
   };

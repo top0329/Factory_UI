@@ -64,7 +64,7 @@ export function ERC721MintListCard(props: Props) {
             factoryAddress,
             String(tokenId)
           );
-          openSpin('Transaction Pending...');
+          openSpin('Approving...');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await res
@@ -88,6 +88,8 @@ export function ERC721MintListCard(props: Props) {
       }
     } catch (err: any) {
       console.log(err);
+    } finally {
+      closeSpin();
     }
   };
 

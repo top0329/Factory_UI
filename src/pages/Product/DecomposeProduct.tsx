@@ -34,29 +34,35 @@ const DecomposeProductPage = () => {
     const web3 = new Web3(window.ethereum);
 
     if (isConnected && library) {
-      let receipt = null;
-      while (receipt === null || receipt.status === undefined) {
-        const transaction = productWeb3.methods
-          .setApprovalForAll(await factoryContract.getAddress(), true)
-          .send({ from: account });
+      try {
+        let receipt = null;
+        while (receipt === null || receipt.status === undefined) {
+          const transaction = productWeb3.methods
+            .setApprovalForAll(await factoryContract.getAddress(), true)
+            .send({ from: account });
 
-        openSpin('Transaction Pending...');
-        receipt = await web3.eth.getTransactionReceipt(
-          (
-            await transaction
-          ).transactionHash
-        );
+          openSpin('Approving...');
+          receipt = await web3.eth.getTransactionReceipt(
+            (
+              await transaction
+            ).transactionHash
+          );
 
-        if (receipt && receipt.status !== undefined) {
-          if (receipt.status) {
-            closeSpin();
+          if (receipt && receipt.status !== undefined) {
+            if (receipt.status) {
+              closeSpin();
+            } else {
+              closeSpin();
+            }
           } else {
-            closeSpin();
+            alert('Transaction is still pending');
+            await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
           }
-        } else {
-          alert('Transaction is still pending');
-          await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
         }
+      } catch (err) {
+        console.log(err);
+      } finally {
+        closeSpin();
       }
     }
   };
@@ -86,7 +92,7 @@ const DecomposeProductPage = () => {
               Number(selectedOwnData.decomposeFee).toString()
             ),
           });
-        openSpin('Transaction Pending...');
+        openSpin('Approving...');
 
         receipt = await web3.eth.getTransactionReceipt(
           (
@@ -108,6 +114,8 @@ const DecomposeProductPage = () => {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      closeSpin();
     }
   };
 
