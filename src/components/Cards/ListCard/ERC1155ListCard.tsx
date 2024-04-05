@@ -9,6 +9,7 @@ import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
 import { tokenUriToName } from '../../../utils/tokenUriToName';
 import copy from 'copy-to-clipboard';
 import useSpinner from '../../../hooks/useSpinner';
+import useToast from '../../../hooks/useToast';
 
 export interface Props {
   address?: string;
@@ -31,6 +32,7 @@ export function ERC1155MintListCard(props: Props) {
   const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
   const { openSpin, closeSpin } = useSpinner();
+  const { showToast } = useToast();
 
   useEffect(() => {
     const getContractInfo = async () => {
@@ -63,7 +65,7 @@ export function ERC1155MintListCard(props: Props) {
         let receipt = null;
         while (receipt === null || receipt.status === undefined) {
           const res = erc1155Approve(tokenAddress, factoryAddress, true);
-          openSpin('Transaction Pending...');
+          openSpin('Approving...');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await res
@@ -72,10 +74,12 @@ export function ERC1155MintListCard(props: Props) {
         }
         if (receipt && receipt.status !== undefined) {
           if (receipt.status) {
+            showToast('success', 'Approve success');
             setIsApproved(true);
             props.setApprovedCount((current: number) => current + 1);
             closeSpin();
           } else {
+            showToast('fail', 'Approve failed');
             setIsApproved(false);
             closeSpin();
           }
@@ -85,7 +89,10 @@ export function ERC1155MintListCard(props: Props) {
         }
       }
     } catch (err: any) {
+      showToast('success', 'User rejected');
       console.log(err);
+    } finally {
+      closeSpin();
     }
   };
 

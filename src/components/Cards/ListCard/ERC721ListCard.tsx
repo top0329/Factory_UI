@@ -8,6 +8,7 @@ import { erc721Abi } from 'viem';
 import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
 import copy from 'copy-to-clipboard';
 import useSpinner from '../../../hooks/useSpinner';
+import useToast from '../../../hooks/useToast';
 
 export interface Props {
   address?: string;
@@ -27,6 +28,7 @@ export function ERC721MintListCard(props: Props) {
   const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
   const { openSpin, closeSpin } = useSpinner();
+  const { showToast } = useToast();
 
   useEffect(() => {
     const getContractInfo = async () => {
@@ -64,7 +66,7 @@ export function ERC721MintListCard(props: Props) {
             factoryAddress,
             String(tokenId)
           );
-          openSpin('Transaction Pending...');
+          openSpin('Approving...');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await res
@@ -73,10 +75,12 @@ export function ERC721MintListCard(props: Props) {
 
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
+              showToast('success', 'Approve Success!');
               setIsApproved(true);
               props.setApprovedCount((current: number) => current + 1);
               closeSpin();
             } else {
+              showToast('failed', 'Approve failed!');
               setIsApproved(false);
               closeSpin();
             }
@@ -87,7 +91,10 @@ export function ERC721MintListCard(props: Props) {
         }
       }
     } catch (err: any) {
+      showToast('fail', 'User Rejected');
       console.log(err);
+    } finally {
+      closeSpin();
     }
   };
 
