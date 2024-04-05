@@ -61,44 +61,48 @@ function Footer() {
       <div className="flex flex-col-reverse justify-between md:flex-row">
         <div className="flex flex-col items-center px-2 md:items-start">
           <div className="flex justify-start text-light-gray items-center gap-6 py-3 lg:gap-4 md:gap-3">
-            <Icon
-              icon="cib:gmail"
-              className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer"
-              onClick={(e) => {
-                window.location.href = 'mailto:factorycenter1155@gmail.com';
-                e.preventDefault();
-              }}
-            />
-            <Icon
-              icon="simple-icons:discord"
-              className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer"
-              onClick={() =>
-                window.open('https://discord.gg/GRtC66Zd', '_blank')
-              }
-            />
-            <Icon
-              icon="teenyicons:linkedin-outline"
-              className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer"
-            />
-            <Icon
-              icon="teenyicons:facebook-outline"
-              className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer"
-            />
-            <Icon
-              icon="pajamas:twitter"
-              className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer"
-              onClick={() =>
-                window.open('https://twitter.com/Factory1155', '_blank')
-              }
-            />
-            <Icon
-              icon="uit:youtube"
-              className="w-10 h-10 xl:w-11 xl:h-11 cursor-pointer"
-            />
-            <Icon
-              icon="ph:instagram-logo-light"
-              className="w-9 h-9 xl:w-10 xl:h-10 cursor-pointer"
-            />
+            <a href="mailto:factorycenter1155@gmail.com">
+              <Icon
+                icon="cib:gmail"
+                className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#f74141] transition-colors duration-300"
+              />
+            </a>
+            <a href="https://discord.gg/GRtC66Zd" target="_blank">
+              <Icon
+                icon="simple-icons:discord"
+                className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#5865f2] transition-colors duration-300"
+              />
+            </a>
+            {/* <a href="#" target="_blank">
+              <Icon
+                icon="teenyicons:linkedin-outline"
+                className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#0077B5] transition-colors duration-300"
+              />
+            </a> */}
+            <a href="#" target="_blank">
+              <Icon
+                icon="teenyicons:facebook-outline"
+                className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#1877F2] transition-colors duration-300"
+              />
+            </a>
+            <a href="https://twitter.com/Factory1155" target="_blank">
+              <Icon
+                icon="pajamas:twitter"
+                className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#1DA1F2] transition-colors duration-300"
+              />
+            </a>
+            <a href="#" target="_blank">
+              <Icon
+                icon="uit:youtube"
+                className="w-10 h-10 xl:w-11 xl:h-11 cursor-pointer hover:text-[#CD201F] transition-colors duration-300"
+              />
+            </a>
+            {/* <a href='#' target="_blank">
+              <Icon
+                icon="teenyicons:instagram-outline"
+                className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer"
+              />
+            </a> */}
           </div>
           <p className="text-white text-left text-sm py-4 md:text-base sm:py-6">
             Copyright&copy; {new Date().getFullYear()} Factory
