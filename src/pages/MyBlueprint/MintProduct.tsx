@@ -58,6 +58,7 @@ const MintProductPage = () => {
   const navigate = useNavigate();
   const [maxChecked, setMaxChecked] = useState(false);
   const [approvedCount, setApprovedCount] = useState<number>(0);
+  const [isApproveEnable, setIsApproveEnable] = useState<boolean>(false);
   const [selectedOwnBlueprint] = useAtom(ownBlueprintSelectionState);
   const { openSpin, closeSpin } = useSpinner();
 
@@ -75,13 +76,30 @@ const MintProductPage = () => {
   const { showToast } = useToast();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
-    if (newValue === '' || /^\d+$/.test(newValue)) {
-      if (Number(newValue) > Number(selectedOwnBlueprint.balance.toString())) {
+    // const newValue = event.target.value;
+    // if ((newValue === '' || /^\d*$/.test(newValue)) && Number(newValue) != 0) {
+    //   if (Number(newValue) > Number(selectedOwnBlueprint.balance.toString())) {
+    //     setBlueprintMintAmountValue(selectedOwnBlueprint.balance.toString());
+    //   } else {
+    //     setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
+    //   }
+    // }
+
+    const inputValue = event.target.value;
+    if (
+      (inputValue === '' || /^\d*$/.test(inputValue)) &&
+      Number(inputValue) != 0
+    ) {
+      setIsApproveEnable(true);
+
+      if (Number(inputValue) > selectedOwnBlueprint.balance) {
         setBlueprintMintAmountValue(selectedOwnBlueprint.balance.toString());
       } else {
-        setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
+        setBlueprintMintAmountValue(inputValue);
       }
+    } else {
+      setIsApproveEnable(false);
+      setBlueprintMintAmountValue(inputValue);
     }
   };
 
@@ -102,7 +120,11 @@ const MintProductPage = () => {
     setMaxChecked(newMaxChecked);
     if (newMaxChecked) {
       setBlueprintMintAmountValue(selectedOwnBlueprint.balance.toString());
+      if (selectedOwnBlueprint.balance > 0) {
+        setIsApproveEnable(true);
+      }
     } else {
+      setIsApproveEnable(false);
       setBlueprintMintAmountValue('');
     }
   };
@@ -293,7 +315,8 @@ const MintProductPage = () => {
               />
               <Button
                 onClick={handleApprove}
-                className="flex justify-center w-[160px] h-9 rounded-xl"
+                disabled={!isApproveEnable}
+                className="flex disabled:bg-gray-900 justify-center w-[160px] h-9 rounded-xl"
                 text="Approve"
                 variant="primary"
               />

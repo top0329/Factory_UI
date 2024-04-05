@@ -89,7 +89,7 @@ export function ERC1155MintListCard(props: Props) {
         }
       }
     } catch (err: any) {
-      showToast('success', 'User rejected');
+      showToast('fail', 'User rejected');
       console.log(err);
     } finally {
       closeSpin();

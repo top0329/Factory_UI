@@ -10,14 +10,17 @@ import { blueprintSelectionState } from '../../jotai/atoms';
 import useWeb3 from '../../hooks/useWeb3';
 import Web3 from 'web3';
 import useSpinner from '../../hooks/useSpinner';
+import { isAddress } from 'web3-validator';
 const TransferOwnership = () => {
   const navigate = useNavigate();
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
   const [newOwner, setNewOwner] = useState<string>('');
+  const [addressInput, setAddressInput] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const { showToast } = useToast();
   const { factoryWeb3, account, isConnected, library } = useWeb3();
   const { openSpin, closeSpin } = useSpinner();
@@ -26,43 +29,20 @@ const TransferOwnership = () => {
     setIsModalOpen(true);
   };
 
-  function isValidEthereumAddress(address: any) {
-    return /^(0x)?[0-9a-fA-F]{40}$/.test(address);
+  function isValidEthereumAddress(address: string) {
+    return isAddress(address);
   }
-  let inputValue: string = '';
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const initialValue: any = event.target.value.trim();
-    inputValue = inputValue.concat(initialValue);
-    if (inputValue[0] == '0') {
-      event.target.value = inputValue;
-      if (inputValue[1] == 'x') {
-        console.log('OK');
-        setNewOwner(inputValue);
-      }
+    const inputValue: any = event.target.value;
+    setAddressInput(inputValue);
+
+    if (isValidEthereumAddress(inputValue)) {
+      setErrorMessage('');
+      setNewOwner(inputValue);
     } else {
-      console.log('ASDFAS');
+      setErrorMessage('New owner address is invalid');
     }
-    console.log(inputValue);
-
-    // inputValue = inputValue.replace(/[^0-9a-fA-F]/g, '');
-    // console.log(inputValue);
-    // if (!inputValue.startsWith('0x')) {
-    //   inputValue = '0x' + inputValue;
-    // }
-    // if (inputValue.length > 42) {
-    //   inputValue = inputValue.slice(0, 42);
-    // }
-    // event.target.value = inputValue;
-
-    // if (inputValue[0] == '0') {
-    //   if (inputValue.length >= 2 && inputValue[1] == 'x') {
-    //     console.log(inputValue[0]);
-    //     setNewOwner[inputValue];
-    //   }
-    // }
-
-    // setNewOwner(inputValue);
   };
 
   const handleCopyButtonClicked = () => {
@@ -136,7 +116,7 @@ const TransferOwnership = () => {
   return (
     <>
       <div className={`min-w-[360px] `}>
-        <p className="pt-[4px] pb-3 text-white lg:text-[32px] md:text-[26px] text-[20px]">
+        <p className="pt-[4px] pb-8 text-white lg:text-[32px] md:text-[26px] text-[20px]">
           Blueprint Ownership
         </p>
         <div className=" border bg-black border-[#BABABA] text-[#BABABA] rounded-md py-4 px-10 w-full xl:text-[22px] lg:text-[18px]">
@@ -149,7 +129,7 @@ const TransferOwnership = () => {
             receive any Blueprint mint fees.
           </p>
         </div>
-        <div className="flex justify-center items-center py-6 text-white">
+        <div className="flex justify-center items-center py-12 text-white">
           <div className="relative rounded-3xl bg-[#011018] w-full pb-6 sm:w-[614px] border-2 border-[#00F0FF]/30">
             <header className="flex justify-start items-center pl-4 py-4 text-xl sm:text-3xl sm:justify-center">
               Transfer Ownership
@@ -227,8 +207,10 @@ const TransferOwnership = () => {
                     type="text"
                     min={0}
                     onChange={handleInputChange}
-                    value={newOwner}
+                    value={addressInput}
                   />
+                  <p className="col-span-1"></p>
+                  <p className="text-red-500 col-span-2">{errorMessage}</p>
                 </div>
                 <div className="flex justify-center items-center gap-8 pt-0 xs:gap-20 sm:pt-2">
                   <Button
