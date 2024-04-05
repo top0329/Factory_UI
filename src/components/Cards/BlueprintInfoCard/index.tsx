@@ -1521,16 +1521,22 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
             min={0}
             onChange={(event) => {
               const newMintPriceLimit = event.target.value;
-              setCreateInfo((prevCreateInfo) => ({
-                ...prevCreateInfo,
-                mintLimit:
+              if (Number(newMintPriceLimit) < Number(totalSupply)) {
+                setCreateInfo((prevCreateInfo) => ({
+                  ...prevCreateInfo,
+                  mintLimit:
+                    newMintPriceLimit.trim() === ''
+                      ? ''
+                      : Number(newMintPriceLimit),
+                }));
+                setMintPriceLimit(
                   newMintPriceLimit.trim() === ''
                     ? ''
-                    : Number(newMintPriceLimit),
-              }));
-              setMintPriceLimit(
-                newMintPriceLimit.trim() === '' ? '' : Number(newMintPriceLimit)
-              );
+                    : Number(newMintPriceLimit)
+                );
+              } else {
+                showToast('warning', 'Mint limit must be less than total supply');
+              }
             }}
             onKeyDown={handleKeyDownForTotalSupplyAndMintLimit}
             value={mintPriceLimit === '' ? '' : Number(mintPriceLimit)}
