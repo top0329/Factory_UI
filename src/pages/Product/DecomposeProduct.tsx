@@ -19,6 +19,7 @@ import useToast from '../../hooks/useToast';
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
   const [productAmount, setProductAmount] = useState<number>(0);
+  const [isApproved, setIsApproved] = useState<boolean>(false);
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
 
@@ -52,6 +53,7 @@ const DecomposeProductPage = () => {
 
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
+              setIsApproved(true);
               showToast('success', 'Approve success!');
               closeSpin();
             } else {
@@ -206,7 +208,8 @@ const DecomposeProductPage = () => {
                 onClick={() => navigate('/product')}
               />
               <Button
-                className="flex justify-center w-[160px] h-9 rounded-xl"
+                className="flex justify-center disabled:bg-gray-900 w-[160px] h-9 rounded-xl"
+                disabled={!isApproved}
                 text="Decompose"
                 variant="primary"
                 onClick={handleDecompose}
