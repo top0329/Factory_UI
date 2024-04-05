@@ -224,13 +224,13 @@ const AddComponentModal = () => {
           (erc721) => erc721.tokenAddress === inputValues.erc721Address
         ) &&
           createBlueprint.data.erc721Data.some(
-            (erc721) => erc721.tokenId === parseInt(value)
+            (erc721) => Number(erc721.tokenId) === parseInt(value)
           )) ||
         (createBlueprint.data.erc1155Data.some(
           (erc1155) => erc1155.tokenAddress === inputValues.erc1155Address
         ) &&
           createBlueprint.data.erc1155Data.some(
-            (erc1155) => erc1155.tokenId === parseInt(value)
+            (erc1155) => Number(erc1155.tokenId) === parseInt(value)
           ))
       )
         setError('This token already added');
