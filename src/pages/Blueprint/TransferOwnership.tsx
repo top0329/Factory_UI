@@ -11,6 +11,7 @@ import useWeb3 from '../../hooks/useWeb3';
 import Web3 from 'web3';
 import useSpinner from '../../hooks/useSpinner';
 import { isAddress } from 'web3-validator';
+import filterWalletAddress from '../../utils/isWalletAddress';
 const TransferOwnership = () => {
   const navigate = useNavigate();
 
@@ -57,10 +58,17 @@ const TransferOwnership = () => {
     }
   };
 
-  const handleTransfer = () => {
+  const handleTransfer = async () => {
     if (isConnected && library) {
       if (isValidEthereumAddress(newOwner)) {
-        toggleModal();
+        const isWalletAddress = await filterWalletAddress(newOwner);
+        console.log('isWalletAddress', isWalletAddress);
+        if (isWalletAddress) {
+          toggleModal();
+        } else {
+          setErrorMessage('Invalid wallet address');
+          setNewOwner('');
+        }
       } else {
         showToast('warning', 'Invalid address type for new owner');
       }
