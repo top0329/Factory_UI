@@ -62,67 +62,69 @@ const UpdateComponentModal = ({
 
   useEffect(() => {
     async function init() {
-      if (activeItem === 0) {
-        const tokenDetails = await getTokenData(
-          selectedComponentData.tokenAddress as Address
-        );
-        const details = await getTokenDetailsByAddress(
-          selectedComponentData.tokenAddress as Address
-        );
-        if (details) {
-          setImageUri(details?.logo as string);
-        } else {
-          setImageUri(
-            'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
+      if (selectedComponentData.tokenAddress) {
+        if (activeItem === 0) {
+          const tokenDetails = await getTokenData(
+            selectedComponentData.tokenAddress as Address
           );
-        }
-        setErc20Data({
-          name: tokenDetails?.tokenName,
-          address: selectedComponentData.tokenAddress,
-          amount: selectedComponentData.erc20Amount
-            ? ethers.formatUnits(
-                selectedComponentData.erc20Amount.toString(),
-                tokenDetails?.decimal
-              )
-            : '',
-          decimal: tokenDetails?.decimal,
-        });
-      }
-      if (activeItem === 1) {
-        const erc721Data = await getERC721Data(
-          selectedComponentData.tokenAddress as Address,
-          selectedComponentData.tokenId as number
-        );
-        if (erc721Data) {
-          const { name, uri } = erc721Data;
-          setErc721Data({
-            name,
+          const details = await getTokenDetailsByAddress(
+            selectedComponentData.tokenAddress as Address
+          );
+          if (details) {
+            setImageUri(details?.logo as string);
+          } else {
+            setImageUri(
+              'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
+            );
+          }
+          setErc20Data({
+            name: tokenDetails?.tokenName,
             address: selectedComponentData.tokenAddress,
-            id: selectedComponentData.tokenId
-              ? selectedComponentData.tokenId.toString()
+            amount: selectedComponentData.erc20Amount
+              ? ethers.formatUnits(
+                  selectedComponentData.erc20Amount.toString(),
+                  tokenDetails?.decimal
+                )
               : '',
+            decimal: tokenDetails?.decimal,
           });
-          setImageUri(`https://ipfs.io/${uri}`);
         }
-      }
-      if (activeItem === 2) {
-        const erc1155Data = await getERC1155Data(
-          selectedComponentData.tokenAddress as Address,
-          selectedComponentData.tokenId as number
-        );
-        if (erc1155Data) {
-          const { name, uri } = erc1155Data;
-          setErc1155Data({
-            name,
-            address: selectedComponentData.tokenAddress,
-            id: selectedComponentData.tokenId
-              ? selectedComponentData.tokenId.toString()
-              : '',
-            amount: selectedComponentData.erc1155Amount
-              ? selectedComponentData.erc1155Amount.toString()
-              : '',
-          });
-          setImageUri(uri);
+        if (activeItem === 1) {
+          const erc721Data = await getERC721Data(
+            selectedComponentData.tokenAddress as Address,
+            selectedComponentData.tokenId as number
+          );
+          if (erc721Data) {
+            const { name, uri } = erc721Data;
+            setErc721Data({
+              name,
+              address: selectedComponentData.tokenAddress,
+              id: selectedComponentData.tokenId
+                ? selectedComponentData.tokenId.toString()
+                : '',
+            });
+            setImageUri(`https://ipfs.io/${uri}`);
+          }
+        }
+        if (activeItem === 2) {
+          const erc1155Data = await getERC1155Data(
+            selectedComponentData.tokenAddress as Address,
+            selectedComponentData.tokenId as number
+          );
+          if (erc1155Data) {
+            const { name, uri } = erc1155Data;
+            setErc1155Data({
+              name,
+              address: selectedComponentData.tokenAddress,
+              id: selectedComponentData.tokenId
+                ? selectedComponentData.tokenId.toString()
+                : '',
+              amount: selectedComponentData.erc1155Amount
+                ? selectedComponentData.erc1155Amount.toString()
+                : '',
+            });
+            setImageUri(uri);
+          }
         }
       }
     }

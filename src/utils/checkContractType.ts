@@ -23,7 +23,9 @@ export const getTokenDetailsByAddress = async (contractAddress: Address) => {
     return { tokenId, logo };
   } catch (error) {
     console.error('Error fetching token details:', error);
-    return null;
+    const logo: string =
+      'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+    return { logo };
   }
 };
 
@@ -66,8 +68,9 @@ async function checkContractType(contractAddress: Address | '') {
       console.log(totalSupply);
       console.log(tokenName);
       console.log(decimal);
-      const tokenData = await getTokenDetailsByAddress(contractAddress);
-      data = { name: tokenName, logo: tokenData?.logo, decimals: decimal };
+      // const tokenData = await getTokenDetailsByAddress(contractAddress);
+      // data = { name: tokenName, logo: tokenData?.logo, decimals: decimal };
+      data = { name: tokenName, decimals: decimal };
       // If totalSupply succeeds, then return, assuming ERC20
       return { type: 'ERC20', payload: data };
     } catch (error) {
