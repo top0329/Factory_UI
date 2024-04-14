@@ -85,7 +85,7 @@ const TransferOwnership = () => {
             .updateBlueprintCreator(selectedBlueprint.id, newOwner)
             .send({ from: account });
 
-          openSpin('Transferring ownership...');
+          openSpin('Transferring ownership');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await res

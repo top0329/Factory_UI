@@ -336,12 +336,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   if (isIPFSSelected) {
                     console.log(imageSrc.substring(21));
                     if (imageSrc.substring(21)) {
-                      openSpin('Uploading metadata to ipfs...');
+                      openSpin('Uploading metadata to ipfs');
                       const jsonHash = await uploadMetadataToIPFS(
                         imageSrc.substring(21)
                       );
                       if (jsonHash) {
-                        openSpin('Updating Blueprint...');
+                        openSpin('Updating Blueprint');
                         let _mintPrice: bigint;
                         if (Number(createInfo.mintPriceUnit) === 0) {
                           _mintPrice = ethers.parseEther(
@@ -398,15 +398,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   } else {
                     if (selectedFile) {
                       console.log(selectedFile);
-                      openSpin('Uploading image to ipfs...');
+                      openSpin('Uploading image to ipfs');
                       const imageHash = await uploadImageToIPFS();
                       console.log(imageHash);
                       if (imageHash) {
-                        openSpin('Uploading metadata to ipfs...');
+                        openSpin('Uploading metadata to ipfs');
                         const jsonHash = await uploadMetadataToIPFS(imageHash);
                         console.log(jsonHash);
                         if (jsonHash) {
-                          openSpin('Updating Blueprint...');
+                          openSpin('Updating Blueprint');
                           let _mintPrice: bigint;
                           if (Number(createInfo.mintPriceUnit) === 0) {
                             _mintPrice = ethers.parseEther(
@@ -468,7 +468,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   }
                 } else {
                   console.log('here is uri not checked');
-                  openSpin('Updating Blueprint...');
+                  openSpin('Updating Blueprint');
                   let _mintPrice: bigint;
                   if (Number(createInfo.mintPriceUnit) === 0) {
                     _mintPrice = ethers.parseEther(
@@ -524,12 +524,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 if (isIPFSSelected) {
                   console.log(imageSrc.substring(21));
                   if (imageSrc.substring(21)) {
-                    openSpin('Uploading metadata to ipfs...');
+                    openSpin('Uploading metadata to ipfs');
                     const jsonHash = await uploadMetadataToIPFS(
                       imageSrc.substring(21)
                     );
                     if (jsonHash) {
-                      openSpin('Updating Blueprint URI...');
+                      openSpin('Updating Blueprint URI');
                       console.log(createInfo.id, jsonHash.substring(16));
                       const transaction = await factoryWeb3.methods
                         .updateBlueprintURI(
@@ -568,15 +568,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 } else {
                   if (selectedFile) {
                     console.log(selectedFile);
-                    openSpin('Uploading image to ipfs...');
+                    openSpin('Uploading image to ipfs');
                     const imageHash = await uploadImageToIPFS();
                     console.log(imageHash);
                     if (imageHash) {
-                      openSpin('Uploading metadata to ipfs...');
+                      openSpin('Uploading metadata to ipfs');
                       const jsonHash = await uploadMetadataToIPFS(imageHash);
                       console.log(jsonHash);
                       if (jsonHash) {
-                        openSpin('Updating Blueprint URI...');
+                        openSpin('Updating Blueprint URI');
                         console.log(createInfo.id, jsonHash.substring(16));
                         const transaction = await factoryWeb3.methods
                           .updateBlueprintURI(
@@ -628,7 +628,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     6
                   );
                 }
-                openSpin('Updating Blueprint MintPrice...');
+                openSpin('Updating Blueprint MintPrice');
                 console.log(
                   createInfo.id,
                   _mintPrice,
@@ -665,7 +665,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               } else if (mintLimitChecked) {
                 console.log('mint limit is checked');
                 const _mintLimit = createInfo.mintLimit;
-                openSpin('Updating Blueprint MintLimit...');
+                openSpin('Updating Blueprint MintLimit');
                 console.log(createInfo.id, _mintLimit);
                 const transaction = await factoryWeb3.methods
                   .updateBlueprintMintLimit(createInfo.id, _mintLimit)
@@ -714,7 +714,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   if (isIPFSSelected) {
                     console.log(imageSrc.substring(21));
                     if (imageSrc.substring(21)) {
-                      openSpin('Uploading metadata to ipfs...');
+                      openSpin('Uploading metadata to ipfs');
                       const jsonHash = await uploadMetadataToIPFS(
                         imageSrc.substring(21)
                       );
@@ -732,7 +732,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           );
                         }
                         const _mintLimit = createInfo.mintLimit;
-                        openSpin('Recreating Blueprint...');
+                        openSpin('Recreating Blueprint');
                         const transaction = await factoryWeb3.methods
                           .createBlueprint(
                             createInfo.name,
@@ -904,11 +904,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   } else {
                     if (selectedFile) {
                       console.log(selectedFile);
-                      openSpin('Uploading image to ipfs...');
+                      openSpin('Uploading image to ipfs');
                       const imageHash = await uploadImageToIPFS();
                       console.log(imageHash);
                       if (imageHash) {
-                        openSpin('Uploading metadata to ipfs...');
+                        openSpin('Uploading metadata to ipfs');
                         const jsonHash = await uploadMetadataToIPFS(imageHash);
                         console.log(jsonHash);
                         if (jsonHash) {
@@ -925,7 +925,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             );
                           }
                           const _mintLimit = createInfo.mintLimit;
-                          openSpin('Rereating Blueprint...');
+                          openSpin('Rereating Blueprint');
                           const transaction = await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
@@ -1131,7 +1131,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi';
                   }
                   const _mintLimit = createInfo.mintLimit;
-                  openSpin('Recreating Blueprint...');
+                  openSpin('Recreating Blueprint');
                   const transaction = await factoryWeb3.methods
                     .createBlueprint(
                       createInfo.name,
@@ -1299,7 +1299,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   if (isIPFSSelected) {
                     console.log(imageSrc.substring(21));
                     if (imageSrc.substring(21)) {
-                      openSpin('Uploading metadata to ipfs...');
+                      openSpin('Uploading metadata to ipfs');
                       const jsonHash = await uploadMetadataToIPFS(
                         imageSrc.substring(21)
                       );
@@ -1329,7 +1329,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               ? 0
                               : createInfo.mintLimit;
                         }
-                        openSpin('Creating Blueprint...');
+                        openSpin('Creating Blueprint');
                         const transaction = await factoryWeb3.methods
                           .createBlueprint(
                             createInfo.name,
@@ -1498,11 +1498,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   } else {
                     if (selectedFile) {
                       console.log(selectedFile);
-                      openSpin('Uploading image to ipfs...');
+                      openSpin('Uploading image to ipfs');
                       const imageHash = await uploadImageToIPFS();
                       console.log(imageHash);
                       if (imageHash) {
-                        openSpin('Uploading metadata to ipfs...');
+                        openSpin('Uploading metadata to ipfs');
                         const jsonHash = await uploadMetadataToIPFS(imageHash);
                         console.log(jsonHash);
                         if (jsonHash) {
@@ -1528,7 +1528,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                                 ? 0
                                 : createInfo.mintLimit;
                           }
-                          openSpin('Creating Blueprint...');
+                          openSpin('Creating Blueprint');
                           const transaction = await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
@@ -1742,7 +1742,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     _imageUri =
                       'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi';
                   }
-                  openSpin('Creating Blueprint...');
+                  openSpin('Creating Blueprint');
                   const transaction = await factoryWeb3.methods
                     .createBlueprint(
                       createInfo.name,

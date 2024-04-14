@@ -46,7 +46,7 @@ const DecomposeProductPage = () => {
             .setApprovalForAll(await factoryContract.getAddress(), true)
             .send({ from: account });
 
-          openSpin('Approving...');
+          openSpin('Approving');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await transaction

@@ -154,7 +154,7 @@ const MintProductPage = () => {
                   .setApprovalForAll(factoryAddress, true)
                   .send({ from: account });
 
-                openSpin('Approving...');
+                openSpin('Approving');
 
                 receipt = await web3.eth.getTransactionReceipt(
                   (
@@ -214,7 +214,7 @@ const MintProductPage = () => {
             )
             .send({ from: account });
 
-          openSpin('Minting Product...');
+          openSpin('Minting Product');
 
           receipt = await web3.eth.getTransactionReceipt(
             (

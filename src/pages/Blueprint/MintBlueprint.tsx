@@ -122,7 +122,7 @@ const MintBlueprintPage = () => {
               ).toString(),
               6
             );
-            openSpin('Approving...');
+            openSpin('Approving');
             await erc20Approve(
               usdtAddress,
               factoryAddress,
@@ -151,7 +151,7 @@ const MintBlueprintPage = () => {
               ).toString(),
               6
             );
-            openSpin('Approving...');
+            openSpin('Approving');
             await erc20Approve(
               usdcAddress,
               factoryAddress,
@@ -194,7 +194,7 @@ const MintBlueprintPage = () => {
             blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
               blueprintCreationFee
           ) {
-            openSpin('Minting Blueprint...');
+            openSpin('Minting Blueprint');
             const _mintFee =
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
               blueprintCreationFee;
@@ -223,7 +223,7 @@ const MintBlueprintPage = () => {
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
             ) {
               if (isApproved) {
-                openSpin('Minting Blueprint...');
+                openSpin('Minting Blueprint');
                 const _blueprintCreationFeeWei = ethers.parseEther(
                   blueprintCreationFee.toString()
                 );
@@ -259,7 +259,7 @@ const MintBlueprintPage = () => {
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
             ) {
               if (isApproved) {
-                openSpin('Minting Blueprint...');
+                openSpin('Minting Blueprint');
                 const _blueprintCreationFeeWei = ethers.parseEther(
                   blueprintCreationFee.toString()
                 );
