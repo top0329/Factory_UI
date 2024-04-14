@@ -720,6 +720,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       );
                       if (jsonHash) {
                         let _mintPrice: bigint;
+                        let id: number = 0;
                         if (Number(createInfo.mintPriceUnit) === 0) {
                           _mintPrice = ethers.parseEther(
                             createInfo.mintPrice.toString()
@@ -773,6 +774,109 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           'Blueprint created successfully',
                           transaction
                         );
+                        const events = await blueprintWeb3.getPastEvents(
+                          'BlueprintCreated',
+                          {
+                            fromBlock: 'latest',
+                            toBlock: 'latest',
+                          }
+                        );
+                        for (const event of events) {
+                          if (event.returnValues.creator === account) {
+                            id = Number(event.returnValues[0]);
+                            break;
+                          }
+                        }
+                        const blueprintData = {
+                          id: id,
+                          name: createInfo.name,
+                          imageUri: imageSrc,
+                          creator: account,
+                          totalSupply: Number(createInfo.totalSupply),
+                          mintPrice:
+                            createInfo.mintPrice === ''
+                              ? 0
+                              : Number(createInfo.mintPrice),
+                          mintPriceUnit: Number(createInfo.mintPriceUnit),
+                          mintLimit: Number(_mintLimit),
+                          data: {
+                            erc20Data: await Promise.all(
+                              createInfo.data.erc20Data.map(async (erc20) => {
+                                let _name: string = '';
+                                let _uri: string = '';
+                                const tokenData = await getTokenData(
+                                  erc20.tokenAddress as Address
+                                );
+                                if (tokenData) {
+                                  const { decimal, tokenName } = tokenData;
+                                  const details =
+                                    await getTokenDetailsByAddress(
+                                      erc20.tokenAddress as Address
+                                    );
+                                  _name = tokenName;
+                                  if (details) {
+                                    _uri = details?.logo;
+                                  } else {
+                                    _uri =
+                                      'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+                                  }
+                                  return {
+                                    name: _name,
+                                    tokenAddress: erc20.tokenAddress,
+                                    amount: Number(
+                                      ethers.formatUnits(erc20.amount, decimal)
+                                    ),
+                                    uri: _uri,
+                                  };
+                                }
+                              })
+                            ),
+                            erc721Data: await Promise.all(
+                              createInfo.data.erc721Data.map(async (erc721) => {
+                                let _name: string = '';
+                                const erc721Data = await getERC721Data(
+                                  erc721.tokenAddress as Address,
+                                  erc721.tokenId
+                                );
+                                if (erc721Data) {
+                                  const { name } = erc721Data;
+                                  _name = name;
+                                }
+                                return {
+                                  name: _name,
+                                  tokenAddress: erc721.tokenAddress,
+                                  tokenId: Number(erc721.tokenId),
+                                };
+                              })
+                            ),
+                            erc1155Data: await Promise.all(
+                              createInfo.data.erc1155Data.map(
+                                async (erc1155) => {
+                                  let _name: string = '';
+                                  const erc1155Data = await getERC1155Data(
+                                    erc1155.tokenAddress as Address,
+                                    erc1155.tokenId
+                                  );
+                                  if (erc1155Data) {
+                                    const { name } = erc1155Data;
+                                    _name = name;
+                                  }
+                                  return {
+                                    name: _name,
+                                    tokenAddress: erc1155.tokenAddress,
+                                    tokenId: Number(erc1155.tokenId),
+                                    amount: Number(erc1155.amount),
+                                  };
+                                }
+                              )
+                            ),
+                          },
+                        };
+                        const res = await axios.post(
+                          `${BASE_URI}/blueprint/create`,
+                          blueprintData
+                        );
+                        console.log('response: ', res.data);
                         setCreateInfo({
                           id: '',
                           name: '',
@@ -809,6 +913,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         console.log(jsonHash);
                         if (jsonHash) {
                           let _mintPrice: bigint;
+                          let id: number = 0;
                           if (Number(createInfo.mintPriceUnit) === 0) {
                             _mintPrice = ethers.parseEther(
                               createInfo.mintPrice.toString()
@@ -862,6 +967,114 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             'Blueprint recreated successfully',
                             transaction
                           );
+                          const events = await blueprintWeb3.getPastEvents(
+                            'BlueprintCreated',
+                            {
+                              fromBlock: 'latest',
+                              toBlock: 'latest',
+                            }
+                          );
+                          for (const event of events) {
+                            if (event.returnValues.creator === account) {
+                              id = Number(event.returnValues[0]);
+                              break;
+                            }
+                          }
+                          const blueprintData = {
+                            id: id,
+                            name: createInfo.name,
+                            imageUri: `https://ipfs.io/ipfs/${imageHash}`,
+                            creator: account,
+                            totalSupply: Number(createInfo.totalSupply),
+                            mintPrice:
+                              createInfo.mintPrice === ''
+                                ? 0
+                                : Number(createInfo.mintPrice),
+                            mintPriceUnit: Number(createInfo.mintPriceUnit),
+                            mintLimit: Number(_mintLimit),
+                            data: {
+                              erc20Data: await Promise.all(
+                                createInfo.data.erc20Data.map(async (erc20) => {
+                                  let _name: string = '';
+                                  let _uri: string = '';
+                                  const tokenData = await getTokenData(
+                                    erc20.tokenAddress as Address
+                                  );
+                                  if (tokenData) {
+                                    const { decimal, tokenName } = tokenData;
+                                    const details =
+                                      await getTokenDetailsByAddress(
+                                        erc20.tokenAddress as Address
+                                      );
+                                    _name = tokenName;
+                                    if (details) {
+                                      _uri = details?.logo;
+                                    } else {
+                                      _uri =
+                                        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+                                    }
+                                    return {
+                                      name: _name,
+                                      tokenAddress: erc20.tokenAddress,
+                                      amount: Number(
+                                        ethers.formatUnits(
+                                          erc20.amount,
+                                          decimal
+                                        )
+                                      ),
+                                      uri: _uri,
+                                    };
+                                  }
+                                })
+                              ),
+                              erc721Data: await Promise.all(
+                                createInfo.data.erc721Data.map(
+                                  async (erc721) => {
+                                    let _name: string = '';
+                                    const erc721Data = await getERC721Data(
+                                      erc721.tokenAddress as Address,
+                                      erc721.tokenId
+                                    );
+                                    if (erc721Data) {
+                                      const { name } = erc721Data;
+                                      _name = name;
+                                    }
+                                    return {
+                                      name: _name,
+                                      tokenAddress: erc721.tokenAddress,
+                                      tokenId: Number(erc721.tokenId),
+                                    };
+                                  }
+                                )
+                              ),
+                              erc1155Data: await Promise.all(
+                                createInfo.data.erc1155Data.map(
+                                  async (erc1155) => {
+                                    let _name: string = '';
+                                    const erc1155Data = await getERC1155Data(
+                                      erc1155.tokenAddress as Address,
+                                      erc1155.tokenId
+                                    );
+                                    if (erc1155Data) {
+                                      const { name } = erc1155Data;
+                                      _name = name;
+                                    }
+                                    return {
+                                      name: _name,
+                                      tokenAddress: erc1155.tokenAddress,
+                                      tokenId: Number(erc1155.tokenId),
+                                      amount: Number(erc1155.amount),
+                                    };
+                                  }
+                                )
+                              ),
+                            },
+                          };
+                          const res = await axios.post(
+                            `${BASE_URI}/blueprint/create`,
+                            blueprintData
+                          );
+                          console.log('response: ', res.data);
                           setCreateInfo({
                             id: '',
                             name: '',
@@ -892,6 +1105,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 } else {
                   let _mintPrice: bigint;
                   let jsonHashUri: string;
+                  let id: number = 0;
+                  let _imageUri: string = '';
                   if (Number(createInfo.mintPriceUnit) === 0) {
                     _mintPrice = ethers.parseEther(
                       createInfo.mintPrice.toString()
@@ -905,9 +1120,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   if (isRecreate) {
                     jsonHashUri = await blueprintContract.uri(createInfo.id);
                     console.log(jsonHashUri);
+                    const {
+                      data: { image },
+                    } = await axios.get(`https://ipfs.io/${jsonHashUri}`);
+                    _imageUri = `https://ipfs.io/${image}`;
                   } else {
                     jsonHashUri =
                       'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
+                    _imageUri =
+                      'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi';
                   }
                   const _mintLimit = createInfo.mintLimit;
                   openSpin('Recreating Blueprint...');
@@ -945,6 +1166,104 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     )
                     .send({ from: account });
                   console.log('Blueprint recreated successfully', transaction);
+                  const events = await blueprintWeb3.getPastEvents(
+                    'BlueprintCreated',
+                    {
+                      fromBlock: 'latest',
+                      toBlock: 'latest',
+                    }
+                  );
+                  for (const event of events) {
+                    if (event.returnValues.creator === account) {
+                      id = Number(event.returnValues[0]);
+                      break;
+                    }
+                  }
+                  const blueprintData = {
+                    id: id,
+                    name: createInfo.name,
+                    imageUri: _imageUri,
+                    creator: account,
+                    totalSupply: Number(createInfo.totalSupply),
+                    mintPrice:
+                      createInfo.mintPrice === '' ? 0 : Number(createInfo.mintPrice),
+                    mintPriceUnit: Number(createInfo.mintPriceUnit),
+                    mintLimit: Number(_mintLimit),
+                    data: {
+                      erc20Data: await Promise.all(
+                        createInfo.data.erc20Data.map(async (erc20) => {
+                          let _name: string = '';
+                          let _uri: string = '';
+                          const tokenData = await getTokenData(
+                            erc20.tokenAddress as Address
+                          );
+                          if (tokenData) {
+                            const { decimal, tokenName } = tokenData;
+                            const details = await getTokenDetailsByAddress(
+                              erc20.tokenAddress as Address
+                            );
+                            _name = tokenName;
+                            if (details) {
+                              _uri = details?.logo;
+                            } else {
+                              _uri =
+                                'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+                            }
+                            return {
+                              name: _name,
+                              tokenAddress: erc20.tokenAddress,
+                              amount: Number(
+                                ethers.formatUnits(erc20.amount, decimal)
+                              ),
+                              uri: _uri,
+                            };
+                          }
+                        })
+                      ),
+                      erc721Data: await Promise.all(
+                        createInfo.data.erc721Data.map(async (erc721) => {
+                          let _name: string = '';
+                          const erc721Data = await getERC721Data(
+                            erc721.tokenAddress as Address,
+                            erc721.tokenId
+                          );
+                          if (erc721Data) {
+                            const { name } = erc721Data;
+                            _name = name;
+                          }
+                          return {
+                            name: _name,
+                            tokenAddress: erc721.tokenAddress,
+                            tokenId: Number(erc721.tokenId),
+                          };
+                        })
+                      ),
+                      erc1155Data: await Promise.all(
+                        createInfo.data.erc1155Data.map(async (erc1155) => {
+                          let _name: string = '';
+                          const erc1155Data = await getERC1155Data(
+                            erc1155.tokenAddress as Address,
+                            erc1155.tokenId
+                          );
+                          if (erc1155Data) {
+                            const { name } = erc1155Data;
+                            _name = name;
+                          }
+                          return {
+                            name: _name,
+                            tokenAddress: erc1155.tokenAddress,
+                            tokenId: Number(erc1155.tokenId),
+                            amount: Number(erc1155.amount),
+                          };
+                        })
+                      ),
+                    },
+                  };
+                  const res = await axios.post(
+                    `${BASE_URI}/blueprint/create`,
+                    blueprintData
+                  );
+                  console.log('response: ', res.data);
                   setCreateInfo({
                     id: '',
                     name: '',
