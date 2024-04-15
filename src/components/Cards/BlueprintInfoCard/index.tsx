@@ -374,6 +374,21 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           'Blueprint updated successfully',
                           transaction
                         );
+                        const data = {
+                          id: Number(createInfo.id),
+                          imageUri: imageSrc,
+                          mintPrice:
+                            createInfo.mintPrice === ''
+                              ? 0
+                              : createInfo.mintPrice,
+                          mintPriceUnit: Number(createInfo.mintPriceUnit),
+                          mintLimit: Number(_mintLimit),
+                        };
+                        const response = await axios.put(
+                          `${BASE_URI}/blueprint/update`,
+                          data
+                        );
+                        console.log(response.data);
                         setCreateInfo({
                           id: '',
                           name: '',
@@ -439,6 +454,21 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             'Blueprint updated successfully',
                             transaction
                           );
+                          const data = {
+                            id: Number(createInfo.id),
+                            imageUri: `https://ipfs.io/ipfs/${imageHash}`,
+                            mintPrice:
+                              createInfo.mintPrice === ''
+                                ? 0
+                                : createInfo.mintPrice,
+                            mintPriceUnit: Number(createInfo.mintPriceUnit),
+                            mintLimit: Number(_mintLimit),
+                          };
+                          const response = await axios.put(
+                            `${BASE_URI}/blueprint/update`,
+                            data
+                          );
+                          console.log(response.data);
                           setCreateInfo({
                             id: '',
                             name: '',
@@ -501,6 +531,18 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     )
                     .send({ from: account });
                   console.log('Blueprint updated successfully', transaction);
+                  const data = {
+                    id: Number(createInfo.id),
+                    mintPrice:
+                      createInfo.mintPrice === '' ? 0 : createInfo.mintPrice,
+                    mintPriceUnit: Number(createInfo.mintPriceUnit),
+                    mintLimit: Number(_mintLimit),
+                  };
+                  const response = await axios.put(
+                    `${BASE_URI}/blueprint/update`,
+                    data
+                  );
+                  console.log(response.data);
                   setCreateInfo({
                     id: '',
                     name: '',
@@ -541,6 +583,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         'Blueprint updated successfully',
                         transaction
                       );
+                      const data = {
+                        id: Number(createInfo.id),
+                        imageUri: imageSrc,
+                      };
+                      const response = await axios.put(
+                        `${BASE_URI}/blueprint/update`,
+                        data
+                      );
+                      console.log(response.data);
                       setCreateInfo({
                         id: '',
                         name: '',
@@ -588,6 +639,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           'Blueprint updated successfully',
                           transaction
                         );
+                        const data = {
+                          id: Number(createInfo.id),
+                          imageUri: `https://ipfs.io/ipfs/${imageHash}`,
+                        };
+                        const response = await axios.put(
+                          `${BASE_URI}/blueprint/update`,
+                          data
+                        );
+                        console.log(response.data);
                         setCreateInfo({
                           id: '',
                           name: '',
@@ -645,6 +705,19 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   'Blueprint MintPrice update successfully',
                   transaction
                 );
+                const data = {
+                  id: Number(createInfo.id),
+                  mintPrice:
+                    createInfo.mintPrice === ''
+                      ? 0
+                      : Number(createInfo.mintPrice),
+                  mintPriceUnit: Number(createInfo.mintPriceUnit),
+                };
+                const response = await axios.put(
+                  `${BASE_URI}/blueprint/update`,
+                  data
+                );
+                console.log(response.data);
                 setCreateInfo({
                   id: '',
                   name: '',
@@ -674,6 +747,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   'Blueprint MintLimit updated successfully',
                   transaction
                 );
+                const data = {
+                  id: Number(createInfo.id),
+                  mintLimit: Number(_mintLimit),
+                };
+                const response = await axios.put(
+                  `${BASE_URI}/blueprint/update`,
+                  data
+                );
+                console.log(response.data);
                 setCreateInfo({
                   id: '',
                   name: '',
@@ -1186,7 +1268,9 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     creator: account,
                     totalSupply: Number(createInfo.totalSupply),
                     mintPrice:
-                      createInfo.mintPrice === '' ? 0 : Number(createInfo.mintPrice),
+                      createInfo.mintPrice === ''
+                        ? 0
+                        : Number(createInfo.mintPrice),
                     mintPriceUnit: Number(createInfo.mintPriceUnit),
                     mintLimit: Number(_mintLimit),
                     data: {
