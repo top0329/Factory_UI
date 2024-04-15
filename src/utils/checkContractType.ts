@@ -5,7 +5,7 @@ import axios from 'axios';
 import erc20Abi from '../abi/ERC20ABI.json';
 import erc721Abi from '../abi/ERC721ABI.json';
 import erc1155Abi from '../abi/ERC1155ABI.json';
-import { defaultRPC } from '../constants';
+import { DefaultErc20ImageUri, defaultRPC } from '../constants';
 
 export const getTokenDetailsByAddress = async (contractAddress: Address) => {
   try {
@@ -17,15 +17,12 @@ export const getTokenDetailsByAddress = async (contractAddress: Address) => {
     if (response.data.image.large) {
       logo = response.data.image.large;
     } else {
-      logo =
-        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+      logo = DefaultErc20ImageUri;
     }
     return { tokenId, logo };
   } catch (error) {
     console.error('Error fetching token details:', error);
-    const logo: string =
-      'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
-    return { logo };
+    return null;
   }
 };
 

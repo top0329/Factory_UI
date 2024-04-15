@@ -23,6 +23,7 @@ import {
   SelectedComponentData,
 } from '../../types';
 import getTokenData from '../../utils/getTokenData';
+import { DefaultErc20ImageUri } from '../../constants';
 
 const UpdateComponentModal = ({
   selectedComponentData,
@@ -73,9 +74,7 @@ const UpdateComponentModal = ({
           if (details) {
             setImageUri(details?.logo as string);
           } else {
-            setImageUri(
-              'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-            );
+            setImageUri(DefaultErc20ImageUri);
           }
           setErc20Data({
             name: tokenDetails?.tokenName,
@@ -390,17 +389,13 @@ const UpdateComponentModal = ({
       id: '',
       amount: '',
     });
-    setImageUri(
-      'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-    );
+    setImageUri(DefaultErc20ImageUri);
   };
 
   const handleCancelButtonClicked = () => {
     setIsUpdateComponentModalOpen(false);
     if (activeItem === 0) {
-      setImageUri(
-        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-      );
+      setImageUri(DefaultErc20ImageUri);
       setErc20Data({
         name: '',
         address: '',
