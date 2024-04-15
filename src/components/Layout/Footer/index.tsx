@@ -184,7 +184,7 @@ function Footer() {
                 headerActiveItem === 6 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
-                navigate('#');
+                navigate('contact-us');
                 setHeaderActiveItem(6);
               }}
             >
