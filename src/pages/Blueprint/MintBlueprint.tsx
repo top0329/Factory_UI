@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import copy from 'copy-to-clipboard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import { Contract, ethers } from 'ethers';
@@ -26,6 +26,7 @@ const MintBlueprintPage = () => {
   const { openSpin, closeSpin } = useSpinner();
 
   const navigate = useNavigate();
+  const blueprintId = useParams().id;
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
@@ -40,6 +41,12 @@ const MintBlueprintPage = () => {
   const [currentEthBalance, setCurrentEthBalance] = useState<number>(0);
   const [currentUsdtBalance, setCurrentUsdtBalance] = useState<number>(0);
   const [currentUsdcBalance, setCurrentUsdcBalance] = useState<number>(0);
+
+  useEffect(() => {
+    if (selectedBlueprint.id.toString() !== blueprintId) {
+      navigate('/blueprint');
+    }
+  }, [blueprintId, navigate, selectedBlueprint.id]);
 
   useEffect(() => {
     async function init() {

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
@@ -56,6 +56,7 @@ const MintProductPage = () => {
     selectedOwnBlueprintAtom
   );
   const navigate = useNavigate();
+  const blueprintId = useParams().id;
   const [maxChecked, setMaxChecked] = useState(false);
   const [approvedCount, setApprovedCount] = useState<number>(0);
   const [isApproveEnable, setIsApproveEnable] = useState<boolean>(false);
@@ -74,6 +75,12 @@ const MintProductPage = () => {
     blueprintContract,
   } = useWeb3();
   const { showToast } = useToast();
+
+  useEffect(() => {
+    if (selectedOwnData.id.toString() !== blueprintId) {
+      navigate('/my-blueprint');
+    }
+  }, [blueprintId, navigate, selectedOwnData.id]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     // const newValue = event.target.value;
