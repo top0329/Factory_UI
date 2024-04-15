@@ -1,6 +1,6 @@
 import Button from '../../components/Button';
 
-export default function ContactUs() {
+export default function ContactUsPage() {
   return (
     <div className="p-24">
       <p className="text-white font-black text-6xl">Contact Us</p>
