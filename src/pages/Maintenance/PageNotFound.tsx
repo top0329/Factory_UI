@@ -1,4 +1,4 @@
-import Image404 from '../assets/images/bg_404_text.png';
+import Image404 from '../../assets/images/bg_404_text.png';
 
 export default function PageNotFound() {
   return (
