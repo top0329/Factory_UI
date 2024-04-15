@@ -10,8 +10,14 @@ import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
 import erc20Abi from '../../abi/ERC20ABI.json';
 import { blueprintSelectionState } from '../../jotai/atoms';
-import { usdtAddress, usdcAddress, factoryAddress } from '../../constants';
+import {
+  usdtAddress,
+  usdcAddress,
+  factoryAddress,
+  BASE_URI,
+} from '../../constants';
 import useSpinner from '../../hooks/useSpinner';
+import axios from 'axios';
 
 const MintBlueprintPage = () => {
   const { factoryContract, factoryWeb3, account, erc20Approve, library } =
@@ -208,6 +214,10 @@ const MintBlueprintPage = () => {
               )
               .send({ from: account, value: _mintFeeWei });
             console.log(transition);
+            await axios.put(`${BASE_URI}/blueprint/mint`, {
+              id: Number(selectedBlueprint.id),
+              mintedAmount: blueprintMintAmountValue,
+            });
             showToast('success', 'Blueprint minted successfully');
             setIsApproved(false);
             navigate('/my-blueprint');
@@ -236,6 +246,10 @@ const MintBlueprintPage = () => {
                   )
                   .send({ from: account, value: _blueprintCreationFeeWei });
                 console.log(transition);
+                await axios.put(`${BASE_URI}/blueprint/mint`, {
+                  id: Number(selectedBlueprint.id),
+                  mintedAmount: blueprintMintAmountValue,
+                });
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
                 navigate('/my-blueprint');
@@ -272,6 +286,10 @@ const MintBlueprintPage = () => {
                   )
                   .send({ from: account, value: _blueprintCreationFeeWei });
                 console.log(transition);
+                await axios.put(`${BASE_URI}/blueprint/mint`, {
+                  id: Number(selectedBlueprint.id),
+                  mintedAmount: blueprintMintAmountValue,
+                });
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
                 navigate('/my-blueprint');
