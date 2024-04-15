@@ -23,6 +23,10 @@ export const PINATA_JWT =
 
 export const DefaultErc20ImageUri =
   'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+export const DefaultErc721ImageUri =
+  'https://ipfs.io/ipfs/bafybeic6vxo3n4qxahvviwqayc4byweqfhiufijs6yxxruvwq452xdg56e';
+export const DefaultErc1155ImageUri =
+  'https://ipfs.io/ipfs/bafybeiep2v3wglztuqecw5ieggxaswirc2qrptss6auq6geoewy6risbqm';
 
 export const BASE_URI = 'https://factory-backend-beta.vercel.app/api';
 // export const BASE_URI = 'http://localhost:5000/api';
