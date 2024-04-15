@@ -15,7 +15,7 @@ import getERC1155Data from '../../../utils/getERC1155Data';
 import getERC721Data from '../../../utils/getERC721Data';
 import { createBlueprintAtom } from '../../../jotai/atoms';
 import { CreateBlueprint } from '../../../types';
-import { BASE_URI, invalidChars } from '../../../constants';
+import { BASE_URI, DefaultErc20ImageUri, invalidChars } from '../../../constants';
 import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
 import { getTokenDetailsByAddress } from '../../../utils/checkContractType';
 
@@ -275,7 +275,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const uploadImageToIPFS = async () => {
     if (!selectedFile) return;
     try {
-      console.log('here');
       const imageHashURI: string = await uploadFileToIPFS(selectedFile, name);
       console.log(
         'Image uploaded to IPFS with hash ====================> ',
@@ -637,8 +636,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           if (details) {
                             _uri = details?.logo;
                           } else {
-                            _uri =
-                              'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+                            _uri = DefaultErc20ImageUri;
                           }
                           return {
                             name: _name,
@@ -913,8 +911,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           if (details) {
                             _uri = details?.logo;
                           } else {
-                            _uri =
-                              'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+                            _uri = DefaultErc20ImageUri;
                           }
                           return {
                             name: _name,

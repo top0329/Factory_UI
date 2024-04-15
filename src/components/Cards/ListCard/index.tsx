@@ -7,7 +7,7 @@ import copy from 'copy-to-clipboard';
 import useWeb3 from '../../../hooks/useWeb3';
 import erc1155Abi from '../../../abi/ERC1155ABI.json';
 import { ListCardInterface } from '../../../types';
-import { defaultRPC, factoryAddress, productAddress } from '../../../constants';
+import { DefaultErc20ImageUri, defaultRPC, factoryAddress, productAddress } from '../../../constants';
 import Web3, { HttpProvider } from 'web3';
 import { tokenUriToName } from '../../../utils/tokenUriToName';
 import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
@@ -48,9 +48,7 @@ export default function ListCard(props: ListCardInterface) {
         setComponentName(name);
         setTokenAmount(Number(props[1]));
         setTokenAddress(String(props[0]));
-        setTokenImage(
-          'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-        );
+        setTokenImage(DefaultErc20ImageUri);
         setDecimal(_decimal);
       } else if (props.type == 1) {
         const name: string = await erc721Contract.methods
