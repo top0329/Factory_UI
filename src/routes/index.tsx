@@ -5,6 +5,8 @@ import CommonLayout from '../components/Layout/CommonLayout';
 import LoadingLandingPage from '../pages/LandingPage/LoadingLanding';
 import Loadable from '../components/Loading';
 import AuthGuard from './AuthGuard';
+import PageNotFound from '../pages/Maintenance/PageNotFound';
+import ContactUs from '../pages/Maintenance/Contact';
 
 // const AuthLogin = Loadable(lazy(() => import('pages/auth/login')));
 const LandingPage = lazy(() => import('../pages/LandingPage'));
@@ -156,6 +158,14 @@ const CommonRoutes = {
               element: <ComponentPage />,
             },
           ],
+        },
+        {
+          path: 'contact-us',
+          element: <ContactUs />,
+        },
+        {
+          path: '*',
+          element: <PageNotFound />,
         },
       ],
     },
