@@ -336,12 +336,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   if (isIPFSSelected) {
                     console.log(imageSrc.substring(21));
                     if (imageSrc.substring(21)) {
-                      openSpin('Uploading metadata to ipfs...');
+                      openSpin('Uploading metadata to ipfs');
                       const jsonHash = await uploadMetadataToIPFS(
                         imageSrc.substring(21)
                       );
                       if (jsonHash) {
-                        openSpin('Updating Blueprint...');
+                        openSpin('Updating Blueprint');
                         let _mintPrice: bigint;
                         if (Number(createInfo.mintPriceUnit) === 0) {
                           _mintPrice = ethers.parseEther(
@@ -374,6 +374,21 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           'Blueprint updated successfully',
                           transaction
                         );
+                        const data = {
+                          id: Number(createInfo.id),
+                          imageUri: imageSrc,
+                          mintPrice:
+                            createInfo.mintPrice === ''
+                              ? 0
+                              : createInfo.mintPrice,
+                          mintPriceUnit: Number(createInfo.mintPriceUnit),
+                          mintLimit: Number(_mintLimit),
+                        };
+                        const response = await axios.put(
+                          `${BASE_URI}/blueprint/update`,
+                          data
+                        );
+                        console.log(response.data);
                         setCreateInfo({
                           id: '',
                           name: '',
@@ -398,15 +413,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   } else {
                     if (selectedFile) {
                       console.log(selectedFile);
-                      openSpin('Uploading image to ipfs...');
+                      openSpin('Uploading image to ipfs');
                       const imageHash = await uploadImageToIPFS();
                       console.log(imageHash);
                       if (imageHash) {
-                        openSpin('Uploading metadata to ipfs...');
+                        openSpin('Uploading metadata to ipfs');
                         const jsonHash = await uploadMetadataToIPFS(imageHash);
                         console.log(jsonHash);
                         if (jsonHash) {
-                          openSpin('Updating Blueprint...');
+                          openSpin('Updating Blueprint');
                           let _mintPrice: bigint;
                           if (Number(createInfo.mintPriceUnit) === 0) {
                             _mintPrice = ethers.parseEther(
@@ -439,6 +454,21 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             'Blueprint updated successfully',
                             transaction
                           );
+                          const data = {
+                            id: Number(createInfo.id),
+                            imageUri: `https://ipfs.io/ipfs/${imageHash}`,
+                            mintPrice:
+                              createInfo.mintPrice === ''
+                                ? 0
+                                : createInfo.mintPrice,
+                            mintPriceUnit: Number(createInfo.mintPriceUnit),
+                            mintLimit: Number(_mintLimit),
+                          };
+                          const response = await axios.put(
+                            `${BASE_URI}/blueprint/update`,
+                            data
+                          );
+                          console.log(response.data);
                           setCreateInfo({
                             id: '',
                             name: '',
@@ -468,7 +498,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   }
                 } else {
                   console.log('here is uri not checked');
-                  openSpin('Updating Blueprint...');
+                  openSpin('Updating Blueprint');
                   let _mintPrice: bigint;
                   if (Number(createInfo.mintPriceUnit) === 0) {
                     _mintPrice = ethers.parseEther(
@@ -501,6 +531,18 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     )
                     .send({ from: account });
                   console.log('Blueprint updated successfully', transaction);
+                  const data = {
+                    id: Number(createInfo.id),
+                    mintPrice:
+                      createInfo.mintPrice === '' ? 0 : createInfo.mintPrice,
+                    mintPriceUnit: Number(createInfo.mintPriceUnit),
+                    mintLimit: Number(_mintLimit),
+                  };
+                  const response = await axios.put(
+                    `${BASE_URI}/blueprint/update`,
+                    data
+                  );
+                  console.log(response.data);
                   setCreateInfo({
                     id: '',
                     name: '',
@@ -524,12 +566,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 if (isIPFSSelected) {
                   console.log(imageSrc.substring(21));
                   if (imageSrc.substring(21)) {
-                    openSpin('Uploading metadata to ipfs...');
+                    openSpin('Uploading metadata to ipfs');
                     const jsonHash = await uploadMetadataToIPFS(
                       imageSrc.substring(21)
                     );
                     if (jsonHash) {
-                      openSpin('Updating Blueprint URI...');
+                      openSpin('Updating Blueprint URI');
                       console.log(createInfo.id, jsonHash.substring(16));
                       const transaction = await factoryWeb3.methods
                         .updateBlueprintURI(
@@ -541,6 +583,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         'Blueprint updated successfully',
                         transaction
                       );
+                      const data = {
+                        id: Number(createInfo.id),
+                        imageUri: imageSrc,
+                      };
+                      const response = await axios.put(
+                        `${BASE_URI}/blueprint/update`,
+                        data
+                      );
+                      console.log(response.data);
                       setCreateInfo({
                         id: '',
                         name: '',
@@ -568,15 +619,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 } else {
                   if (selectedFile) {
                     console.log(selectedFile);
-                    openSpin('Uploading image to ipfs...');
+                    openSpin('Uploading image to ipfs');
                     const imageHash = await uploadImageToIPFS();
                     console.log(imageHash);
                     if (imageHash) {
-                      openSpin('Uploading metadata to ipfs...');
+                      openSpin('Uploading metadata to ipfs');
                       const jsonHash = await uploadMetadataToIPFS(imageHash);
                       console.log(jsonHash);
                       if (jsonHash) {
-                        openSpin('Updating Blueprint URI...');
+                        openSpin('Updating Blueprint URI');
                         console.log(createInfo.id, jsonHash.substring(16));
                         const transaction = await factoryWeb3.methods
                           .updateBlueprintURI(
@@ -588,6 +639,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           'Blueprint updated successfully',
                           transaction
                         );
+                        const data = {
+                          id: Number(createInfo.id),
+                          imageUri: `https://ipfs.io/ipfs/${imageHash}`,
+                        };
+                        const response = await axios.put(
+                          `${BASE_URI}/blueprint/update`,
+                          data
+                        );
+                        console.log(response.data);
                         setCreateInfo({
                           id: '',
                           name: '',
@@ -628,7 +688,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     6
                   );
                 }
-                openSpin('Updating Blueprint MintPrice...');
+                openSpin('Updating Blueprint MintPrice');
                 console.log(
                   createInfo.id,
                   _mintPrice,
@@ -645,6 +705,19 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   'Blueprint MintPrice update successfully',
                   transaction
                 );
+                const data = {
+                  id: Number(createInfo.id),
+                  mintPrice:
+                    createInfo.mintPrice === ''
+                      ? 0
+                      : Number(createInfo.mintPrice),
+                  mintPriceUnit: Number(createInfo.mintPriceUnit),
+                };
+                const response = await axios.put(
+                  `${BASE_URI}/blueprint/update`,
+                  data
+                );
+                console.log(response.data);
                 setCreateInfo({
                   id: '',
                   name: '',
@@ -665,7 +738,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               } else if (mintLimitChecked) {
                 console.log('mint limit is checked');
                 const _mintLimit = createInfo.mintLimit;
-                openSpin('Updating Blueprint MintLimit...');
+                openSpin('Updating Blueprint MintLimit');
                 console.log(createInfo.id, _mintLimit);
                 const transaction = await factoryWeb3.methods
                   .updateBlueprintMintLimit(createInfo.id, _mintLimit)
@@ -674,6 +747,15 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   'Blueprint MintLimit updated successfully',
                   transaction
                 );
+                const data = {
+                  id: Number(createInfo.id),
+                  mintLimit: Number(_mintLimit),
+                };
+                const response = await axios.put(
+                  `${BASE_URI}/blueprint/update`,
+                  data
+                );
+                console.log(response.data);
                 setCreateInfo({
                   id: '',
                   name: '',
@@ -714,12 +796,13 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   if (isIPFSSelected) {
                     console.log(imageSrc.substring(21));
                     if (imageSrc.substring(21)) {
-                      openSpin('Uploading metadata to ipfs...');
+                      openSpin('Uploading metadata to ipfs');
                       const jsonHash = await uploadMetadataToIPFS(
                         imageSrc.substring(21)
                       );
                       if (jsonHash) {
                         let _mintPrice: bigint;
+                        let id: number = 0;
                         if (Number(createInfo.mintPriceUnit) === 0) {
                           _mintPrice = ethers.parseEther(
                             createInfo.mintPrice.toString()
@@ -731,7 +814,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           );
                         }
                         const _mintLimit = createInfo.mintLimit;
-                        openSpin('Recreating Blueprint...');
+                        openSpin('Recreating Blueprint');
                         const transaction = await factoryWeb3.methods
                           .createBlueprint(
                             createInfo.name,
@@ -773,6 +856,109 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           'Blueprint created successfully',
                           transaction
                         );
+                        const events = await blueprintWeb3.getPastEvents(
+                          'BlueprintCreated',
+                          {
+                            fromBlock: 'latest',
+                            toBlock: 'latest',
+                          }
+                        );
+                        for (const event of events) {
+                          if (event.returnValues.creator === account) {
+                            id = Number(event.returnValues[0]);
+                            break;
+                          }
+                        }
+                        const blueprintData = {
+                          id: id,
+                          name: createInfo.name,
+                          imageUri: imageSrc,
+                          creator: account,
+                          totalSupply: Number(createInfo.totalSupply),
+                          mintPrice:
+                            createInfo.mintPrice === ''
+                              ? 0
+                              : Number(createInfo.mintPrice),
+                          mintPriceUnit: Number(createInfo.mintPriceUnit),
+                          mintLimit: Number(_mintLimit),
+                          data: {
+                            erc20Data: await Promise.all(
+                              createInfo.data.erc20Data.map(async (erc20) => {
+                                let _name: string = '';
+                                let _uri: string = '';
+                                const tokenData = await getTokenData(
+                                  erc20.tokenAddress as Address
+                                );
+                                if (tokenData) {
+                                  const { decimal, tokenName } = tokenData;
+                                  const details =
+                                    await getTokenDetailsByAddress(
+                                      erc20.tokenAddress as Address
+                                    );
+                                  _name = tokenName;
+                                  if (details) {
+                                    _uri = details?.logo;
+                                  } else {
+                                    _uri =
+                                      'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+                                  }
+                                  return {
+                                    name: _name,
+                                    tokenAddress: erc20.tokenAddress,
+                                    amount: Number(
+                                      ethers.formatUnits(erc20.amount, decimal)
+                                    ),
+                                    uri: _uri,
+                                  };
+                                }
+                              })
+                            ),
+                            erc721Data: await Promise.all(
+                              createInfo.data.erc721Data.map(async (erc721) => {
+                                let _name: string = '';
+                                const erc721Data = await getERC721Data(
+                                  erc721.tokenAddress as Address,
+                                  erc721.tokenId
+                                );
+                                if (erc721Data) {
+                                  const { name } = erc721Data;
+                                  _name = name;
+                                }
+                                return {
+                                  name: _name,
+                                  tokenAddress: erc721.tokenAddress,
+                                  tokenId: Number(erc721.tokenId),
+                                };
+                              })
+                            ),
+                            erc1155Data: await Promise.all(
+                              createInfo.data.erc1155Data.map(
+                                async (erc1155) => {
+                                  let _name: string = '';
+                                  const erc1155Data = await getERC1155Data(
+                                    erc1155.tokenAddress as Address,
+                                    erc1155.tokenId
+                                  );
+                                  if (erc1155Data) {
+                                    const { name } = erc1155Data;
+                                    _name = name;
+                                  }
+                                  return {
+                                    name: _name,
+                                    tokenAddress: erc1155.tokenAddress,
+                                    tokenId: Number(erc1155.tokenId),
+                                    amount: Number(erc1155.amount),
+                                  };
+                                }
+                              )
+                            ),
+                          },
+                        };
+                        const res = await axios.post(
+                          `${BASE_URI}/blueprint/create`,
+                          blueprintData
+                        );
+                        console.log('response: ', res.data);
                         setCreateInfo({
                           id: '',
                           name: '',
@@ -800,15 +986,16 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   } else {
                     if (selectedFile) {
                       console.log(selectedFile);
-                      openSpin('Uploading image to ipfs...');
+                      openSpin('Uploading image to ipfs');
                       const imageHash = await uploadImageToIPFS();
                       console.log(imageHash);
                       if (imageHash) {
-                        openSpin('Uploading metadata to ipfs...');
+                        openSpin('Uploading metadata to ipfs');
                         const jsonHash = await uploadMetadataToIPFS(imageHash);
                         console.log(jsonHash);
                         if (jsonHash) {
                           let _mintPrice: bigint;
+                          let id: number = 0;
                           if (Number(createInfo.mintPriceUnit) === 0) {
                             _mintPrice = ethers.parseEther(
                               createInfo.mintPrice.toString()
@@ -820,7 +1007,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             );
                           }
                           const _mintLimit = createInfo.mintLimit;
-                          openSpin('Rereating Blueprint...');
+                          openSpin('Rereating Blueprint');
                           const transaction = await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
@@ -862,6 +1049,114 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             'Blueprint recreated successfully',
                             transaction
                           );
+                          const events = await blueprintWeb3.getPastEvents(
+                            'BlueprintCreated',
+                            {
+                              fromBlock: 'latest',
+                              toBlock: 'latest',
+                            }
+                          );
+                          for (const event of events) {
+                            if (event.returnValues.creator === account) {
+                              id = Number(event.returnValues[0]);
+                              break;
+                            }
+                          }
+                          const blueprintData = {
+                            id: id,
+                            name: createInfo.name,
+                            imageUri: `https://ipfs.io/ipfs/${imageHash}`,
+                            creator: account,
+                            totalSupply: Number(createInfo.totalSupply),
+                            mintPrice:
+                              createInfo.mintPrice === ''
+                                ? 0
+                                : Number(createInfo.mintPrice),
+                            mintPriceUnit: Number(createInfo.mintPriceUnit),
+                            mintLimit: Number(_mintLimit),
+                            data: {
+                              erc20Data: await Promise.all(
+                                createInfo.data.erc20Data.map(async (erc20) => {
+                                  let _name: string = '';
+                                  let _uri: string = '';
+                                  const tokenData = await getTokenData(
+                                    erc20.tokenAddress as Address
+                                  );
+                                  if (tokenData) {
+                                    const { decimal, tokenName } = tokenData;
+                                    const details =
+                                      await getTokenDetailsByAddress(
+                                        erc20.tokenAddress as Address
+                                      );
+                                    _name = tokenName;
+                                    if (details) {
+                                      _uri = details?.logo;
+                                    } else {
+                                      _uri =
+                                        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+                                    }
+                                    return {
+                                      name: _name,
+                                      tokenAddress: erc20.tokenAddress,
+                                      amount: Number(
+                                        ethers.formatUnits(
+                                          erc20.amount,
+                                          decimal
+                                        )
+                                      ),
+                                      uri: _uri,
+                                    };
+                                  }
+                                })
+                              ),
+                              erc721Data: await Promise.all(
+                                createInfo.data.erc721Data.map(
+                                  async (erc721) => {
+                                    let _name: string = '';
+                                    const erc721Data = await getERC721Data(
+                                      erc721.tokenAddress as Address,
+                                      erc721.tokenId
+                                    );
+                                    if (erc721Data) {
+                                      const { name } = erc721Data;
+                                      _name = name;
+                                    }
+                                    return {
+                                      name: _name,
+                                      tokenAddress: erc721.tokenAddress,
+                                      tokenId: Number(erc721.tokenId),
+                                    };
+                                  }
+                                )
+                              ),
+                              erc1155Data: await Promise.all(
+                                createInfo.data.erc1155Data.map(
+                                  async (erc1155) => {
+                                    let _name: string = '';
+                                    const erc1155Data = await getERC1155Data(
+                                      erc1155.tokenAddress as Address,
+                                      erc1155.tokenId
+                                    );
+                                    if (erc1155Data) {
+                                      const { name } = erc1155Data;
+                                      _name = name;
+                                    }
+                                    return {
+                                      name: _name,
+                                      tokenAddress: erc1155.tokenAddress,
+                                      tokenId: Number(erc1155.tokenId),
+                                      amount: Number(erc1155.amount),
+                                    };
+                                  }
+                                )
+                              ),
+                            },
+                          };
+                          const res = await axios.post(
+                            `${BASE_URI}/blueprint/create`,
+                            blueprintData
+                          );
+                          console.log('response: ', res.data);
                           setCreateInfo({
                             id: '',
                             name: '',
@@ -892,6 +1187,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 } else {
                   let _mintPrice: bigint;
                   let jsonHashUri: string;
+                  let id: number = 0;
+                  let _imageUri: string = '';
                   if (Number(createInfo.mintPriceUnit) === 0) {
                     _mintPrice = ethers.parseEther(
                       createInfo.mintPrice.toString()
@@ -905,12 +1202,18 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   if (isRecreate) {
                     jsonHashUri = await blueprintContract.uri(createInfo.id);
                     console.log(jsonHashUri);
+                    const {
+                      data: { image },
+                    } = await axios.get(`https://ipfs.io/${jsonHashUri}`);
+                    _imageUri = `https://ipfs.io/${image}`;
                   } else {
                     jsonHashUri =
                       'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
+                    _imageUri =
+                      'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi';
                   }
                   const _mintLimit = createInfo.mintLimit;
-                  openSpin('Recreating Blueprint...');
+                  openSpin('Recreating Blueprint');
                   const transaction = await factoryWeb3.methods
                     .createBlueprint(
                       createInfo.name,
@@ -945,6 +1248,106 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     )
                     .send({ from: account });
                   console.log('Blueprint recreated successfully', transaction);
+                  const events = await blueprintWeb3.getPastEvents(
+                    'BlueprintCreated',
+                    {
+                      fromBlock: 'latest',
+                      toBlock: 'latest',
+                    }
+                  );
+                  for (const event of events) {
+                    if (event.returnValues.creator === account) {
+                      id = Number(event.returnValues[0]);
+                      break;
+                    }
+                  }
+                  const blueprintData = {
+                    id: id,
+                    name: createInfo.name,
+                    imageUri: _imageUri,
+                    creator: account,
+                    totalSupply: Number(createInfo.totalSupply),
+                    mintPrice:
+                      createInfo.mintPrice === ''
+                        ? 0
+                        : Number(createInfo.mintPrice),
+                    mintPriceUnit: Number(createInfo.mintPriceUnit),
+                    mintLimit: Number(_mintLimit),
+                    data: {
+                      erc20Data: await Promise.all(
+                        createInfo.data.erc20Data.map(async (erc20) => {
+                          let _name: string = '';
+                          let _uri: string = '';
+                          const tokenData = await getTokenData(
+                            erc20.tokenAddress as Address
+                          );
+                          if (tokenData) {
+                            const { decimal, tokenName } = tokenData;
+                            const details = await getTokenDetailsByAddress(
+                              erc20.tokenAddress as Address
+                            );
+                            _name = tokenName;
+                            if (details) {
+                              _uri = details?.logo;
+                            } else {
+                              _uri =
+                                'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi';
+                            }
+                            return {
+                              name: _name,
+                              tokenAddress: erc20.tokenAddress,
+                              amount: Number(
+                                ethers.formatUnits(erc20.amount, decimal)
+                              ),
+                              uri: _uri,
+                            };
+                          }
+                        })
+                      ),
+                      erc721Data: await Promise.all(
+                        createInfo.data.erc721Data.map(async (erc721) => {
+                          let _name: string = '';
+                          const erc721Data = await getERC721Data(
+                            erc721.tokenAddress as Address,
+                            erc721.tokenId
+                          );
+                          if (erc721Data) {
+                            const { name } = erc721Data;
+                            _name = name;
+                          }
+                          return {
+                            name: _name,
+                            tokenAddress: erc721.tokenAddress,
+                            tokenId: Number(erc721.tokenId),
+                          };
+                        })
+                      ),
+                      erc1155Data: await Promise.all(
+                        createInfo.data.erc1155Data.map(async (erc1155) => {
+                          let _name: string = '';
+                          const erc1155Data = await getERC1155Data(
+                            erc1155.tokenAddress as Address,
+                            erc1155.tokenId
+                          );
+                          if (erc1155Data) {
+                            const { name } = erc1155Data;
+                            _name = name;
+                          }
+                          return {
+                            name: _name,
+                            tokenAddress: erc1155.tokenAddress,
+                            tokenId: Number(erc1155.tokenId),
+                            amount: Number(erc1155.amount),
+                          };
+                        })
+                      ),
+                    },
+                  };
+                  const res = await axios.post(
+                    `${BASE_URI}/blueprint/create`,
+                    blueprintData
+                  );
+                  console.log('response: ', res.data);
                   setCreateInfo({
                     id: '',
                     name: '',
@@ -980,7 +1383,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   if (isIPFSSelected) {
                     console.log(imageSrc.substring(21));
                     if (imageSrc.substring(21)) {
-                      openSpin('Uploading metadata to ipfs...');
+                      openSpin('Uploading metadata to ipfs');
                       const jsonHash = await uploadMetadataToIPFS(
                         imageSrc.substring(21)
                       );
@@ -1010,7 +1413,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               ? 0
                               : createInfo.mintLimit;
                         }
-                        openSpin('Creating Blueprint...');
+                        openSpin('Creating Blueprint');
                         const transaction = await factoryWeb3.methods
                           .createBlueprint(
                             createInfo.name,
@@ -1179,11 +1582,11 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   } else {
                     if (selectedFile) {
                       console.log(selectedFile);
-                      openSpin('Uploading image to ipfs...');
+                      openSpin('Uploading image to ipfs');
                       const imageHash = await uploadImageToIPFS();
                       console.log(imageHash);
                       if (imageHash) {
-                        openSpin('Uploading metadata to ipfs...');
+                        openSpin('Uploading metadata to ipfs');
                         const jsonHash = await uploadMetadataToIPFS(imageHash);
                         console.log(jsonHash);
                         if (jsonHash) {
@@ -1209,7 +1612,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                                 ? 0
                                 : createInfo.mintLimit;
                           }
-                          openSpin('Creating Blueprint...');
+                          openSpin('Creating Blueprint');
                           const transaction = await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
@@ -1423,7 +1826,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     _imageUri =
                       'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi';
                   }
-                  openSpin('Creating Blueprint...');
+                  openSpin('Creating Blueprint');
                   const transaction = await factoryWeb3.methods
                     .createBlueprint(
                       createInfo.name,
