@@ -132,7 +132,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     setIsIPFSSelected(isIPFSSelected);
     setName(createInfo.name);
     setTotalSupply(Number(createInfo.totalSupply));
-    setImageSrc(createInfo.imageUri);
     setMintPrice(createInfo.mintPrice);
     setMintPriceLimit(createInfo.mintLimit);
   }, [
@@ -140,9 +139,12 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     createInfo.mintPrice,
     createInfo.name,
     createInfo.totalSupply,
-    createInfo.imageUri,
     isIPFSSelected,
   ]);
+
+  useEffect(() => {
+    setImageSrc(createInfo.imageUri);
+  }, [createInfo.imageUri]);
 
   useEffect(() => {
     if (isRecreate || isUpdate) setIsIPFSSelected(true);
