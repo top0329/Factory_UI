@@ -64,7 +64,21 @@ const SearchBar: FC<Props> = ({
     }
     init();
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[setBlueprintTokenList, showToast, sortField, sortOrder])
+  }, [setBlueprintTokenList, showToast, sortField, sortOrder])
+
+  useEffect(() => {
+    async function getBlueprints() {
+      try {
+        const blueprints = await axios.get(`${BASE_URI}/blueprint`);
+        setBlueprintTokenList(blueprints.data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    if(searchValue === '') {
+      getBlueprints();
+    }
+  },[searchValue, setBlueprintTokenList])
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
