@@ -106,7 +106,6 @@ const MintProductPage = () => {
       }
     } else {
       setIsApproveEnable(false);
-      setBlueprintMintAmountValue(inputValue);
     }
   };
 
