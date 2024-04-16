@@ -52,15 +52,24 @@ const SearchBar: FC<Props> = ({
   };
 
   const handleSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.keyCode === 13) {
-      const searchResult = await axios.get(`${BASE_URI}/blueprint/search?query=${searchValue}`);
-      if (searchResult.data.length === 0) {
-        showToast('warning', 'No result found');
-        return;
-      } else {
-        setBlueprintTokenList(searchResult.data);
-        console.log(searchResult.data);
+    try {
+      if (event.keyCode === 13) {
+        if (searchValue === '') {
+          const blueprints = await axios.get(`${BASE_URI}/blueprint`);
+          setBlueprintTokenList(blueprints.data);
+        } else {
+          const searchResult = await axios.get(`${BASE_URI}/blueprint/search?query=${searchValue}`);
+          if (searchResult.data.length === 0) {
+            showToast('warning', 'No result found');
+            return;
+          } else {
+            setBlueprintTokenList(searchResult.data);
+            console.log(searchResult.data);
+          }
+        }
       }
+    } catch (err) {
+      console.log(err);
     }
   };
 
