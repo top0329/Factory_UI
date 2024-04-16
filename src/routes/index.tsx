@@ -5,7 +5,12 @@ import CommonLayout from '../components/Layout/CommonLayout';
 import LoadingLandingPage from '../pages/LandingPage/LoadingLanding';
 import Loadable from '../components/Loading';
 import AuthGuard from './AuthGuard';
+import PageNotFound from '../pages/Maintenance/PageNotFound';
+import ContactUs from '../pages/Maintenance/Contact';
+import Terms from '../pages/Maintenance/Terms';
+import Privacy from '../pages/Maintenance/Privacy';
 
+// const AuthLogin = Loadable(lazy(() => import('pages/auth/login')));
 const LandingPage = lazy(() => import('../pages/LandingPage'));
 const BlueprintPage = Loadable(lazy(() => import('../pages/Blueprint')));
 const MintBlueprintPage = Loadable(
@@ -23,7 +28,7 @@ const UpdateBlueprintPage = Loadable(
 const TransferOwnership = Loadable(
   lazy(() => import('../pages/Blueprint/TransferOwnership'))
 );
-const MyBlueprintPage = Loadable(lazy(() => import('../pages/MyBlueprint')));
+const MyBlueprint = Loadable(lazy(() => import('../pages/MyBlueprint')));
 const MintProductPage = Loadable(
   lazy(() => import('../pages/MyBlueprint/MintProduct'))
 );
@@ -32,12 +37,6 @@ const DecomposeProductPage = Loadable(
   lazy(() => import('../pages/Product/DecomposeProduct'))
 );
 const ComponentPage = Loadable(lazy(() => import('../pages/Component')));
-const PageNotFoundPage = Loadable(
-  lazy(() => import('../pages/Maintenance/PageNotFound'))
-);
-const ContactUsPage = Loadable(
-  lazy(() => import('../pages/Maintenance/Contact'))
-);
 
 // project import
 const LandingRoute = {
@@ -118,7 +117,7 @@ const CommonRoutes = {
               path: '',
               element: (
                 <AuthGuard>
-                  <MyBlueprintPage />
+                  <MyBlueprint />
                 </AuthGuard>
               ),
             },
@@ -164,11 +163,19 @@ const CommonRoutes = {
         },
         {
           path: 'contact-us',
-          element: <ContactUsPage />,
+          element: <ContactUs />,
+        },
+        {
+          path: 'terms',
+          element: <Terms />,
+        },
+        {
+          path: 'privacy',
+          element: <Privacy />,
         },
         {
           path: '*',
-          element: <PageNotFoundPage />,
+          element: <PageNotFound />,
         },
       ],
     },
