@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
@@ -8,7 +8,13 @@ import AdvancedSort from './AdvancedSort';
 import AdvancedFilter from './AdvancedFilter';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
-import { blueprintTokenListAtom, isCreatorModeAtom, searchValueAtom } from '../../jotai/atoms';
+import {
+  blueprintTokenListAtom,
+  isCreatorModeAtom,
+  searchValueAtom,
+  sortFieldAtom,
+  sortOrderAtom,
+} from '../../jotai/atoms';
 import { BASE_URI, invalidChars } from '../../constants';
 import axios from 'axios';
 
@@ -31,14 +37,34 @@ const SearchBar: FC<Props> = ({
 
   const navigate = useNavigate();
 
-  const [, setBlueprintTokenList] = useAtom(
-    blueprintTokenListAtom
-  );
+  const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
+  const [sortOrder] = useAtom<string>(sortOrderAtom);
+  const [sortField] = useAtom<string>(sortFieldAtom);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
   const [showFilterOption, setShowFilterOption] = useState<boolean>(false);
+
+  useEffect(() => {
+    async function init() {
+      try {
+        const searchResult = await axios.get(
+          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}`
+        );
+        if (searchResult.data.length === 0) {
+          showToast('warning', 'No result found');
+          return;
+        } else {
+          setBlueprintTokenList(searchResult.data);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    init();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[setBlueprintTokenList, showToast, sortField, sortOrder])
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -54,18 +80,14 @@ const SearchBar: FC<Props> = ({
   const handleSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     try {
       if (event.keyCode === 13) {
-        if (searchValue === '') {
-          const blueprints = await axios.get(`${BASE_URI}/blueprint`);
-          setBlueprintTokenList(blueprints.data);
+        const searchResult = await axios.get(
+          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}`
+        );
+        if (searchResult.data.length === 0) {
+          showToast('warning', 'No result found');
+          return;
         } else {
-          const searchResult = await axios.get(`${BASE_URI}/blueprint/search?query=${searchValue}`);
-          if (searchResult.data.length === 0) {
-            showToast('warning', 'No result found');
-            return;
-          } else {
-            setBlueprintTokenList(searchResult.data);
-            console.log(searchResult.data);
-          }
+          setBlueprintTokenList(searchResult.data);
         }
       }
     } catch (err) {

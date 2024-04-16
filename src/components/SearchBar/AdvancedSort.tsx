@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
+import { useAtom } from 'jotai';
+
+import { sortFieldAtom, sortOrderAtom } from '../../jotai/atoms';
+import { SortField } from '../../types';
 
 interface AdvancedSortProps {
   filterOption?: string;
 }
 
 const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
+  const [, setSortField] = useAtom<SortField>(sortFieldAtom);
+  const [, setSortOrder] = useAtom<string>(sortOrderAtom);
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedValue, setSelectedValue] = useState(
     <>
@@ -15,7 +22,8 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
     </>
   );
   const [defaultIcon, setDefaultIcon] = useState(false);
-  const [isSortDown, setisSortDown] = useState(true);
+  const [isSortDown, setIsSortDown] = useState(true);
+
   return (
     <div className="w-full bg-black border border-[#B1B1B1] rounded-lg">
       <div className="flex pl-5">
@@ -25,9 +33,12 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
               <Icon
                 icon="bi:sort-down"
                 className={` text-[#858584] w-6 h-6`}
-                onClick={() =>
-                  setisSortDown((prevIsSortDown) => !prevIsSortDown)
-                }
+                onClick={() => {
+                  setIsSortDown((prevIsSortDown) => !prevIsSortDown);
+                  setSortOrder((prevSortOrder) =>
+                    prevSortOrder === 'asc' ? 'desc' : 'asc'
+                  );
+                }}
               />
             ) : (
               <Icon
@@ -39,7 +50,12 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
             <Icon
               icon="bi:sort-up"
               className={` text-[#858584] w-6 h-6`}
-              onClick={() => setisSortDown((prevIsSortDown) => !prevIsSortDown)}
+              onClick={() => {
+                setIsSortDown((prevIsSortDown) => !prevIsSortDown);
+                setSortOrder((prevSortOrder) =>
+                  prevSortOrder === 'asc' ? 'desc' : 'asc'
+                );
+              }}
             />
           ) : (
             <Icon
@@ -73,9 +89,9 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
               <p
                 onClick={() => {
                   setSelectedValue(<>Blueprint ID</>);
+                  setSortField('id');
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -86,9 +102,9 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
               <p
                 onClick={() => {
                   setSelectedValue(<>Blueprint Name</>);
+                  setSortField('name');
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -99,9 +115,9 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
               <p
                 onClick={() => {
                   setSelectedValue(<>Total Supply</>);
+                  setSortField('totalSupply');
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -112,12 +128,11 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
               <p
                 onClick={() => {
                   setSelectedValue(<>Mint Limit</>);
+                  setSortField('mintLimit');
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
-                // onClick={() => handleOptionClick('Mint Limit')}
               >
                 Mint Limit
               </p>
@@ -126,9 +141,9 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
               <p
                 onClick={() => {
                   setSelectedValue(<>Mint Price</>);
+                  setSortField('mintPrice');
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -139,9 +154,9 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
               <p
                 onClick={() => {
                   setSelectedValue(<>Minted Amount</>);
+                  setSortField('mintedAmount');
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -161,7 +176,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Blueprint ID</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -174,7 +188,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Blueprint Name</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -187,7 +200,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Balance</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -207,7 +219,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Product ID</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -220,7 +231,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Product Name</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -233,7 +243,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Balance</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -253,7 +262,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Component Name</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -266,7 +274,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Component Type</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -279,7 +286,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Most Used</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -292,7 +298,6 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Recent Created</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
-                  // setisSortDown(!isSortDown);
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
