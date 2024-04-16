@@ -18,7 +18,7 @@ import useToast from '../../hooks/useToast';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
-  const [productAmount, setProductAmount] = useState<number>(0);
+  const [productAmount, setProductAmount] = useState<string>('');
   const [isDecomposeApproved, setIsDecomposeApproved] =
     useState<boolean>(false);
   const [isApproveEnable, setIsApproveEnable] = useState<boolean>(false);
@@ -91,13 +91,12 @@ const DecomposeProductPage = () => {
       setIsApproveEnable(true);
 
       if (Number(inputValue) > selectedOwnData.balance) {
-        setProductAmount(selectedOwnData.balance);
+        setProductAmount(selectedOwnData.balance.toString());
       } else {
-        setProductAmount(Number(inputValue));
+        setProductAmount(inputValue);
       }
     } else {
       setIsApproveEnable(false);
-      setProductAmount(Number(inputValue));
     }
   };
 
@@ -108,7 +107,7 @@ const DecomposeProductPage = () => {
       let receipt = null;
       while (receipt === null || receipt.status === undefined) {
         const transaction = factoryWeb3.methods
-          .decomposeProduct(selectedOwnData.id, productAmount)
+          .decomposeProduct(selectedOwnData.id, Number(productAmount))
           .send({
             from: account,
             value: ethers.parseEther(
@@ -194,13 +193,13 @@ const DecomposeProductPage = () => {
               uri={selectedOwnData.imageUri}
               address={blueprintAddress}
               name={selectedOwnData.name}
-              productAmount={productAmount}
+              productAmount={Number(productAmount)}
             />
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
               <ERC20DecomposeListCard
                 key={index}
                 {...dataItem}
-                productAmount={productAmount}
+                productAmount={Number(productAmount)}
               />
             ))}
             {selectedOwnData.data.erc721Data.map((dataItem, index) => (
@@ -215,7 +214,7 @@ const DecomposeProductPage = () => {
               <ERC1155DecomposeListCard
                 key={index}
                 {...dataItem}
-                productAmount={productAmount}
+                productAmount={Number(productAmount)}
               />
             ))}
             <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">
