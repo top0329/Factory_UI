@@ -7,6 +7,7 @@ import Loadable from '../components/Loading';
 import AuthGuard from './AuthGuard';
 import PageNotFound from '../pages/Maintenance/PageNotFound';
 import ContactUs from '../pages/Maintenance/Contact';
+import Terms from '../pages/Maintenance/Terms';
 
 // const AuthLogin = Loadable(lazy(() => import('pages/auth/login')));
 const LandingPage = lazy(() => import('../pages/LandingPage'));
@@ -162,6 +163,10 @@ const CommonRoutes = {
         {
           path: 'contact-us',
           element: <ContactUs />,
+        },
+        {
+          path: 'terms',
+          element: <Terms />,
         },
         {
           path: '*',
