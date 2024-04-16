@@ -12,7 +12,7 @@ import Web3 from 'web3';
 import useSpinner from '../../hooks/useSpinner';
 import { isAddress } from 'web3-validator';
 import filterWalletAddress from '../../utils/isWalletAddress';
-const TransferOwnership = () => {
+const TransferOwnershipPage = () => {
   const navigate = useNavigate();
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
@@ -84,14 +84,12 @@ const TransferOwnership = () => {
           const res = factoryWeb3.methods
             .updateBlueprintCreator(selectedBlueprint.id, newOwner)
             .send({ from: account });
-
-          openSpin('Transferring ownership...');
+          openSpin('Transferring ownership');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await res
             ).transactionHash
           );
-
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
               showToast('success', 'Ownership Transfer Success');
@@ -121,8 +119,9 @@ const TransferOwnership = () => {
       setIsModalOpen(false);
     }
   };
+
   return (
-    <>
+    <React.Fragment>
       <div className={`min-w-[360px] `}>
         <p className="pt-[4px] pb-8 text-white lg:text-[32px] md:text-[26px] text-[20px]">
           Blueprint Ownership
@@ -284,8 +283,8 @@ const TransferOwnership = () => {
           </div>
         </div>
       )}
-    </>
+    </React.Fragment>
   );
 };
 
-export default TransferOwnership;
+export default TransferOwnershipPage;

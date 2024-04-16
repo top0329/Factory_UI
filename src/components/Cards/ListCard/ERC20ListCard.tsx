@@ -2,7 +2,11 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useEffect, useState } from 'react';
 import Web3, { HttpProvider } from 'web3';
 import useWeb3 from '../../../hooks/useWeb3';
-import { factoryAddress, defaultRPC } from '../../../constants';
+import {
+  factoryAddress,
+  defaultRPC,
+  DefaultErc20ImageUri,
+} from '../../../constants';
 import { ethers } from 'ethers';
 import { erc20Abi } from 'viem';
 import copy from 'copy-to-clipboard';
@@ -53,9 +57,7 @@ export function ERC20MintListCard(props: Props) {
       setComponentName(name);
       setTokenAmount(_tokenAmount);
       setTokenAddress(String(props[0]));
-      setTokenImage(
-        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-      );
+      setTokenImage(DefaultErc20ImageUri);
     };
     getContractInfo();
   }, [account, decimal, props]);
@@ -216,10 +218,7 @@ export function ERC20DecomposeListCard(props: Props) {
       setComponentName(name);
       setTokenAmount(_tokenAmount);
       setTokenAddress(String(props[0]));
-      setTokenImage(
-        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-      );
-      // setDecimal(_decimal);
+      setTokenImage(DefaultErc20ImageUri);
     };
     getContractInfo();
   }, [account, props]);

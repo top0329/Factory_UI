@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import { ethers } from 'ethers';
 import useWeb3 from '../../hooks/useWeb3';
@@ -34,6 +34,13 @@ const DecomposeProductPage = () => {
     productWeb3,
   } = useWeb3();
   const navigate = useNavigate();
+  const productId = useParams().id;
+
+  useEffect(() => {
+    if (selectedOwnData.id.toString() !== productId) {
+      navigate('/product');
+    }
+  }, [productId, navigate, selectedOwnData.id]);
 
   const handleApprove = async () => {
     const web3 = new Web3(window.ethereum);
@@ -46,7 +53,7 @@ const DecomposeProductPage = () => {
             .setApprovalForAll(await factoryContract.getAddress(), true)
             .send({ from: account });
 
-          openSpin('Approving...');
+          openSpin('Approving');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await transaction

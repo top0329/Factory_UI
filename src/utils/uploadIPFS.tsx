@@ -10,7 +10,7 @@ export const uploadFileToIPFS = async (
   try {
     if (!selectedFile) throw new Error('No file selected');
 
-    console.log('uploading image file to IPFS...');
+    console.log('uploading image file to IPFS');
     const formData = new FormData();
     formData.append('file', selectedFile);
 
@@ -46,7 +46,7 @@ export const uploadJSONToIPFS = async (fileName: string, json?: any) => {
   try {
     if (!json) throw new Error('No json to upload');
 
-    console.log('uploading json to IPFS...');
+    console.log('uploading json to IPFS');
 
     const data = JSON.stringify({
       pinataContent: json,

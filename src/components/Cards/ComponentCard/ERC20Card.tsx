@@ -7,6 +7,7 @@ import { Address } from 'viem';
 import Image from '../../Image';
 import getTokenData from '../../../utils/getTokenData';
 import { getTokenDetailsByAddress } from '../../../utils/checkContractType';
+import { DefaultErc20ImageUri } from '../../../constants';
 
 export interface Props {
   amount: bigint;
@@ -41,9 +42,7 @@ const ERC20Card: FC<Props> = ({
           if (details) {
             setImageUri(details?.logo as string);
           } else {
-            setImageUri(
-              'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-            );
+            setImageUri(DefaultErc20ImageUri);
           }
           setDecimal(decimal);
         }

@@ -4,14 +4,15 @@ import { ethers } from 'ethers';
 import { Address } from 'viem';
 
 import Button from '../Button';
-import { getTokenDetailsByAddress } from '../../utils/checkContractType';
 import getERC721Data from '../../utils/getERC721Data';
 import getERC1155Data from '../../utils/getERC1155Data';
+import getTokenData from '../../utils/getTokenData';
 import {
   activeAddComponentTokenAtom,
   createBlueprintAtom,
   isEditComponentModalAtom,
 } from '../../jotai/atoms';
+import { getTokenDetailsByAddress } from '../../utils/checkContractType';
 import {
   CreateBlueprint,
   ERC1155ComponentData,
@@ -22,7 +23,11 @@ import {
   ERC721Data,
   SelectedComponentData,
 } from '../../types';
-import getTokenData from '../../utils/getTokenData';
+import {
+  DefaultErc1155ImageUri,
+  DefaultErc20ImageUri,
+  DefaultErc721ImageUri,
+} from '../../constants';
 
 const UpdateComponentModal = ({
   selectedComponentData,
@@ -73,9 +78,7 @@ const UpdateComponentModal = ({
           if (details) {
             setImageUri(details?.logo as string);
           } else {
-            setImageUri(
-              'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-            );
+            setImageUri(DefaultErc20ImageUri);
           }
           setErc20Data({
             name: tokenDetails?.tokenName,
@@ -210,9 +213,7 @@ const UpdateComponentModal = ({
           ...prevValues,
           id: value,
         }));
-        setImageUri(
-          'https://ipfs.io/ipfs/bafybeic6vxo3n4qxahvviwqayc4byweqfhiufijs6yxxruvwq452xdg56e'
-        );
+        setImageUri(DefaultErc721ImageUri);
       }
     } catch (err) {
       console.log(err);
@@ -243,9 +244,7 @@ const UpdateComponentModal = ({
           ...prevValues,
           id: value,
         }));
-        setImageUri(
-          'https://ipfs.io/ipfs/bafybeic6vxo3n4qxahvviwqayc4byweqfhiufijs6yxxruvwq452xdg56e'
-        );
+        setImageUri(DefaultErc721ImageUri);
       }
     } catch (err) {
       console.log(err);
@@ -390,17 +389,13 @@ const UpdateComponentModal = ({
       id: '',
       amount: '',
     });
-    setImageUri(
-      'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-    );
+    setImageUri(DefaultErc20ImageUri);
   };
 
   const handleCancelButtonClicked = () => {
     setIsUpdateComponentModalOpen(false);
     if (activeItem === 0) {
-      setImageUri(
-        'https://ipfs.io/ipfs/bafybeigzqwt7uavnlrj3nq44hyoicf3jcbfxi2iih6uaguj3za5t3aqxoi'
-      );
+      setImageUri(DefaultErc20ImageUri);
       setErc20Data({
         name: '',
         address: '',
@@ -414,9 +409,7 @@ const UpdateComponentModal = ({
         address: '',
         id: '',
       });
-      setImageUri(
-        'https://ipfs.io/bafybeic6vxo3n4qxahvviwqayc4byweqfhiufijs6yxxruvwq452xdg56e'
-      );
+      setImageUri(DefaultErc721ImageUri);
     }
     if (activeItem === 2) {
       setErc1155Data({
@@ -425,9 +418,7 @@ const UpdateComponentModal = ({
         id: '',
         amount: '',
       });
-      setImageUri(
-        'https://ipfs.io/bafybeiep2v3wglztuqecw5ieggxaswirc2qrptss6auq6geoewy6risbqm'
-      );
+      setImageUri(DefaultErc1155ImageUri);
     }
   };
 

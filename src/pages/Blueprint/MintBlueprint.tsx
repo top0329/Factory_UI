@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import copy from 'copy-to-clipboard';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import { Contract, ethers } from 'ethers';
@@ -10,8 +10,14 @@ import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
 import erc20Abi from '../../abi/ERC20ABI.json';
 import { blueprintSelectionState } from '../../jotai/atoms';
-import { usdtAddress, usdcAddress, factoryAddress } from '../../constants';
+import {
+  usdtAddress,
+  usdcAddress,
+  factoryAddress,
+  BASE_URI,
+} from '../../constants';
 import useSpinner from '../../hooks/useSpinner';
+import axios from 'axios';
 
 const MintBlueprintPage = () => {
   const { factoryContract, factoryWeb3, account, erc20Approve, library } =
@@ -20,6 +26,7 @@ const MintBlueprintPage = () => {
   const { openSpin, closeSpin } = useSpinner();
 
   const navigate = useNavigate();
+  const blueprintId = useParams().id;
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
 
@@ -34,6 +41,12 @@ const MintBlueprintPage = () => {
   const [currentEthBalance, setCurrentEthBalance] = useState<number>(0);
   const [currentUsdtBalance, setCurrentUsdtBalance] = useState<number>(0);
   const [currentUsdcBalance, setCurrentUsdcBalance] = useState<number>(0);
+
+  useEffect(() => {
+    if (selectedBlueprint.id.toString() !== blueprintId) {
+      navigate('/blueprint');
+    }
+  }, [blueprintId, navigate, selectedBlueprint.id]);
 
   useEffect(() => {
     async function init() {
@@ -122,7 +135,7 @@ const MintBlueprintPage = () => {
               ).toString(),
               6
             );
-            openSpin('Approving...');
+            openSpin('Approving');
             await erc20Approve(
               usdtAddress,
               factoryAddress,
@@ -151,7 +164,7 @@ const MintBlueprintPage = () => {
               ).toString(),
               6
             );
-            openSpin('Approving...');
+            openSpin('Approving');
             await erc20Approve(
               usdcAddress,
               factoryAddress,
@@ -194,7 +207,7 @@ const MintBlueprintPage = () => {
             blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
               blueprintCreationFee
           ) {
-            openSpin('Minting Blueprint...');
+            openSpin('Minting Blueprint');
             const _mintFee =
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
               blueprintCreationFee;
@@ -208,6 +221,10 @@ const MintBlueprintPage = () => {
               )
               .send({ from: account, value: _mintFeeWei });
             console.log(transition);
+            await axios.put(`${BASE_URI}/blueprint/mint`, {
+              id: Number(selectedBlueprint.id),
+              mintedAmount: blueprintMintAmountValue,
+            });
             showToast('success', 'Blueprint minted successfully');
             setIsApproved(false);
             navigate('/my-blueprint');
@@ -223,7 +240,7 @@ const MintBlueprintPage = () => {
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
             ) {
               if (isApproved) {
-                openSpin('Minting Blueprint...');
+                openSpin('Minting Blueprint');
                 const _blueprintCreationFeeWei = ethers.parseEther(
                   blueprintCreationFee.toString()
                 );
@@ -236,6 +253,10 @@ const MintBlueprintPage = () => {
                   )
                   .send({ from: account, value: _blueprintCreationFeeWei });
                 console.log(transition);
+                await axios.put(`${BASE_URI}/blueprint/mint`, {
+                  id: Number(selectedBlueprint.id),
+                  mintedAmount: blueprintMintAmountValue,
+                });
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
                 navigate('/my-blueprint');
@@ -259,7 +280,7 @@ const MintBlueprintPage = () => {
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
             ) {
               if (isApproved) {
-                openSpin('Minting Blueprint...');
+                openSpin('Minting Blueprint');
                 const _blueprintCreationFeeWei = ethers.parseEther(
                   blueprintCreationFee.toString()
                 );
@@ -272,6 +293,10 @@ const MintBlueprintPage = () => {
                   )
                   .send({ from: account, value: _blueprintCreationFeeWei });
                 console.log(transition);
+                await axios.put(`${BASE_URI}/blueprint/mint`, {
+                  id: Number(selectedBlueprint.id),
+                  mintedAmount: blueprintMintAmountValue,
+                });
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
                 navigate('/my-blueprint');

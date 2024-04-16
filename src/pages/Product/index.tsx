@@ -37,48 +37,43 @@ const ProductPage = () => {
 
   useEffect(() => {
     const getProductTokenList = async () => {
-      const myProducts = await runMain(productAddress, String(account));
-      console.log(myProducts);
-
       try {
-        // const tokenIdList = await productContract.getProductIDs();
-        // const myTokenList = await myProducts.map((bleuprint: any) => {});
-
-        const productTokenIds: any = await myProducts.map((blueprint: any) => {
-          return blueprint.tokenId;
-        });
-        const tempTokenList = await Promise.all(
-          productTokenIds.map(async (id: number) => {
-            const blueprintToken = await blueprintContract.getBlueprintNFTData(
-              id
-            );
-
-            const balance: number = Number(
-              await productContract.balanceOf(account, id)
-            );
-
-            const imageUri: string = String(
-              await tokenUriToImageUri(blueprintToken.uri)
-            );
-
-            const fee = await factoryContract.productDecomposeFee();
-
-            const tempObject = {
-              id: Number(blueprintToken.id),
-              name: blueprintToken.name,
-              uri: imageUri,
-              creator: blueprintToken.creator,
-              balance: balance,
-              blueprintAddress: await blueprintContract.getAddress(),
-              myBlueprint: blueprintToken.creator == account,
-              decomposeFee: Number(fee) * 10 ** -18,
-              data: blueprintToken.data,
-            };
-            return tempObject;
-          })
-        );
-
-        setProductTokenList(tempTokenList);
+        const myProducts = await runMain(productAddress, String(account));
+        console.log(myProducts);
+        if (myProducts && myProducts.length > 0) {
+          const productTokenIds: any = await myProducts.map((blueprint: any) => {
+            return blueprint.tokenId;
+          });
+          const tempTokenList = await Promise.all(
+            productTokenIds.map(async (id: number) => {
+              const blueprintToken = await blueprintContract.getBlueprintNFTData(
+                id
+              );
+              const balance: number = Number(
+                await productContract.balanceOf(account, id)
+              );
+              const imageUri: string = String(
+                await tokenUriToImageUri(blueprintToken.uri)
+              );
+              const fee = await factoryContract.productDecomposeFee();
+              const tempObject = {
+                id: Number(blueprintToken.id),
+                name: blueprintToken.name,
+                uri: imageUri,
+                creator: blueprintToken.creator,
+                balance: balance,
+                blueprintAddress: await blueprintContract.getAddress(),
+                myBlueprint: blueprintToken.creator == account,
+                decomposeFee: Number(fee) * 10 ** -18,
+                data: blueprintToken.data,
+              };
+              return tempObject;
+            })
+          );
+          setProductTokenList(tempTokenList);
+        } else {
+          setProductTokenList([]);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -98,15 +93,13 @@ const ProductPage = () => {
     showToast,
   ]);
 
-  // FUNCTION TO HANDLE OPEN ACTION ON SIDEDRAWER/MODAL
   const showSidebar = () => {
     setIsDrawerOpen(true);
-
-    // Disables Background Scrolling whilst the SideDrawer/Modal is open
     if (typeof window != 'undefined' && window.document) {
       document.body.style.overflow = 'hidden';
     }
   };
+
   const handleProductCardClicked = (product: any) => {
     setSelectedProduct(product);
     showSidebar();
@@ -117,6 +110,7 @@ const ProductPage = () => {
     setProductSelectionState(product);
     navigate(`/product/decompose/${product.id}`);
   };
+
   return (
     <div className="text-white">
       <div className="flex flex-col min-w-[320px] gap-2 text-white">
