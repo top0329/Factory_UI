@@ -7,6 +7,7 @@ import {
   SelectedBlueprint,
   SelectedOwnBlueprint,
   SelectedProduct,
+  SortField,
 } from '../types';
 
 export const isAddComponentModalAtom = atom<boolean>(false);
@@ -112,3 +113,6 @@ export const blueprintTokenListAtom = atom<BlueprintNFT[]>([]);
 export const ownBlueprintTokenListAtom = atom<ProductToken[]>([]);
 
 export const productTokenListAtom = atom<Array<ProductToken>>([]);
+
+export const sortFieldAtom = atom<SortField>('id');
+export const sortOrderAtom = atom<string>('asc');

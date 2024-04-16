@@ -232,3 +232,11 @@ export type ERC1155ComponentData = {
   amount: string;
   address: string;
 };
+
+export type SortField =
+  | 'id'
+  | 'name'
+  | 'totalSupply'
+  | 'mintPrice'
+  | 'mintLimit'
+  | 'mintedAmount';

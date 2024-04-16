@@ -61,12 +61,12 @@ function Footer() {
       <div className="flex flex-col-reverse justify-between md:flex-row">
         <div className="flex flex-col items-center px-2 md:items-start">
           <div className="flex justify-start text-light-gray items-center gap-6 py-3 lg:gap-4 md:gap-3">
-            <a href="mailto:factorycenter1155@gmail.com">
+            {/* <a href="mailto:factorycenter1155@gmail.com">
               <Icon
                 icon="cib:gmail"
                 className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#f74141] transition-colors duration-300"
               />
-            </a>
+            </a> */}
             <a href="https://discord.gg/GRtC66Zd" target="_blank">
               <Icon
                 icon="simple-icons:discord"
@@ -97,12 +97,12 @@ function Footer() {
                 className="w-10 h-10 xl:w-11 xl:h-11 cursor-pointer hover:text-[#CD201F] transition-colors duration-300"
               />
             </a>
-            {/* <a href='#' target="_blank">
+            <a href='#' target="_blank">
               <Icon
                 icon="teenyicons:instagram-outline"
                 className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer"
               />
-            </a> */}
+            </a>
           </div>
           <p className="text-white text-left text-sm py-4 md:text-base sm:py-6">
             Copyright&copy; {new Date().getFullYear()} Factory

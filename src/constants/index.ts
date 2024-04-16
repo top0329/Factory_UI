@@ -28,5 +28,5 @@ export const DefaultErc721ImageUri =
 export const DefaultErc1155ImageUri =
   'https://ipfs.io/ipfs/bafybeiep2v3wglztuqecw5ieggxaswirc2qrptss6auq6geoewy6risbqm';
 
-export const BASE_URI = 'https://factory-backend-beta.vercel.app/api';
-// export const BASE_URI = 'http://localhost:5000/api';
+// export const BASE_URI = 'https://factory-backend-beta.vercel.app/api';
+export const BASE_URI = 'http://localhost:5000/api';
