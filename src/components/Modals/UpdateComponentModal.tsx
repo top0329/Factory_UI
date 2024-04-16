@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
-import { ethers } from 'ethers';
 import { Address } from 'viem';
 
 import Button from '../Button';
@@ -84,10 +83,7 @@ const UpdateComponentModal = ({
             name: tokenDetails?.tokenName,
             address: selectedComponentData.tokenAddress,
             amount: selectedComponentData.erc20Amount
-              ? ethers.formatUnits(
-                  selectedComponentData.erc20Amount.toString(),
-                  tokenDetails?.decimal
-                )
+              ? selectedComponentData.erc20Amount.toString()
               : '',
             decimal: tokenDetails?.decimal,
           });
@@ -144,15 +140,12 @@ const UpdateComponentModal = ({
   useEffect(() => {
     if (activeItem === 0) {
       if (
-        erc20Data.amount &&
+        erc20Data.amount && Number(erc20Data.amount)!== 0 &&
         Number(erc20Data.amount) !=
           Number(
-            ethers.formatUnits(
-              selectedComponentData.erc20Amount
-                ? selectedComponentData.erc20Amount
-                : 0,
-              erc20Data.decimal
-            )
+            selectedComponentData.erc20Amount
+              ? selectedComponentData.erc20Amount
+              : 0
           )
       ) {
         setIsUpdateButtonDisabled(false);
@@ -281,7 +274,7 @@ const UpdateComponentModal = ({
   ) => {
     const validPattern = /^\d*(\.\d+)?$/;
     const { value } = event.target;
-    if (validPattern.test(value) && Number(value) > 0) {
+    if (validPattern.test(value) && Number(value) >= 0) {
       setErc20Data((prevValues) => ({
         ...prevValues,
         amount: value,
@@ -309,7 +302,7 @@ const UpdateComponentModal = ({
           if (index === selectedComponentData.id) {
             return {
               ...data,
-              amount: ethers.parseUnits(erc20Data.amount, erc20Data.decimal),
+              amount: Number(erc20Data.amount),
             };
           }
           return data;
@@ -471,7 +464,7 @@ const UpdateComponentModal = ({
                 type="number"
                 onChange={handleERC20AmountChange}
                 onKeyDown={handleErc20KeyPress}
-                value={Number(erc20Data?.amount)}
+                value={erc20Data.amount}
               />
             </div>
           </div>

@@ -143,7 +143,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
         <article className="relative w-screen max-w-2xl flex flex-col overflow-y-auto h-full overflow-x-hidden">
           <Image
             className="min-h-[235px] object-cover sm:min-h-[435px] xs:min-h-[335px]"
-            src={selectedBlueprint.uri}
+            src={selectedBlueprint.imageUri}
             spinnerClassName="w-full min-h-[235px] object-cover sm:min-h-[435px] xs:min-h-[335px]"
             alt="blueprint-details-drawer"
           />
@@ -345,6 +345,8 @@ const BlueprintDetailDrawer: FC<Props> = ({
                       return (
                         <ERC20Card
                           key={idx}
+                          name={erc20.name}
+                          uri={erc20.uri}
                           amount={erc20.amount}
                           tokenAddress={erc20.tokenAddress}
                         />

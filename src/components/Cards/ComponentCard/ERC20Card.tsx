@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { ethers } from 'ethers';
 import { Address } from 'viem';
 
 import Image from '../../Image';
@@ -10,21 +9,26 @@ import { getTokenDetailsByAddress } from '../../../utils/checkContractType';
 import { DefaultErc20ImageUri } from '../../../constants';
 
 export interface Props {
-  amount: bigint;
+  name?: string;
+  uri?: string;
+  amount: number;
   tokenAddress: string;
   icon?: boolean;
   onEditIconClicked?: () => void;
   onDeleteIconClicked?: () => void;
+  isForAdd?: boolean;
 }
 
 const ERC20Card: FC<Props> = ({
+  name,
+  uri,
   amount,
   tokenAddress,
   icon = false,
   onEditIconClicked,
   onDeleteIconClicked,
+  isForAdd,
 }) => {
-  const [decimal, setDecimal] = useState<number | undefined>(undefined);
   const [tokenName, setTokenName] = useState<string>('');
   const [imageUri, setImageUri] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
@@ -32,26 +36,30 @@ const ERC20Card: FC<Props> = ({
   useEffect(() => {
     async function init() {
       try {
-        const tokenData = await getTokenData(tokenAddress as Address);
-        if (tokenData) {
-          const { decimal, tokenName } = tokenData;
-          const details = await getTokenDetailsByAddress(
-            tokenAddress as Address
-          );
-          setTokenName(tokenName);
-          if (details) {
-            setImageUri(details?.logo as string);
-          } else {
-            setImageUri(DefaultErc20ImageUri);
+        if (isForAdd) {
+          const tokenData = await getTokenData(tokenAddress as Address);
+          if (tokenData) {
+            const { tokenName } = tokenData;
+            const details = await getTokenDetailsByAddress(
+              tokenAddress as Address
+            );
+            setTokenName(tokenName);
+            if (details && details.logo) {
+              setImageUri(details.logo);
+            } else {
+              setImageUri(DefaultErc20ImageUri);
+            }
           }
-          setDecimal(decimal);
+        } else {
+          setTokenName(name || '');
+          setImageUri(uri || '');
         }
       } catch (err) {
         console.log(err);
       }
     }
     init();
-  }, [tokenAddress]);
+  }, [isForAdd, name, tokenAddress, uri]);
 
   const handleCopyButtonClicked = () => {
     try {
@@ -115,7 +123,7 @@ const ERC20Card: FC<Props> = ({
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">Amount</p>
           <p className="truncate">
-            {Number(ethers.formatUnits(amount, decimal))}
+            {amount.toString()}
           </p>
         </div>
         <div className="hidden sm:flex sm:flex-row sm:justify-between">

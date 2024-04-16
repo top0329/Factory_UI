@@ -15,7 +15,11 @@ import getERC1155Data from '../../../utils/getERC1155Data';
 import getERC721Data from '../../../utils/getERC721Data';
 import { createBlueprintAtom } from '../../../jotai/atoms';
 import { CreateBlueprint } from '../../../types';
-import { BASE_URI, DefaultErc20ImageUri, invalidChars } from '../../../constants';
+import {
+  BASE_URI,
+  DefaultErc20ImageUri,
+  invalidChars,
+} from '../../../constants';
 import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
 import { getTokenDetailsByAddress } from '../../../utils/checkContractType';
 
@@ -63,7 +67,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const initialBlueprint: CreateBlueprint = {
     id: '',
     name: '',
-    uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+    imageUri:
+      'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
     creator: '',
     totalSupply: '',
     mintPrice: '',
@@ -100,7 +105,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const [mintPrice, setMintPrice] = useState<number | ''>('');
   const [mintPriceLimit, setMintPriceLimit] = useState<number | ''>('');
   const [imageSrc, setImageSrc] = useState<string>(
-    createInfo.uri.substring(21)
+    createInfo.imageUri.substring(21)
   );
   const [uploadedImageSrc, setUploadedImageSrc] = useState<string>(
     DefaultBlueprintImage
@@ -127,7 +132,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     setIsIPFSSelected(isIPFSSelected);
     setName(createInfo.name);
     setTotalSupply(Number(createInfo.totalSupply));
-    setImageSrc(createInfo.uri);
+    setImageSrc(createInfo.imageUri);
     setMintPrice(createInfo.mintPrice);
     setMintPriceLimit(createInfo.mintLimit);
   }, [
@@ -135,7 +140,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     createInfo.mintPrice,
     createInfo.name,
     createInfo.totalSupply,
-    createInfo.uri,
+    createInfo.imageUri,
     isIPFSSelected,
   ]);
 
@@ -158,7 +163,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         setUploadedImageSrc(DefaultBlueprintImage);
       }
     } else if (value === 'ipfs-radio') {
-      setImageSrc(createInfo.uri.substring(21));
+      setImageSrc(createInfo.imageUri.substring(21));
     }
     setIsIPFSSelected(value === 'ipfs-radio');
   };
@@ -338,12 +343,22 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
           0
         ) {
           const componentData = {
-            erc20Data: createInfo.data.erc20Data.map((erc20) => {
-              return {
-                tokenAddress: erc20.tokenAddress,
-                amount: erc20.amount,
-              };
-            }),
+            erc20Data: await Promise.all(
+              createInfo.data.erc20Data.map(async (erc20) => {
+                const tokenData = await getTokenData(
+                  erc20.tokenAddress as Address
+                );
+                if (tokenData) {
+                  const { decimal } = tokenData;
+                  return {
+                    tokenAddress: erc20.tokenAddress,
+                    amount: Number(
+                      ethers.parseUnits(erc20.amount.toString(), decimal)
+                    ),
+                  };
+                }
+              })
+            ),
             erc721Data: createInfo.data.erc721Data.map((erc721) => {
               return {
                 tokenAddress: erc721.tokenAddress,
@@ -628,7 +643,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           erc20.tokenAddress as Address
                         );
                         if (tokenData) {
-                          const { decimal, tokenName } = tokenData;
+                          const { tokenName } = tokenData;
                           const details = await getTokenDetailsByAddress(
                             erc20.tokenAddress as Address
                           );
@@ -641,9 +656,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           return {
                             name: _name,
                             tokenAddress: erc20.tokenAddress,
-                            amount: Number(
-                              ethers.formatUnits(erc20.amount, decimal)
-                            ),
+                            amount: Number(erc20.amount),
                             uri: _uri,
                           };
                         }
@@ -736,6 +749,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           `${BASE_URI}/blueprint/create`,
                           blueprintData
                         );
+                        console.log(blueprintData);
                         setCreateInfo(initialBlueprint);
                         showToast(
                           'success',
@@ -810,7 +824,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   }
                 } else {
                   let _mintPrice: bigint;
-                  let jsonHashUri: string;
                   let _imageUri: string = '';
                   if (Number(createInfo.mintPriceUnit) === 0) {
                     _mintPrice = ethers.parseEther(
@@ -822,21 +835,25 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       6
                     );
                   }
-                  if (isRecreate) {
-                    jsonHashUri = await blueprintContract.uri(createInfo.id);
-                    const {
-                      data: { image },
-                    } = await axios.get(`https://ipfs.io/${jsonHashUri}`);
-                    _imageUri = `https://ipfs.io/${image}`;
-                  } else {
-                    jsonHashUri =
-                      'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
-                    _imageUri =
-                      'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi';
-                  }
+                  const jsonHashUri = await blueprintContract.uri(
+                    createInfo.id
+                  );
+                  const {
+                    data: { image },
+                  } = await axios.get(`https://ipfs.io/${jsonHashUri}`);
+                  _imageUri = `https://ipfs.io/${image}`;
                   const _mintLimit = createInfo.mintLimit;
                   openSpin('Recreating Blueprint');
-                  await factoryWeb3.methods
+                  console.log(
+                    createInfo.name,
+                    jsonHashUri,
+                    createInfo.totalSupply,
+                    _mintPrice,
+                    createInfo.mintPriceUnit,
+                    _mintLimit,
+                    componentData
+                  );
+                  const tx = await factoryWeb3.methods
                     .createBlueprint(
                       createInfo.name,
                       jsonHashUri,
@@ -847,6 +864,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       componentData
                     )
                     .send({ from: account });
+                  console.log(tx);
                   const events = await blueprintWeb3.getPastEvents(
                     'BlueprintCreated',
                     {
@@ -861,6 +879,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     }
                   }
                   blueprintData.imageUri = _imageUri;
+                  console.log(blueprintData);
                   await axios.post(
                     `${BASE_URI}/blueprint/create`,
                     blueprintData
@@ -903,7 +922,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           erc20.tokenAddress as Address
                         );
                         if (tokenData) {
-                          const { decimal, tokenName } = tokenData;
+                          const { tokenName } = tokenData;
                           const details = await getTokenDetailsByAddress(
                             erc20.tokenAddress as Address
                           );
@@ -916,9 +935,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           return {
                             name: _name,
                             tokenAddress: erc20.tokenAddress,
-                            amount: Number(
-                              ethers.formatUnits(erc20.amount, decimal)
-                            ),
+                            amount: Number(erc20.amount),
                             uri: _uri,
                           };
                         }
@@ -1109,8 +1126,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 } else {
                   let _mintPrice: bigint;
                   let _mintLimit: number;
-                  let jsonHashUri: string;
-                  let _imageUri: string = '';
+                  const jsonHashUri =
+                    'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
+                  const _imageUri =
+                    'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi';
                   if (!mintPriceChecked) {
                     _mintPrice = 0n;
                   } else if (Number(createInfo.mintPriceUnit) === 0) {
@@ -1128,18 +1147,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   } else {
                     _mintLimit =
                       createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
-                  }
-                  if (isRecreate) {
-                    jsonHashUri = await blueprintContract.uri(createInfo.id);
-                    const {
-                      data: { image },
-                    } = await axios.get(`https://ipfs.io/${jsonHashUri}`);
-                    _imageUri = `https://ipfs.io/${image}`;
-                  } else {
-                    jsonHashUri =
-                      'ipfs/QmWRsqwhHn6anbyDVSot66BcgAfQKWj1D5wJBdiPpo79Tn';
-                    _imageUri =
-                      'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi';
                   }
                   openSpin('Creating Blueprint');
                   await factoryWeb3.methods

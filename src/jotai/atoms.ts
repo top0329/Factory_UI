@@ -11,13 +11,12 @@ import {
 
 export const isAddComponentModalAtom = atom<boolean>(false);
 export const isEditComponentModalAtom = atom<boolean>(false);
-// export const isMintBlueprintModalAtom = atom<boolean>(false);
 export const activeAddComponentTokenAtom = atom<number>(0);
 export const searchValueAtom = atom<string>('');
 export const selectedBlueprintAtom = atom<SelectedBlueprint>({
-  id: 0,
+  id: '',
   name: '',
-  uri: '',
+  imageUri: '',
   creator: '',
   totalSupply: 0,
   mintPrice: 0,
@@ -32,9 +31,9 @@ export const selectedBlueprintAtom = atom<SelectedBlueprint>({
   },
 });
 export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
-  id: 0,
+  id: '',
   name: '',
-  uri: '',
+  imageUri: '',
   creator: '',
   balance: 0,
   blueprintAddress: '',
@@ -46,9 +45,9 @@ export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
   },
 });
 export const selectedProductintAtom = atom<SelectedProduct>({
-  id: 0,
+  id: '',
   name: '',
-  uri: '',
+  imageUri: '',
   address: '',
   balance: 0,
   blueprintAddress: '',
@@ -93,7 +92,7 @@ export const isCreatorModeAtom = atom<boolean>(false);
 export const createBlueprintAtom = atom<CreateBlueprint>({
   id: '',
   name: '',
-  uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+  imageUri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
   creator: '',
   totalSupply: '',
   mintPrice: '',

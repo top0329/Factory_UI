@@ -130,7 +130,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
         <article className="relative w-screen max-w-2xl flex flex-col overflow-y-auto h-full overflow-x-hidden">
           <Image
             className="min-h-[235px] object-cover sm:min-h-[435px] xs:min-h-[335px]"
-            src={selectedOwnBlueprint.uri}
+            src={selectedOwnBlueprint.imageUri}
             spinnerClassName="w-full min-h-[235px] object-cover sm:min-h-[435px] xs:min-h-[335px]"
             alt="own-blueprint-details-drawer"
           />

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { ethers } from 'ethers';
 import { Address } from 'viem';
 
 import Button from '../Button';
@@ -62,7 +61,6 @@ const AddComponentModal = () => {
     useState<AddComponentModalInputValue>(initialValues);
   const [isAddButtonDisabled, setIsAddButtonDisabled] = useState<boolean>(true);
   const [error, setError] = useState<string | boolean>(false);
-  const [tokenData, setTokenData] = useState<any>(null);
 
   const modal = useRef<HTMLDivElement>(null);
 
@@ -101,7 +99,6 @@ const AddComponentModal = () => {
           )
             setError('This token already added');
           else {
-            setTokenData(erc721Data);
             setError('');
           }
           if (erc721Data === null) setIsAddButtonDisabled(true);
@@ -126,7 +123,6 @@ const AddComponentModal = () => {
             )
           )
             setError('This token already added');
-          else setTokenData(erc1155Data);
           if (erc1155Data === null) setIsAddButtonDisabled(true);
           else setIsAddButtonDisabled(false);
         } else setIsAddButtonDisabled(true);
@@ -162,7 +158,6 @@ const AddComponentModal = () => {
           setError('This token already added');
         else {
           setError('');
-          setTokenData(result.payload);
         }
       } else if (activeItem === 1 && result.type === 'ERC721') {
         if (
@@ -176,7 +171,6 @@ const AddComponentModal = () => {
           setError('This token already added');
         else {
           setError('');
-          setTokenData(result.payload);
         }
       } else if (activeItem === 2 && result.type === 'ERC1155') {
         if (
@@ -190,7 +184,6 @@ const AddComponentModal = () => {
           setError('This token already added');
         else {
           setError('');
-          setTokenData(result.payload);
         }
       } else {
         switch (activeItem) {
@@ -306,10 +299,7 @@ const AddComponentModal = () => {
               ...prevBlueprint.data.erc20Data,
               {
                 tokenAddress: inputValues.erc20Address as Address,
-                amount: ethers.parseUnits(
-                  String(inputValues.erc20Amount),
-                  tokenData.decimals
-                ),
+                amount: Number(inputValues.erc20Amount),
               },
             ],
           },
@@ -353,7 +343,6 @@ const AddComponentModal = () => {
     }
     setIsAddComponentModalOpen(false);
     setInputValues(initialValues);
-    setTokenData(null);
     setAvailableComponent((prevValue) => prevValue - 1);
     setActiveItem(0);
   };

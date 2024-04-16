@@ -15,7 +15,7 @@ import { productAddress } from '../../../constants';
 export interface Props {
   uri: string;
   name: string;
-  productId: number;
+  productId: string;
   balance: number;
   onClick?: () => void;
   onClickDecompose: () => void;

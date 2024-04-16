@@ -3,10 +3,10 @@ import { useAtom } from 'jotai';
 
 import ComponentButton from '../../components/Button/ComponentButton';
 import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard';
-import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
-import AddComponentModal from '../../components/Modals/AddComponentModal';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
+import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
+import AddComponentModal from '../../components/Modals/AddComponentModal';
 import useToast from '../../hooks/useToast';
 import useWeb3 from '../../hooks/useWeb3';
 import UpdateComponentModal from '../../components/Modals/UpdateComponentModal';
@@ -18,9 +18,9 @@ import {
   isEditComponentModalAtom,
 } from '../../jotai/atoms';
 import {
-  ERC1155Data,
   ERC20Data,
   ERC721Data,
+  ERC1155Data,
   SelectedComponentData,
 } from '../../types';
 
@@ -43,7 +43,7 @@ const NewBlueprintPage = () => {
       id: 0,
       tokenAddress: '',
       tokenId: 0,
-      erc20Amount: 0n,
+      erc20Amount: 0,
       erc1155Amount: 0,
     });
 
@@ -53,7 +53,7 @@ const NewBlueprintPage = () => {
         setCreateBlueprint({
           id: '',
           name: '',
-          uri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+          imageUri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
           creator: '',
           totalSupply: 0,
           mintPrice: 0,
@@ -197,6 +197,7 @@ const NewBlueprintPage = () => {
                 icon
                 onEditIconClicked={() => handleEditERC20CardClicked(erc20, idx)}
                 onDeleteIconClicked={() => handleDeleteERC20CardClicked(erc20)}
+                isForAdd
               />
             );
           })}

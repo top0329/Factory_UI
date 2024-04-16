@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useAtom } from 'jotai';
-import { ethers } from 'ethers';
 
 import SearchBar from '../../components/SearchBar';
+import useWeb3 from '../../hooks/useWeb3';
+import useToast from '../../hooks/useToast';
 import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
 import {
@@ -12,9 +14,7 @@ import {
   isCreatorModeAtom,
   selectedBlueprintAtom,
 } from '../../jotai/atoms';
-import useWeb3 from '../../hooks/useWeb3';
-import useToast from '../../hooks/useToast';
-import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
+import { BASE_URI } from '../../constants';
 
 const BlueprintPage = () => {
   const { blueprintContract, account, isConnected } = useWeb3();
@@ -34,66 +34,8 @@ const BlueprintPage = () => {
   useEffect(() => {
     async function getBlueprints() {
       try {
-        const blueprintTokenIds: string[] =
-          await blueprintContract.getBlueprintIds();
-        const blueprints: any[] = await Promise.all(
-          blueprintTokenIds.map(async (id: string) => {
-            const blueprint = await blueprintContract.getBlueprintNFTData(id);
-            const temp = [...blueprint];
-            try {
-              temp[2] = await tokenUriToImageUri(temp[2]);
-              if (Number(temp[6]) === 0) {
-                temp[5] = Number(ethers.formatEther(temp[5]));
-              } else {
-                temp[5] = Number(ethers.formatUnits(temp[5], 6));
-              }
-            } catch (err) {
-              console.log(err);
-            }
-            return temp;
-          })
-        );
-        const keys = [
-          'id',
-          'name',
-          'uri',
-          'creator',
-          'totalSupply',
-          'mintPrice',
-          'mintPriceUnit',
-          'mintLimit',
-          'mintedAmount',
-          'data',
-        ];
-
-        const _blueprints = blueprints.map((item: any[]) => {
-          return keys.reduce(
-            (acc: any, key: string, index: number) => ({
-              ...acc,
-              [key]: item[index],
-            }),
-            {}
-          );
-        });
-        for (let i = 0; i < _blueprints.length; i++) {
-          const _item = _blueprints[i].data;
-          _blueprints[i].data = {
-            erc20Data: _item[0].map((params: any) => ({
-              tokenAddress: params[0],
-              amount: params[1],
-            })),
-            erc721Data: _item[1].map((params: any) => ({
-              tokenAddress: params[0],
-              tokenId: params[1],
-            })),
-            erc1155Data: _item[2].map((params: any) => ({
-              tokenAddress: params[0],
-              tokenId: params[1],
-              amount: params[2],
-            })),
-          };
-        }
-        setBlueprintTokenList(_blueprints);
+        const blueprints = await axios.get(`${BASE_URI}/blueprint`);
+        setBlueprintTokenList(blueprints.data);
       } catch (err) {
         console.log(err);
       }
@@ -172,7 +114,7 @@ const BlueprintPage = () => {
                 <BlueprintCard
                   blueprintId={Number(blueprint.id)}
                   name={blueprint.name}
-                  uri={blueprint.uri}
+                  uri={blueprint.imageUri}
                   myBlueprint={blueprint.creator === account}
                   totalSupply={Number(blueprint.totalSupply)}
                   mintPrice={Number(blueprint.mintPrice)}

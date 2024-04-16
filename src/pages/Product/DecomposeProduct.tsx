@@ -157,7 +157,7 @@ const DecomposeProductPage = () => {
               address={productAddress}
               id={selectedOwnData.id}
               balance={selectedOwnData.balance}
-              uri={selectedOwnData.uri}
+              uri={selectedOwnData.imageUri}
             />
             <div className=" flex justify-between items-center">
               <p className="xs:text-[22px] text-[16px] text-[#BABABA]">
@@ -191,7 +191,7 @@ const DecomposeProductPage = () => {
             <BlueprintListCard
               id={selectedOwnData.id}
               amount={selectedOwnData.balance}
-              uri={selectedOwnData.uri}
+              uri={selectedOwnData.imageUri}
               address={blueprintAddress}
               name={selectedOwnData.name}
               productAmount={productAmount}

@@ -8,8 +8,9 @@ import AdvancedSort from './AdvancedSort';
 import AdvancedFilter from './AdvancedFilter';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
-import { isCreatorModeAtom, searchValueAtom } from '../../jotai/atoms';
-import { invalidChars } from '../../constants';
+import { blueprintTokenListAtom, isCreatorModeAtom, searchValueAtom } from '../../jotai/atoms';
+import { BASE_URI, invalidChars } from '../../constants';
+import axios from 'axios';
 
 export interface Props {
   value?: string;
@@ -30,6 +31,9 @@ const SearchBar: FC<Props> = ({
 
   const navigate = useNavigate();
 
+  const [, setBlueprintTokenList] = useAtom(
+    blueprintTokenListAtom
+  );
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
 
@@ -38,13 +42,25 @@ const SearchBar: FC<Props> = ({
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-
     if (invalidChars.test(value)) {
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 3000);
       return;
     } else {
       setSearchValue(value);
+    }
+  };
+
+  const handleSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.keyCode === 13) {
+      const searchResult = await axios.get(`${BASE_URI}/blueprint/search?query=${searchValue}`);
+      if (searchResult.data.length === 0) {
+        showToast('warning', 'No result found');
+        return;
+      } else {
+        setBlueprintTokenList(searchResult.data);
+        console.log(searchResult.data);
+      }
     }
   };
 
@@ -100,6 +116,7 @@ const SearchBar: FC<Props> = ({
           type="search"
           value={searchValue}
           onChange={handleSearchChange}
+          onKeyDown={handleSearch}
         />
         {showTooltip && (
           <div

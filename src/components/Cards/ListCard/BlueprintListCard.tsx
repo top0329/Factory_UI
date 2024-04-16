@@ -5,7 +5,7 @@ import useWeb3 from '../../../hooks/useWeb3';
 export interface Props {
   uri: string;
   name: string;
-  id: number;
+  id: string;
   address: string;
   amount: number;
   productAmount?: number;

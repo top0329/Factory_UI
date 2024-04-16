@@ -19,16 +19,20 @@ export type CarouselModel = {
 };
 
 export interface ERC20Data {
-  amount: bigint;
+  name?: string;
+  uri?: string;
+  amount: number;
   tokenAddress: Address;
 }
 
 export interface ERC721Data {
+  name?: string;
   tokenId: number;
   tokenAddress: Address;
 }
 
 export interface ERC1155Data {
+  name?: string;
   tokenId: number;
   amount: number;
   tokenAddress: Address;
@@ -59,9 +63,9 @@ export type Web3ContextType = {
 };
 
 export type SelectedBlueprint = {
-  id: number;
+  id: string;
   name: string;
-  uri: string;
+  imageUri: string;
   creator: Address | '';
   totalSupply: number;
   mintPrice: number;
@@ -77,9 +81,9 @@ export type SelectedBlueprint = {
 };
 
 export type SelectedOwnBlueprint = {
-  id: number;
+  id: string;
   name: string;
-  uri: string;
+  imageUri: string;
   creator: Address | '';
   balance: number;
   blueprintAddress: Address | '';
@@ -92,7 +96,7 @@ export type SelectedOwnBlueprint = {
 };
 
 export type ProductToken = {
-  id: number;
+  id: string;
   name: string;
   uri: string;
   creator: string;
@@ -104,9 +108,9 @@ export type ProductToken = {
 };
 
 export type SelectedProduct = {
-  id: number;
+  id: string;
   name: string;
-  uri: string;
+  imageUri: string;
   address?: string;
   balance: number;
   blueprintAddress: string;
@@ -119,9 +123,9 @@ export type SelectedProduct = {
 };
 
 export type CreateBlueprint = {
-  id: number | '';
+  id: string;
   name: string;
-  uri: string;
+  imageUri: string;
   creator: Address | '' | undefined;
   totalSupply: number | '';
   mintPrice: number | '';
@@ -188,7 +192,7 @@ export interface BlueprintData {
 export interface BlueprintNFT {
   id: number;
   name: string;
-  uri: string;
+  imageUri: string;
   creator: string;
   totalSupply: number;
   mintPrice: number;
@@ -205,7 +209,7 @@ export type SelectedComponentData = {
   id: number;
   tokenId?: number;
   tokenAddress: string;
-  erc20Amount?: bigint;
+  erc20Amount?: number;
   erc1155Amount?: number;
 };
 
