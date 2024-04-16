@@ -15,7 +15,7 @@ import useToast from '../../../hooks/useToast';
 
 export interface Props {
   address?: string;
-  amount?: bigint;
+  amount?: number;
   productAmount?: number;
   setApprovedCount?: any;
   0?: string;

@@ -32,7 +32,7 @@ const Component = () => {
               return (
                 <ERC20Card
                   key={idx}
-                  amount={BigInt(erc20.amount)}
+                  amount={Number(erc20.amount)}
                   tokenAddress={erc20.tokenAddress}
                 />
               );

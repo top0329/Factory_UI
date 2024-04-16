@@ -143,7 +143,7 @@ const TransferOwnershipPage = () => {
             </header>
             <img
               className="w-full h-80 sm:h-96 object-cover"
-              src={selectedBlueprint.uri}
+              src={selectedBlueprint.imageUri}
               alt="blueprint"
             />
             <div className="z-10 absolute top-[268px] bg-gradient-to-t from-[#011018] to-transparent w-full h-28 sm:top-[340px]"></div>

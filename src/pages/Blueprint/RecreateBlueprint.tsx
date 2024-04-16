@@ -49,7 +49,7 @@ const RecreateBlueprintPage = () => {
       id: 0,
       tokenAddress: '',
       tokenId: 0,
-      erc20Amount: 0n,
+      erc20Amount: 0,
       erc1155Amount: 0,
     });
 
@@ -203,6 +203,7 @@ const RecreateBlueprintPage = () => {
                 icon
                 onEditIconClicked={() => handleEditERC20CardClicked(erc20, idx)}
                 onDeleteIconClicked={() => handleDeleteERC20CardClicked(erc20)}
+                isForAdd
               />
             );
           })}

@@ -6,7 +6,7 @@ import Image from '../../Image';
 export interface Props {
   uri: string;
   name: string;
-  blueprintId: number;
+  blueprintId: string;
   balance: number;
   address: string;
   myBlueprint?: boolean;

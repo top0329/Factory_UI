@@ -103,6 +103,8 @@ const UpdateBlueprintPage = () => {
             return (
               <ERC20Card
                 key={idx}
+                name={erc20.name}
+                uri={erc20.uri}
                 amount={erc20.amount}
                 tokenAddress={erc20.tokenAddress}
                 onDeleteIconClicked={() => handleDeleteERC20CardClicked(erc20)}
