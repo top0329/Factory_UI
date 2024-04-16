@@ -8,6 +8,7 @@ import AuthGuard from './AuthGuard';
 import PageNotFound from '../pages/Maintenance/PageNotFound';
 import ContactUs from '../pages/Maintenance/Contact';
 import Terms from '../pages/Maintenance/Terms';
+import Privacy from '../pages/Maintenance/Privacy';
 
 // const AuthLogin = Loadable(lazy(() => import('pages/auth/login')));
 const LandingPage = lazy(() => import('../pages/LandingPage'));
@@ -167,6 +168,10 @@ const CommonRoutes = {
         {
           path: 'terms',
           element: <Terms />,
+        },
+        {
+          path: 'privacy',
+          element: <Privacy />,
         },
         {
           path: '*',

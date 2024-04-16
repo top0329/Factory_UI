@@ -206,7 +206,7 @@ function Footer() {
                 headerActiveItem === 8 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
-                navigate('#');
+                navigate('privacy');
                 setHeaderActiveItem(8);
               }}
             >
