@@ -196,7 +196,22 @@ const LandingPage = () => {
           name="description"
           content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
         />
-        <meta name='keyword' content='Factory, Factory1155, Blueprint, Product, Custody, Component Token, Combine, Synthesis, Decompose' />
+        <meta
+          name="keyword"
+          content="Factory, Factory1155, Blueprint, Product, Custody, Component Token, Combine, Synthesis, Decompose"
+        />
+        <meta property="og:title" content="Factory" />
+        <meta
+          property="og:description"
+          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://factory1155.com/" />
+        <meta property="twitter:title" content="Factory1155" />
+        <meta
+          property="twitter:description"
+          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
+        />
       </Helmet>
       <img
         className="absolute w-[1000px] z-10 top-[-220px] rotate-[-30deg] overflow-hidden 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full"
