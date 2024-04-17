@@ -6,6 +6,7 @@ import {
   advancedFilterValueAtom,
   blueprintTokenListAtom,
   searchValueAtom,
+  showFilterOptionAtom,
   sortFieldAtom,
   sortOrderAtom,
 } from '../../jotai/atoms';
@@ -27,6 +28,8 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
   const [searchValue] = useAtom<string>(searchValueAtom);
   const [sortField] = useAtom<string>(sortFieldAtom);
   const [sortOrder] = useAtom<string>(sortOrderAtom);
+  const [, setShowFilterOption] =
+    useAtom<boolean>(showFilterOptionAtom);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -82,6 +85,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
 
   const handleAdvancedFilter = async () => {
     try {
+      setShowFilterOption(false);
       const advancedFilterResult = await axios.get(
         `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
           advancedFilterValue.blueprintIdMax
@@ -99,7 +103,6 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
         showToast('warning', 'No result found');
         return;
       } else {
-        console.log(advancedFilterResult.data);
         setBlueprintTokenList(advancedFilterResult.data);
       }
     } catch (err: any) {
