@@ -1,6 +1,7 @@
 import { atom } from 'jotai';
 
 import {
+  AdvancedFilterValue,
   BlueprintNFT,
   CreateBlueprint,
   ProductToken,
@@ -116,3 +117,20 @@ export const productTokenListAtom = atom<Array<ProductToken>>([]);
 
 export const sortFieldAtom = atom<SortField>('id');
 export const sortOrderAtom = atom<string>('asc');
+export const advancedFilterValueAtom = atom<AdvancedFilterValue>({
+  blueprintIdMin: '',
+  blueprintIdMax: '',
+  mintPriceUnit: 0,
+  mintPriceMin: '',
+  mintPriceMax: '',
+  mintLimitMin: '',
+  mintLimitMax: '',
+  totalSupplyMin: '',
+  totalSupplyMax: '',
+  mintedAmountMin: '',
+  mintedAmountMax: '',
+  productIdMin: '',
+  productIdMax: '',
+  productBalanceMin: '',
+  productBalanceMax: '',
+});
