@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Button from '../../components/Button';
 import emailJs from '@emailjs/browser';
+import { Helmet } from 'react-helmet';
 
 export default function ContactUs() {
   const initalState = {
@@ -72,6 +73,42 @@ export default function ContactUs() {
 
   return (
     <div className="p-24">
+      <Helmet>
+        <meta
+          name="description"
+          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens. You can contact us with this page."
+        />
+        <meta
+          name="keyword"
+          content="Factory, Factory1155, Blueprint, Product, Custody, Component Token, Combine, Synthesis, Decompose"
+        />
+        <meta property="og:title" content="Factory/Contact" />
+        <meta
+          property="og:description"
+          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens. You can contact us with this page."
+        />
+
+        <meta
+          name="description"
+          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens. You can contact us with this page."
+        />
+        <meta
+          name="keyword"
+          content="Factory, Factory1155, Blueprint, Product, Custody, Component Token, Combine, Synthesis, Decompose"
+        />
+        <meta property="og:title" content="Factory" />
+        <meta
+          property="og:description"
+          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://factory1155.com/" />
+        <meta property="twitter:title" content="Factory1155" />
+        <meta
+          property="twitter:description"
+          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
+        />
+      </Helmet>
       <p className="text-white font-black text-6xl">Contact Us</p>
       <form className="flex flex-col gap-y-7 py-8">
         <div className="flex flex-col gap-y-2">
