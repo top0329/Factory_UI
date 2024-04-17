@@ -14,6 +14,7 @@ import {
   blueprintTokenListAtom,
   isCreatorModeAtom,
   searchValueAtom,
+  showFilterOptionAtom,
   sortFieldAtom,
   sortOrderAtom,
 } from '../../jotai/atoms';
@@ -47,9 +48,10 @@ const SearchBar: FC<Props> = ({
   const [advancedFilterValue] = useAtom<AdvancedFilterValue>(
     advancedFilterValueAtom
   );
+  const [showFilterOption, setShowFilterOption] =
+    useAtom<boolean>(showFilterOptionAtom);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
-  const [showFilterOption, setShowFilterOption] = useState<boolean>(false);
 
   useEffect(() => {
     async function init() {
