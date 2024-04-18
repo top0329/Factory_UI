@@ -4,7 +4,7 @@ export default function Terms() {
       <p id="title" className="text-5xl font-black">
         Terms of Services
       </p>
-      <p id="updatingdata" className="text-3xl italic">
+      <p id="updatingdata" className="text-3xl italic mb-8">
         Last Updated: April 16, 2024
       </p>
       <div id="introduction" className="flex flex-col gap-y-2">
