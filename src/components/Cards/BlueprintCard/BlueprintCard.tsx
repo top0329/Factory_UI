@@ -127,7 +127,7 @@ const BlueprintCard: FC<Props> = ({
               </p>
               <p className="flex gap-2 md:text-base lg:text-lg font-mono text-xs text-white">
                 <span className="items-center my-auto">
-                  <img src={EthLineSvg} />
+                  <img src={EthLineSvg} alt="ETH" />
                 </span>{' '}
                 {mintPrice}{' '}
                 <span className="text-[#F3AC19]">
