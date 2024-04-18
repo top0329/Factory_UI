@@ -132,7 +132,7 @@ const ProductPage = () => {
                   <ProductCard
                     productId={product.id}
                     name={product.name}
-                    uri={product.uri}
+                    uri={product.imageUri}
                     balance={product.balance}
                     onClick={() => handleProductCardClicked(product)}
                     onClickDecompose={() => handleDecomposeProduct(product)}
