@@ -4,10 +4,10 @@ export default function Privacy() {
       <p id="title" className="text-5xl font-black">
         Privacy Policy
       </p>
-      <p id="updatingdata" className="text-3xl italic">
+      <p id="updatingdata" className="text-3xl italic mb-8">
         Last Updated: April 16, 2024
       </p>
-      <p id="introduction" className="text-2xl">
+      <p id="introduction" className="text-xl">
         Our platform ("us", "we", or "our") operates the factory1155.com
         website. This page informs you of our policies regarding the collection,
         use, and disclosure of personal data when you use our Service and the
