@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
 
@@ -9,14 +10,16 @@ import AdvancedFilter from './AdvancedFilter';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
 import {
+  advancedFilterValueAtom,
   blueprintTokenListAtom,
   isCreatorModeAtom,
   searchValueAtom,
+  showFilterOptionAtom,
   sortFieldAtom,
   sortOrderAtom,
 } from '../../jotai/atoms';
 import { BASE_URI, invalidChars } from '../../constants';
-import axios from 'axios';
+import { AdvancedFilterValue } from '../../types';
 
 export interface Props {
   value?: string;
@@ -40,17 +43,31 @@ const SearchBar: FC<Props> = ({
   const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
-  const [sortOrder] = useAtom<string>(sortOrderAtom);
   const [sortField] = useAtom<string>(sortFieldAtom);
+  const [sortOrder] = useAtom<string>(sortOrderAtom);
+  const [advancedFilterValue] = useAtom<AdvancedFilterValue>(
+    advancedFilterValueAtom
+  );
+  const [showFilterOption, setShowFilterOption] =
+    useAtom<boolean>(showFilterOptionAtom);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
-  const [showFilterOption, setShowFilterOption] = useState<boolean>(false);
 
   useEffect(() => {
     async function init() {
       try {
         const searchResult = await axios.get(
-          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}`
+          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+            advancedFilterValue.blueprintIdMax
+          }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
+            advancedFilterValue.mintPriceMin
+          }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
+            advancedFilterValue.totalSupplyMin
+          }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${
+            advancedFilterValue.mintLimitMin
+          }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${
+            advancedFilterValue.mintedAmountMin
+          }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
         );
         if (searchResult.data.length === 0) {
           showToast('warning', 'No result found');
@@ -63,22 +80,8 @@ const SearchBar: FC<Props> = ({
       }
     }
     init();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setBlueprintTokenList, showToast, sortField, sortOrder])
-
-  useEffect(() => {
-    async function getBlueprints() {
-      try {
-        const blueprints = await axios.get(`${BASE_URI}/blueprint`);
-        setBlueprintTokenList(blueprints.data);
-      } catch (err) {
-        console.log(err);
-      }
-    }
-    if(searchValue === '') {
-      getBlueprints();
-    }
-  },[searchValue, setBlueprintTokenList])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setBlueprintTokenList, showToast, sortField, sortOrder]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -95,7 +98,17 @@ const SearchBar: FC<Props> = ({
     try {
       if (event.keyCode === 13) {
         const searchResult = await axios.get(
-          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}`
+          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+            advancedFilterValue.blueprintIdMax
+          }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
+            advancedFilterValue.mintPriceMin
+          }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
+            advancedFilterValue.totalSupplyMin
+          }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${
+            advancedFilterValue.mintLimitMin
+          }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${
+            advancedFilterValue.mintedAmountMin
+          }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
         );
         if (searchResult.data.length === 0) {
           showToast('warning', 'No result found');

@@ -1,30 +1,35 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
+import { useAtom } from 'jotai';
+
 import Button from '../Button';
+import {
+  advancedFilterValueAtom,
+  blueprintTokenListAtom,
+  searchValueAtom,
+  showFilterOptionAtom,
+  sortFieldAtom,
+  sortOrderAtom,
+} from '../../jotai/atoms';
 import { AdvancedFilterValue } from '../../types';
+import axios from 'axios';
+import { BASE_URI } from '../../constants';
+import useToast from '../../hooks/useToast';
 
 export interface Props {
   pageFilter?: 'blueprint' | 'my-blueprint' | 'product' | 'component';
 }
 
 const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
+  const { showToast } = useToast();
+
+  const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
   const [advancedFilterValue, setAdvancedFilterValue] =
-    useState<AdvancedFilterValue>({
-      blueprintIdMin: '',
-      blueprintIdMax: '',
-      mintPriceUnit: 0,
-      mintPriceMin: '',
-      mintPriceMax: '',
-      mintLimitMin: '',
-      mintLimitMax: '',
-      totalSupplyMin: '',
-      totalSupplyMax: '',
-      mintedAmountMin: '',
-      mintedAmountMax: '',
-      productIdMin: '',
-      productIdMax: '',
-      productBalanceMin: '',
-      productBalanceMax: '',
-    });
+    useAtom<AdvancedFilterValue>(advancedFilterValueAtom);
+  const [searchValue] = useAtom<string>(searchValueAtom);
+  const [sortField] = useAtom<string>(sortFieldAtom);
+  const [sortOrder] = useAtom<string>(sortOrderAtom);
+  const [, setShowFilterOption] =
+    useAtom<boolean>(showFilterOptionAtom);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -75,6 +80,34 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
       )
     ) {
       event.preventDefault();
+    }
+  };
+
+  const handleAdvancedFilter = async () => {
+    try {
+      setShowFilterOption(false);
+      const advancedFilterResult = await axios.get(
+        `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+          advancedFilterValue.blueprintIdMax
+        }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
+          advancedFilterValue.mintPriceMin
+        }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
+          advancedFilterValue.totalSupplyMin
+        }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${
+          advancedFilterValue.mintLimitMin
+        }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${
+          advancedFilterValue.mintedAmountMin
+        }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
+      );
+      if (advancedFilterResult.data.length === 0) {
+        showToast('warning', 'No result found');
+        return;
+      } else {
+        setBlueprintTokenList(advancedFilterResult.data);
+      }
+    } catch (err: any) {
+      console.log(err);
+      showToast('fail', err.response.data);
     }
   };
 
@@ -334,6 +367,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
         variant="primary"
         text="Apply"
         className="flex justify-center rounded-lg text-sm !py-1.5"
+        onClick={handleAdvancedFilter}
       />
     </div>
   );
