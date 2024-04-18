@@ -78,7 +78,7 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
         id="dropdown"
         className={`${
           isDropdownOpen ? 'translate-y-0' : 'translate-y-[-700px]'
-        } z-30 absolute bg-[#000] mt-1 p-1 divide-y  rounded-lg shadow xs:w-[200px] w-[92.5%] `}
+        } z-40 absolute bg-[#000] mt-1 p-1 divide-y  rounded-lg shadow xs:w-[200px] w-[92.5%] `}
       >
         {filterOption === 'blueprint' && (
           <ul
@@ -308,7 +308,7 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
         )}
       </div>
       <div
-        className={`fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center z-10 ${
+        className={`fixed right-0 bottom-0 top-0 left-0 flex items-center justify-center z-30 ${
           !isDropdownOpen && 'hidden'
         }`}
         onClick={() => setIsDropdownOpen(false)}

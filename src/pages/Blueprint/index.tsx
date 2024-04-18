@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useAtom } from 'jotai';
 
 import SearchBar from '../../components/SearchBar';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
 import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDrawer';
@@ -12,9 +13,12 @@ import {
   blueprintSelectionState,
   blueprintTokenListAtom,
   isCreatorModeAtom,
+  isDataEmptyAtom,
+  isLoadingAtom,
   selectedBlueprintAtom,
 } from '../../jotai/atoms';
 import { BASE_URI } from '../../constants';
+import NoDataFound from '../../components/Loading/NoDataFound';
 
 const BlueprintPage = () => {
   const { blueprintContract, account, isConnected } = useWeb3();
@@ -28,20 +32,30 @@ const BlueprintPage = () => {
   const [, setSelectedBlueprint] = useAtom(selectedBlueprintAtom);
   const [, setBlueprintSelectionState] = useAtom(blueprintSelectionState);
   const [isCreatorMode, setIsCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
+  const [isLoading, setIsLoading] = useAtom<boolean>(isLoadingAtom);
+  const [isDataEmpty, setIsDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   useEffect(() => {
     async function getBlueprints() {
       try {
+        setIsLoading(true);
         const blueprints = await axios.get(`${BASE_URI}/blueprint`);
-        setBlueprintTokenList(blueprints.data);
+        if (blueprints.data.length === 0) {
+          setIsDataEmpty(true);
+        } else {
+          setBlueprintTokenList(blueprints.data);
+          setIsDataEmpty(false);
+        }
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     }
     getBlueprints();
-  }, [blueprintContract, setBlueprintTokenList]);
+  }, [blueprintContract, setBlueprintTokenList, setIsDataEmpty, setIsLoading]);
 
   const showSidebar = () => {
     setIsDrawerOpen(true);
@@ -106,28 +120,38 @@ const BlueprintPage = () => {
         advancedFilter
         placeholders="Search for Blueprint ID, Name and Creator"
       />
-      <div className="grid grid-cols-2 pt-8 pb-16 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
-        {blueprintTokenList.length > 0 &&
-          blueprintTokenList.map((blueprint) => {
-            return (
-              <div className="flex justify-center" key={Number(blueprint.id)}>
-                <BlueprintCard
-                  blueprintId={Number(blueprint.id)}
-                  name={blueprint.name}
-                  uri={blueprint.imageUri}
-                  myBlueprint={blueprint.creator === account}
-                  totalSupply={Number(blueprint.totalSupply)}
-                  mintPrice={Number(blueprint.mintPrice)}
-                  mintUnit={Number(blueprint.mintPriceUnit)}
-                  mintLimit={Number(blueprint.mintLimit)}
-                  button={!isCreatorMode}
-                  onClick={() => handleBlueprintCardClicked(blueprint)}
-                  onClickMint={() => handleMintNowButtonClicked(blueprint)}
-                />
-              </div>
-            );
-          })}
-      </div>
+      {isLoading ? (
+        <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
+          <LoadingSpinner />
+        </div>
+      ) : isDataEmpty ? (
+        <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
+          <NoDataFound message="No Blueprints Found!" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 pt-8 pb-16 gap-2 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+          {blueprintTokenList.length > 0 &&
+            blueprintTokenList.map((blueprint) => {
+              return (
+                <div className="flex justify-center" key={Number(blueprint.id)}>
+                  <BlueprintCard
+                    blueprintId={Number(blueprint.id)}
+                    name={blueprint.name}
+                    uri={blueprint.imageUri}
+                    myBlueprint={blueprint.creator === account}
+                    totalSupply={Number(blueprint.totalSupply)}
+                    mintPrice={Number(blueprint.mintPrice)}
+                    mintUnit={Number(blueprint.mintPriceUnit)}
+                    mintLimit={Number(blueprint.mintLimit)}
+                    button={!isCreatorMode}
+                    onClick={() => handleBlueprintCardClicked(blueprint)}
+                    onClickMint={() => handleMintNowButtonClicked(blueprint)}
+                  />
+                </div>
+              );
+            })}
+        </div>
+      )}
       <BlueprintDetailDrawer
         isDrawerOpen={isDrawerOpen}
         setIsDrawerOpen={setIsDrawerOpen}

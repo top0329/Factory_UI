@@ -14,6 +14,8 @@ import {
 export const isAddComponentModalAtom = atom<boolean>(false);
 export const isEditComponentModalAtom = atom<boolean>(false);
 export const showFilterOptionAtom = atom<boolean>(false);
+export const isLoadingAtom = atom<boolean>(false);
+export const isDataEmptyAtom = atom<boolean>(false);
 export const activeAddComponentTokenAtom = atom<number>(0);
 export const searchValueAtom = atom<string>('');
 export const selectedBlueprintAtom = atom<SelectedBlueprint>({
