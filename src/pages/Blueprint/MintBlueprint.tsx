@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import copy from 'copy-to-clipboard';
 import { useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
+import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 import { Contract, ethers } from 'ethers';
@@ -8,7 +9,9 @@ import { Contract, ethers } from 'ethers';
 import Button from '../../components/Button';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
+import useSpinner from '../../hooks/useSpinner';
 import erc20Abi from '../../abi/ERC20ABI.json';
+import strip from '../../utils/strip';
 import { blueprintSelectionState } from '../../jotai/atoms';
 import {
   usdtAddress,
@@ -16,8 +19,6 @@ import {
   factoryAddress,
   BASE_URI,
 } from '../../constants';
-import useSpinner from '../../hooks/useSpinner';
-import axios from 'axios';
 
 const MintBlueprintPage = () => {
   const { factoryContract, factoryWeb3, account, erc20Approve, library } =
@@ -211,7 +212,7 @@ const MintBlueprintPage = () => {
             const _mintFee =
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
               blueprintCreationFee;
-            const _mintFeeWei = ethers.parseEther(_mintFee.toString());
+            const _mintFeeWei = ethers.parseEther(strip(_mintFee).toString());
             const transition = await factoryWeb3.methods
               .mintBlueprint(
                 account,
