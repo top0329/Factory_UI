@@ -257,7 +257,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                     name="mintPriceUnit"
                     className="flex w-full items-center px-2 py-0.5 rounded-lg border border-light-gray bg-[#000000] font-medium shadow-sm sm:mt-0 sm:w-auto sm:text-sm sm:min-w-36 sm:gap-3"
                     onChange={handleSelectChange}
-                    defaultValue={0}
+                    value={advancedFilterValue.mintPriceUnit}
                   >
                     <option value={0}>ETH</option>
                     <option value={1}>USDT</option>
@@ -406,18 +406,19 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
           )}
         </React.Fragment>
       )}
+      <div className='flex gap-2 justify-between'>
       <Button
         variant="primary"
         text="Apply"
-        className="flex justify-center rounded-lg text-sm !py-1.5"
+        className="flex justify-center rounded-lg text-sm !py-1.5 w-full"
         onClick={handleAdvancedFilter}
       />
       <Button
         variant="secondary"
-        text="Reset Filter Options"
-        className="flex justify-center rounded-lg text-sm !py-1.5 -mt-1.5"
+        text="Reset"
+        className="flex justify-center rounded-lg text-sm !py-1.5 w-full"
         onClick={handleResetAdvancedFilter}
-      />
+      /></div>
     </div>
   );
 };

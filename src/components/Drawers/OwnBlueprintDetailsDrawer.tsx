@@ -21,6 +21,7 @@ import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 import Image from '../Image';
+import { blueprintAddress } from '../../constants';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -204,14 +205,12 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <a
                     className="underline text-base"
-                    href={`https://sepolia.etherscan.io/address/${selectedOwnBlueprint.blueprintAddress}`}
+                    href={`https://sepolia.etherscan.io/address/${blueprintAddress}`}
                     target="_blank"
                   >
                     {windowSize.width !== undefined && windowSize.width > 472
-                      ? `${selectedOwnBlueprint.blueprintAddress}`
-                      : `${shortenAddress(
-                          selectedOwnBlueprint.blueprintAddress
-                        )}`}
+                      ? `${blueprintAddress}`
+                      : `${shortenAddress(blueprintAddress)}`}
                   </a>
                   <Icon
                     className="w-4 h-4 cursor-pointer"
@@ -308,6 +307,8 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                       return (
                         <ERC20Card
                           key={idx}
+                          uri={erc20.uri}
+                          name={erc20.name}
                           amount={erc20.amount}
                           tokenAddress={erc20.tokenAddress}
                         />

@@ -15,7 +15,11 @@ export const runMain = async (
     const nfts = await alchemy.nft.getNftsForOwner(walletAddress, {
       contractAddresses: [collectionAddress],
     });
-    return nfts.ownedNfts;
+    const nftsList = nfts.ownedNfts.map((nft) => {
+      const { tokenId, balance } = nft;
+      return { tokenId, balance };
+    })
+    return nftsList;
   } catch (err) {
     console.log(err);
   }

@@ -98,7 +98,7 @@ export type SelectedOwnBlueprint = {
 export type ProductToken = {
   id: string;
   name: string;
-  uri: string;
+  imageUri: string;
   creator: string;
   balance: number;
   blueprintAddress: string;
