@@ -15,6 +15,7 @@ import {
   selectedBlueprintAtom,
 } from '../../jotai/atoms';
 import { BASE_URI } from '../../constants';
+import { Helmet } from 'react-helmet';
 
 const BlueprintPage = () => {
   const { blueprintContract, account, isConnected } = useWeb3();
@@ -71,6 +72,28 @@ const BlueprintPage = () => {
 
   return (
     <div className="min-w-[320px]">
+      <Helmet>
+        <meta
+          name="description"
+          content="This is Factory1155.com/blueprint. Here you can create new Blueprint token and also mint the Blueprint token based on the created token. You can also recreate the exisiting Blueprint token with new attributes."
+        />
+        <meta
+          name="keyword"
+          content="Factory, Factory1155, Blueprint, Product, Custody, Component Token, Combine, Creation, Mint, Recreation"
+        />
+        <meta property="og:title" content="Blueprint - Factory1155" />
+        <meta
+          property="og:description"
+          content="This is Factory1155.com/blueprint. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://factory1155.com/blueprint" />
+        <meta property="twitter:title" content="Blueprint - Factory1155" />
+        <meta
+          property="twitter:description"
+          content="This is Factory1155.com/blueprint. Here you can create new Blueprint token and also mint the Blueprint token based on the created token. You can also recreate the exisiting Blueprint token with new attributes."
+        />
+      </Helmet>
       <div className="flex justify-between items-center py-3">
         <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl">
           Blueprints

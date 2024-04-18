@@ -111,7 +111,7 @@ export default function ContactUs() {
           content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
         />
       </Helmet>
-      <div className="flex flex-col w-1/3 text-white px-4 py-16 gap-y-16">
+      <div className="hidden lg:flex lg:flex-col xl:flex xl:flex-col w-1/3 text-white px-4 py-16 gap-y-16">
         <div id="intro" className="flex flex-col gap-y-4">
           <h1 className="text-3xl font-bold">Get in touch</h1>
           <p className="text-xl opacity-55">
@@ -158,16 +158,20 @@ export default function ContactUs() {
           </p>
         </div>
       </div>
-      <div className="w-0.5 bg-white m-8 opacity-50"></div>
+      <div className="hidden lg:block xl:block w-0.5 bg-white m-8 opacity-50"></div>
 
-      <div className="w-2/3 py-12 px-12">
-        <p className="text-white font-black text-6xl">Contact Us</p>
+      <div className="w-full min-w-80 lg:w-2/3 xl:w-2/3 py-12 px-4 sm:px-12 md:px-12 lg:px-12 xl:px-12">
+        <p className="text-white font-semibold text-2xl sm:font-semibold sm:text-2xl md:font-bold md:text-4xl lg:font-black lg:text-5xl xl:font-black xl:text-6xl">
+          Contact Us
+        </p>
         <form className="flex flex-col gap-y-7 pt-8">
           <div className="flex flex-col gap-y-2">
-            <p className="text-lg text-[#858584]">Name:</p>
+            <p className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-[#858584]">
+              Name:
+            </p>
             <input
               name="name"
-              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-3xl bg-[#010B10] border-secondary"
+              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-base sm:text-xl md:text:2xl lg:text-3xl xl:text-3xl bg-[#010B10] border-secondary"
               maxLength={20}
               value={form.name}
               onChange={handleInputChange}
@@ -175,10 +179,12 @@ export default function ContactUs() {
             />
           </div>
           <div className="flex flex-col gap-y-2">
-            <p className="text-lg text-[#858584]">Email:</p>
+            <p className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-[#858584]">
+              Email:
+            </p>
             <input
               name="email"
-              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-3xl bg-[#010B10] border-secondary"
+              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-base sm:text-xl md:text:2xl lg:text-3xl xl:text-3xl bg-[#010B10] border-secondary"
               maxLength={30}
               value={form.email}
               onChange={handleInputChange}
@@ -186,10 +192,12 @@ export default function ContactUs() {
             />
           </div>
           <div className="flex flex-col gap-y-2">
-            <p className="text-lg text-[#858584]">Phone Number:</p>
+            <p className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-[#858584]">
+              Phone Number:
+            </p>
             <input
               name="number"
-              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-3xl bg-[#010B10] border-secondary"
+              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-base sm:text-xl md:text:2xl lg:text-3xl xl:text-3xl bg-[#010B10] border-secondary"
               maxLength={20}
               value={form.number}
               onChange={handleInputChange}
@@ -197,18 +205,20 @@ export default function ContactUs() {
             />
           </div>
           <div className="flex flex-col gap-y-2">
-            <p className="text-lg text-[#858584]">Message:</p>
+            <p className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-[#858584]">
+              Message:
+            </p>
             <textarea
               name="message"
               rows={5}
-              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-3xl bg-[#010B10] border-secondary"
+              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-base sm:text-xl md:text:2xl lg:text-3xl xl:text-3xl bg-[#010B10] border-secondary"
               value={form.message}
               onChange={handleInputChange}
               required
             />
           </div>
           <Button
-            className="flex justify-center items-center m-auto w-[160px] rounded-xl text-2xl"
+            className="flex justify-center items-center m-auto w-[160px] rounded-xl text-base sm:text-base md:text-xl lg:text-2xl xl:text-2xl"
             text="Submit"
             variant="primary"
             onClick={handleClick}
