@@ -13,6 +13,8 @@ import {
   advancedFilterValueAtom,
   blueprintTokenListAtom,
   isCreatorModeAtom,
+  isDataEmptyAtom,
+  isLoadingAtom,
   searchValueAtom,
   showFilterOptionAtom,
   sortFieldAtom,
@@ -43,6 +45,8 @@ const SearchBar: FC<Props> = ({
   const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
+  const [, setIsLoading] = useAtom<boolean>(isLoadingAtom);
+  const [, setIsDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
   const [sortField] = useAtom<string>(sortFieldAtom);
   const [sortOrder] = useAtom<string>(sortOrderAtom);
   const [advancedFilterValue] = useAtom<AdvancedFilterValue>(
@@ -56,6 +60,7 @@ const SearchBar: FC<Props> = ({
   useEffect(() => {
     async function init() {
       try {
+        setIsLoading(true);
         const searchResult = await axios.get(
           `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
             advancedFilterValue.blueprintIdMax
@@ -70,13 +75,15 @@ const SearchBar: FC<Props> = ({
           }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
         );
         if (searchResult.data.length === 0) {
-          showToast('warning', 'No result found');
-          return;
+          setIsDataEmpty(true);
         } else {
           setBlueprintTokenList(searchResult.data);
+          setIsDataEmpty(false);
         }
       } catch (err) {
         console.log(err);
+      } finally {
+        setIsLoading(false);
       }
     }
     init();
@@ -97,6 +104,7 @@ const SearchBar: FC<Props> = ({
   const handleSearch = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     try {
       if (event.keyCode === 13) {
+        setIsLoading(true);
         const searchResult = await axios.get(
           `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
             advancedFilterValue.blueprintIdMax
@@ -111,14 +119,16 @@ const SearchBar: FC<Props> = ({
           }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
         );
         if (searchResult.data.length === 0) {
-          showToast('warning', 'No result found');
-          return;
+          setIsDataEmpty(true);
         } else {
           setBlueprintTokenList(searchResult.data);
+          setIsDataEmpty(false);
         }
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 

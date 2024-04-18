@@ -5,6 +5,8 @@ import Button from '../Button';
 import {
   advancedFilterValueAtom,
   blueprintTokenListAtom,
+  isDataEmptyAtom,
+  isLoadingAtom,
   searchValueAtom,
   showFilterOptionAtom,
   sortFieldAtom,
@@ -28,8 +30,9 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
   const [searchValue] = useAtom<string>(searchValueAtom);
   const [sortField] = useAtom<string>(sortFieldAtom);
   const [sortOrder] = useAtom<string>(sortOrderAtom);
-  const [, setShowFilterOption] =
-    useAtom<boolean>(showFilterOptionAtom);
+  const [, setShowFilterOption] = useAtom<boolean>(showFilterOptionAtom);
+  const [, setIsLoading] = useAtom<boolean>(isLoadingAtom);
+  const [, setIsDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -85,6 +88,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
 
   const handleAdvancedFilter = async () => {
     try {
+      setIsLoading(true);
       setShowFilterOption(false);
       const advancedFilterResult = await axios.get(
         `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
@@ -100,14 +104,53 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
         }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
       );
       if (advancedFilterResult.data.length === 0) {
-        showToast('warning', 'No result found');
-        return;
+        setIsDataEmpty(true);
       } else {
         setBlueprintTokenList(advancedFilterResult.data);
+        setIsDataEmpty(false);
       }
     } catch (err: any) {
       console.log(err);
       showToast('fail', err.response.data);
+    }finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleResetAdvancedFilter = async () => {
+    try {
+      setIsLoading(true);
+      setAdvancedFilterValue({
+        blueprintIdMin: '',
+        blueprintIdMax: '',
+        mintPriceUnit: 0,
+        mintPriceMin: '',
+        mintPriceMax: '',
+        totalSupplyMin: '',
+        totalSupplyMax: '',
+        mintLimitMin: '',
+        mintLimitMax: '',
+        mintedAmountMin: '',
+        mintedAmountMax: '',
+        productIdMin: '',
+        productIdMax: '',
+        productBalanceMin: '',
+        productBalanceMax: '',
+      });
+      setShowFilterOption(false);
+      const advancedFilterResult = await axios.get(
+        `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=&maxId=&mintPriceUnit=&mintPriceMin=&mintPriceMax=&totalSupplyMin=&totalSupplyMax=&mintLimitMin=&mintLimitMax=&mintedAmountMin=&mintedAmountMax=`
+      );
+      if (advancedFilterResult.data.length === 0) {
+        setIsDataEmpty(true);
+      } else {
+        setBlueprintTokenList(advancedFilterResult.data);
+        setIsDataEmpty(false);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -368,6 +411,12 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
         text="Apply"
         className="flex justify-center rounded-lg text-sm !py-1.5"
         onClick={handleAdvancedFilter}
+      />
+      <Button
+        variant="secondary"
+        text="Reset Filter Options"
+        className="flex justify-center rounded-lg text-sm !py-1.5 -mt-1.5"
+        onClick={handleResetAdvancedFilter}
       />
     </div>
   );
