@@ -3,7 +3,7 @@ import Image404 from '../../assets/images/bg_404_text.png';
 export default function PageNotFoundPage() {
   return (
     <div className="min-w-[320px] bg-contain bg-no-repeat bg-center">
-      <img src={Image404}></img>
+      <img src={Image404} alt="404 image"></img>
     </div>
   );
 }
