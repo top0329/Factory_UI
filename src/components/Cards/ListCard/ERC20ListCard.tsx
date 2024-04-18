@@ -1,19 +1,18 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
-import { useEffect, useState } from 'react';
-import Web3, { HttpProvider } from 'web3';
-import useWeb3 from '../../../hooks/useWeb3';
-import {
-  factoryAddress,
-  defaultRPC,
-  DefaultErc20ImageUri,
-} from '../../../constants';
-import { ethers } from 'ethers';
-import { erc20Abi } from 'viem';
+import { useState } from 'react';
 import copy from 'copy-to-clipboard';
+import { ethers } from 'ethers';
+import { Address } from 'viem';
+
+import useWeb3 from '../../../hooks/useWeb3';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
+import { factoryAddress } from '../../../constants';
+import getTokenData from '../../../utils/getTokenData';
 
 export interface Props {
+  name?: string;
+  uri?: string;
   address?: string;
   amount?: number;
   productAmount?: number;
@@ -23,86 +22,41 @@ export interface Props {
 }
 
 export function ERC20MintListCard(props: Props) {
-  const [isCopied, setIsCopied] = useState<boolean>(false);
-  const [decimal, setDecimal] = useState<number>();
-  const { isConnected, library, account, erc20Approve } = useWeb3();
-  const [isApproved, setIsApproved] = useState<boolean>();
-  const [componentName, setComponentName] = useState<string>('');
-  const [tokenAmount, setTokenAmount] = useState<number>();
-  const [tokenAddress, setTokenAddress] = useState<string>('');
-  const [tokenImage, setTokenImage] = useState<string>('');
+  const { isConnected, library, erc20Approve } = useWeb3();
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
-  useEffect(() => {
-    const getContractInfo = async () => {
-      const web3 = new Web3(new HttpProvider(defaultRPC));
-      const erc20Contract = new web3.eth.Contract(erc20Abi, props[0]);
 
-      const name: string = await erc20Contract.methods
-        .name()
-        .call({ from: account });
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isApproved, setIsApproved] = useState<boolean>();
 
-      const _decimal: number = await erc20Contract.methods
-        .decimals()
-        .call({ from: account });
-
-      const _tokenAmount: number =
-        Number(props[1]) *
-        10 ** (Number(_decimal) * -1) *
-        Number(props.productAmount);
-
-      console.log('_tokenAmount>>>>>', _tokenAmount);
-      console.log('productAmount>>>>', props.productAmount);
-      setDecimal(_decimal);
-      setComponentName(name);
-      setTokenAmount(_tokenAmount);
-      setTokenAddress(String(props[0]));
-      setTokenImage(DefaultErc20ImageUri);
-    };
-    getContractInfo();
-  }, [account, decimal, props]);
   const handleCopyButtonClicked = () => {
-    copy(tokenAddress);
-    setIsCopied(true);
+    if (props.address) {
+      copy(props.address);
+      setIsCopied(true);
+    }
   };
+
   const handleApprove = async () => {
-    const web3 = new Web3(window.ethereum);
     try {
       if (isConnected && library) {
-        let receipt = null;
-        while (receipt === null || receipt.status === undefined) {
-          const res = erc20Approve(
-            String(props[0]),
-            factoryAddress,
-            String(
-              ethers.parseUnits(
-                Number(tokenAmount).toFixed(Number(decimal)),
-                decimal
-              )
-            )
-          );
-
-          openSpin('Approving...');
-          receipt = await web3.eth.getTransactionReceipt(
-            (
-              await res
-            ).transactionHash
-          );
-          if (receipt && receipt.status !== undefined) {
-            if (receipt.status) {
-              showToast('success', 'Approve Success!');
-              setIsApproved(true);
-              props.setApprovedCount((current: number) => current + 1);
-              closeSpin();
-            } else {
-              showToast('fail', 'Approve failed!');
-              setIsApproved(false);
-              closeSpin();
-            }
+        const tokenData = await getTokenData(props.address as Address);
+        if (tokenData) {
+          if (props.amount) {
+            openSpin('Approving...');
+            const transaction = await erc20Approve(
+              props.address as Address,
+              factoryAddress,
+              ethers
+                .parseUnits(props.amount.toString(), tokenData.decimal)
+                .toString()
+            );
+            console.log(transaction);
+            setIsApproved(true);
           } else {
-            alert('Transaction is still pending');
-            await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+            showToast('fail', 'Amount is required');
           }
+        } else {
+          showToast('fail', 'Token not found');
         }
       }
     } catch (err: any) {
@@ -117,26 +71,23 @@ export function ERC20MintListCard(props: Props) {
     <div className="flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] px-[4px] py-2 mb-2 border rounded-3xl text-white text-base bg-[#09F5D8]/10 border-[#09F5D8]">
       <div id="icon" className="flex justify-center py-2">
         <img
-          src={tokenImage}
+          src={props.uri}
           className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
         />
       </div>
-
       <div
         className="hidden sm:block text-white justify-center  items-center w-[15%] md:text-[24px] text-[16px] text-xl"
         id="type"
       >
         ERC20
       </div>
-
       <div
         id="name"
         className="xs:block flex flex-col justify-center sm:w-[12%] w-[30%]"
       >
         <p className="text-[#858584] text-xs">Name</p>
-        <p className="truncate">{componentName}</p>
+        <p className="truncate">{props.name}</p>
       </div>
-
       <div
         id="address"
         className="hidden md:block flex-col justify-center w-[25%]"
@@ -144,7 +95,8 @@ export function ERC20MintListCard(props: Props) {
         <p className="text-[#858584] text-xs">Address</p>
         <div className="flex gap-2">
           <p className=" truncate">
-            {tokenAddress.substring(0, 8)} . . . {tokenAddress.slice(-6)}
+            {props.address && props.address.substring(0, 8)} . . .{' '}
+            {props.address && props.address.slice(-6)}
           </p>
           <div className="relative">
             <button>
@@ -152,7 +104,6 @@ export function ERC20MintListCard(props: Props) {
                 onClick={handleCopyButtonClicked}
                 icon="solar:copy-outline"
                 className="item-center my-auto"
-                // className="item-center my-auto"
               />
             </button>
             {isCopied && (
@@ -167,11 +118,10 @@ export function ERC20MintListCard(props: Props) {
         </div>
       </div>
       <div id="id" className="w-[3%]"></div>
-
       <div id="amount" className="truncate sm:w-auto">
         <div>
           <p className="text-[#858584] text-xs">Amount</p>
-          <p className="text-center">{Number(tokenAmount)}</p>
+          <p className="text-center">{Number(props.amount)}</p>
         </div>
       </div>
       <div id="approve" className="xs:w-auto w-[20%]">
@@ -191,65 +141,35 @@ export function ERC20MintListCard(props: Props) {
 
 export function ERC20DecomposeListCard(props: Props) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const { account } = useWeb3();
-  const [componentName, setComponentName] = useState<string>('');
-  const [tokenAmount, setTokenAmount] = useState<number>();
-  const [tokenAddress, setTokenAddress] = useState<string>('');
-  const [tokenImage, setTokenImage] = useState<string>('');
-  useEffect(() => {
-    console.log('props>>>>>>>>>>>>>>', props);
-    const getContractInfo = async () => {
-      const web3 = new Web3(new HttpProvider(defaultRPC));
-      const erc20Contract = new web3.eth.Contract(erc20Abi, props[0]);
 
-      const name: string = await erc20Contract.methods
-        .name()
-        .call({ from: account });
-
-      const _decimal: number = await erc20Contract.methods
-        .decimals()
-        .call({ from: account });
-
-      const _tokenAmount: number =
-        Number(props[1]) *
-        10 ** (Number(_decimal) * -1) *
-        Number(props.productAmount);
-
-      setComponentName(name);
-      setTokenAmount(_tokenAmount);
-      setTokenAddress(String(props[0]));
-      setTokenImage(DefaultErc20ImageUri);
-    };
-    getContractInfo();
-  }, [account, props]);
   const handleCopyButtonClicked = () => {
-    copy(tokenAddress);
-    setIsCopied(true);
+    if (props.address) {
+      copy(props.address);
+      setIsCopied(true);
+    }
   };
+
   return (
     <div className="flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] px-4  py-2 mb-2 borderpy-2 border  rounded-3xl text-white text-base bg-[#858584]/10 border-gray-500">
       <div id="icon" className="flex justify-center py-2">
         <img
-          src={tokenImage}
+          src={props.uri}
           className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
         />
       </div>
-
       <div
         id="type"
         className="hidden sm:block text-white justify-center  items-center w-[15%] md:text-[24px] text-[16px] text-xl"
       >
         ERC20
       </div>
-
       <div
         id="name"
         className="flex flex-col justify-center sm:w-[12%] w-[30%]"
       >
         <p className="text-[#858584] text-xs">Name</p>
-        <p className="text-[#BABABA] truncate">{componentName}</p>
+        <p className="text-[#BABABA] truncate">{props.name}</p>
       </div>
-
       <div
         id="address"
         className="hidden md:block flex-col justify-center w-[25%]"
@@ -257,7 +177,8 @@ export function ERC20DecomposeListCard(props: Props) {
         <p className="text-[#858584] text-xs">Address</p>
         <div className="flex gap-2">
           <p className="text-[#BABABA] truncate">
-            {tokenAddress.substring(0, 9)} ... {tokenAddress.slice(-7)}
+            {props.address && props.address.substring(0, 9)} ...{' '}
+            {props.address && props.address.slice(-7)}
           </p>
           <div className="relative">
             <button>
@@ -278,12 +199,10 @@ export function ERC20DecomposeListCard(props: Props) {
           </div>
         </div>
       </div>
-
       <div id="id" className="w-[3%]"></div>
-
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
-        <p className="text-center">{Number(tokenAmount)}</p>
+        <p className="text-center">{Number(props.amount)}</p>
       </div>
     </div>
   );

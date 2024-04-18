@@ -1,81 +1,69 @@
 import { useEffect, useState } from 'react';
-import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
-import useToast from '../../hooks/useToast';
-import { runMain } from '../../utils/getDataFromAlchemy';
+import axios from 'axios';
+import { useAtom } from 'jotai';
 
+import useToast from '../../hooks/useToast';
+import useWeb3 from '../../hooks/useWeb3';
 import SearchBar from '../../components/SearchBar';
-// import productData from '../../../own-blueprint-data.json';
+import ProductCard from '../../components/Cards/BlueprintCard/ProductCard';
+import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer';
+import NoDataFound from '../../components/Loading/NoDataFound';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 import {
   selectedProductintAtom,
   productSelectionState,
   productTokenListAtom,
-  // blueprintTokenListAtom,
+  isLoadingAtom,
+  isDataEmptyAtom,
 } from '../../jotai/atoms';
-import ProductCard from '../../components/Cards/BlueprintCard/ProductCard';
-import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer';
-import useWeb3 from '../../hooks/useWeb3';
-import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
-import { productAddress } from '../../constants';
+import { runMain } from '../../utils/getDataFromAlchemy';
+import { BASE_URI, productAddress } from '../../constants';
 
 const ProductPage = () => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
+  const { showToast } = useToast();
+  const { isConnected, account } = useWeb3();
+
+  const navigate = useNavigate();
 
   const [, setSelectedProduct] = useAtom(selectedProductintAtom);
   const [, setProductSelectionState] = useAtom(productSelectionState);
   const [productTokenList, setProductTokenList] = useAtom(productTokenListAtom);
-  const { showToast } = useToast();
-  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useAtom<boolean>(isLoadingAtom);
+  const [isDataEmpty, setIsDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
 
-  const {
-    productContract,
-    blueprintContract,
-    isConnected,
-    factoryContract,
-    account,
-  } = useWeb3();
+  const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const getProductTokenList = async () => {
       try {
         const myProducts = await runMain(productAddress, String(account));
         console.log(myProducts);
-        if (myProducts && myProducts.length > 0) {
-          const productTokenIds: any = await myProducts.map((blueprint: any) => {
-            return blueprint.tokenId;
-          });
-          const tempTokenList = await Promise.all(
-            productTokenIds.map(async (id: number) => {
-              const blueprintToken = await blueprintContract.getBlueprintNFTData(
-                id
-              );
-              const balance: number = Number(
-                await productContract.balanceOf(account, id)
-              );
-              const imageUri: string = String(
-                await tokenUriToImageUri(blueprintToken.uri)
-              );
-              const fee = await factoryContract.productDecomposeFee();
-              const tempObject = {
-                id: Number(blueprintToken.id),
-                name: blueprintToken.name,
-                uri: imageUri,
-                creator: blueprintToken.creator,
-                balance: balance,
-                blueprintAddress: await blueprintContract.getAddress(),
-                myBlueprint: blueprintToken.creator == account,
-                decomposeFee: Number(fee) * 10 ** -18,
-                data: blueprintToken.data,
-              };
-              return tempObject;
-            })
+        if (myProducts) {
+          const myProductsIds = myProducts.map((product) => product.tokenId);
+          const myProductsData = await axios.get(
+            `${BASE_URI}/product/?ids=${myProductsIds}`
           );
-          setProductTokenList(tempTokenList);
-        } else {
-          setProductTokenList([]);
+          console.log(myProductsData.data);
+          if (myProductsData.data.length === 0) {
+            setIsDataEmpty(true);
+          } else {
+            myProductsData.data.forEach((product: any) => {
+              const _product = myProducts.find(
+                (n) => Number(n.tokenId) === Number(product.id)
+              );
+              if (_product) {
+                product.balance = Number(_product.balance);
+              }
+            });
+            console.log(myProductsData.data);
+            setProductTokenList(myProductsData.data);
+          }
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     if (isConnected) {
@@ -85,10 +73,9 @@ const ProductPage = () => {
     }
   }, [
     account,
-    blueprintContract,
-    factoryContract,
     isConnected,
-    productContract,
+    setIsDataEmpty,
+    setIsLoading,
     setProductTokenList,
     showToast,
   ]);
@@ -112,18 +99,26 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="text-white">
-      <div className="flex flex-col min-w-[320px] gap-2 text-white">
-        <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
-          My Products
-        </h1>
-        <div>
-          <SearchBar
-            pageFilter="product"
-            advancedFilter
-            placeholders="Search for Proudct ID and Name."
-          />
+    <div className="flex flex-col min-w-[320px] gap-2 text-white">
+      <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
+        My Products
+      </h1>
+      <div>
+        <SearchBar
+          pageFilter="product"
+          advancedFilter
+          placeholders="Search for Proudct ID and Name."
+        />
+      </div>
+      {isLoading ? (
+        <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
+          <LoadingSpinner />
         </div>
+      ) : isDataEmpty ? (
+        <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
+          <NoDataFound message="No My Blueprints Found!" />
+        </div>
+      ) : (
         <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
           {productTokenList.length > 0 &&
             productTokenList.map((product) => {
@@ -141,11 +136,11 @@ const ProductPage = () => {
               );
             })}
         </div>
-        <ProductDetailsDrawer
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-        />
-      </div>
+      )}
+      <ProductDetailsDrawer
+        isDrawerOpen={isDrawerOpen}
+        setIsDrawerOpen={setIsDrawerOpen}
+      />
     </div>
   );
 };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useAtom } from 'jotai';
 
 import useWeb3 from '../../hooks/useWeb3';
@@ -6,6 +7,8 @@ import useToast from '../../hooks/useToast';
 import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
 import SearchBar from '../../components/SearchBar';
 import OwnBlueprintDetailsDrawer from '../../components/Drawers/OwnBlueprintDetailsDrawer';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
+import NoDataFound from '../../components/Loading/NoDataFound';
 import {
   selectedOwnBlueprintAtom,
   ownBlueprintTokenListAtom,
@@ -13,9 +16,6 @@ import {
   isDataEmptyAtom,
 } from '../../jotai/atoms';
 import { BASE_URI, blueprintAddress } from '../../constants';
-import axios from 'axios';
-import LoadingSpinner from '../../components/Loading/LoadingSpinner';
-import NoDataFound from '../../components/Loading/NoDataFound';
 import { runMain } from '../../utils/getDataFromAlchemy';
 
 const MyBlueprintPage = () => {
