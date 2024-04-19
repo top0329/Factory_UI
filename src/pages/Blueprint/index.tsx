@@ -89,7 +89,7 @@ const BlueprintPage = () => {
     <HeadProvider>
       <div className="min-w-[320px]">
         <Title>Blueprint - Factory</Title>
-        <Link rel="canonical" href="http://localhost/blueprint" />
+        <Link rel="canonical" href="http://factory-ui.vercel.app/blueprint" />
         <Meta
           name="description"
           content="This is Factory1155.com/blueprint. Here you can create new Blueprint token and also mint the Blueprint token based on the created token. You can also recreate the exisiting Blueprint token with new attributes."

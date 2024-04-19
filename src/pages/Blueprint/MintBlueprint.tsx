@@ -339,7 +339,10 @@ const MintBlueprintPage = () => {
   return (
     <HeadProvider>
       <Title>MintBlueprint - Factory</Title>
-      <Link rel="canonical" href="http://localhost/blueprint/mint/" />
+      <Link
+        rel="canonical"
+        href="http://factory-ui.vercel.app/blueprint/mint/"
+      />
       <Meta
         name="description"
         content="This is Factory1155.com/blueprint/mint. Here you can mint new Blueprint token using component tokens."

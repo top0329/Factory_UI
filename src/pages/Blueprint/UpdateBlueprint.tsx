@@ -92,7 +92,10 @@ const UpdateBlueprintPage = () => {
     <HeadProvider>
       <div className="text-white">
         <Title>UpdateBlueprint - Factory</Title>
-        <Link rel="canonical" href="http://localhost/blueprint/update" />
+        <Link
+          rel="canonical"
+          href="http://factory-ui.vercel.app/blueprint/update"
+        />
         <Meta
           name="description"
           content="This is Factory1155.com/blueprint/update. Here you can update the Blueprint token with some attributes."

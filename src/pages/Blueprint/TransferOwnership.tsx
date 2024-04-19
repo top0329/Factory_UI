@@ -127,7 +127,7 @@ const TransferOwnershipPage = () => {
         <Title>Blueprint - Factory</Title>
         <Link
           rel="canonical"
-          href="http://localhost/blueprint/transfer-ownership"
+          href="http://factory-ui.vercel.app/blueprint/transfer-ownership"
         />
         <Meta
           name="description"

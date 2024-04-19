@@ -175,7 +175,10 @@ const RecreateBlueprintPage = () => {
     <HeadProvider>
       <div className="text-white">
         <Title>Recreate - Factory</Title>
-        <Link rel="canonical" href="http://localhost/blueprint/recreate" />
+        <Link
+          rel="canonical"
+          href="http://factory-ui.vercel.app/blueprint/recreate"
+        />
         <Meta
           name="description"
           content="This is Factory1155.com/blueprint/recreate. Here you can recreate Blueprint token with new attributes."
