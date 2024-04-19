@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
+import { HeadProvider, Title, Link, Meta } from 'react-head';
 
 import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
@@ -88,57 +89,74 @@ const UpdateBlueprintPage = () => {
   };
 
   return (
-    <div className="text-white">
-      <div className="flex justify-between items-center py-3">
-        <h1 className="text-lg xs:text-xl lg:text-2xl xl:text-3xl">
-          Update Blueprint
-        </h1>
-      </div>
-      <div className="flex flex-col pt-6 pb-16 gap-4 lg:gap-6 xs:flex-row">
-        <div className="min-w-48 w-full md:w-auto lg:min-w-72 md:min-w-52 sm:min-w-64">
-          <BlueprintInfoCard isUpdate />
+    <HeadProvider>
+      <div className="text-white">
+        <Title>UpdateBlueprint - Factory</Title>
+        <Link
+          rel="canonical"
+          href="http://factory-ui.vercel.app/blueprint/update"
+        />
+        <Meta
+          name="description"
+          content="This is Factory1155.com/blueprint/update. Here you can update the Blueprint token with some attributes."
+        />
+        <Meta
+          name="keyword"
+          content="Factory, Factory1155, Blueprint, Update"
+        />
+        <div className="flex justify-between items-center py-3">
+          <h1 className="text-lg xs:text-xl lg:text-2xl xl:text-3xl">
+            Update Blueprint
+          </h1>
         </div>
-        <div className="w-full grid grid-cols-2 gap-4 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 xs:grid-cols-1">
-          {createBlueprint.data.erc20Data.map((erc20, idx) => {
-            return (
-              <ERC20Card
-                key={idx}
-                name={erc20.name}
-                uri={erc20.uri}
-                amount={erc20.amount}
-                tokenAddress={erc20.tokenAddress}
-                onDeleteIconClicked={() => handleDeleteERC20CardClicked(erc20)}
-              />
-            );
-          })}
-          {createBlueprint.data.erc721Data.map((erc721) => {
-            return (
-              <ERC721Card
-                key={erc721.tokenId}
-                tokenId={erc721.tokenId}
-                tokenAddress={erc721.tokenAddress}
-                onDeleteIconClicked={() =>
-                  handleDeleteERC721CardClicked(erc721)
-                }
-              />
-            );
-          })}
-          {createBlueprint.data.erc1155Data.map((erc1155) => {
-            return (
-              <ERC1155Card
-                key={erc1155.tokenId}
-                tokenId={erc1155.tokenId}
-                amount={erc1155.amount}
-                tokenAddress={erc1155.tokenAddress}
-                onDeleteIconClicked={() =>
-                  handleDeleteERC1155CardClicked(erc1155)
-                }
-              />
-            );
-          })}
+        <div className="flex flex-col pt-6 pb-16 gap-4 lg:gap-6 xs:flex-row">
+          <div className="min-w-48 w-full md:w-auto lg:min-w-72 md:min-w-52 sm:min-w-64">
+            <BlueprintInfoCard isUpdate />
+          </div>
+          <div className="w-full grid grid-cols-2 gap-4 2xl:grid-cols-4 xl:grid-cols-3 md:grid-cols-2 xs:grid-cols-1">
+            {createBlueprint.data.erc20Data.map((erc20, idx) => {
+              return (
+                <ERC20Card
+                  key={idx}
+                  name={erc20.name}
+                  uri={erc20.uri}
+                  amount={erc20.amount}
+                  tokenAddress={erc20.tokenAddress}
+                  onDeleteIconClicked={() =>
+                    handleDeleteERC20CardClicked(erc20)
+                  }
+                />
+              );
+            })}
+            {createBlueprint.data.erc721Data.map((erc721) => {
+              return (
+                <ERC721Card
+                  key={erc721.tokenId}
+                  tokenId={erc721.tokenId}
+                  tokenAddress={erc721.tokenAddress}
+                  onDeleteIconClicked={() =>
+                    handleDeleteERC721CardClicked(erc721)
+                  }
+                />
+              );
+            })}
+            {createBlueprint.data.erc1155Data.map((erc1155) => {
+              return (
+                <ERC1155Card
+                  key={erc1155.tokenId}
+                  tokenId={erc1155.tokenId}
+                  amount={erc1155.amount}
+                  tokenAddress={erc1155.tokenAddress}
+                  onDeleteIconClicked={() =>
+                    handleDeleteERC1155CardClicked(erc1155)
+                  }
+                />
+              );
+            })}
+          </div>
         </div>
       </div>
-    </div>
+    </HeadProvider>
   );
 };
 
