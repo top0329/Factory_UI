@@ -68,7 +68,7 @@ export function ERC721MintListCard(props: Props) {
           receipt = await web3.eth.getTransactionReceipt(
             (
               await res
-            )
+            ).transactionHash
           );
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
