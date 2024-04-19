@@ -1,18 +1,17 @@
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useEffect, useState } from 'react';
-import Web3, { HttpProvider } from 'web3';
+import Web3 from 'web3';
 import useWeb3 from '../../../hooks/useWeb3';
-import { factoryAddress, defaultRPC } from '../../../constants';
-// import { ethers } from 'ethers';
-import { erc721Abi } from 'viem';
-import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
+import { factoryAddress } from '../../../constants';
+import { Address } from 'viem';
 import copy from 'copy-to-clipboard';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
+import getERC721Data from '../../../utils/getERC721Data';
 
 export interface Props {
   address?: string;
-  id?: bigint;
+  id?: number;
   productAmount?: number;
   setApprovedCount: any;
   0?: string;
@@ -21,38 +20,37 @@ export interface Props {
 
 export function ERC721MintListCard(props: Props) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const { isConnected, library, account, erc721Approve } = useWeb3();
+  const { isConnected, library, erc721Approve } = useWeb3();
   const [isApproved, setIsApproved] = useState<boolean>();
   const [componentName, setComponentName] = useState<string>('');
-  const [tokenId, setTokenId] = useState<number>();
-  const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
 
   useEffect(() => {
-    const getContractInfo = async () => {
-      const web3 = new Web3(new HttpProvider(defaultRPC));
-      const erc721Contract = new web3.eth.Contract(erc721Abi, props[0]);
+    async function init() {
+      try {
+        const erc721Data = await getERC721Data(
+          props.address as Address,
+          props.id as number
+        );
+        if (erc721Data) {
+          const { name, uri } = erc721Data;
+          setComponentName(name);
+          setTokenImage(`https://ipfs.io/${uri}`);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    init();
+  }, [props.address, props.id]);
 
-      const name: string = await erc721Contract.methods
-        .name()
-        .call({ from: account });
-
-      const uri: string = await erc721Contract.methods
-        .tokenURI(Number(props[1]))
-        .call({ from: account });
-
-      setComponentName(name);
-      setTokenId(Number(props[1]));
-      setTokenImage(String(await tokenUriToImageUri(uri)));
-      setTokenAddress(String(props[0]));
-    };
-    getContractInfo();
-  }, [account, props]);
   const handleCopyButtonClicked = () => {
-    copy(tokenAddress);
-    setIsCopied(true);
+    if (props.address) {
+      copy(props.address);
+      setIsCopied(true);
+    }
   };
   const handleApprove = async () => {
     const web3 = new Web3(window.ethereum);
@@ -62,9 +60,9 @@ export function ERC721MintListCard(props: Props) {
         let receipt = null;
         while (receipt === null || receipt.status === undefined) {
           const res = erc721Approve(
-            String(props[0]),
+            props.address as Address,
             factoryAddress,
-            String(tokenId)
+            String(props.id)
           );
           openSpin('Approving...');
           receipt = await web3.eth.getTransactionReceipt(
@@ -72,7 +70,6 @@ export function ERC721MintListCard(props: Props) {
               await res
             ).transactionHash
           );
-
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
               showToast('success', 'Approve Success!');
@@ -80,7 +77,7 @@ export function ERC721MintListCard(props: Props) {
               props.setApprovedCount((current: number) => current + 1);
               closeSpin();
             } else {
-              showToast('failed', 'Approve failed!');
+              showToast('fail', 'Approve failed!');
               setIsApproved(false);
               closeSpin();
             }
@@ -106,14 +103,12 @@ export function ERC721MintListCard(props: Props) {
           className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
         />
       </div>
-
       <div
         className="hidden sm:block text-white justify-center  items-center w-[15%] md:text-[24px] text-[16px] text-xl"
         id="type"
       >
         ERC721
       </div>
-
       <div
         id="name"
         className="xs:block flex flex-col justify-center sm:w-[12%] w-[30%]"
@@ -121,7 +116,6 @@ export function ERC721MintListCard(props: Props) {
         <p className="text-[#858584] text-xs">Name</p>
         <p className="truncate">{componentName}</p>
       </div>
-
       <div
         id="address"
         className="hidden md:block flex-col justify-center w-[25%]"
@@ -129,7 +123,8 @@ export function ERC721MintListCard(props: Props) {
         <p className="text-[#858584] text-xs">Address</p>
         <div className="flex gap-2">
           <p className=" truncate">
-            {tokenAddress.substring(0, 8)} . . . {tokenAddress.slice(-6)}
+            {props.address && props.address.substring(0, 8)} . . .{' '}
+            {props.address && props.address.slice(-6)}
           </p>
           <div className="relative">
             <button>
@@ -137,7 +132,6 @@ export function ERC721MintListCard(props: Props) {
                 onClick={handleCopyButtonClicked}
                 icon="solar:copy-outline"
                 className="item-center my-auto"
-                // className="item-center my-auto"
               />
             </button>
             {isCopied && (
@@ -154,10 +148,9 @@ export function ERC721MintListCard(props: Props) {
       <div id="id" className="w-[3%]">
         <div>
           <p className="text-[#858584] text-xs">ID</p>
-          <p>{tokenId}</p>
+          <p>{props.id}</p>
         </div>
       </div>
-
       <div id="amount" className="w-[5%]"></div>
       <div id="approve" className="xs:w-auto w-[20%]">
         <button

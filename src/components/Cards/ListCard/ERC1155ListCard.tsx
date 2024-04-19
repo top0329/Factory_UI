@@ -10,10 +10,12 @@ import { tokenUriToName } from '../../../utils/tokenUriToName';
 import copy from 'copy-to-clipboard';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
+import getERC1155Data from '../../../utils/getERC1155Data';
+import { Address } from 'viem';
 
 export interface Props {
   address?: string;
-  id?: bigint;
+  id?: number;
   amount?: number;
   productAmount?: number;
   setApprovedCount?: any;
@@ -24,47 +26,52 @@ export interface Props {
 
 export function ERC1155MintListCard(props: Props) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const { isConnected, library, account, erc1155Approve } = useWeb3();
+  const { isConnected, library, erc1155Approve } = useWeb3();
   const [componentName, setComponentName] = useState<string>('');
   const [isApproved, setIsApproved] = useState<boolean>();
-  const [tokenAmount, setTokenAmount] = useState<number>();
-  const [tokenId, setTokenId] = useState<number>();
-  const [tokenAddress, setTokenAddress] = useState<string>('');
+  // const [tokenAmount, setTokenAmount] = useState<number>();
+  // const [tokenId, setTokenId] = useState<number>();
+  // const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
 
   useEffect(() => {
-    const getContractInfo = async () => {
-      const web3 = new Web3(new HttpProvider(defaultRPC));
-      const erc1155Contract = new web3.eth.Contract(erc1155Abi, props[0]);
+    async function init() {
+      try {
+        const erc1155Data = await getERC1155Data(
+          props.address as Address,
+          props.id as number
+        );
+        if (erc1155Data) {
+          const { name, uri } = erc1155Data;
+          setComponentName(name);
+          setTokenImage(uri);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    init();
+  }, [props.address, props.id]);
 
-      const uri: string = await erc1155Contract.methods
-        .uri(props[1])
-        .call({ from: account });
-
-      console.log('ERC1155 URI>>>', uri);
-
-      setTokenAddress(String(props[0]));
-      setComponentName(await tokenUriToName(uri));
-      setTokenId(Number(props[1]));
-      setTokenAmount(Number(props[2]) * Number(props.productAmount));
-      setTokenImage(String(await tokenUriToImageUri(uri)));
-    };
-    getContractInfo();
-  }, [account, props]);
   const handleCopyButtonClicked = () => {
-    copy(tokenAddress);
-    setIsCopied(true);
+    if (props.address) {
+      copy(props.address);
+      setIsCopied(true);
+    }
   };
   const handleApprove = async () => {
     const web3 = new Web3(window.ethereum);
-
     try {
       if (isConnected && library) {
         let receipt = null;
         while (receipt === null || receipt.status === undefined) {
-          const res = erc1155Approve(tokenAddress, factoryAddress, true);
+          const res = erc1155Approve(
+            props.address as Address,
+            factoryAddress,
+            true
+          );
           openSpin('Approving...');
           receipt = await web3.eth.getTransactionReceipt(
             (
@@ -104,14 +111,12 @@ export function ERC1155MintListCard(props: Props) {
           className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
         />
       </div>
-
       <div
         className="hidden sm:block text-white justify-center  items-center w-[15%] md:text-[24px] text-[16px] text-xl"
         id="type"
       >
         ERC1155
       </div>
-
       <div
         id="name"
         className="xs:block flex flex-col justify-center sm:w-[12%] w-[30%]"
@@ -119,7 +124,6 @@ export function ERC1155MintListCard(props: Props) {
         <p className="text-[#858584] text-xs">Name</p>
         <p className="truncate">{componentName}</p>
       </div>
-
       <div
         id="address"
         className="hidden md:block flex-col justify-center w-[25%]"
@@ -127,7 +131,8 @@ export function ERC1155MintListCard(props: Props) {
         <p className="text-[#858584] text-xs">Address</p>
         <div className="flex gap-2">
           <p className=" truncate">
-            {tokenAddress.substring(0, 8)} . . . {tokenAddress.slice(-6)}
+            {props.address && props.address.substring(0, 8)} . . .{' '}
+            {props.address && props.address.slice(-6)}
           </p>
           <div className="relative">
             <button>
@@ -152,13 +157,12 @@ export function ERC1155MintListCard(props: Props) {
       <div id="id" className="w-[3%]">
         <div>
           <p className="text-[#858584] text-xs">ID</p>
-          <p>{tokenId}</p>
+          <p>{props.id}</p>
         </div>
       </div>
-
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
-        <p className="text-center">{Number(tokenAmount)}</p>
+        <p className="text-center">{props.amount}</p>
       </div>
       <div id="approve" className="xs:w-auto w-[20%]">
         <button
