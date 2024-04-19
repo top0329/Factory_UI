@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
+import { HeadProvider, Title, Link, Meta } from 'react-head';
+
 import useToast from '../../hooks/useToast';
 import { runMain } from '../../utils/getDataFromAlchemy';
-
 import SearchBar from '../../components/SearchBar';
 // import productData from '../../../own-blueprint-data.json';
 import {
@@ -17,6 +18,7 @@ import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer'
 import useWeb3 from '../../hooks/useWeb3';
 import { tokenUriToImageUri } from '../../utils/tokenUriToImageUri';
 import { productAddress } from '../../constants';
+import { Helmet } from 'react-helmet';
 
 const ProductPage = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -41,14 +43,15 @@ const ProductPage = () => {
         const myProducts = await runMain(productAddress, String(account));
         console.log(myProducts);
         if (myProducts && myProducts.length > 0) {
-          const productTokenIds: any = await myProducts.map((blueprint: any) => {
-            return blueprint.tokenId;
-          });
+          const productTokenIds: any = await myProducts.map(
+            (blueprint: any) => {
+              return blueprint.tokenId;
+            }
+          );
           const tempTokenList = await Promise.all(
             productTokenIds.map(async (id: number) => {
-              const blueprintToken = await blueprintContract.getBlueprintNFTData(
-                id
-              );
+              const blueprintToken =
+                await blueprintContract.getBlueprintNFTData(id);
               const balance: number = Number(
                 await productContract.balanceOf(account, id)
               );
@@ -112,41 +115,78 @@ const ProductPage = () => {
   };
 
   return (
-    <div className="text-white">
-      <div className="flex flex-col min-w-[320px] gap-2 text-white">
-        <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
-          My Products
-        </h1>
-        <div>
-          <SearchBar
-            pageFilter="product"
-            advancedFilter
-            placeholders="Search for Proudct ID and Name."
+    <HeadProvider>
+      <div className="text-white">
+        <Title>Product - Factory</Title>
+        <Link rel="canonical" href="http://factory-ui.vercel.app/product" />
+        <Meta
+          name="description"
+          content="This is factory-ui.vercel.app/product. Here you can decompose Product token based on the minted Product tokens."
+        />
+        <Meta
+          name="keyword"
+          content="Factory, Factory1155, Blueprint, Product, Component Token, Combine, Creation, Mint, Recreation"
+        />
+        <Helmet>
+          <meta
+            name="description"
+            content="This is factory-ui.vercel.app/product. Here you can decompose Product token based on the minted Product tokens."
+          />
+          <meta
+            name="keyword"
+            content="Factory, Factory1155, Blueprint, Product, Component Token, Combine, Creation, Mint, Recreation"
+          />
+          <meta property="og:title" content="Blueprint - Factory1155" />
+          <meta
+            property="og:description"
+            content="This is factory-ui.vercel.app/product. Here you can decompose Product token based on the minted Product tokens."
+          />
+          <meta property="og:type" content="website" />
+          <meta
+            property="og:url"
+            content="https://factory-ui.vercel.app/product"
+          />
+          <meta property="twitter:title" content="Blueprint - Factory1155" />
+          <meta
+            property="twitter:description"
+            content="This is factory-ui.vercel.app/product. Here you can decompose Product token based on the minted Product tokens."
+          />
+        </Helmet>
+        <div className="flex flex-col min-w-[320px] gap-2 text-white">
+          <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
+            My Products
+          </h1>
+          <div>
+            <SearchBar
+              pageFilter="product"
+              advancedFilter
+              placeholders="Search for Proudct ID and Name."
+            />
+          </div>
+          <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
+            {productTokenList.length > 0 &&
+              productTokenList.map((product) => {
+                return (
+                  <div className="flex justify-center" key={product.id}>
+                    <ProductCard
+                      productId={product.id}
+                      name={product.name}
+                      uri={product.imageUri}
+                      balance={product.balance}
+                      onClick={() => handleProductCardClicked(product)}
+                      onClickDecompose={() => handleDecomposeProduct(product)}
+                    />
+                  </div>
+                );
+              })}
+          </div>
+          <ProductDetailsDrawer
+            isDrawerOpen={isDrawerOpen}
+            setIsDrawerOpen={setIsDrawerOpen}
           />
         </div>
-        <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-          {productTokenList.length > 0 &&
-            productTokenList.map((product) => {
-              return (
-                <div className="flex justify-center" key={product.id}>
-                  <ProductCard
-                    productId={product.id}
-                    name={product.name}
-                    uri={product.imageUri}
-                    balance={product.balance}
-                    onClick={() => handleProductCardClicked(product)}
-                    onClickDecompose={() => handleDecomposeProduct(product)}
-                  />
-                </div>
-              );
-            })}
-        </div>
-        <ProductDetailsDrawer
-          isDrawerOpen={isDrawerOpen}
-          setIsDrawerOpen={setIsDrawerOpen}
-        />
       </div>
-    </div>
+    </HeadProvider>
   );
 };
 
