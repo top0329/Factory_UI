@@ -344,14 +344,17 @@ const MintProductPage = () => {
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
                   <ERC721MintListCard
                     key={index}
-                    {...dataItem}
+                    id={dataItem.tokenId}
+                    address={dataItem.tokenAddress}
                     setApprovedCount={setApprovedCount}
                   />
                 ))}
                 {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
                   <ERC1155MintListCard
                     key={index}
-                    {...dataItem}
+                    id={dataItem.tokenId}
+                    address={dataItem.tokenAddress}
+                    amount={dataItem.amount}
                     productAmount={Number(blueprintMintAmountValue)}
                     setApprovedCount={setApprovedCount}
                   />

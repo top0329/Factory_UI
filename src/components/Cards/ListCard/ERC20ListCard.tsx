@@ -9,6 +9,7 @@ import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
 import { factoryAddress } from '../../../constants';
 import getTokenData from '../../../utils/getTokenData';
+import Web3 from 'web3';
 
 export interface Props {
   name?: string;
@@ -37,21 +38,43 @@ export function ERC20MintListCard(props: Props) {
   };
 
   const handleApprove = async () => {
+    const web3 = new Web3(window.ethereum);
     try {
       if (isConnected && library) {
         const tokenData = await getTokenData(props.address as Address);
         if (tokenData) {
           if (props.amount) {
-            openSpin('Approving...');
-            const transaction = await erc20Approve(
-              props.address as Address,
-              factoryAddress,
-              ethers
-                .parseUnits(props.amount.toString(), tokenData.decimal)
-                .toString()
-            );
-            console.log(transaction);
-            setIsApproved(true);
+            let receipt = null;
+            while (receipt === null || receipt.status === undefined) {
+              const res = erc20Approve(
+                props.address as Address,
+                factoryAddress,
+                ethers
+                  .parseUnits(props.amount.toString(), tokenData.decimal)
+                  .toString()
+              );
+              openSpin('Approving...');
+              receipt = await web3.eth.getTransactionReceipt(
+                (
+                  await res
+                ).transactionHash
+              );
+              if (receipt && receipt.status !== undefined) {
+                if (receipt.status) {
+                  showToast('success', 'Approve Success!');
+                  setIsApproved(true);
+                  props.setApprovedCount((current: number) => current + 1);
+                  closeSpin();
+                } else {
+                  showToast('fail', 'Approve failed!');
+                  setIsApproved(false);
+                  closeSpin();
+                }
+              } else {
+                alert('Transaction is still pending');
+                await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+              }
+            }
           } else {
             showToast('fail', 'Amount is required');
           }

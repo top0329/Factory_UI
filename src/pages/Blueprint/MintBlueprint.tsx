@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Web3 from 'web3';
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
@@ -21,8 +22,14 @@ import {
 } from '../../constants';
 
 const MintBlueprintPage = () => {
-  const { factoryContract, factoryWeb3, account, erc20Approve, library } =
-    useWeb3();
+  const {
+    factoryContract,
+    factoryWeb3,
+    account,
+    erc20Approve,
+    library,
+    isConnected,
+  } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
 
@@ -118,76 +125,119 @@ const MintBlueprintPage = () => {
   };
 
   const handleApproveClick = async () => {
+    const web3 = new Web3(window.ethereum);
     try {
-      if (blueprintMintAmountValue === 0 || blueprintMintAmountValue === '') {
-        setIsMintAmountEmpty(true);
-        setTimeout(() => {
-          setIsMintAmountEmpty(false);
-        }, 2000);
-      } else {
-        if (Number(selectedBlueprint.mintPriceUnit) === 1) {
-          if (
-            currentUsdtBalance >=
-            blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
-          ) {
-            const approveValue = ethers.parseUnits(
-              (
-                blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
-              ).toString(),
-              6
-            );
-            openSpin('Approving');
-            await erc20Approve(
-              usdtAddress,
-              factoryAddress,
-              approveValue.toString()
-            );
-            showToast('success', 'Approved successfully');
-            setIsApproved(true);
-          } else {
-            showToast(
-              'warning',
-              "You don't have enough USDT to approve this transaction"
-            );
-            console.log(
-              "You don't have enough USDT to approve this transaction"
-            );
-            setIsApproved(false);
-          }
-        } else if (Number(selectedBlueprint.mintPriceUnit) === 2) {
-          if (
-            currentUsdcBalance >=
-            blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
-          ) {
-            const approveValue = ethers.parseUnits(
-              (
-                blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
-              ).toString(),
-              6
-            );
-            openSpin('Approving');
-            await erc20Approve(
-              usdcAddress,
-              factoryAddress,
-              approveValue.toString()
-            );
-            showToast('success', 'Approved successfully');
-            setIsApproved(true);
-          } else {
-            showToast(
-              'warning',
-              "You don't have enough USDC to approve this transaction"
-            );
-            console.log(
-              "You don't have enough USDC to approve this transaction"
-            );
-            setIsApproved(false);
+      if (isConnected && library) {
+        if (blueprintMintAmountValue === 0 || blueprintMintAmountValue === '') {
+          setIsMintAmountEmpty(true);
+          setTimeout(() => {
+            setIsMintAmountEmpty(false);
+          }, 2000);
+        } else {
+          if (Number(selectedBlueprint.mintPriceUnit) === 1) {
+            if (
+              currentUsdtBalance >=
+              blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+            ) {
+              const approveValue = ethers.parseUnits(
+                (
+                  blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+                ).toString(),
+                6
+              );
+              let receipt = null;
+              while (receipt === null || receipt.status === undefined) {
+                const res = erc20Approve(
+                  usdtAddress,
+                  factoryAddress,
+                  approveValue.toString()
+                );
+                openSpin('Approving...');
+                receipt = await web3.eth.getTransactionReceipt(
+                  (
+                    await res
+                  ).transactionHash
+                );
+                if (receipt && receipt.status !== undefined) {
+                  if (receipt.status) {
+                    showToast('success', 'Approve Success!');
+                    setIsApproved(true);
+                    closeSpin();
+                  } else {
+                    showToast('fail', 'Approve failed!');
+                    setIsApproved(false);
+                    closeSpin();
+                  }
+                } else {
+                  alert('Transaction is still pending');
+                  await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+                }
+              }
+            } else {
+              showToast(
+                'warning',
+                "You don't have enough USDT to approve this transaction"
+              );
+              console.log(
+                "You don't have enough USDT to approve this transaction"
+              );
+              setIsApproved(false);
+            }
+          } else if (Number(selectedBlueprint.mintPriceUnit) === 2) {
+            if (
+              currentUsdcBalance >=
+              blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+            ) {
+              const approveValue = ethers.parseUnits(
+                (
+                  blueprintMintAmountValue * Number(selectedBlueprint.mintPrice)
+                ).toString(),
+                6
+              );
+              let receipt = null;
+              while (receipt === null || receipt.status === undefined) {
+                const res = erc20Approve(
+                  usdcAddress,
+                  factoryAddress,
+                  approveValue.toString()
+                );
+                openSpin('Approving...');
+                receipt = await web3.eth.getTransactionReceipt(
+                  (
+                    await res
+                  ).transactionHash
+                );
+                if (receipt && receipt.status !== undefined) {
+                  if (receipt.status) {
+                    showToast('success', 'Approve Success!');
+                    setIsApproved(true);
+                    closeSpin();
+                  } else {
+                    showToast('fail', 'Approve failed!');
+                    setIsApproved(false);
+                    closeSpin();
+                  }
+                } else {
+                  alert('Transaction is still pending');
+                  await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
+                }
+              }
+            } else {
+              showToast(
+                'warning',
+                "You don't have enough USDC to approve this transaction"
+              );
+              console.log(
+                "You don't have enough USDC to approve this transaction"
+              );
+              setIsApproved(false);
+            }
           }
         }
       }
     } catch (err) {
       setIsApproved(false);
-      showToast('fail', 'Approve failed!');
+      showToast('fail', 'User Rejected');
       console.log(err);
     } finally {
       closeSpin();
