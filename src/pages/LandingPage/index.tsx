@@ -206,7 +206,7 @@ const LandingPage = () => {
           content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://factory1155.com/" />
+        <meta property="og:url" content="https://factory-ui.vercel.app/" />
         <meta property="twitter:title" content="Factory1155" />
         <meta
           property="twitter:description"

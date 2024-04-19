@@ -4,10 +4,36 @@ import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import Components from '../../../component-data.json';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
+import { Helmet } from 'react-helmet';
 
 const Component = () => {
   return (
     <div className="min-w-[320px]">
+      <Helmet>
+        <meta
+          name="description"
+          content="This is factory-ui.vercel.app/component. Here you can browse and select component tokens to mint new Blueprint token"
+        />
+        <meta
+          name="keyword"
+          content="Factory, Factory1155, Blueprint, Product, Component Token, Combine, Creation, Mint, Recreation"
+        />
+        <meta property="og:title" content="Blueprint - Factory1155" />
+        <meta
+          property="og:description"
+          content="This is factory-ui.vercel.app/component. Here you can browse and select component tokens to mint new Blueprint token"
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://factory-ui.vercel.app/component"
+        />
+        <meta property="twitter:title" content="Blueprint - Factory1155" />
+        <meta
+          property="twitter:description"
+          content="This is factory-ui.vercel.app/component. Here you can browse and select component tokens to mint new Blueprint token"
+        />
+      </Helmet>
       <div className="flex justify-between items-center py-3">
         <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl">
           Components

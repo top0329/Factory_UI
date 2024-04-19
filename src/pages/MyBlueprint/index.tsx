@@ -17,6 +17,7 @@ import axios from 'axios';
 import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 import NoDataFound from '../../components/Loading/NoDataFound';
 import { runMain } from '../../utils/getDataFromAlchemy';
+import { Helmet } from 'react-helmet';
 
 const MyBlueprintPage = () => {
   const { account, isConnected } = useWeb3();
@@ -94,6 +95,31 @@ const MyBlueprintPage = () => {
 
   return (
     <div className="flex flex-col min-w-[320px] gap-2 text-white">
+      <Helmet>
+        <meta
+          name="description"
+          content="This is factory-ui.vercel.app/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
+        />
+        <meta
+          name="keyword"
+          content="Factory, Factory1155, Blueprint, Product, Component Token, Combine, Creation, Mint, Recreation"
+        />
+        <meta property="og:title" content="Blueprint - Factory1155" />
+        <meta
+          property="og:description"
+          content="This is factory-ui.vercel.app/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://factory-ui.vercel.app/my-blueprint"
+        />
+        <meta property="twitter:title" content="Blueprint - Factory1155" />
+        <meta
+          property="twitter:description"
+          content="This is factory-ui.vercel.app/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
+        />
+      </Helmet>
       <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">
         My Blueprints
       </h1>
