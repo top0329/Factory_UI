@@ -83,7 +83,6 @@ const BlueprintPage = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     blueprintContract,
-    searchValue,
     setBlueprintTokenList,
     setIsDataEmpty,
     setIsLoading,

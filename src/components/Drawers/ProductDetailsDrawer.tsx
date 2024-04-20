@@ -156,8 +156,8 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
                     target="_blank"
                   >
                     {windowSize.width !== undefined && windowSize.width > 472
-                      ? `${selectedProduct.blueprintAddress}`
-                      : `${shortenAddress(selectedProduct.blueprintAddress)}`}
+                      ? `${productAddress}`
+                      : `${shortenAddress(productAddress)}`}
                   </a>
                   <Icon
                     className="w-4 h-4 cursor-pointer"
@@ -254,6 +254,8 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
                       return (
                         <ERC20Card
                           key={idx}
+                          name={erc20.name}
+                          uri={erc20.uri}
                           amount={erc20.amount}
                           tokenAddress={erc20.tokenAddress}
                         />

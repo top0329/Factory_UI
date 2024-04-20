@@ -50,7 +50,10 @@ export function ERC20MintListCard(props: Props) {
                 props.address as Address,
                 factoryAddress,
                 ethers
-                  .parseUnits(props.amount.toString(), tokenData.decimal)
+                  .parseUnits(
+                    (Number(props.amount) * Number(props.productAmount)).toString(),
+                    tokenData.decimal
+                  )
                   .toString()
               );
               openSpin('Approving...');
@@ -144,7 +147,9 @@ export function ERC20MintListCard(props: Props) {
       <div id="amount" className="truncate sm:w-auto">
         <div>
           <p className="text-[#858584] text-xs">Amount</p>
-          <p className="text-center">{Number(props.amount)}</p>
+          <p className="text-center">
+            {Number(props.amount) * Number(props.productAmount)}
+          </p>
         </div>
       </div>
       <div id="approve" className="xs:w-auto w-[20%]">
@@ -225,7 +230,9 @@ export function ERC20DecomposeListCard(props: Props) {
       <div id="id" className="w-[3%]"></div>
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
-        <p className="text-center">{Number(props.amount)}</p>
+        <p className="text-center">
+          {Number(props.amount) * Number(props.productAmount)}
+        </p>
       </div>
     </div>
   );
