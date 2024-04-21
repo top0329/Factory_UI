@@ -162,7 +162,9 @@ export function ERC1155MintListCard(props: Props) {
       </div>
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
-        <p className="text-center">{props.amount}</p>
+        <p className="text-center">
+          {Number(props.amount) * Number(props.productAmount)}
+        </p>
       </div>
       <div id="approve" className="xs:w-auto w-[20%]">
         <button

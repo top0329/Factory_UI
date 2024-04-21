@@ -23,6 +23,7 @@ interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
 const CheckboxIcon = btoa(
   '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="white" d="M20.292 6.708a1 1 0 0 0-1.414-1.414l-10.334 10.333-4.25-4.25a1 1 0 1 0-1.415 1.414l5 5a1 1 0 0 0 1.415 0L20.292 6.708z"/></svg>'
 );
@@ -52,6 +53,7 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
     />
   );
 }
+
 const MintProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedOwnBlueprint>(
     selectedOwnBlueprintAtom
@@ -187,6 +189,7 @@ const MintProductPage = () => {
       console.log(err);
     }
   };
+
   const closeModal = (event: React.MouseEvent) => {
     if (event.target === event.currentTarget) {
       setIsModalOpen(false);
