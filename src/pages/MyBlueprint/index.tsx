@@ -98,13 +98,10 @@ const MyBlueprintPage = () => {
     <HeadProvider>
       <div className="flex flex-col min-w-[320px] gap-2 text-white">
         <Title>Blueprint - Factory</Title>
-        <Link
-          rel="canonical"
-          href="http://factory-ui.vercel.app/my-blueprint"
-        />
+        <Link rel="canonical" href="http://factorygame.org/my-blueprint" />
         <Meta
           name="description"
-          content="This is factory-ui.vercel.app/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
+          content="This is factorygame.org/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
         />
         <Meta
           name="keyword"
@@ -113,7 +110,7 @@ const MyBlueprintPage = () => {
         <Helmet>
           <meta
             name="description"
-            content="This is factory-ui.vercel.app/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
+            content="This is factorygame.org/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
           />
           <meta
             name="keyword"
@@ -122,17 +119,17 @@ const MyBlueprintPage = () => {
           <meta property="og:title" content="Blueprint - Factory1155" />
           <meta
             property="og:description"
-            content="This is factory-ui.vercel.app/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
+            content="This is factorygame.org/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
           />
           <meta property="og:type" content="website" />
           <meta
             property="og:url"
-            content="https://factory-ui.vercel.app/my-blueprint"
+            content="https://factorygame.org/my-blueprint"
           />
           <meta property="twitter:title" content="Blueprint - Factory1155" />
           <meta
             property="twitter:description"
-            content="This is factory-ui.vercel.app/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
+            content="This is factorygame.org/my-blueprint. Here you can create and mint new Product token based on the minted Blueprint tokens."
           />
         </Helmet>
         <h1 className="text-xl text-white 2xl:text-4xl lg:text-3xl md:text-2xl pt-3">

@@ -127,11 +127,11 @@ const TransferOwnershipPage = () => {
         <Title>Blueprint - Factory</Title>
         <Link
           rel="canonical"
-          href="http://factory-ui.vercel.app/blueprint/transfer-ownership"
+          href="http://factorygame.org/blueprint/transfer-ownership"
         />
         <Meta
           name="description"
-          content="This is Factory1155.com/blueprint/transfer-ownership. Here you can transfer ownership of Blueprint token to others."
+          content="This is factorygame.org/blueprint/transfer-ownership. Here you can transfer ownership of Blueprint token to others."
         />
         <Meta
           name="keyword"
