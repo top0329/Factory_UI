@@ -89,10 +89,10 @@ const BlueprintPage = () => {
     <HeadProvider>
       <div className="min-w-[320px]">
         <Title>Blueprint - Factory</Title>
-        <Link rel="canonical" href="http://factory-ui.vercel.app/blueprint" />
+        <Link rel="canonical" href="http://factorygame.org/blueprint" />
         <Meta
           name="description"
-          content="This is Factory1155.com/blueprint. Here you can create new Blueprint token and also mint the Blueprint token based on the created token. You can also recreate the exisiting Blueprint token with new attributes."
+          content="This is factorygame.org/blueprint. Here you can create new Blueprint token and also mint the Blueprint token based on the created token. You can also recreate the exisiting Blueprint token with new attributes."
         />
         <Meta
           name="keyword"
@@ -101,7 +101,7 @@ const BlueprintPage = () => {
         <Helmet>
           <meta
             name="description"
-            content="This is Factory1155.com/blueprint. Here you can create new Blueprint token and also mint the Blueprint token based on the created token. You can also recreate the exisiting Blueprint token with new attributes."
+            content="This is factorygame.org/blueprint. Here you can create new Blueprint token and also mint the Blueprint token based on the created token. You can also recreate the exisiting Blueprint token with new attributes."
           />
           <meta
             name="keyword"
@@ -110,17 +110,14 @@ const BlueprintPage = () => {
           <meta property="og:title" content="Blueprint - Factory1155" />
           <meta
             property="og:description"
-            content="This is Factory1155.com/blueprint. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
+            content="This is factorygame.org/blueprint. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
           />
           <meta property="og:type" content="website" />
-          <meta
-            property="og:url"
-            content="https://factory-ui.vercel.app/blueprint"
-          />
+          <meta property="og:url" content="https://factorygame.org/blueprint" />
           <meta property="twitter:title" content="Blueprint - Factory1155" />
           <meta
             property="twitter:description"
-            content="This is Factory1155.com/blueprint. Here you can create new Blueprint token and also mint the Blueprint token based on the created token. You can also recreate the exisiting Blueprint token with new attributes."
+            content="This is factorygame.org/blueprint. Here you can create new Blueprint token and also mint the Blueprint token based on the created token. You can also recreate the exisiting Blueprint token with new attributes."
           />
         </Helmet>
         <div className="flex justify-between items-center py-3">

@@ -177,11 +177,11 @@ const RecreateBlueprintPage = () => {
         <Title>Recreate - Factory</Title>
         <Link
           rel="canonical"
-          href="http://factory-ui.vercel.app/blueprint/recreate"
+          href="http://factorygame.org/blueprint/recreate"
         />
         <Meta
           name="description"
-          content="This is Factory1155.com/blueprint/recreate. Here you can recreate Blueprint token with new attributes."
+          content="This is factorygame.org/blueprint/recreate. Here you can recreate Blueprint token with new attributes."
         />
         <Meta
           name="keyword"

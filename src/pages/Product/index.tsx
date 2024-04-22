@@ -118,10 +118,10 @@ const ProductPage = () => {
     <HeadProvider>
       <div className="text-white">
         <Title>Product - Factory</Title>
-        <Link rel="canonical" href="http://factory-ui.vercel.app/product" />
+        <Link rel="canonical" href="http://factorygame.org/product" />
         <Meta
           name="description"
-          content="This is factory-ui.vercel.app/product. Here you can decompose Product token based on the minted Product tokens."
+          content="This is factorygame.org/product. Here you can decompose Product token based on the minted Product tokens."
         />
         <Meta
           name="keyword"
@@ -130,7 +130,7 @@ const ProductPage = () => {
         <Helmet>
           <meta
             name="description"
-            content="This is factory-ui.vercel.app/product. Here you can decompose Product token based on the minted Product tokens."
+            content="This is factorygame.org/product. Here you can decompose Product token based on the minted Product tokens."
           />
           <meta
             name="keyword"
@@ -139,17 +139,14 @@ const ProductPage = () => {
           <meta property="og:title" content="Blueprint - Factory1155" />
           <meta
             property="og:description"
-            content="This is factory-ui.vercel.app/product. Here you can decompose Product token based on the minted Product tokens."
+            content="This is factorygame.org/product. Here you can decompose Product token based on the minted Product tokens."
           />
           <meta property="og:type" content="website" />
-          <meta
-            property="og:url"
-            content="https://factory-ui.vercel.app/product"
-          />
+          <meta property="og:url" content="https://factorygame.org/product" />
           <meta property="twitter:title" content="Blueprint - Factory1155" />
           <meta
             property="twitter:description"
-            content="This is factory-ui.vercel.app/product. Here you can decompose Product token based on the minted Product tokens."
+            content="This is factorygame.org/product. Here you can decompose Product token based on the minted Product tokens."
           />
         </Helmet>
         <div className="flex flex-col min-w-[320px] gap-2 text-white">

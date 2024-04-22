@@ -11,10 +11,10 @@ const Component = () => {
   return (
     <HeadProvider>
       <Title>Component - Factory</Title>
-      <Link rel="canonical" href="http://factory-ui.vercel.app/component" />
+      <Link rel="canonical" href="http://factorygame.org/component" />
       <Meta
         name="description"
-        content="This is factory-ui.vercel.app/component. Here you can browse and select component tokens to mint new Blueprint token"
+        content="This is factorygame.org/component. Here you can browse and select component tokens to mint new Blueprint token"
       />
       <Meta
         name="keyword"
@@ -24,7 +24,7 @@ const Component = () => {
         <Helmet>
           <meta
             name="description"
-            content="This is factory-ui.vercel.app/component. Here you can browse and select component tokens to mint new Blueprint token"
+            content="This is factorygame.org/component. Here you can browse and select component tokens to mint new Blueprint token"
           />
           <meta
             name="keyword"
@@ -33,17 +33,14 @@ const Component = () => {
           <meta property="og:title" content="Blueprint - Factory1155" />
           <meta
             property="og:description"
-            content="This is factory-ui.vercel.app/component. Here you can browse and select component tokens to mint new Blueprint token"
+            content="This is factorygame.org/component. Here you can browse and select component tokens to mint new Blueprint token"
           />
           <meta property="og:type" content="website" />
-          <meta
-            property="og:url"
-            content="https://factory-ui.vercel.app/component"
-          />
+          <meta property="og:url" content="https://factorygame.org/component" />
           <meta property="twitter:title" content="Blueprint - Factory1155" />
           <meta
             property="twitter:description"
-            content="This is factory-ui.vercel.app/component. Here you can browse and select component tokens to mint new Blueprint token"
+            content="This is factorygame.org/component. Here you can browse and select component tokens to mint new Blueprint token"
           />
         </Helmet>
         <div className="flex justify-between items-center py-3">
