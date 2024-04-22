@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
-import copy from 'copy-to-clipboard';
+
 import Button from '../../components/Button';
-import { SelectedOwnBlueprint } from '../../types';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
-
+import useSpinner from '../../hooks/useSpinner';
+import Web3 from 'web3';
+import { SelectedOwnBlueprint } from '../../types';
 import {
   ownBlueprintSelectionState,
   selectedOwnBlueprintAtom,
@@ -16,12 +18,12 @@ import { factoryAddress } from '../../constants';
 import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard';
 import { ERC721MintListCard } from '../../components/Cards/ListCard/ERC721ListCard';
 import { ERC1155MintListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
-import Web3 from 'web3';
-import useSpinner from '../../hooks/useSpinner';
+
 interface CustomCheckboxProps {
   checked: boolean;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
+
 const CheckboxIcon = btoa(
   '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="white" d="M20.292 6.708a1 1 0 0 0-1.414-1.414l-10.334 10.333-4.25-4.25a1 1 0 1 0-1.415 1.414l5 5a1 1 0 0 0 1.415 0L20.292 6.708z"/></svg>'
 );
@@ -51,6 +53,7 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
     />
   );
 }
+
 const MintProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedOwnBlueprint>(
     selectedOwnBlueprintAtom
@@ -83,22 +86,12 @@ const MintProductPage = () => {
   }, [blueprintId, navigate, selectedOwnData.id]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    // const newValue = event.target.value;
-    // if ((newValue === '' || /^\d*$/.test(newValue)) && Number(newValue) != 0) {
-    //   if (Number(newValue) > Number(selectedOwnBlueprint.balance.toString())) {
-    //     setBlueprintMintAmountValue(selectedOwnBlueprint.balance.toString());
-    //   } else {
-    //     setBlueprintMintAmountValue(newValue); // Update the state only if it's an empty string or an integer
-    //   }
-    // }
-
     const inputValue = event.target.value;
     if (
       (inputValue === '' || /^\d*$/.test(inputValue)) &&
       Number(inputValue) != 0
     ) {
       setIsApproveEnable(true);
-
       if (Number(inputValue) > selectedOwnBlueprint.balance) {
         setBlueprintMintAmountValue(selectedOwnBlueprint.balance.toString());
       } else {
@@ -159,15 +152,12 @@ const MintProductPage = () => {
                 const transaction = blueprintWeb3.methods
                   .setApprovalForAll(factoryAddress, true)
                   .send({ from: account });
-
                 openSpin('Approving');
-
                 receipt = await web3.eth.getTransactionReceipt(
                   (
                     await transaction
                   ).transactionHash
                 );
-
                 if (receipt && receipt.status !== undefined) {
                   if (receipt.status) {
                     showToast('success', 'Approve Success');
@@ -199,8 +189,8 @@ const MintProductPage = () => {
       console.log(err);
     }
   };
+
   const closeModal = (event: React.MouseEvent) => {
-    // Verify if the target is the backdrop to avoid closing when clicking inside the modal
     if (event.target === event.currentTarget) {
       setIsModalOpen(false);
     }
@@ -219,9 +209,7 @@ const MintProductPage = () => {
               '0x'
             )
             .send({ from: account });
-
           openSpin('Minting Product');
-
           receipt = await web3.eth.getTransactionReceipt(
             (
               await tx
@@ -348,7 +336,10 @@ const MintProductPage = () => {
                 {selectedOwnData.data.erc20Data.map((dataItem, index) => (
                   <ERC20MintListCard
                     key={index}
-                    {...dataItem}
+                    name={dataItem.name}
+                    uri={dataItem.uri}
+                    address={dataItem.tokenAddress}
+                    amount={Number(dataItem.amount)}
                     productAmount={Number(blueprintMintAmountValue)}
                     setApprovedCount={setApprovedCount}
                   />
@@ -356,19 +347,21 @@ const MintProductPage = () => {
                 {selectedOwnData.data.erc721Data.map((dataItem, index) => (
                   <ERC721MintListCard
                     key={index}
-                    {...dataItem}
+                    id={dataItem.tokenId}
+                    address={dataItem.tokenAddress}
                     setApprovedCount={setApprovedCount}
                   />
                 ))}
                 {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
                   <ERC1155MintListCard
                     key={index}
-                    {...dataItem}
+                    id={dataItem.tokenId}
+                    address={dataItem.tokenAddress}
+                    amount={dataItem.amount}
                     productAmount={Number(blueprintMintAmountValue)}
                     setApprovedCount={setApprovedCount}
                   />
                 ))}
-
                 <div className="flex justify-center px-[60px] items-center md:gap-32 gap-8 pt-10 sm:pt-6">
                   <Button
                     className="flex justify-center xs:w-[160px] w-[140px] !h-9 rounded-xl"

@@ -13,14 +13,19 @@ import BlueprintDetailDrawer from '../../components/Drawers/BlueprintDetailsDraw
 import BlueprintCard from '../../components/Cards/BlueprintCard/BlueprintCard';
 import NoDataFound from '../../components/Loading/NoDataFound';
 import {
+  advancedFilterValueAtom,
   blueprintSelectionState,
   blueprintTokenListAtom,
   isCreatorModeAtom,
   isDataEmptyAtom,
   isLoadingAtom,
+  searchValueAtom,
   selectedBlueprintAtom,
+  sortFieldAtom,
+  sortOrderAtom,
 } from '../../jotai/atoms';
 import { BASE_URI } from '../../constants';
+import { AdvancedFilterValue } from '../../types';
 
 const BlueprintPage = () => {
   const { blueprintContract, account, isConnected } = useWeb3();
@@ -36,6 +41,12 @@ const BlueprintPage = () => {
   const [isCreatorMode, setIsCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
   const [isLoading, setIsLoading] = useAtom<boolean>(isLoadingAtom);
   const [isDataEmpty, setIsDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
+  const [searchValue] = useAtom<string>(searchValueAtom);
+  const [sortField] = useAtom<string>(sortFieldAtom);
+  const [sortOrder] = useAtom<string>(sortOrderAtom);
+  const [advancedFilterValue] = useAtom<AdvancedFilterValue>(
+    advancedFilterValueAtom
+  );
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
 
@@ -43,7 +54,19 @@ const BlueprintPage = () => {
     async function getBlueprints() {
       try {
         setIsLoading(true);
-        const blueprints = await axios.get(`${BASE_URI}/blueprint`);
+        const blueprints = await axios.get(
+          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+            advancedFilterValue.blueprintIdMax
+          }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
+            advancedFilterValue.mintPriceMin
+          }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
+            advancedFilterValue.totalSupplyMin
+          }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${
+            advancedFilterValue.mintLimitMin
+          }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${
+            advancedFilterValue.mintedAmountMin
+          }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
+        );
         if (blueprints.data.length === 0) {
           setIsDataEmpty(true);
         } else {
@@ -57,7 +80,15 @@ const BlueprintPage = () => {
       }
     }
     getBlueprints();
-  }, [blueprintContract, setBlueprintTokenList, setIsDataEmpty, setIsLoading]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    blueprintContract,
+    setBlueprintTokenList,
+    setIsDataEmpty,
+    setIsLoading,
+    sortField,
+    sortOrder,
+  ]);
 
   const showSidebar = () => {
     setIsDrawerOpen(true);

@@ -116,7 +116,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         const tx = await erc20Contract.methods
           .approve(spender, amount)
           .send({ from: address });
-
         return tx;
       } catch (err) {
         console.log(err);
@@ -132,7 +131,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         const tx = await erc721Contract.methods
           .approve(spender, tokenId)
           .send({ from: address });
-
         return tx;
       } catch (err) {
         console.log(err);
@@ -151,7 +149,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         const tx = await erc1155Contract.methods
           .setApprovalForAll(spender, approved)
           .send({ from: address });
-
         return tx;
       } catch (err) {
         console.log(err);
