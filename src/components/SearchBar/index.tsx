@@ -15,13 +15,16 @@ import {
   isCreatorModeAtom,
   isDataEmptyAtom,
   isLoadingAtom,
+  ownBlueprintTokenListAtom,
+  ownBlueprintTokenListSearchResultAtom,
   searchValueAtom,
   showFilterOptionAtom,
   sortFieldAtom,
   sortOrderAtom,
 } from '../../jotai/atoms';
-import { BASE_URI, invalidChars } from '../../constants';
+import { BASE_URI, blueprintAddress, invalidChars } from '../../constants';
 import { AdvancedFilterValue } from '../../types';
+import { runMain } from '../../utils/getDataFromAlchemy';
 
 export interface Props {
   value?: string;
@@ -37,12 +40,18 @@ const SearchBar: FC<Props> = ({
   advancedFilter,
   pageFilter,
 }) => {
-  const { isConnected } = useWeb3();
+  const { isConnected, account } = useWeb3();
   const { showToast } = useToast();
 
   const navigate = useNavigate();
 
   const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
+  const [ownBlueprintTokenList, setOwnBlueprintTokenList] = useAtom(
+    ownBlueprintTokenListAtom
+  );
+  const [, setOwnBlueprintTokenSearchResultList] = useAtom(
+    ownBlueprintTokenListSearchResultAtom
+  );
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
   const [, setIsLoading] = useAtom<boolean>(isLoadingAtom);
@@ -57,28 +66,72 @@ const SearchBar: FC<Props> = ({
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
+  function searchOwnBlueprints(searchText: string) {
+    let keywordRegex: any = '';
+    const normalized = searchText.replace(/[^a-zA-Z0-9\s]/g, ' ');
+    const words = normalized.split(/\s+/);
+    const keywords = words.filter((word) => word.length > 0);
+    if (keywords.length > 0) {
+      keywordRegex = new RegExp(keywords.join('|'), 'i');
+      return ownBlueprintTokenList.filter((item) => {
+        const result = [item.id, item.name, item.balance].some((value) => {
+          return keywordRegex.test(value);
+        });
+        return result;
+      });
+    }
+    return ownBlueprintTokenList;
+  }
+
   useEffect(() => {
     async function init() {
       try {
         setIsLoading(true);
-        const searchResult = await axios.get(
-          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
-            advancedFilterValue.blueprintIdMax
-          }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
-            advancedFilterValue.mintPriceMin
-          }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
-            advancedFilterValue.totalSupplyMin
-          }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${
-            advancedFilterValue.mintLimitMin
-          }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${
-            advancedFilterValue.mintedAmountMin
-          }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
-        );
-        if (searchResult.data.length === 0) {
-          setIsDataEmpty(true);
-        } else {
-          setBlueprintTokenList(searchResult.data);
-          setIsDataEmpty(false);
+        if (pageFilter === 'blueprint') {
+          setSearchValue('');
+          const searchResult = await axios.get(
+            `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${advancedFilterValue.blueprintIdMax
+            }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${advancedFilterValue.mintPriceMin
+            }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${advancedFilterValue.totalSupplyMin
+            }&totalSupplyMax=${advancedFilterValue.totalSupplyMax
+            }&mintLimitMin=${advancedFilterValue.mintLimitMin}&mintLimitMax=${advancedFilterValue.mintLimitMax
+            }&mintedAmountMin=${advancedFilterValue.mintedAmountMin
+            }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
+          );
+          if (searchResult.data.length === 0) {
+            setIsDataEmpty(true);
+          } else {
+            setBlueprintTokenList(searchResult.data);
+            setIsDataEmpty(false);
+          }
+        } else if (pageFilter === 'my-blueprint') {
+          setSearchValue('');
+          const myBluprints = await runMain(blueprintAddress, String(account));
+          if (myBluprints) {
+            const myBlueprintIds = myBluprints.map(
+              (blueprint) => blueprint.tokenId
+            );
+            const myBlueprintData = await axios.get(
+              `${BASE_URI}/my-blueprint/?ids=${myBlueprintIds}`
+            );
+            if (myBlueprintData.data.length === 0) {
+              setIsDataEmpty(true);
+            } else {
+              myBlueprintData.data.forEach((blueprint: any) => {
+                const ownedBlueprint = myBluprints.find(
+                  (n) => Number(n.tokenId) === Number(blueprint.id)
+                );
+                if (ownedBlueprint) {
+                  blueprint.balance = Number(ownedBlueprint.balance);
+                }
+              });
+              console.log(myBlueprintData.data);
+              setOwnBlueprintTokenSearchResultList(myBlueprintData.data);
+              setOwnBlueprintTokenList(myBlueprintData.data);
+            }
+          } else {
+            setIsDataEmpty(true);
+          }
         }
       } catch (err) {
         console.log(err);
@@ -88,7 +141,16 @@ const SearchBar: FC<Props> = ({
     }
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setBlueprintTokenList, showToast, sortField, sortOrder]);
+  }, [
+    setBlueprintTokenList,
+    showToast,
+    sortField,
+    sortOrder,
+    pageFilter,
+    setIsLoading,
+    setIsDataEmpty,
+    setOwnBlueprintTokenList,
+  ]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -105,24 +167,34 @@ const SearchBar: FC<Props> = ({
     try {
       if (event.keyCode === 13) {
         setIsLoading(true);
-        const searchResult = await axios.get(
-          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
-            advancedFilterValue.blueprintIdMax
-          }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
-            advancedFilterValue.mintPriceMin
-          }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
-            advancedFilterValue.totalSupplyMin
-          }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${
-            advancedFilterValue.mintLimitMin
-          }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${
-            advancedFilterValue.mintedAmountMin
-          }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
-        );
-        if (searchResult.data.length === 0) {
-          setIsDataEmpty(true);
-        } else {
-          setBlueprintTokenList(searchResult.data);
-          setIsDataEmpty(false);
+        if (pageFilter === 'blueprint') {
+          const searchResult = await axios.get(
+            `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${advancedFilterValue.blueprintIdMax
+            }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${advancedFilterValue.mintPriceMin
+            }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${advancedFilterValue.totalSupplyMin
+            }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${advancedFilterValue.mintLimitMin
+            }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${advancedFilterValue.mintedAmountMin
+            }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
+          );
+          if (searchResult.data.length === 0) {
+            setIsDataEmpty(true);
+          } else {
+            setBlueprintTokenList(searchResult.data);
+            setIsDataEmpty(false);
+          }
+        }else if (pageFilter ==='my-blueprint') {
+          if (searchValue === '') {
+            setOwnBlueprintTokenSearchResultList(ownBlueprintTokenList);
+          } else {
+            const results = await searchOwnBlueprints(searchValue);
+            console.log(searchValue);
+            console.log('result: ',results);
+            if (results) {
+              setOwnBlueprintTokenSearchResultList(results);
+            } else {
+              setIsDataEmpty(true);
+            }
+          }
         }
       }
     } catch (err) {

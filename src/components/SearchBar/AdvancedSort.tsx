@@ -176,6 +176,7 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Blueprint ID</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
+                  setSortField('id');
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -188,6 +189,7 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Blueprint Name</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
+                  setSortField('name');
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >
@@ -200,6 +202,7 @@ const AdvancedSort: React.FC<AdvancedSortProps> = ({ filterOption }) => {
                   setSelectedValue(<>Balance</>);
                   setDefaultIcon(true);
                   setIsDropdownOpen(false);
+                  setSortField('balance');
                 }}
                 className="block px-4 py-2 hover:bg-[#858584]/10 cursor-pointer rounded-md"
               >

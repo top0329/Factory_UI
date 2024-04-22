@@ -239,4 +239,5 @@ export type SortField =
   | 'totalSupply'
   | 'mintPrice'
   | 'mintLimit'
-  | 'mintedAmount';
+  | 'mintedAmount'
+  | 'balance';
