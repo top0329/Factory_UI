@@ -172,10 +172,10 @@ const NewBlueprintPage = () => {
     <HeadProvider>
       <div className="text-white">
         <Title>New Blueprint - Factory</Title>
-        <Link rel="canonical" href="http://factory-ui.vercel.app/new" />
+        <Link rel="canonical" href="http://factorygame.org/new" />
         <Meta
           name="description"
-          content="This is Factory1155.com/blueprint/new. Here you can create new Blueprint token for Product token."
+          content="This is factorygame.org/blueprint/new. Here you can create new Blueprint token for Product token."
         />
         <Meta
           name="keyword"
