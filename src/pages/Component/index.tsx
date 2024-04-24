@@ -1,13 +1,24 @@
+import { useAtom } from 'jotai';
 import { Helmet } from 'react-helmet';
 import { HeadProvider, Title, Link, Meta } from 'react-head';
 
 import SearchBar from '../../components/SearchBar';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
-import Components from '../../../component-data.json';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
+import {
+  componentTokenListAtom,
+  isDataEmptyAtom,
+  isLoadingAtom,
+} from '../../jotai/atoms';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
+import NoDataFound from '../../components/Loading/NoDataFound';
 
 const Component = () => {
+  const [componentTokenList] = useAtom(componentTokenListAtom);
+  const [isLoading] = useAtom<boolean>(isLoadingAtom);
+  const [isDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
+
   return (
     <HeadProvider>
       <Title>Component - Factory</Title>
@@ -52,64 +63,54 @@ const Component = () => {
           pageFilter="component"
           placeholders="Search for Component Name and Type"
         />
-        <div className="grid grid-cols-2 pt-8 pb-16 gap-2 xs:grid-cols-2 sm:grid-cols-2 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
-          {Components.erc20Data.length > 0 &&
-            Components.erc20Data.map(
-              (
-                erc20: {
-                  name: string;
-                  uri: string;
-                  amount: number;
-                  tokenAddress: string;
-                },
-                idx: React.Key | null | undefined
-              ) => {
-                return (
-                  <ERC20Card
-                    key={idx}
-                    amount={Number(erc20.amount)}
-                    tokenAddress={erc20.tokenAddress}
-                  />
-                );
-              }
-            )}
-          {Components.erc721Data.length > 0 &&
-            Components.erc721Data.map(
-              (erc721: {
-                tokenId: number;
-                name: string;
-                uri: string;
-                tokenAddress: string;
-              }) => {
-                return (
-                  <ERC721Card
-                    key={erc721.tokenId}
-                    tokenId={erc721.tokenId}
-                    tokenAddress={erc721.tokenAddress}
-                  />
-                );
-              }
-            )}
-          {Components.erc1155Data.length > 0 &&
-            Components.erc1155Data.map(
-              (erc1155: {
-                tokenId: number;
-                name: string;
-                uri: string;
-                amount: number;
-                tokenAddress: string;
-              }) => {
-                return (
-                  <ERC1155Card
-                    key={erc1155.tokenId}
-                    tokenId={erc1155.tokenId}
-                    amount={erc1155.amount}
-                    tokenAddress={erc1155.tokenAddress}
-                  />
-                );
-              }
-            )}
-        </div>
+        {isLoading ? (
+          <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
+            <LoadingSpinner />
+          </div>
+        ) : isDataEmpty ? (
+          <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
+            <NoDataFound message="No Components Found!" />
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 pt-8 pb-16 gap-2 xs:grid-cols-2 sm:grid-cols-2 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5">
+            {componentTokenList.length > 0 &&
+              componentTokenList.map(
+                (
+                  component: any,
+                  idx: React.Key | null | undefined
+                ) => {
+                  if (component.type === 'erc20') {
+                    return (
+                      <ERC20Card
+                        key={idx}
+                        name={component.name}
+                        uri={component.uri}
+                        amount={Number(component.totalAmount)}
+                        tokenAddress={component.tokenAddress}
+                      />
+                    );
+                  } else if (component.type === 'erc721') {
+                    return (
+                      <ERC721Card
+                        key={idx}
+                        tokenId={component.tokenId}
+                        tokenAddress={component.tokenAddress}
+                      />
+                    );
+                  } else if (component.type === 'erc1155') {
+                    return (
+                      <ERC1155Card
+                        key={idx}
+                        tokenId={component.tokenId}
+                        amount={Number(component.totalAmount)}
+                        tokenAddress={component.tokenAddress}
+                      />
+                    );
+                  }
+                }
+              )}
+          </div>
+        )}
       </div>
     </HeadProvider>
   );

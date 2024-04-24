@@ -107,6 +107,16 @@ export type ProductToken = {
   decomposeFee?: number;
 };
 
+export type ComponentToken = {
+  tokenId?: number;
+  name: string;
+  uri?: string;
+  tokenAddress: string;
+  amount?: number;
+  totalAmount?: number;
+  type: string;
+};
+
 export type SelectedProduct = {
   id: string;
   name: string;
@@ -239,4 +249,9 @@ export type SortField =
   | 'totalSupply'
   | 'mintPrice'
   | 'mintLimit'
-  | 'mintedAmount';
+  | 'mintedAmount'
+  | 'balance';
+
+export type ComponentSortField =
+  | 'name'
+  | 'type';

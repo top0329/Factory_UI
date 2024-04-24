@@ -12,16 +12,32 @@ import useToast from '../../hooks/useToast';
 import {
   advancedFilterValueAtom,
   blueprintTokenListAtom,
+  componentSortFieldAtom,
+  componentTokenListAtom,
   isCreatorModeAtom,
   isDataEmptyAtom,
   isLoadingAtom,
+  ownBlueprintTokenListAtom,
+  ownBlueprintTokenListSearchResultAtom,
+  productTokenListAtom,
+  productTokenListSearchResultAtom,
   searchValueAtom,
   showFilterOptionAtom,
   sortFieldAtom,
   sortOrderAtom,
 } from '../../jotai/atoms';
-import { BASE_URI, invalidChars } from '../../constants';
-import { AdvancedFilterValue } from '../../types';
+import {
+  BASE_URI,
+  blueprintAddress,
+  invalidChars,
+  productAddress,
+} from '../../constants';
+import {
+  AdvancedFilterValue,
+  ComponentSortField,
+  SortField,
+} from '../../types';
+import { runMain } from '../../utils/getDataFromAlchemy';
 
 export interface Props {
   value?: string;
@@ -37,17 +53,31 @@ const SearchBar: FC<Props> = ({
   advancedFilter,
   pageFilter,
 }) => {
-  const { isConnected } = useWeb3();
+  const { isConnected, account } = useWeb3();
   const { showToast } = useToast();
 
   const navigate = useNavigate();
 
   const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
+  const [ownBlueprintTokenList, setOwnBlueprintTokenList] = useAtom(
+    ownBlueprintTokenListAtom
+  );
+  const [, setOwnBlueprintTokenSearchResultList] = useAtom(
+    ownBlueprintTokenListSearchResultAtom
+  );
+  const [productTokenList, setProductTokenList] = useAtom(productTokenListAtom);
+  const [, setComponentTokenList] = useAtom(componentTokenListAtom);
+  const [, setProductTokenListSearchResult] = useAtom(
+    productTokenListSearchResultAtom
+  );
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
   const [, setIsLoading] = useAtom<boolean>(isLoadingAtom);
   const [, setIsDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
-  const [sortField] = useAtom<string>(sortFieldAtom);
+  const [sortField] = useAtom<SortField>(sortFieldAtom);
+  const [componentSortField] = useAtom<ComponentSortField>(
+    componentSortFieldAtom
+  );
   const [sortOrder] = useAtom<string>(sortOrderAtom);
   const [advancedFilterValue] = useAtom<AdvancedFilterValue>(
     advancedFilterValueAtom
@@ -57,28 +87,265 @@ const SearchBar: FC<Props> = ({
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
+  function searchOwnBlueprints(searchText: string) {
+    let blueprintIdMin: number = Number(advancedFilterValue.blueprintIdMin);
+    let blueprintIdMax: number = Number(advancedFilterValue.blueprintIdMax);
+    let balanceMin: number = Number(advancedFilterValue.productBalanceMin);
+    let balanceMax: number = Number(advancedFilterValue.productBalanceMax);
+    if (advancedFilterValue.blueprintIdMin === '') {
+      blueprintIdMin = 0;
+    }
+    if (advancedFilterValue.blueprintIdMax === '') {
+      blueprintIdMax = Infinity;
+    }
+    if (advancedFilterValue.productBalanceMin === '') {
+      balanceMin = 0;
+    }
+    if (advancedFilterValue.productBalanceMax === '') {
+      balanceMax = Infinity;
+    }
+    if (blueprintIdMin > blueprintIdMax) {
+      showToast(
+        'warning',
+        'Blueprint Min id must be less than or equal to Max id'
+      );
+      return;
+    }
+    if (balanceMin > balanceMax) {
+      showToast(
+        'warning',
+        'Minimum Balance must be less than or equal to Maximum Balance'
+      );
+      return;
+    }
+    let keywordRegex: any = '';
+    const normalized = searchText.replace(/[^a-zA-Z0-9\s]/g, ' ');
+    const words = normalized.split(/\s+/);
+    const keywords = words.filter((word) => word.length > 0);
+    if (keywords.length > 0) {
+      keywordRegex = new RegExp(keywords.join('|'), 'i');
+      return ownBlueprintTokenList
+        .filter((blueprint) => {
+          const result = [blueprint.id, blueprint.name, blueprint.balance].some(
+            (value) => {
+              return keywordRegex.test(value);
+            }
+          );
+          return result;
+        })
+        .filter((blueprint) => {
+          if (
+            Number(blueprintIdMin) <= Number(blueprint.id) &&
+            Number(blueprintIdMax) >= Number(blueprint.id) &&
+            Number(balanceMin) <= Number(blueprint.balance) &&
+            Number(balanceMax) >= Number(blueprint.balance)
+          ) {
+            return blueprint;
+          }
+        });
+    }
+    return ownBlueprintTokenList.filter((blueprint) => {
+      if (
+        Number(blueprintIdMin) <= Number(blueprint.id) &&
+        Number(blueprintIdMax) >= Number(blueprint.id) &&
+        Number(balanceMin) <= Number(blueprint.balance) &&
+        Number(balanceMax) >= Number(blueprint.balance)
+      ) {
+        return blueprint;
+      }
+    });
+  }
+
+  function searchProducts(searchText: string) {
+    let keywordRegex: any = '';
+    const normalized = searchText.replace(/[^a-zA-Z0-9\s]/g, ' ');
+    const words = normalized.split(/\s+/);
+    const keywords = words.filter((word) => word.length > 0);
+    if (keywords.length > 0) {
+      keywordRegex = new RegExp(keywords.join('|'), 'i');
+      return productTokenList.filter((item) => {
+        const result = [item.id, item.name, item.balance].some((value) => {
+          return keywordRegex.test(value);
+        });
+        return result;
+      });
+    }
+    return productTokenList;
+  }
+
   useEffect(() => {
     async function init() {
       try {
         setIsLoading(true);
-        const searchResult = await axios.get(
-          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+        if (pageFilter === 'blueprint') {
+          const searchResult = await axios.get(
+            `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+              advancedFilterValue.blueprintIdMax
+            }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
+              advancedFilterValue.mintPriceMin
+            }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
+              advancedFilterValue.totalSupplyMin
+            }&totalSupplyMax=${
+              advancedFilterValue.totalSupplyMax
+            }&mintLimitMin=${advancedFilterValue.mintLimitMin}&mintLimitMax=${
+              advancedFilterValue.mintLimitMax
+            }&mintedAmountMin=${
+              advancedFilterValue.mintedAmountMin
+            }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
+          );
+          if (searchResult.data.length === 0) {
+            setIsDataEmpty(true);
+          } else {
+            setBlueprintTokenList(searchResult.data);
+            setIsDataEmpty(false);
+          }
+        } else if (pageFilter === 'my-blueprint') {
+          let blueprintIdMin: number = Number(
+            advancedFilterValue.blueprintIdMin
+          );
+          let blueprintIdMax: number = Number(
             advancedFilterValue.blueprintIdMax
-          }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
-            advancedFilterValue.mintPriceMin
-          }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
-            advancedFilterValue.totalSupplyMin
-          }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${
-            advancedFilterValue.mintLimitMin
-          }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${
-            advancedFilterValue.mintedAmountMin
-          }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
-        );
-        if (searchResult.data.length === 0) {
-          setIsDataEmpty(true);
-        } else {
-          setBlueprintTokenList(searchResult.data);
-          setIsDataEmpty(false);
+          );
+          let balanceMin: number = Number(
+            advancedFilterValue.productBalanceMin
+          );
+          let balanceMax: number = Number(
+            advancedFilterValue.productBalanceMax
+          );
+          if (advancedFilterValue.blueprintIdMin === '') {
+            blueprintIdMin = 0;
+          }
+          if (advancedFilterValue.blueprintIdMax === '') {
+            blueprintIdMax = Infinity;
+          }
+          if (advancedFilterValue.productBalanceMin === '') {
+            balanceMin = 0;
+          }
+          if (advancedFilterValue.productBalanceMax === '') {
+            balanceMax = Infinity;
+          }
+          if (blueprintIdMin > blueprintIdMax) {
+            showToast(
+              'warning',
+              'Blueprint Min id must be less than or equal to Max id'
+            );
+            return;
+          }
+          if (balanceMin > balanceMax) {
+            showToast(
+              'warning',
+              'Minimum Balance must be less than or equal to Maximum Balance'
+            );
+            return;
+          }
+          const myBluprints = await runMain(blueprintAddress, String(account));
+          if (myBluprints) {
+            const myBlueprintIds = myBluprints.map(
+              (blueprint) => blueprint.tokenId
+            );
+            const myBlueprintData = await axios.get(
+              `${BASE_URI}/my-blueprint/?ids=${myBlueprintIds}`
+            );
+            if (myBlueprintData.data.length === 0) {
+              setIsDataEmpty(true);
+            } else {
+              myBlueprintData.data.forEach((blueprint: any) => {
+                const ownedBlueprint = myBluprints.find(
+                  (n) => Number(n.tokenId) === Number(blueprint.id)
+                );
+                if (ownedBlueprint) {
+                  blueprint.balance = Number(ownedBlueprint.balance);
+                }
+              });
+              let keywordRegex: any = '';
+              const normalized = searchValue.replace(/[^a-zA-Z0-9\s]/g, ' ');
+              const words = normalized.split(/\s+/);
+              const keywords = words.filter((word) => word.length > 0);
+              if (keywords.length > 0) {
+                keywordRegex = new RegExp(keywords.join('|'), 'i');
+                const _ownBlueprintTokenList = myBlueprintData.data
+                  .filter((blueprint: any) => {
+                    const result = [
+                      blueprint.id,
+                      blueprint.name,
+                      blueprint.balance,
+                    ].some((value) => {
+                      return keywordRegex.test(value);
+                    });
+                    return result;
+                  })
+                  .filter((blueprint: any) => {
+                    if (
+                      Number(blueprintIdMin) <= Number(blueprint.id) &&
+                      Number(blueprintIdMax) >= Number(blueprint.id) &&
+                      Number(balanceMin) <= Number(blueprint.balance) &&
+                      Number(balanceMax) >= Number(blueprint.balance)
+                    ) {
+                      return blueprint;
+                    }
+                  });
+                setOwnBlueprintTokenSearchResultList(_ownBlueprintTokenList);
+                setOwnBlueprintTokenList(myBlueprintData.data);
+              } else {
+                const _ownBlueprintTokenList = myBlueprintData.data.filter(
+                  (blueprint: any) => {
+                    if (
+                      Number(blueprintIdMin) <= Number(blueprint.id) &&
+                      Number(blueprintIdMax) >= Number(blueprint.id) &&
+                      Number(balanceMin) <= Number(blueprint.balance) &&
+                      Number(balanceMax) >= Number(blueprint.balance)
+                    ) {
+                      return blueprint;
+                    }
+                  }
+                );
+                setOwnBlueprintTokenSearchResultList(_ownBlueprintTokenList);
+                setOwnBlueprintTokenList(myBlueprintData.data);
+              }
+            }
+          } else {
+            setIsDataEmpty(true);
+          }
+        } else if (pageFilter === 'product') {
+          const myProducts = await runMain(productAddress, String(account));
+          console.log(myProducts);
+          if (myProducts && myProducts.length > 0) {
+            const myProductsIds = myProducts.map((product) => product.tokenId);
+            const myProductsData = await axios.get(
+              `${BASE_URI}/product/?ids=${myProductsIds}`
+            );
+            console.log(myProductsData.data);
+            if (myProductsData.data.length === 0) {
+              setIsDataEmpty(true);
+            } else {
+              myProductsData.data.forEach((product: any) => {
+                const _product = myProducts.find(
+                  (n) => Number(n.tokenId) === Number(product.id)
+                );
+                if (_product) {
+                  product.balance = Number(_product.balance);
+                }
+              });
+              console.log(myProductsData.data);
+              setProductTokenList(myProductsData.data);
+              setProductTokenListSearchResult(myProductsData.data);
+            }
+          } else {
+            setIsDataEmpty(true);
+          }
+        } else if (pageFilter === 'component') {
+          console.log(componentSortField, sortOrder);
+          console.log(searchValue);
+          const searchResult = await axios.get(
+            `${BASE_URI}/component/search?query=${searchValue}&sortField=${componentSortField}&sortOrder=${sortOrder}`
+          );
+          console.log(searchResult.data);
+          if (searchResult.data.length === 0) {
+            setIsDataEmpty(true);
+          } else {
+            setComponentTokenList(searchResult.data);
+            setIsDataEmpty(false);
+          }
         }
       } catch (err) {
         console.log(err);
@@ -88,7 +355,33 @@ const SearchBar: FC<Props> = ({
     }
     init();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [setBlueprintTokenList, showToast, sortField, sortOrder]);
+  }, [
+    setBlueprintTokenList,
+    showToast,
+    sortField,
+    sortOrder,
+    pageFilter,
+    setIsLoading,
+    setIsDataEmpty,
+    setOwnBlueprintTokenList,
+    advancedFilterValue.blueprintIdMin,
+    advancedFilterValue.blueprintIdMax,
+    advancedFilterValue.mintPriceUnit,
+    advancedFilterValue.mintPriceMin,
+    advancedFilterValue.mintPriceMax,
+    advancedFilterValue.totalSupplyMin,
+    advancedFilterValue.totalSupplyMax,
+    advancedFilterValue.mintLimitMin,
+    advancedFilterValue.mintLimitMax,
+    advancedFilterValue.mintedAmountMin,
+    advancedFilterValue.mintedAmountMax,
+    account,
+    setOwnBlueprintTokenSearchResultList,
+    setProductTokenList,
+    setProductTokenListSearchResult,
+    componentSortField,
+    setComponentTokenList,
+  ]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
@@ -105,24 +398,62 @@ const SearchBar: FC<Props> = ({
     try {
       if (event.keyCode === 13) {
         setIsLoading(true);
-        const searchResult = await axios.get(
-          `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
-            advancedFilterValue.blueprintIdMax
-          }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
-            advancedFilterValue.mintPriceMin
-          }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
-            advancedFilterValue.totalSupplyMin
-          }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${
-            advancedFilterValue.mintLimitMin
-          }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${
-            advancedFilterValue.mintedAmountMin
-          }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
-        );
-        if (searchResult.data.length === 0) {
-          setIsDataEmpty(true);
-        } else {
-          setBlueprintTokenList(searchResult.data);
-          setIsDataEmpty(false);
+        if (pageFilter === 'blueprint') {
+          const searchResult = await axios.get(
+            `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+              advancedFilterValue.blueprintIdMax
+            }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
+              advancedFilterValue.mintPriceMin
+            }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
+              advancedFilterValue.totalSupplyMin
+            }&totalSupplyMax=${
+              advancedFilterValue.totalSupplyMax
+            }&mintLimitMin=${advancedFilterValue.mintLimitMin}&mintLimitMax=${
+              advancedFilterValue.mintLimitMax
+            }&mintedAmountMin=${
+              advancedFilterValue.mintedAmountMin
+            }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
+          );
+          if (searchResult.data.length === 0) {
+            setIsDataEmpty(true);
+          } else {
+            setBlueprintTokenList(searchResult.data);
+            setIsDataEmpty(false);
+          }
+        } else if (pageFilter === 'my-blueprint') {
+          const results = searchOwnBlueprints(searchValue);
+          console.log(searchValue);
+          console.log('result: ', results);
+          if (results) {
+            setOwnBlueprintTokenSearchResultList(results);
+          } else {
+            setIsDataEmpty(true);
+          }
+        } else if (pageFilter === 'product') {
+          if (searchValue === '') {
+            setProductTokenListSearchResult(productTokenList);
+          } else {
+            const results = searchProducts(searchValue);
+            console.log(searchValue);
+            console.log('result: ', results);
+            if (results) {
+              setProductTokenListSearchResult(results);
+            } else {
+              setIsDataEmpty(true);
+            }
+          }
+        }
+        if (pageFilter === 'component') {
+          const searchResult = await axios.get(
+            `${BASE_URI}/component/search?query=${searchValue}&sortField=${componentSortField}&sortOrder=${sortOrder}`
+          );
+          console.log(searchResult.data);
+          if (searchResult.data.length === 0) {
+            setIsDataEmpty(true);
+          } else {
+            setComponentTokenList(searchResult.data);
+            setIsDataEmpty(false);
+          }
         }
       }
     } catch (err) {

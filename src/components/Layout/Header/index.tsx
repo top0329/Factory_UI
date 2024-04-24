@@ -8,7 +8,15 @@ import Button from '../../Button';
 import LogoImage from '../../../assets/images/blueprint-logo.png';
 import useWeb3 from '../../../hooks/useWeb3';
 import { WalletConnectButton } from '../../Button/WalletConnectButton';
-import { headerActiveItemAtom } from '../../../jotai/atoms';
+import {
+  advancedFilterValueAtom,
+  componentSortFieldAtom,
+  headerActiveItemAtom,
+  searchValueAtom,
+  sortFieldAtom,
+  sortOrderAtom,
+} from '../../../jotai/atoms';
+import { AdvancedFilterValue, ComponentSortField, SortField } from '../../../types';
 
 function Header() {
   const { isConnected } = useWeb3();
@@ -18,6 +26,13 @@ function Header() {
 
   const [headerActiveItem, setHeaderActiveItem] =
     useAtom<number>(headerActiveItemAtom);
+  const [, setSearchValue] = useAtom<string>(searchValueAtom);
+  const [, setSortField] = useAtom<SortField>(sortFieldAtom);
+  const [, setComponentSortField] = useAtom<ComponentSortField>(componentSortFieldAtom);
+  const [, setSortOrder] = useAtom<string>(sortOrderAtom);
+  const [, setAdvancedFilterValue] = useAtom<AdvancedFilterValue>(
+    advancedFilterValueAtom
+  );
 
   const [isListButtonClicked, setIsListButtonClicked] =
     useState<boolean>(false);
@@ -38,6 +53,7 @@ function Header() {
           url={LogoImage}
           handleLogoClicked={() => {
             navigate('/');
+            setSearchValue('');
           }}
         />
         <div className="flex justify-between items-center gap-2 md:gap-4 lg:gap-6">
@@ -48,6 +64,26 @@ function Header() {
               }`}
               onClick={() => {
                 navigate('/blueprint');
+                setSearchValue('');
+                setAdvancedFilterValue({
+                  blueprintIdMin: '',
+                  blueprintIdMax: '',
+                  mintPriceUnit: 0,
+                  mintPriceMin: '',
+                  mintPriceMax: '',
+                  mintLimitMin: '',
+                  mintLimitMax: '',
+                  totalSupplyMin: '',
+                  totalSupplyMax: '',
+                  mintedAmountMin: '',
+                  mintedAmountMax: '',
+                  productIdMin: '',
+                  productIdMax: '',
+                  productBalanceMin: '',
+                  productBalanceMax: '',
+                });
+                setSortField('id');
+                setSortOrder('asc');
               }}
             >
               Blueprint
@@ -58,6 +94,26 @@ function Header() {
               }`}
               onClick={() => {
                 navigate('/my-blueprint');
+                setSearchValue('');
+                setAdvancedFilterValue({
+                  blueprintIdMin: '',
+                  blueprintIdMax: '',
+                  mintPriceUnit: 0,
+                  mintPriceMin: '',
+                  mintPriceMax: '',
+                  mintLimitMin: '',
+                  mintLimitMax: '',
+                  totalSupplyMin: '',
+                  totalSupplyMax: '',
+                  mintedAmountMin: '',
+                  mintedAmountMax: '',
+                  productIdMin: '',
+                  productIdMax: '',
+                  productBalanceMin: '',
+                  productBalanceMax: '',
+                });
+                setSortField('id');
+                setSortOrder('asc');
               }}
               hidden={!isConnected}
             >
@@ -69,6 +125,26 @@ function Header() {
               }`}
               onClick={() => {
                 navigate('/product');
+                setSearchValue('');
+                setAdvancedFilterValue({
+                  blueprintIdMin: '',
+                  blueprintIdMax: '',
+                  mintPriceUnit: 0,
+                  mintPriceMin: '',
+                  mintPriceMax: '',
+                  mintLimitMin: '',
+                  mintLimitMax: '',
+                  totalSupplyMin: '',
+                  totalSupplyMax: '',
+                  mintedAmountMin: '',
+                  mintedAmountMax: '',
+                  productIdMin: '',
+                  productIdMax: '',
+                  productBalanceMin: '',
+                  productBalanceMax: '',
+                });
+                setSortField('id');
+                setSortOrder('asc');
               }}
               hidden={!isConnected}
             >
@@ -80,6 +156,9 @@ function Header() {
               }`}
               onClick={() => {
                 navigate('/component');
+                setSearchValue('');
+                setComponentSortField('name');
+                setSortOrder('asc');
               }}
             >
               Component
@@ -124,6 +203,26 @@ function Header() {
                     onClick={() => {
                       navigate('/blueprint');
                       setIsListButtonClicked(false);
+                      setSearchValue('');
+                      setAdvancedFilterValue({
+                        blueprintIdMin: '',
+                        blueprintIdMax: '',
+                        mintPriceUnit: 0,
+                        mintPriceMin: '',
+                        mintPriceMax: '',
+                        mintLimitMin: '',
+                        mintLimitMax: '',
+                        totalSupplyMin: '',
+                        totalSupplyMax: '',
+                        mintedAmountMin: '',
+                        mintedAmountMax: '',
+                        productIdMin: '',
+                        productIdMax: '',
+                        productBalanceMin: '',
+                        productBalanceMax: '',
+                      });
+                      setSortField('id');
+                      setSortOrder('asc');
                     }}
                   >
                     Blueprint
@@ -137,6 +236,26 @@ function Header() {
                     onClick={() => {
                       navigate('/my-blueprint');
                       setIsListButtonClicked(false);
+                      setSearchValue('');
+                      setAdvancedFilterValue({
+                        blueprintIdMin: '',
+                        blueprintIdMax: '',
+                        mintPriceUnit: 0,
+                        mintPriceMin: '',
+                        mintPriceMax: '',
+                        mintLimitMin: '',
+                        mintLimitMax: '',
+                        totalSupplyMin: '',
+                        totalSupplyMax: '',
+                        mintedAmountMin: '',
+                        mintedAmountMax: '',
+                        productIdMin: '',
+                        productIdMax: '',
+                        productBalanceMin: '',
+                        productBalanceMax: '',
+                      });
+                      setSortField('id');
+                      setSortOrder('asc');
                     }}
                   >
                     My Blueprint
@@ -150,6 +269,26 @@ function Header() {
                     onClick={() => {
                       navigate('/product');
                       setIsListButtonClicked(false);
+                      setSearchValue('');
+                      setAdvancedFilterValue({
+                        blueprintIdMin: '',
+                        blueprintIdMax: '',
+                        mintPriceUnit: 0,
+                        mintPriceMin: '',
+                        mintPriceMax: '',
+                        mintLimitMin: '',
+                        mintLimitMax: '',
+                        totalSupplyMin: '',
+                        totalSupplyMax: '',
+                        mintedAmountMin: '',
+                        mintedAmountMax: '',
+                        productIdMin: '',
+                        productIdMax: '',
+                        productBalanceMin: '',
+                        productBalanceMax: '',
+                      });
+                      setSortField('id');
+                      setSortOrder('asc');
                     }}
                   >
                     Product
@@ -163,6 +302,9 @@ function Header() {
                     onClick={() => {
                       navigate('/component');
                       setIsListButtonClicked(false);
+                      setSearchValue('');
+                      setComponentSortField('name');
+                      setSortOrder('asc');
                     }}
                   >
                     Component

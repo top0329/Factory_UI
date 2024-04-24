@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { useAtom } from 'jotai';
 
 import Button from '../Button';
@@ -34,9 +34,12 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
   const [, setIsLoading] = useAtom<boolean>(isLoadingAtom);
   const [, setIsDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
 
+  const [advancedFilterValueState, setAdvancedFilterValueState] =
+    useState<AdvancedFilterValue>(advancedFilterValue);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setAdvancedFilterValue((prevState) => ({
+    setAdvancedFilterValueState((prevState) => ({
       ...prevState,
       [name]: value.trim() === '' ? '' : Number(value),
     }));
@@ -44,7 +47,10 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
 
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = event.target;
-    setAdvancedFilterValue({ ...advancedFilterValue, [name]: Number(value) });
+    setAdvancedFilterValueState({
+      ...advancedFilterValueState,
+      [name]: Number(value),
+    });
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -90,29 +96,11 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
     try {
       setIsLoading(true);
       setShowFilterOption(false);
-      const advancedFilterResult = await axios.get(
-        `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
-          advancedFilterValue.blueprintIdMax
-        }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
-          advancedFilterValue.mintPriceMin
-        }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
-          advancedFilterValue.totalSupplyMin
-        }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${
-          advancedFilterValue.mintLimitMin
-        }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${
-          advancedFilterValue.mintedAmountMin
-        }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
-      );
-      if (advancedFilterResult.data.length === 0) {
-        setIsDataEmpty(true);
-      } else {
-        setBlueprintTokenList(advancedFilterResult.data);
-        setIsDataEmpty(false);
-      }
+      setAdvancedFilterValue(advancedFilterValueState);
     } catch (err: any) {
       console.log(err);
       showToast('fail', err.response.data);
-    }finally {
+    } finally {
       setIsLoading(false);
     }
   };
@@ -171,7 +159,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                 inputMode="decimal"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                value={advancedFilterValue.productIdMin}
+                value={advancedFilterValueState.productIdMin}
               />
               to
               <input
@@ -182,7 +170,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                 inputMode="decimal"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                value={advancedFilterValue.productIdMax}
+                value={advancedFilterValueState.productIdMax}
               />
             </div>
           </div>
@@ -199,7 +187,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                 inputMode="decimal"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                value={advancedFilterValue.productBalanceMin}
+                value={advancedFilterValueState.productBalanceMin}
               />
               to
               <input
@@ -210,7 +198,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                 inputMode="decimal"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                value={advancedFilterValue.productBalanceMax}
+                value={advancedFilterValueState.productBalanceMax}
               />
             </div>
           </div>
@@ -231,7 +219,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                 inputMode="decimal"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                value={advancedFilterValue.blueprintIdMin}
+                value={advancedFilterValueState.blueprintIdMin}
               />
               to
               <input
@@ -242,7 +230,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                 inputMode="decimal"
                 onChange={handleInputChange}
                 onKeyDown={handleKeyDown}
-                value={advancedFilterValue.blueprintIdMax}
+                value={advancedFilterValueState.blueprintIdMax}
               />
             </div>
           </div>
@@ -257,7 +245,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                     name="mintPriceUnit"
                     className="flex w-full items-center px-2 py-0.5 rounded-lg border border-light-gray bg-[#000000] font-medium shadow-sm sm:mt-0 sm:w-auto sm:text-sm sm:min-w-36 sm:gap-3"
                     onChange={handleSelectChange}
-                    value={advancedFilterValue.mintPriceUnit}
+                    value={advancedFilterValueState.mintPriceUnit}
                   >
                     <option value={0}>ETH</option>
                     <option value={1}>USDT</option>
@@ -272,7 +260,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                       inputMode="decimal"
                       onChange={handleInputChange}
                       onKeyDown={handleKeyDownForMintLimit}
-                      value={advancedFilterValue.mintPriceMin}
+                      value={advancedFilterValueState.mintPriceMin}
                     />
                     to
                     <input
@@ -283,7 +271,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                       inputMode="decimal"
                       onChange={handleInputChange}
                       onKeyDown={handleKeyDownForMintLimit}
-                      value={advancedFilterValue.mintPriceMax}
+                      value={advancedFilterValueState.mintPriceMax}
                     />
                   </div>
                 </div>
@@ -301,7 +289,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                     inputMode="decimal"
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
-                    value={advancedFilterValue.mintLimitMin}
+                    value={advancedFilterValueState.mintLimitMin}
                   />
                   to
                   <input
@@ -312,7 +300,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                     inputMode="decimal"
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
-                    value={advancedFilterValue.mintLimitMax}
+                    value={advancedFilterValueState.mintLimitMax}
                   />
                 </div>
               </div>
@@ -329,7 +317,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                     inputMode="decimal"
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
-                    value={advancedFilterValue.totalSupplyMin}
+                    value={advancedFilterValueState.totalSupplyMin}
                   />
                   to
                   <input
@@ -340,7 +328,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                     inputMode="decimal"
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
-                    value={advancedFilterValue.totalSupplyMax}
+                    value={advancedFilterValueState.totalSupplyMax}
                   />
                 </div>
               </div>
@@ -357,7 +345,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                     inputMode="decimal"
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
-                    value={advancedFilterValue.mintedAmountMin}
+                    value={advancedFilterValueState.mintedAmountMin}
                   />
                   to
                   <input
@@ -368,7 +356,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                     inputMode="decimal"
                     onChange={handleInputChange}
                     onKeyDown={handleKeyDown}
-                    value={advancedFilterValue.mintedAmountMax}
+                    value={advancedFilterValueState.mintedAmountMax}
                   />
                 </div>
               </div>
@@ -388,7 +376,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                   inputMode="decimal"
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
-                  value={advancedFilterValue.productBalanceMin}
+                  value={advancedFilterValueState.productBalanceMin}
                 />
                 to
                 <input
@@ -399,26 +387,27 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                   inputMode="decimal"
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
-                  value={advancedFilterValue.productBalanceMax}
+                  value={advancedFilterValueState.productBalanceMax}
                 />
               </div>
             </div>
           )}
         </React.Fragment>
       )}
-      <div className='flex gap-2 justify-between'>
-      <Button
-        variant="primary"
-        text="Apply"
-        className="flex justify-center rounded-lg text-sm !py-1.5 w-full"
-        onClick={handleAdvancedFilter}
-      />
-      <Button
-        variant="secondary"
-        text="Reset"
-        className="flex justify-center rounded-lg text-sm !py-1.5 w-full"
-        onClick={handleResetAdvancedFilter}
-      /></div>
+      <div className="flex gap-2 justify-between">
+        <Button
+          variant="primary"
+          text="Apply"
+          className="flex justify-center rounded-lg text-sm !py-1.5 w-full"
+          onClick={handleAdvancedFilter}
+        />
+        <Button
+          variant="secondary"
+          text="Reset"
+          className="flex justify-center rounded-lg text-sm !py-1.5 w-full"
+          onClick={handleResetAdvancedFilter}
+        />
+      </div>
     </div>
   );
 };
