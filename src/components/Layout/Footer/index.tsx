@@ -3,9 +3,21 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 
-import { WindowSize } from '../../../types';
-import { headerActiveItemAtom } from '../../../jotai/atoms';
 import useWeb3 from '../../../hooks/useWeb3';
+import {
+  AdvancedFilterValue,
+  ComponentSortField,
+  SortField,
+  WindowSize,
+} from '../../../types';
+import {
+  advancedFilterValueAtom,
+  componentSortFieldAtom,
+  headerActiveItemAtom,
+  searchValueAtom,
+  sortFieldAtom,
+  sortOrderAtom,
+} from '../../../jotai/atoms';
 
 function Footer() {
   const { isConnected } = useWeb3();
@@ -15,6 +27,15 @@ function Footer() {
 
   const [headerActiveItem, setHeaderActiveItem] =
     useAtom<number>(headerActiveItemAtom);
+  const [, setSearchValue] = useAtom<string>(searchValueAtom);
+  const [, setSortField] = useAtom<SortField>(sortFieldAtom);
+  const [, setComponentSortField] = useAtom<ComponentSortField>(
+    componentSortFieldAtom
+  );
+  const [, setSortOrder] = useAtom<string>(sortOrderAtom);
+  const [, setAdvancedFilterValue] = useAtom<AdvancedFilterValue>(
+    advancedFilterValueAtom
+  );
 
   const [hrWidth, setHrWidth] = useState('100%');
   const [windowSize, setWindowSize] = useState<WindowSize>({
@@ -97,7 +118,7 @@ function Footer() {
                 className="w-10 h-10 xl:w-11 xl:h-11 cursor-pointer hover:text-[#CD201F] transition-colors duration-300"
               />
             </a>
-            <a href='#' target="_blank">
+            <a href="#" target="_blank">
               <Icon
                 icon="teenyicons:instagram-outline"
                 className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer"
@@ -130,6 +151,26 @@ function Footer() {
               } cursor-pointer`}
               onClick={() => {
                 navigate('/blueprint');
+                setSearchValue('');
+                setAdvancedFilterValue({
+                  blueprintIdMin: '',
+                  blueprintIdMax: '',
+                  mintPriceUnit: 0,
+                  mintPriceMin: '',
+                  mintPriceMax: '',
+                  mintLimitMin: '',
+                  mintLimitMax: '',
+                  totalSupplyMin: '',
+                  totalSupplyMax: '',
+                  mintedAmountMin: '',
+                  mintedAmountMax: '',
+                  productIdMin: '',
+                  productIdMax: '',
+                  productBalanceMin: '',
+                  productBalanceMax: '',
+                });
+                setSortField('id');
+                setSortOrder('asc');
               }}
             >
               Blueprint
@@ -140,6 +181,26 @@ function Footer() {
               } cursor-pointer`}
               onClick={() => {
                 navigate('/my-blueprint');
+                setSearchValue('');
+                setAdvancedFilterValue({
+                  blueprintIdMin: '',
+                  blueprintIdMax: '',
+                  mintPriceUnit: 0,
+                  mintPriceMin: '',
+                  mintPriceMax: '',
+                  mintLimitMin: '',
+                  mintLimitMax: '',
+                  totalSupplyMin: '',
+                  totalSupplyMax: '',
+                  mintedAmountMin: '',
+                  mintedAmountMax: '',
+                  productIdMin: '',
+                  productIdMax: '',
+                  productBalanceMin: '',
+                  productBalanceMax: '',
+                });
+                setSortField('id');
+                setSortOrder('asc');
               }}
               hidden={!isConnected}
             >
@@ -151,6 +212,26 @@ function Footer() {
               } cursor-pointer`}
               onClick={() => {
                 navigate('/product');
+                setSearchValue('');
+                setAdvancedFilterValue({
+                  blueprintIdMin: '',
+                  blueprintIdMax: '',
+                  mintPriceUnit: 0,
+                  mintPriceMin: '',
+                  mintPriceMax: '',
+                  mintLimitMin: '',
+                  mintLimitMax: '',
+                  totalSupplyMin: '',
+                  totalSupplyMax: '',
+                  mintedAmountMin: '',
+                  mintedAmountMax: '',
+                  productIdMin: '',
+                  productIdMax: '',
+                  productBalanceMin: '',
+                  productBalanceMax: '',
+                });
+                setSortField('id');
+                setSortOrder('asc');
               }}
               hidden={!isConnected}
             >
@@ -162,6 +243,9 @@ function Footer() {
               } cursor-pointer`}
               onClick={() => {
                 navigate('/component');
+                setSearchValue('');
+                setComponentSortField('name');
+                setSortOrder('asc');
               }}
             >
               Component

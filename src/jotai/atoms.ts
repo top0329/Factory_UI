@@ -3,6 +3,7 @@ import { atom } from 'jotai';
 import {
   AdvancedFilterValue,
   BlueprintNFT,
+  ComponentSortField,
   CreateBlueprint,
   ProductToken,
   SelectedBlueprint,
@@ -10,6 +11,7 @@ import {
   SelectedProduct,
   SortField,
 } from '../types';
+import { Component } from 'react';
 
 export const isAddComponentModalAtom = atom<boolean>(false);
 export const isEditComponentModalAtom = atom<boolean>(false);
@@ -116,10 +118,12 @@ export const headerActiveItemAtom = atom<number>(0);
 export const blueprintTokenListAtom = atom<BlueprintNFT[]>([]);
 export const ownBlueprintTokenListAtom = atom<ProductToken[]>([]);
 export const ownBlueprintTokenListSearchResultAtom = atom<ProductToken[]>([]);
-
 export const productTokenListAtom = atom<Array<ProductToken>>([]);
+export const productTokenListSearchResultAtom = atom<Array<ProductToken>>([]);
+export const componentTokenListAtom = atom<Array<Component>>([]);
 
 export const sortFieldAtom = atom<SortField>('id');
+export const componentSortFieldAtom = atom<ComponentSortField>('name');
 export const sortOrderAtom = atom<string>('asc');
 export const advancedFilterValueAtom = atom<AdvancedFilterValue>({
   blueprintIdMin: '',

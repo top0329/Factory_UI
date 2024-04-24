@@ -84,51 +84,23 @@ const MyBlueprintPage = () => {
             placeholders="Search for Blueprint ID, Name and Creator"
           />
         </div>
-        {/* {isLoading ? (
-          <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
-            <LoadingSpinner />
-          </div>
-        ) : isDataEmpty ? (
-          <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
-            <NoDataFound message="No My Blueprints Found!" />
-          </div>
-        ) : (
-          <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-            {ownBlueprintTokenSearchResultList.length > 0 &&
-              ownBlueprintTokenSearchResultList.map((product) => {
-                return (
-                  <div className="flex justify-center" key={product.id}>
-                    <OwnBlueprintCard
-                      blueprintId={product.id}
-                      name={product.name}
-                      uri={product.imageUri}
-                      balance={product.balance}
-                      address={product.creator}
-                      myBlueprint={product.myBlueprint}
-                      onClick={() => handleBlueprintCardClicked(product)}
-                    />
-                  </div>
-                );
-              })}
-          </div>
-        )} */}
         {isLoading ? (
           <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
             <LoadingSpinner />
           </div>
         ) : ownBlueprintTokenSearchResultList.length > 0 ? (
           <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-            {ownBlueprintTokenSearchResultList.map((product) => {
+            {ownBlueprintTokenSearchResultList.map((blueprint) => {
               return (
-                <div className="flex justify-center" key={product.id}>
+                <div className="flex justify-center" key={blueprint.id}>
                   <OwnBlueprintCard
-                    blueprintId={product.id}
-                    name={product.name}
-                    uri={product.imageUri}
-                    balance={product.balance}
-                    address={product.creator}
-                    myBlueprint={product.myBlueprint}
-                    onClick={() => handleBlueprintCardClicked(product)}
+                    blueprintId={blueprint.id}
+                    name={blueprint.name}
+                    uri={blueprint.imageUri}
+                    balance={blueprint.balance}
+                    address={blueprint.creator}
+                    myBlueprint={blueprint.myBlueprint}
+                    onClick={() => handleBlueprintCardClicked(blueprint)}
                   />
                 </div>
               );

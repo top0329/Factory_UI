@@ -1,12 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 import { useAtom } from 'jotai';
 import { HeadProvider, Title, Link, Meta } from 'react-head';
 import { Helmet } from 'react-helmet';
 
-import useToast from '../../hooks/useToast';
-import useWeb3 from '../../hooks/useWeb3';
 import SearchBar from '../../components/SearchBar';
 import ProductCard from '../../components/Cards/BlueprintCard/ProductCard';
 import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer';
@@ -15,72 +12,19 @@ import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 import {
   selectedProductintAtom,
   productSelectionState,
-  productTokenListAtom,
   isLoadingAtom,
-  isDataEmptyAtom,
+  productTokenListSearchResultAtom,
 } from '../../jotai/atoms';
-import { runMain } from '../../utils/getDataFromAlchemy';
-import { BASE_URI, productAddress } from '../../constants';
 
 const ProductPage = () => {
-  const { showToast } = useToast();
-  const { isConnected, account } = useWeb3();
-
   const navigate = useNavigate();
 
   const [, setSelectedProduct] = useAtom(selectedProductintAtom);
   const [, setProductSelectionState] = useAtom(productSelectionState);
-  const [productTokenList, setProductTokenList] = useAtom(productTokenListAtom);
-  const [isLoading, setIsLoading] = useAtom<boolean>(isLoadingAtom);
-  const [isDataEmpty, setIsDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
+  const [productTokenListSearchResult] = useAtom(productTokenListSearchResultAtom);
+  const [isLoading] = useAtom<boolean>(isLoadingAtom);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    const getProductTokenList = async () => {
-      try {
-        const myProducts = await runMain(productAddress, String(account));
-        console.log(myProducts);
-        if (myProducts && myProducts.length > 0) {
-          const myProductsIds = myProducts.map((product) => product.tokenId);
-          const myProductsData = await axios.get(
-            `${BASE_URI}/product/?ids=${myProductsIds}`
-          );
-          console.log(myProductsData.data);
-          if (myProductsData.data.length === 0) {
-            setIsDataEmpty(true);
-          } else {
-            myProductsData.data.forEach((product: any) => {
-              const _product = myProducts.find(
-                (n) => Number(n.tokenId) === Number(product.id)
-              );
-              if (_product) {
-                product.balance = Number(_product.balance);
-              }
-            });
-            console.log(myProductsData.data);
-            setProductTokenList(myProductsData.data);
-          }
-        }
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    if (isConnected) {
-      getProductTokenList();
-    } else {
-      showToast('warning', 'Please connect wallet');
-    }
-  }, [
-    account,
-    isConnected,
-    setIsDataEmpty,
-    setIsLoading,
-    setProductTokenList,
-    showToast,
-  ]);
 
   const showSidebar = () => {
     setIsDrawerOpen(true);
@@ -149,27 +93,26 @@ const ProductPage = () => {
           <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
             <LoadingSpinner />
           </div>
-        ) : isDataEmpty ? (
-          <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
-            <NoDataFound message="No My Blueprints Found!" />
+        ) : productTokenListSearchResult.length > 0 ? (
+          <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
+            {productTokenListSearchResult.map((product) => {
+              return (
+                <div className="flex justify-center" key={product.id}>
+                  <ProductCard
+                    productId={product.id}
+                    name={product.name}
+                    uri={product.imageUri}
+                    balance={product.balance}
+                    onClick={() => handleProductCardClicked(product)}
+                    onClickDecompose={() => handleDecomposeProduct(product)}
+                  />
+                </div>
+              );
+            })}
           </div>
         ) : (
-          <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-            {productTokenList.length > 0 &&
-              productTokenList.map((product) => {
-                return (
-                  <div className="flex justify-center" key={product.id}>
-                    <ProductCard
-                      productId={product.id}
-                      name={product.name}
-                      uri={product.imageUri}
-                      balance={product.balance}
-                      onClick={() => handleProductCardClicked(product)}
-                      onClickDecompose={() => handleDecomposeProduct(product)}
-                    />
-                  </div>
-                );
-              })}
+          <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
+            <NoDataFound message="No My Blueprints Found!" />
           </div>
         )}
         <ProductDetailsDrawer

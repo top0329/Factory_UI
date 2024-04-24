@@ -12,18 +12,31 @@ import useToast from '../../hooks/useToast';
 import {
   advancedFilterValueAtom,
   blueprintTokenListAtom,
+  componentSortFieldAtom,
+  componentTokenListAtom,
   isCreatorModeAtom,
   isDataEmptyAtom,
   isLoadingAtom,
   ownBlueprintTokenListAtom,
   ownBlueprintTokenListSearchResultAtom,
+  productTokenListAtom,
+  productTokenListSearchResultAtom,
   searchValueAtom,
   showFilterOptionAtom,
   sortFieldAtom,
   sortOrderAtom,
 } from '../../jotai/atoms';
-import { BASE_URI, blueprintAddress, invalidChars } from '../../constants';
-import { AdvancedFilterValue } from '../../types';
+import {
+  BASE_URI,
+  blueprintAddress,
+  invalidChars,
+  productAddress,
+} from '../../constants';
+import {
+  AdvancedFilterValue,
+  ComponentSortField,
+  SortField,
+} from '../../types';
 import { runMain } from '../../utils/getDataFromAlchemy';
 
 export interface Props {
@@ -52,11 +65,19 @@ const SearchBar: FC<Props> = ({
   const [, setOwnBlueprintTokenSearchResultList] = useAtom(
     ownBlueprintTokenListSearchResultAtom
   );
+  const [productTokenList, setProductTokenList] = useAtom(productTokenListAtom);
+  const [, setComponentTokenList] = useAtom(componentTokenListAtom);
+  const [, setProductTokenListSearchResult] = useAtom(
+    productTokenListSearchResultAtom
+  );
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
   const [isCreatorMode] = useAtom<boolean>(isCreatorModeAtom);
   const [, setIsLoading] = useAtom<boolean>(isLoadingAtom);
   const [, setIsDataEmpty] = useAtom<boolean>(isDataEmptyAtom);
-  const [sortField] = useAtom<string>(sortFieldAtom);
+  const [sortField] = useAtom<SortField>(sortFieldAtom);
+  const [componentSortField] = useAtom<ComponentSortField>(
+    componentSortFieldAtom
+  );
   const [sortOrder] = useAtom<string>(sortOrderAtom);
   const [advancedFilterValue] = useAtom<AdvancedFilterValue>(
     advancedFilterValueAtom
@@ -67,20 +88,89 @@ const SearchBar: FC<Props> = ({
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   function searchOwnBlueprints(searchText: string) {
+    let blueprintIdMin: number = Number(advancedFilterValue.blueprintIdMin);
+    let blueprintIdMax: number = Number(advancedFilterValue.blueprintIdMax);
+    let balanceMin: number = Number(advancedFilterValue.productBalanceMin);
+    let balanceMax: number = Number(advancedFilterValue.productBalanceMax);
+    if (advancedFilterValue.blueprintIdMin === '') {
+      blueprintIdMin = 0;
+    }
+    if (advancedFilterValue.blueprintIdMax === '') {
+      blueprintIdMax = Infinity;
+    }
+    if (advancedFilterValue.productBalanceMin === '') {
+      balanceMin = 0;
+    }
+    if (advancedFilterValue.productBalanceMax === '') {
+      balanceMax = Infinity;
+    }
+    if (blueprintIdMin > blueprintIdMax) {
+      showToast(
+        'warning',
+        'Blueprint Min id must be less than or equal to Max id'
+      );
+      return;
+    }
+    if (balanceMin > balanceMax) {
+      showToast(
+        'warning',
+        'Minimum Balance must be less than or equal to Maximum Balance'
+      );
+      return;
+    }
     let keywordRegex: any = '';
     const normalized = searchText.replace(/[^a-zA-Z0-9\s]/g, ' ');
     const words = normalized.split(/\s+/);
     const keywords = words.filter((word) => word.length > 0);
     if (keywords.length > 0) {
       keywordRegex = new RegExp(keywords.join('|'), 'i');
-      return ownBlueprintTokenList.filter((item) => {
+      return ownBlueprintTokenList
+        .filter((blueprint) => {
+          const result = [blueprint.id, blueprint.name, blueprint.balance].some(
+            (value) => {
+              return keywordRegex.test(value);
+            }
+          );
+          return result;
+        })
+        .filter((blueprint) => {
+          if (
+            Number(blueprintIdMin) <= Number(blueprint.id) &&
+            Number(blueprintIdMax) >= Number(blueprint.id) &&
+            Number(balanceMin) <= Number(blueprint.balance) &&
+            Number(balanceMax) >= Number(blueprint.balance)
+          ) {
+            return blueprint;
+          }
+        });
+    }
+    return ownBlueprintTokenList.filter((blueprint) => {
+      if (
+        Number(blueprintIdMin) <= Number(blueprint.id) &&
+        Number(blueprintIdMax) >= Number(blueprint.id) &&
+        Number(balanceMin) <= Number(blueprint.balance) &&
+        Number(balanceMax) >= Number(blueprint.balance)
+      ) {
+        return blueprint;
+      }
+    });
+  }
+
+  function searchProducts(searchText: string) {
+    let keywordRegex: any = '';
+    const normalized = searchText.replace(/[^a-zA-Z0-9\s]/g, ' ');
+    const words = normalized.split(/\s+/);
+    const keywords = words.filter((word) => word.length > 0);
+    if (keywords.length > 0) {
+      keywordRegex = new RegExp(keywords.join('|'), 'i');
+      return productTokenList.filter((item) => {
         const result = [item.id, item.name, item.balance].some((value) => {
           return keywordRegex.test(value);
         });
         return result;
       });
     }
-    return ownBlueprintTokenList;
+    return productTokenList;
   }
 
   useEffect(() => {
@@ -88,14 +178,19 @@ const SearchBar: FC<Props> = ({
       try {
         setIsLoading(true);
         if (pageFilter === 'blueprint') {
-          setSearchValue('');
           const searchResult = await axios.get(
-            `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${advancedFilterValue.blueprintIdMax
-            }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${advancedFilterValue.mintPriceMin
-            }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${advancedFilterValue.totalSupplyMin
-            }&totalSupplyMax=${advancedFilterValue.totalSupplyMax
-            }&mintLimitMin=${advancedFilterValue.mintLimitMin}&mintLimitMax=${advancedFilterValue.mintLimitMax
-            }&mintedAmountMin=${advancedFilterValue.mintedAmountMin
+            `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+              advancedFilterValue.blueprintIdMax
+            }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
+              advancedFilterValue.mintPriceMin
+            }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
+              advancedFilterValue.totalSupplyMin
+            }&totalSupplyMax=${
+              advancedFilterValue.totalSupplyMax
+            }&mintLimitMin=${advancedFilterValue.mintLimitMin}&mintLimitMax=${
+              advancedFilterValue.mintLimitMax
+            }&mintedAmountMin=${
+              advancedFilterValue.mintedAmountMin
             }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
           );
           if (searchResult.data.length === 0) {
@@ -105,7 +200,44 @@ const SearchBar: FC<Props> = ({
             setIsDataEmpty(false);
           }
         } else if (pageFilter === 'my-blueprint') {
-          setSearchValue('');
+          let blueprintIdMin: number = Number(
+            advancedFilterValue.blueprintIdMin
+          );
+          let blueprintIdMax: number = Number(
+            advancedFilterValue.blueprintIdMax
+          );
+          let balanceMin: number = Number(
+            advancedFilterValue.productBalanceMin
+          );
+          let balanceMax: number = Number(
+            advancedFilterValue.productBalanceMax
+          );
+          if (advancedFilterValue.blueprintIdMin === '') {
+            blueprintIdMin = 0;
+          }
+          if (advancedFilterValue.blueprintIdMax === '') {
+            blueprintIdMax = Infinity;
+          }
+          if (advancedFilterValue.productBalanceMin === '') {
+            balanceMin = 0;
+          }
+          if (advancedFilterValue.productBalanceMax === '') {
+            balanceMax = Infinity;
+          }
+          if (blueprintIdMin > blueprintIdMax) {
+            showToast(
+              'warning',
+              'Blueprint Min id must be less than or equal to Max id'
+            );
+            return;
+          }
+          if (balanceMin > balanceMax) {
+            showToast(
+              'warning',
+              'Minimum Balance must be less than or equal to Maximum Balance'
+            );
+            return;
+          }
           const myBluprints = await runMain(blueprintAddress, String(account));
           if (myBluprints) {
             const myBlueprintIds = myBluprints.map(
@@ -125,12 +257,94 @@ const SearchBar: FC<Props> = ({
                   blueprint.balance = Number(ownedBlueprint.balance);
                 }
               });
-              console.log(myBlueprintData.data);
-              setOwnBlueprintTokenSearchResultList(myBlueprintData.data);
-              setOwnBlueprintTokenList(myBlueprintData.data);
+              let keywordRegex: any = '';
+              const normalized = searchValue.replace(/[^a-zA-Z0-9\s]/g, ' ');
+              const words = normalized.split(/\s+/);
+              const keywords = words.filter((word) => word.length > 0);
+              if (keywords.length > 0) {
+                keywordRegex = new RegExp(keywords.join('|'), 'i');
+                const _ownBlueprintTokenList = myBlueprintData.data
+                  .filter((blueprint: any) => {
+                    const result = [
+                      blueprint.id,
+                      blueprint.name,
+                      blueprint.balance,
+                    ].some((value) => {
+                      return keywordRegex.test(value);
+                    });
+                    return result;
+                  })
+                  .filter((blueprint: any) => {
+                    if (
+                      Number(blueprintIdMin) <= Number(blueprint.id) &&
+                      Number(blueprintIdMax) >= Number(blueprint.id) &&
+                      Number(balanceMin) <= Number(blueprint.balance) &&
+                      Number(balanceMax) >= Number(blueprint.balance)
+                    ) {
+                      return blueprint;
+                    }
+                  });
+                setOwnBlueprintTokenSearchResultList(_ownBlueprintTokenList);
+                setOwnBlueprintTokenList(myBlueprintData.data);
+              } else {
+                const _ownBlueprintTokenList = myBlueprintData.data.filter(
+                  (blueprint: any) => {
+                    if (
+                      Number(blueprintIdMin) <= Number(blueprint.id) &&
+                      Number(blueprintIdMax) >= Number(blueprint.id) &&
+                      Number(balanceMin) <= Number(blueprint.balance) &&
+                      Number(balanceMax) >= Number(blueprint.balance)
+                    ) {
+                      return blueprint;
+                    }
+                  }
+                );
+                setOwnBlueprintTokenSearchResultList(_ownBlueprintTokenList);
+                setOwnBlueprintTokenList(myBlueprintData.data);
+              }
             }
           } else {
             setIsDataEmpty(true);
+          }
+        } else if (pageFilter === 'product') {
+          const myProducts = await runMain(productAddress, String(account));
+          console.log(myProducts);
+          if (myProducts && myProducts.length > 0) {
+            const myProductsIds = myProducts.map((product) => product.tokenId);
+            const myProductsData = await axios.get(
+              `${BASE_URI}/product/?ids=${myProductsIds}`
+            );
+            console.log(myProductsData.data);
+            if (myProductsData.data.length === 0) {
+              setIsDataEmpty(true);
+            } else {
+              myProductsData.data.forEach((product: any) => {
+                const _product = myProducts.find(
+                  (n) => Number(n.tokenId) === Number(product.id)
+                );
+                if (_product) {
+                  product.balance = Number(_product.balance);
+                }
+              });
+              console.log(myProductsData.data);
+              setProductTokenList(myProductsData.data);
+              setProductTokenListSearchResult(myProductsData.data);
+            }
+          } else {
+            setIsDataEmpty(true);
+          }
+        } else if (pageFilter === 'component') {
+          console.log(componentSortField, sortOrder);
+          console.log(searchValue);
+          const searchResult = await axios.get(
+            `${BASE_URI}/component/search?query=${searchValue}&sortField=${componentSortField}&sortOrder=${sortOrder}`
+          );
+          console.log(searchResult.data);
+          if (searchResult.data.length === 0) {
+            setIsDataEmpty(true);
+          } else {
+            setComponentTokenList(searchResult.data);
+            setIsDataEmpty(false);
           }
         }
       } catch (err) {
@@ -150,6 +364,23 @@ const SearchBar: FC<Props> = ({
     setIsLoading,
     setIsDataEmpty,
     setOwnBlueprintTokenList,
+    advancedFilterValue.blueprintIdMin,
+    advancedFilterValue.blueprintIdMax,
+    advancedFilterValue.mintPriceUnit,
+    advancedFilterValue.mintPriceMin,
+    advancedFilterValue.mintPriceMax,
+    advancedFilterValue.totalSupplyMin,
+    advancedFilterValue.totalSupplyMax,
+    advancedFilterValue.mintLimitMin,
+    advancedFilterValue.mintLimitMax,
+    advancedFilterValue.mintedAmountMin,
+    advancedFilterValue.mintedAmountMax,
+    account,
+    setOwnBlueprintTokenSearchResultList,
+    setProductTokenList,
+    setProductTokenListSearchResult,
+    componentSortField,
+    setComponentTokenList,
   ]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -169,11 +400,18 @@ const SearchBar: FC<Props> = ({
         setIsLoading(true);
         if (pageFilter === 'blueprint') {
           const searchResult = await axios.get(
-            `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${advancedFilterValue.blueprintIdMax
-            }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${advancedFilterValue.mintPriceMin
-            }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${advancedFilterValue.totalSupplyMin
-            }&totalSupplyMax=${advancedFilterValue.totalSupplyMax}&mintLimitMin=${advancedFilterValue.mintLimitMin
-            }&mintLimitMax=${advancedFilterValue.mintLimitMax}&mintedAmountMin=${advancedFilterValue.mintedAmountMin
+            `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+              advancedFilterValue.blueprintIdMax
+            }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
+              advancedFilterValue.mintPriceMin
+            }&mintPriceMax=${advancedFilterValue.mintPriceMax}&totalSupplyMin=${
+              advancedFilterValue.totalSupplyMin
+            }&totalSupplyMax=${
+              advancedFilterValue.totalSupplyMax
+            }&mintLimitMin=${advancedFilterValue.mintLimitMin}&mintLimitMax=${
+              advancedFilterValue.mintLimitMax
+            }&mintedAmountMin=${
+              advancedFilterValue.mintedAmountMin
             }&mintedAmountMax=${advancedFilterValue.mintedAmountMax}`
           );
           if (searchResult.data.length === 0) {
@@ -182,18 +420,39 @@ const SearchBar: FC<Props> = ({
             setBlueprintTokenList(searchResult.data);
             setIsDataEmpty(false);
           }
-        }else if (pageFilter ==='my-blueprint') {
-          if (searchValue === '') {
-            setOwnBlueprintTokenSearchResultList(ownBlueprintTokenList);
+        } else if (pageFilter === 'my-blueprint') {
+          const results = searchOwnBlueprints(searchValue);
+          console.log(searchValue);
+          console.log('result: ', results);
+          if (results) {
+            setOwnBlueprintTokenSearchResultList(results);
           } else {
-            const results = await searchOwnBlueprints(searchValue);
+            setIsDataEmpty(true);
+          }
+        } else if (pageFilter === 'product') {
+          if (searchValue === '') {
+            setProductTokenListSearchResult(productTokenList);
+          } else {
+            const results = searchProducts(searchValue);
             console.log(searchValue);
-            console.log('result: ',results);
+            console.log('result: ', results);
             if (results) {
-              setOwnBlueprintTokenSearchResultList(results);
+              setProductTokenListSearchResult(results);
             } else {
               setIsDataEmpty(true);
             }
+          }
+        }
+        if (pageFilter === 'component') {
+          const searchResult = await axios.get(
+            `${BASE_URI}/component/search?query=${searchValue}&sortField=${componentSortField}&sortOrder=${sortOrder}`
+          );
+          console.log(searchResult.data);
+          if (searchResult.data.length === 0) {
+            setIsDataEmpty(true);
+          } else {
+            setComponentTokenList(searchResult.data);
+            setIsDataEmpty(false);
           }
         }
       }
