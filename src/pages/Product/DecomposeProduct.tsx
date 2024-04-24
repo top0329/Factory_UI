@@ -4,7 +4,6 @@ import { useAtom } from 'jotai';
 import { ethers } from 'ethers';
 import useWeb3 from '../../hooks/useWeb3';
 import Button from '../../components/Button';
-import OwnBlueprintListCard from '../../components/Cards/ListCard';
 import { SelectedProduct } from '../../types';
 import { selectedProductintAtom } from '../../jotai/atoms';
 import { ERC20DecomposeListCard } from '../../components/Cards/ListCard/ERC20ListCard';
@@ -15,6 +14,7 @@ import { ERC1155DecomposeListCard } from '../../components/Cards/ListCard/ERC115
 import Web3 from 'web3';
 import useSpinner from '../../hooks/useSpinner';
 import useToast from '../../hooks/useToast';
+import { ERC721DecomposeListCard } from '../../components/Cards/ListCard/ERC721ListCard';
 
 const DecomposeProductPage = () => {
   const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
@@ -203,11 +203,10 @@ const DecomposeProductPage = () => {
               />
             ))}
             {selectedOwnData.data.erc721Data.map((dataItem, index) => (
-              <OwnBlueprintListCard
+              <ERC721DecomposeListCard
                 key={index}
-                isDecompose={true}
-                {...dataItem}
-                type={1}
+                id={dataItem.tokenId}
+                address={dataItem.tokenAddress}
               />
             ))}
             {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
