@@ -77,6 +77,30 @@ function Footer() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleInitSearchOptions = () => {
+    setSearchValue('');
+    setAdvancedFilterValue({
+      blueprintIdMin: '',
+      blueprintIdMax: '',
+      mintPriceUnit: 0,
+      mintPriceMin: '',
+      mintPriceMax: '',
+      mintLimitMin: '',
+      mintLimitMax: '',
+      totalSupplyMin: '',
+      totalSupplyMax: '',
+      mintedAmountMin: '',
+      mintedAmountMax: '',
+      productIdMin: '',
+      productIdMax: '',
+      productBalanceMin: '',
+      productBalanceMax: '',
+    });
+    setSortField('id');
+    setSortOrder('asc');
+    setComponentSortField('name');
+  };
+
   return (
     <div className="px-4 py-7 bg-[#000000] h-[350px] object-contain relative 2xl:max-w-[1536px] 2xl:min-px-132 2xl:min-w-full xl:px-32 xl:h-44 md:h-40 lg:px-28 md:px-16 sm:px-12">
       <div className="flex flex-col-reverse justify-between md:flex-row">
@@ -150,27 +174,8 @@ function Footer() {
                 headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
+                handleInitSearchOptions();
                 navigate('/blueprint');
-                setSearchValue('');
-                setAdvancedFilterValue({
-                  blueprintIdMin: '',
-                  blueprintIdMax: '',
-                  mintPriceUnit: 0,
-                  mintPriceMin: '',
-                  mintPriceMax: '',
-                  mintLimitMin: '',
-                  mintLimitMax: '',
-                  totalSupplyMin: '',
-                  totalSupplyMax: '',
-                  mintedAmountMin: '',
-                  mintedAmountMax: '',
-                  productIdMin: '',
-                  productIdMax: '',
-                  productBalanceMin: '',
-                  productBalanceMax: '',
-                });
-                setSortField('id');
-                setSortOrder('asc');
               }}
             >
               Blueprint
@@ -180,27 +185,8 @@ function Footer() {
                 headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
+                handleInitSearchOptions();
                 navigate('/my-blueprint');
-                setSearchValue('');
-                setAdvancedFilterValue({
-                  blueprintIdMin: '',
-                  blueprintIdMax: '',
-                  mintPriceUnit: 0,
-                  mintPriceMin: '',
-                  mintPriceMax: '',
-                  mintLimitMin: '',
-                  mintLimitMax: '',
-                  totalSupplyMin: '',
-                  totalSupplyMax: '',
-                  mintedAmountMin: '',
-                  mintedAmountMax: '',
-                  productIdMin: '',
-                  productIdMax: '',
-                  productBalanceMin: '',
-                  productBalanceMax: '',
-                });
-                setSortField('id');
-                setSortOrder('asc');
               }}
               hidden={!isConnected}
             >
@@ -211,27 +197,8 @@ function Footer() {
                 headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
+                handleInitSearchOptions();
                 navigate('/product');
-                setSearchValue('');
-                setAdvancedFilterValue({
-                  blueprintIdMin: '',
-                  blueprintIdMax: '',
-                  mintPriceUnit: 0,
-                  mintPriceMin: '',
-                  mintPriceMax: '',
-                  mintLimitMin: '',
-                  mintLimitMax: '',
-                  totalSupplyMin: '',
-                  totalSupplyMax: '',
-                  mintedAmountMin: '',
-                  mintedAmountMax: '',
-                  productIdMin: '',
-                  productIdMax: '',
-                  productBalanceMin: '',
-                  productBalanceMax: '',
-                });
-                setSortField('id');
-                setSortOrder('asc');
               }}
               hidden={!isConnected}
             >
@@ -242,10 +209,8 @@ function Footer() {
                 headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
+                handleInitSearchOptions();
                 navigate('/component');
-                setSearchValue('');
-                setComponentSortField('name');
-                setSortOrder('asc');
               }}
             >
               Component

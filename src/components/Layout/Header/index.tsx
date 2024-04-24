@@ -16,7 +16,11 @@ import {
   sortFieldAtom,
   sortOrderAtom,
 } from '../../../jotai/atoms';
-import { AdvancedFilterValue, ComponentSortField, SortField } from '../../../types';
+import {
+  AdvancedFilterValue,
+  ComponentSortField,
+  SortField,
+} from '../../../types';
 
 function Header() {
   const { isConnected } = useWeb3();
@@ -28,7 +32,9 @@ function Header() {
     useAtom<number>(headerActiveItemAtom);
   const [, setSearchValue] = useAtom<string>(searchValueAtom);
   const [, setSortField] = useAtom<SortField>(sortFieldAtom);
-  const [, setComponentSortField] = useAtom<ComponentSortField>(componentSortFieldAtom);
+  const [, setComponentSortField] = useAtom<ComponentSortField>(
+    componentSortFieldAtom
+  );
   const [, setSortOrder] = useAtom<string>(sortOrderAtom);
   const [, setAdvancedFilterValue] = useAtom<AdvancedFilterValue>(
     advancedFilterValueAtom
@@ -44,6 +50,30 @@ function Header() {
     location.pathname.includes('component') && setHeaderActiveItem(4);
     location.pathname === '/' && setHeaderActiveItem(0);
   }, [location.pathname, setHeaderActiveItem]);
+
+  const handleInitSearchOptions = () => {
+    setSearchValue('');
+    setAdvancedFilterValue({
+      blueprintIdMin: '',
+      blueprintIdMax: '',
+      mintPriceUnit: 0,
+      mintPriceMin: '',
+      mintPriceMax: '',
+      mintLimitMin: '',
+      mintLimitMax: '',
+      totalSupplyMin: '',
+      totalSupplyMax: '',
+      mintedAmountMin: '',
+      mintedAmountMax: '',
+      productIdMin: '',
+      productIdMax: '',
+      productBalanceMin: '',
+      productBalanceMax: '',
+    });
+    setSortField('id');
+    setSortOrder('asc');
+    setComponentSortField('name');
+  };
 
   return (
     <div className="flex px-4 py-3 bg-[#05050a] h-14 items-center 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full xl:px-20 lg:px-16 lg:h-24 md:h-20 md:px-12 sm:h-16 sm:px-10">
@@ -63,27 +93,8 @@ function Header() {
                 headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
               }`}
               onClick={() => {
+                handleInitSearchOptions();
                 navigate('/blueprint');
-                setSearchValue('');
-                setAdvancedFilterValue({
-                  blueprintIdMin: '',
-                  blueprintIdMax: '',
-                  mintPriceUnit: 0,
-                  mintPriceMin: '',
-                  mintPriceMax: '',
-                  mintLimitMin: '',
-                  mintLimitMax: '',
-                  totalSupplyMin: '',
-                  totalSupplyMax: '',
-                  mintedAmountMin: '',
-                  mintedAmountMax: '',
-                  productIdMin: '',
-                  productIdMax: '',
-                  productBalanceMin: '',
-                  productBalanceMax: '',
-                });
-                setSortField('id');
-                setSortOrder('asc');
               }}
             >
               Blueprint
@@ -93,27 +104,8 @@ function Header() {
                 headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
               }`}
               onClick={() => {
+                handleInitSearchOptions();
                 navigate('/my-blueprint');
-                setSearchValue('');
-                setAdvancedFilterValue({
-                  blueprintIdMin: '',
-                  blueprintIdMax: '',
-                  mintPriceUnit: 0,
-                  mintPriceMin: '',
-                  mintPriceMax: '',
-                  mintLimitMin: '',
-                  mintLimitMax: '',
-                  totalSupplyMin: '',
-                  totalSupplyMax: '',
-                  mintedAmountMin: '',
-                  mintedAmountMax: '',
-                  productIdMin: '',
-                  productIdMax: '',
-                  productBalanceMin: '',
-                  productBalanceMax: '',
-                });
-                setSortField('id');
-                setSortOrder('asc');
               }}
               hidden={!isConnected}
             >
@@ -124,27 +116,8 @@ function Header() {
                 headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
               }`}
               onClick={() => {
+                handleInitSearchOptions();
                 navigate('/product');
-                setSearchValue('');
-                setAdvancedFilterValue({
-                  blueprintIdMin: '',
-                  blueprintIdMax: '',
-                  mintPriceUnit: 0,
-                  mintPriceMin: '',
-                  mintPriceMax: '',
-                  mintLimitMin: '',
-                  mintLimitMax: '',
-                  totalSupplyMin: '',
-                  totalSupplyMax: '',
-                  mintedAmountMin: '',
-                  mintedAmountMax: '',
-                  productIdMin: '',
-                  productIdMax: '',
-                  productBalanceMin: '',
-                  productBalanceMax: '',
-                });
-                setSortField('id');
-                setSortOrder('asc');
               }}
               hidden={!isConnected}
             >
@@ -155,22 +128,17 @@ function Header() {
                 headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
               }`}
               onClick={() => {
+                handleInitSearchOptions();
                 navigate('/component');
-                setSearchValue('');
-                setComponentSortField('name');
-                setSortOrder('asc');
               }}
             >
               Component
             </button>
             <button
-              className={`${
-                headerActiveItem === 5 ? 'text-white' : 'text-light-gray'
-              }`}
-              onClick={() => {
-                navigate('#');
-                setHeaderActiveItem(5);
-              }}
+              className="text-light-gray"
+              onClick={() =>
+                window.open('/docs/factory-whitepaper.pdf', '_blank')
+              }
             >
               Whitepaper
             </button>
@@ -201,28 +169,9 @@ function Header() {
                       headerActiveItem === 1 ? 'text-white' : 'text-light-gray'
                     } w-full hover:bg-secondary`}
                     onClick={() => {
+                      handleInitSearchOptions();
                       navigate('/blueprint');
                       setIsListButtonClicked(false);
-                      setSearchValue('');
-                      setAdvancedFilterValue({
-                        blueprintIdMin: '',
-                        blueprintIdMax: '',
-                        mintPriceUnit: 0,
-                        mintPriceMin: '',
-                        mintPriceMax: '',
-                        mintLimitMin: '',
-                        mintLimitMax: '',
-                        totalSupplyMin: '',
-                        totalSupplyMax: '',
-                        mintedAmountMin: '',
-                        mintedAmountMax: '',
-                        productIdMin: '',
-                        productIdMax: '',
-                        productBalanceMin: '',
-                        productBalanceMax: '',
-                      });
-                      setSortField('id');
-                      setSortOrder('asc');
                     }}
                   >
                     Blueprint
@@ -234,28 +183,9 @@ function Header() {
                       headerActiveItem === 2 ? 'text-white' : 'text-light-gray'
                     } w-full hover:bg-secondary`}
                     onClick={() => {
+                      handleInitSearchOptions();
                       navigate('/my-blueprint');
                       setIsListButtonClicked(false);
-                      setSearchValue('');
-                      setAdvancedFilterValue({
-                        blueprintIdMin: '',
-                        blueprintIdMax: '',
-                        mintPriceUnit: 0,
-                        mintPriceMin: '',
-                        mintPriceMax: '',
-                        mintLimitMin: '',
-                        mintLimitMax: '',
-                        totalSupplyMin: '',
-                        totalSupplyMax: '',
-                        mintedAmountMin: '',
-                        mintedAmountMax: '',
-                        productIdMin: '',
-                        productIdMax: '',
-                        productBalanceMin: '',
-                        productBalanceMax: '',
-                      });
-                      setSortField('id');
-                      setSortOrder('asc');
                     }}
                   >
                     My Blueprint
@@ -267,28 +197,9 @@ function Header() {
                       headerActiveItem === 3 ? 'text-white' : 'text-light-gray'
                     } w-full hover:bg-secondary`}
                     onClick={() => {
+                      handleInitSearchOptions();
                       navigate('/product');
                       setIsListButtonClicked(false);
-                      setSearchValue('');
-                      setAdvancedFilterValue({
-                        blueprintIdMin: '',
-                        blueprintIdMax: '',
-                        mintPriceUnit: 0,
-                        mintPriceMin: '',
-                        mintPriceMax: '',
-                        mintLimitMin: '',
-                        mintLimitMax: '',
-                        totalSupplyMin: '',
-                        totalSupplyMax: '',
-                        mintedAmountMin: '',
-                        mintedAmountMax: '',
-                        productIdMin: '',
-                        productIdMax: '',
-                        productBalanceMin: '',
-                        productBalanceMax: '',
-                      });
-                      setSortField('id');
-                      setSortOrder('asc');
                     }}
                   >
                     Product
@@ -300,11 +211,9 @@ function Header() {
                       headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
                     } w-full hover:bg-secondary`}
                     onClick={() => {
+                      handleInitSearchOptions();
                       navigate('/component');
                       setIsListButtonClicked(false);
-                      setSearchValue('');
-                      setComponentSortField('name');
-                      setSortOrder('asc');
                     }}
                   >
                     Component
@@ -312,12 +221,9 @@ function Header() {
                 </li>
                 <li>
                   <button
-                    className={`block my-1 px-4 py-3 text-left rounded ${
-                      headerActiveItem === 5 ? 'text-white' : 'text-light-gray'
-                    } w-full hover:bg-secondary`}
+                    className="block my-1 px-4 py-3 text-left rounded text-light-gray w-full hover:bg-secondary"
                     onClick={() => {
-                      navigate('#');
-                      setHeaderActiveItem(5);
+                      window.open('/docs/factory-whitepaper.pdf', '_blank');
                       setIsListButtonClicked(false);
                     }}
                   >

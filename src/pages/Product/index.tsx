@@ -13,7 +13,7 @@ import {
   selectedProductintAtom,
   productSelectionState,
   isLoadingAtom,
-  productTokenListSearchResultAtom,
+  productTokenListAtom,
 } from '../../jotai/atoms';
 
 const ProductPage = () => {
@@ -21,7 +21,7 @@ const ProductPage = () => {
 
   const [, setSelectedProduct] = useAtom(selectedProductintAtom);
   const [, setProductSelectionState] = useAtom(productSelectionState);
-  const [productTokenListSearchResult] = useAtom(productTokenListSearchResultAtom);
+  const [productTokenList] = useAtom(productTokenListAtom);
   const [isLoading] = useAtom<boolean>(isLoadingAtom);
 
   const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(false);
@@ -93,9 +93,9 @@ const ProductPage = () => {
           <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
             <LoadingSpinner />
           </div>
-        ) : productTokenListSearchResult.length > 0 ? (
+        ) : productTokenList.length > 0 ? (
           <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-            {productTokenListSearchResult.map((product) => {
+            {productTokenList.map((product) => {
               return (
                 <div className="flex justify-center" key={product.id}>
                   <ProductCard
