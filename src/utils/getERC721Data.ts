@@ -8,6 +8,8 @@ export default async function getERC721Data(
   contractAddress: Address | '',
   tokenId: number
 ) {
+  console.log('Contract Address', contractAddress);
+  console.log('tokenId', tokenId);
   if (contractAddress === '') return null;
   const provider = new ethers.JsonRpcProvider(defaultRPC);
   const erc721Contract = new ethers.Contract(
