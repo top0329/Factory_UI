@@ -117,9 +117,7 @@ export const headerActiveItemAtom = atom<number>(0);
 // Store the blueprint token list
 export const blueprintTokenListAtom = atom<BlueprintNFT[]>([]);
 export const ownBlueprintTokenListAtom = atom<ProductToken[]>([]);
-export const ownBlueprintTokenListSearchResultAtom = atom<ProductToken[]>([]);
 export const productTokenListAtom = atom<Array<ProductToken>>([]);
-export const productTokenListSearchResultAtom = atom<Array<ProductToken>>([]);
 export const componentTokenListAtom = atom<Array<Component>>([]);
 
 export const sortFieldAtom = atom<SortField>('id');

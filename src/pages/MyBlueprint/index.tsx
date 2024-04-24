@@ -10,14 +10,14 @@ import NoDataFound from '../../components/Loading/NoDataFound';
 import {
   selectedOwnBlueprintAtom,
   isLoadingAtom,
-  ownBlueprintTokenListSearchResultAtom,
+  ownBlueprintTokenListAtom,
 } from '../../jotai/atoms';
 import { Helmet } from 'react-helmet';
 
 const MyBlueprintPage = () => {
   const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
-  const [ownBlueprintTokenSearchResultList] = useAtom(
-    ownBlueprintTokenListSearchResultAtom
+  const [ownBlueprintTokenList] = useAtom(
+    ownBlueprintTokenListAtom
   );
   const [isLoading] = useAtom<boolean>(isLoadingAtom);
 
@@ -88,9 +88,9 @@ const MyBlueprintPage = () => {
           <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
             <LoadingSpinner />
           </div>
-        ) : ownBlueprintTokenSearchResultList.length > 0 ? (
+        ) : ownBlueprintTokenList.length > 0 ? (
           <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-            {ownBlueprintTokenSearchResultList.map((blueprint) => {
+            {ownBlueprintTokenList.map((blueprint) => {
               return (
                 <div className="flex justify-center" key={blueprint.id}>
                   <OwnBlueprintCard
