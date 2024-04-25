@@ -242,12 +242,11 @@ const LandingPage = () => {
           <div className="grid grid-cols-12 pt-2 md:pt-4 lg:pt-8">
             <div className="col-span-12 md:col-span-6">
               <h1 className="mt-4 font-bold text-[30px] leading-[40px] xl:text-[66px] xl:leading-[80px] lg:text-[50px] lg:mt-10 md:text-[38px] md:mt-4 sm:text-[40px] sm:leading-[60px]">
-                Get Unique NFTs <br />
-                For Your Business
+                Seamlessly Craft Your Custom Gaming Tokens.
               </h1>
               <h2 className="text-xl pt-4 leading-[30px] xl:text-[32px] xl:leading-[50px] lg:text-[28px] sm:text-2xl sm:leading-[40px]">
                 The Easiest Way To Create Your <br />
-                Own Tokens ...
+                Own Game Assets ...
               </h2>
               <div className="relative flex justify-start items-center gap-1 border-b-2 max-w-[296px] pt-8 pl-1 mx-0 md:w-96 lg:pt-16 sm:pt-14 sm:mx-4 sm:w-96 sm:max-w-96">
                 <Icon className="w-6 h-6" icon="ion:search-outline" />

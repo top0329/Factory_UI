@@ -220,7 +220,10 @@ function Footer() {
                 headerActiveItem === 5 ? 'text-white' : 'text-light-gray'
               } cursor-pointer`}
               onClick={() => {
-                navigate('#');
+                window.open(
+                  'https://factorygame.gitbook.io/factorygame',
+                  '_blank'
+                );
                 setHeaderActiveItem(5);
               }}
             >
