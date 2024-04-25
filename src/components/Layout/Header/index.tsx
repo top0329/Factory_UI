@@ -137,7 +137,10 @@ function Header() {
             <button
               className="text-light-gray"
               onClick={() =>
-                window.open('/docs/factory-whitepaper.pdf', '_blank')
+                window.open(
+                  'https://factorygame.gitbook.io/factorygame',
+                  '_blank'
+                )
               }
             >
               Whitepaper
@@ -223,7 +226,10 @@ function Header() {
                   <button
                     className="block my-1 px-4 py-3 text-left rounded text-light-gray w-full hover:bg-secondary"
                     onClick={() => {
-                      window.open('/docs/factory-whitepaper.pdf', '_blank');
+                      window.open(
+                        'https://factorygame.gitbook.io/factorygame',
+                        '_blank'
+                      );
                       setIsListButtonClicked(false);
                     }}
                   >
