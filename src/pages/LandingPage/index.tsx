@@ -21,28 +21,29 @@ import Image from '../../components/Image';
 import { searchValueAtom } from '../../jotai/atoms';
 import { invalidChars } from '../../constants';
 
-const LandingPage = () => {
-  function SampleNextArrow(props: React.HTMLAttributes<SVGSVGElement>) {
-    const { className, onClick } = props;
-    return (
-      <Icon
-        className={`${className} !w-7 !h-7 !mr-4 !text-light-gray !bg-gray-800 rounded-full duration-300 ease-in-out hover:!bg-default sm:!h-9 sm:!w-9 sm:!mr-2`}
-        icon="material-symbols:keyboard-arrow-right"
-        onClick={onClick}
-      />
-    );
-  }
+function SampleNextArrow(props: React.HTMLAttributes<SVGSVGElement>) {
+  const { className, onClick } = props;
+  return (
+    <Icon
+      className={`${className} !w-7 !h-7 !mr-4 !text-light-gray !bg-gray-800 rounded-full duration-300 ease-in-out hover:!bg-default sm:!h-9 sm:!w-9 sm:!mr-2`}
+      icon="material-symbols:keyboard-arrow-right"
+      onClick={onClick}
+    />
+  );
+}
 
-  function SamplePrevArrow(props: React.HTMLAttributes<SVGSVGElement>) {
-    const { className, onClick } = props;
-    return (
-      <Icon
-        className={`${className} z-30 !w-7 !h-7 !ml-4 !text-light-gray !bg-gray-800 rounded-full duration-300 ease-in-out hover:!bg-default sm:!h-9 sm:!w-9 sm:!ml-2`}
-        icon="material-symbols:keyboard-arrow-left"
-        onClick={onClick}
-      />
-    );
-  }
+function SamplePrevArrow(props: React.HTMLAttributes<SVGSVGElement>) {
+  const { className, onClick } = props;
+  return (
+    <Icon
+      className={`${className} z-30 !w-7 !h-7 !ml-4 !text-light-gray !bg-gray-800 rounded-full duration-300 ease-in-out hover:!bg-default sm:!h-9 sm:!w-9 sm:!ml-2`}
+      icon="material-symbols:keyboard-arrow-left"
+      onClick={onClick}
+    />
+  );
+}
+
+const LandingPage = () => {
   const settings = {
     swipeToSlide: true,
     infinite: true,
@@ -81,6 +82,7 @@ const LandingPage = () => {
   };
 
   const { blueprintContract, factoryContract, productContract } = useWeb3();
+
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
@@ -116,7 +118,6 @@ const LandingPage = () => {
 
   const smoothScrollTo = (duration: number) => {
     const startY = window.scrollY;
-    // const distanceY = endY - startY;
     const distanceY = window.innerHeight;
     let startTime: number = 0;
     const easeInOutCubic = (time: number) =>
@@ -144,24 +145,21 @@ const LandingPage = () => {
     let startTime: number = 0;
     const easeInOutCubic = (time: number) =>
       time < 0.5 ? 4 * time * time * time : 1 - Math.pow(-2 * time + 2, 3) / 2;
-
     const step = (timestamp: number) => {
       if (!startTime) startTime = timestamp;
       const time = timestamp - startTime;
       const percent = Math.min(time / duration, 1);
       const easedPercent = easeInOutCubic(percent);
       window.scrollTo(0, startY - easedPercent * distanceY);
-
       if (time < duration) {
         requestAnimationFrame(step);
       }
     };
-
     requestAnimationFrame(step);
   };
 
   const handleScrollToTop = () => {
-    smoothScrollToTop(1000); // Smooth scroll to top with a duration of 1 second (1000 milliseconds)
+    smoothScrollToTop(1000);
   };
 
   const handleScroll = () => {
@@ -174,7 +172,6 @@ const LandingPage = () => {
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
-
     if (invalidChars.test(value)) {
       setShowTooltip(true);
       setTimeout(() => setShowTooltip(false), 3000);
@@ -197,7 +194,7 @@ const LandingPage = () => {
         <Link rel="canonical" href="http://factorygame.org/" />
         <Meta
           name="description"
-          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
+          content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
         />
         <Meta
           name="keyword"
@@ -206,23 +203,23 @@ const LandingPage = () => {
         <Helmet>
           <meta
             name="description"
-            content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
+            content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
           />
           <meta
             name="keyword"
-            content="Factory, Factory1155, Blueprint, Product, Custody, Component Token, Combine, Synthesis, Decompose"
+            content="Factory, Factorygame, Blueprint, Product, Custody, Component Token, Combine, Synthesis, Decompose"
           />
           <meta property="og:title" content="Factory" />
           <meta
             property="og:description"
-            content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
+            content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
           />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="https://factorygame.org/" />
           <meta property="twitter:title" content="Factory1155" />
           <meta
             property="twitter:description"
-            content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
+            content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
           />
         </Helmet>
         <img

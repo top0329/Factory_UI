@@ -1,17 +1,17 @@
-import { Icon } from '@iconify/react/dist/iconify.js';
 import { useEffect, useState } from 'react';
 import Web3, { HttpProvider } from 'web3';
-import useWeb3 from '../../../hooks/useWeb3';
-import { factoryAddress, defaultRPC } from '../../../constants';
-// import { ethers } from 'ethers';
-import erc1155Abi from '../../../abi/ERC1155ABI.json';
-import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
-import { tokenUriToName } from '../../../utils/tokenUriToName';
 import copy from 'copy-to-clipboard';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { Address } from 'viem';
+
+import useWeb3 from '../../../hooks/useWeb3';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
+import erc1155Abi from '../../../abi/ERC1155ABI.json';
 import getERC1155Data from '../../../utils/getERC1155Data';
-import { Address } from 'viem';
+import { factoryAddress, defaultRPC } from '../../../constants';
+import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
+import { tokenUriToName } from '../../../utils/tokenUriToName';
 
 export interface Props {
   address?: string;
@@ -29,9 +29,6 @@ export function ERC1155MintListCard(props: Props) {
   const { isConnected, library, erc1155Approve } = useWeb3();
   const [componentName, setComponentName] = useState<string>('');
   const [isApproved, setIsApproved] = useState<boolean>();
-  // const [tokenAmount, setTokenAmount] = useState<number>();
-  // const [tokenId, setTokenId] = useState<number>();
-  // const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
@@ -61,6 +58,7 @@ export function ERC1155MintListCard(props: Props) {
       setIsCopied(true);
     }
   };
+
   const handleApprove = async () => {
     const web3 = new Web3(window.ethereum);
     try {
@@ -187,15 +185,14 @@ export function ERC1155DecomposeListCard(props: Props) {
   const [tokenId, setTokenId] = useState<number>();
   const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
+
   useEffect(() => {
     const getContractInfo = async () => {
       const web3 = new Web3(new HttpProvider(defaultRPC));
       const erc1155Contract = new web3.eth.Contract(erc1155Abi, props[0]);
-
       const uri: string = await erc1155Contract.methods
         .uri(props[1])
         .call({ from: account });
-
       setTokenAddress(String(props[0]));
       setComponentName(await tokenUriToName(uri));
       setTokenId(Number(props[1]));
@@ -208,6 +205,7 @@ export function ERC1155DecomposeListCard(props: Props) {
     copy(tokenAddress);
     setIsCopied(true);
   };
+
   return (
     <div className="flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] px-4  py-2 mb-2 borderpy-2 border  rounded-3xl text-white text-base bg-[#858584]/20 border-black">
       <div id="icon" className="flex justify-center py-2">
@@ -216,14 +214,12 @@ export function ERC1155DecomposeListCard(props: Props) {
           className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
         />
       </div>
-
       <div
         id="type"
         className="hidden sm:block text-white justify-center items-center w-[15%] md:text-[24px] text-[16px] text-xl"
       >
         Blueprint
       </div>
-
       <div
         id="name"
         className="flex flex-col justify-center sm:w-[12%] w-[30%]"
@@ -231,7 +227,6 @@ export function ERC1155DecomposeListCard(props: Props) {
         <p className="text-[#858584] text-xs">Name</p>
         <p className="text-[#BABABA] truncate">{componentName}</p>
       </div>
-
       <div
         id="address"
         className="hidden md:block flex-col justify-center w-[25%]"
@@ -260,14 +255,12 @@ export function ERC1155DecomposeListCard(props: Props) {
           </div>
         </div>
       </div>
-
       <div id="id" className="w-[3%]">
         <div>
           <p className="text-[#858584] text-xs">ID</p>
           <p className="text-[#BABABA]">{tokenId}</p>
         </div>
       </div>
-
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
         <p className="text-center">{tokenAmount}</p>

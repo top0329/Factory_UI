@@ -49,7 +49,7 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
         appearance: 'none',
         border: '1px solid #858584',
         borderRadius: '2px',
-        backgroundColor: checked ? '#011018' : 'transparent', // Change the background color when checked/unchecked
+        backgroundColor: checked ? '#011018' : 'transparent',
         backgroundImage: checked
           ? `url('data:image/svg+xml;base64,${CheckboxIcon}')`
           : '',
@@ -57,7 +57,7 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
         backgroundSize: '98%',
         width: '14px',
         height: '14px',
-        cursor: 'pointer', // Change the cursor based on the editable state
+        cursor: 'pointer',
       }}
     />
   );
@@ -80,6 +80,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
       erc1155Data: [],
     },
   };
+
   const {
     isConnected,
     library,
@@ -158,7 +159,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         reader.onloadend = () => {
           setSelectedFile(selectedFile);
           setFileText(selectedFile.name);
-          console.log(selectedFile, imageSrc);
         };
         reader.readAsDataURL(selectedFile);
       } else {
@@ -185,7 +185,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const handleFileNameChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
-    setFileText(event.target.value); // Update the fileText state with the input value
+    setFileText(event.target.value);
   };
 
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -196,7 +196,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         setSelectedFile(file);
         setUploadedImageSrc(reader.result as string);
         setFileText(file.name);
-        console.log(file, imageSrc);
       };
       reader.readAsDataURL(file);
     }
@@ -283,10 +282,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     if (!selectedFile) return;
     try {
       const imageHashURI: string = await uploadFileToIPFS(selectedFile, name);
-      console.log(
-        'Image uploaded to IPFS with hash ====================> ',
-        imageHashURI
-      );
       return imageHashURI;
     } catch (error) {
       console.log('Error uploading file:', error);
@@ -303,10 +298,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
         compiler: 'Factory',
       };
       const jsonHash = await uploadJSONToIPFS(fileText, json);
-      console.log(
-        'JSON uploaded to IPFS with hash ====================> ',
-        jsonHash
-      );
       return jsonHash;
     } catch (error) {
       console.log('Error uploading file:', error);
@@ -469,7 +460,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       }
                     } else {
                       showToast('warning', 'Please upload image');
-                      console.log('you have to add image');
                     }
                   }
                 } else {
@@ -751,7 +741,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           `${BASE_URI}/blueprint/create`,
                           blueprintData
                         );
-                        console.log(blueprintData);
                         setCreateInfo(initialBlueprint);
                         showToast(
                           'success',
@@ -821,7 +810,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       }
                     } else {
                       showToast('warning', 'Please upload image');
-                      console.log('you have to add image');
                     }
                   }
                 } else {
@@ -846,16 +834,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   _imageUri = `https://ipfs.io/${image}`;
                   const _mintLimit = createInfo.mintLimit;
                   openSpin('Recreating Blueprint');
-                  console.log(
-                    createInfo.name,
-                    jsonHashUri,
-                    createInfo.totalSupply,
-                    _mintPrice,
-                    createInfo.mintPriceUnit,
-                    _mintLimit,
-                    componentData
-                  );
-                  const tx = await factoryWeb3.methods
+                  await factoryWeb3.methods
                     .createBlueprint(
                       createInfo.name,
                       jsonHashUri,
@@ -866,7 +845,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       componentData
                     )
                     .send({ from: account });
-                  console.log(tx);
                   const events = await blueprintWeb3.getPastEvents(
                     'BlueprintCreated',
                     {
@@ -881,7 +859,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     }
                   }
                   blueprintData.imageUri = _imageUri;
-                  console.log(blueprintData);
                   await axios.post(
                     `${BASE_URI}/blueprint/create`,
                     blueprintData
@@ -1107,11 +1084,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           }
                           blueprintData.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           blueprintData.mintLimit = _mintLimit;
-                          const res = await axios.post(
+                          await axios.post(
                             `${BASE_URI}/blueprint/create`,
                             blueprintData
                           );
-                          console.log('response: ', res.data);
                           setCreateInfo(initialBlueprint);
                           showToast(
                             'success',
@@ -1122,7 +1098,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       }
                     } else {
                       showToast('warning', 'Please upload image');
-                      console.log('you have to add image');
                     }
                   }
                 } else {
@@ -1193,7 +1168,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
           }
         } else {
           showToast('warning', 'Please add at least one component');
-          console.log('you have to add at least one component');
         }
       } else {
         showToast('warning', 'Please connect your wallet first');

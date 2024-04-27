@@ -2,15 +2,9 @@ import { Suspense, lazy } from 'react';
 import { useRoutes } from 'react-router-dom';
 
 import CommonLayout from '../components/Layout/CommonLayout';
-import LoadingLandingPage from '../pages/LandingPage/LoadingLanding';
 import Loadable from '../components/Loading';
 import AuthGuard from './AuthGuard';
-import PageNotFound from '../pages/Maintenance/PageNotFound';
-import ContactUs from '../pages/Maintenance/Contact';
-import Terms from '../pages/Maintenance/Terms';
-import Privacy from '../pages/Maintenance/Privacy';
 
-// const AuthLogin = Loadable(lazy(() => import('pages/auth/login')));
 const LandingPage = lazy(() => import('../pages/LandingPage'));
 const BlueprintPage = Loadable(lazy(() => import('../pages/Blueprint')));
 const MintBlueprintPage = Loadable(
@@ -25,20 +19,32 @@ const RecreateBlueprintPage = Loadable(
 const UpdateBlueprintPage = Loadable(
   lazy(() => import('../pages/Blueprint/UpdateBlueprint'))
 );
-const TransferOwnership = Loadable(
+const TransferOwnershipPage = Loadable(
   lazy(() => import('../pages/Blueprint/TransferOwnership'))
 );
-const MyBlueprint = Loadable(lazy(() => import('../pages/MyBlueprint')));
+const MyBlueprintPage = Loadable(lazy(() => import('../pages/MyBlueprint')));
 const MintProductPage = Loadable(
   lazy(() => import('../pages/MyBlueprint/MintProduct'))
 );
-const Product = Loadable(lazy(() => import('../pages/Product')));
+const ProductPage = Loadable(lazy(() => import('../pages/Product')));
 const DecomposeProductPage = Loadable(
   lazy(() => import('../pages/Product/DecomposeProduct'))
 );
 const ComponentPage = Loadable(lazy(() => import('../pages/Component')));
+const LoadingLandingPage = Loadable(
+  lazy(() => import('../pages/LandingPage/LoadingLanding'))
+);
+const PageNotFoundPage = Loadable(
+  lazy(() => import('../pages/Maintenance/PageNotFound'))
+);
+const ContactUsPage = Loadable(
+  lazy(() => import('../pages/Maintenance/Contact'))
+);
+const TermsPage = Loadable(lazy(() => import('../pages/Maintenance/Terms')));
+const PrivacyPage = Loadable(
+  lazy(() => import('../pages/Maintenance/Privacy'))
+);
 
-// project import
 const LandingRoute = {
   path: '/',
   element: <CommonLayout layout="landing" />,
@@ -104,7 +110,7 @@ const CommonRoutes = {
               path: 'transfer-ownership/:id',
               element: (
                 <AuthGuard>
-                  <TransferOwnership />
+                  <TransferOwnershipPage />
                 </AuthGuard>
               ),
             },
@@ -117,7 +123,7 @@ const CommonRoutes = {
               path: '',
               element: (
                 <AuthGuard>
-                  <MyBlueprint />
+                  <MyBlueprintPage />
                 </AuthGuard>
               ),
             },
@@ -138,7 +144,7 @@ const CommonRoutes = {
               path: '',
               element: (
                 <AuthGuard>
-                  <Product />
+                  <ProductPage />
                 </AuthGuard>
               ),
             },
@@ -163,26 +169,24 @@ const CommonRoutes = {
         },
         {
           path: 'contact-us',
-          element: <ContactUs />,
+          element: <ContactUsPage />,
         },
         {
           path: 'terms',
-          element: <Terms />,
+          element: <TermsPage />,
         },
         {
           path: 'privacy',
-          element: <Privacy />,
+          element: <PrivacyPage />,
         },
         {
           path: '*',
-          element: <PageNotFound />,
+          element: <PageNotFoundPage />,
         },
       ],
     },
   ],
 };
-
-// ==============================|| ROUTING RENDER ||============================== //
 
 export default function ThemeRoutes() {
   return useRoutes([LandingRoute, CommonRoutes]);

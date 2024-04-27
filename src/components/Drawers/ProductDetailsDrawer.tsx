@@ -1,10 +1,14 @@
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
-import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
+import ERC20Card from '../Cards/ComponentCard/ERC20Card';
+import ERC721Card from '../Cards/ComponentCard/ERC721Card';
+import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
+import Image from '../Image';
 import {
   ERC1155Data,
   ERC20Data,
@@ -16,11 +20,7 @@ import {
   selectedProductintAtom,
   productSelectionState,
 } from '../../jotai/atoms';
-import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-import ERC721Card from '../Cards/ComponentCard/ERC721Card';
-import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 import { productAddress } from '../../constants';
-import Image from '../Image';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -44,24 +44,16 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
   });
 
   useEffect(() => {
-    // Handler to call on window resize
     function handleResize() {
-      // Set window width/height to state
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       });
     }
-
-    // Add event listener
     window.addEventListener('resize', handleResize);
-
-    // Call handler right away so state gets updated with initial window size
     handleResize();
-
-    // Remove event listener on cleanup
     return () => window.removeEventListener('resize', handleResize);
-  }, []); // Empty array ensures that effect is only run on mount and unmount
+  }, []);
 
   const handleDecomposeButtonClicked = () => {
     navigate(`/product/decompose/${selectedProduct.id}`);
@@ -89,20 +81,18 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
     if (setIsDrawerOpen) {
       setIsDrawerOpen(false);
     }
-
-    // Unsets Background Scrolling to use when SideDrawer/Modal is closed
     document.body.style.overflow = 'unset';
   };
 
   const shortenAddress = (addr: string) => {
     if (!addr || addr.length <= 12) return addr;
-    const start = addr.slice(0, 12); // Keep the starting characters
-    const end = addr.slice(-10); // Keep the last characters
-    return `${start}...${end}`; // Combine with the ellipsis
+    const start = addr.slice(0, 12);
+    const end = addr.slice(-10);
+    return `${start}...${end}`;
   };
 
   return (
-    <main
+    <div
       className={
         'fixed overflow-hidden z-50 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
         (isDrawerOpen
@@ -110,13 +100,13 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
           : 'transition-all delay-500 opacity-0 translate-x-full')
       }
     >
-      <section
+      <div
         className={
           'w-screen max-w-2xl right-0 absolute bg-drawer h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform ' +
           (isDrawerOpen ? 'translate-x-0' : 'translate-x-full')
         }
       >
-        <article className="relative w-screen max-w-2xl flex flex-col overflow-y-auto h-full overflow-x-hidden">
+        <div className="relative w-screen max-w-2xl flex flex-col overflow-y-auto h-full overflow-x-hidden">
           <Image
             className="min-h-[235px] object-cover sm:min-h-[435px] xs:min-h-[335px]"
             src={selectedProduct.imageUri}
@@ -309,13 +299,13 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
           >
             Product
           </div>
-        </article>
-      </section>
-      <section
+        </div>
+      </div>
+      <div
         className="w-screen h-full cursor-pointer"
         onClick={sideDrawerClosedHandler}
-      ></section>
-    </main>
+      ></div>
+    </div>
   );
 };
 

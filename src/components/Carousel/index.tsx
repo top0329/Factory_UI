@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import './index.css';
-import { CarouselModel } from '../../types';
 import { useAtom } from 'jotai';
+
 import { activeAddComponentTokenAtom } from '../../jotai/atoms';
+import { CarouselModel } from '../../types';
+import './index.css';
 
 type Props = {
   data: CarouselModel[];
@@ -34,6 +35,7 @@ export const Carousel = ({
   const [activeItem, setActiveItem] = useAtom<number>(
     activeAddComponentTokenAtom
   );
+
   const [onDragState, setOnDragState] = useState(0);
 
   const handleNextSlide = useCallback(
@@ -71,6 +73,7 @@ export const Carousel = ({
   };
 
   const onDragStarted = (e: React.DragEvent) => setOnDragState(e.clientX);
+
   return (
     <div
       className={`container w-full justify-center ${
@@ -79,20 +82,17 @@ export const Carousel = ({
     >
       {data.map((item, index) => {
         let className = 'inner ';
-
-        // Determine and append the correct class for each item based on activeItem index
         switch (index) {
           case activeItem:
             className += 'active-item';
             break;
-          case (activeItem + 1) % data.length: // Use modulus to loop back to the start of the array
+          case (activeItem + 1) % data.length:
             className += 'right-active-item';
             break;
-          case (activeItem - 1 + data.length) % data.length: // Use modulus to loop to the end of the array
+          case (activeItem - 1 + data.length) % data.length:
             className += 'left-active-item';
             break;
           default:
-            // This should not happen since there are only three items
             break;
         }
         return (

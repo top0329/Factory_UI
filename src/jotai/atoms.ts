@@ -1,3 +1,4 @@
+import { Component } from 'react';
 import { atom } from 'jotai';
 
 import {
@@ -11,7 +12,6 @@ import {
   SelectedProduct,
   SortField,
 } from '../types';
-import { Component } from 'react';
 
 export const isAddComponentModalAtom = atom<boolean>(false);
 export const isEditComponentModalAtom = atom<boolean>(false);
@@ -73,7 +73,6 @@ const localStorageEffect = (key: string) => (atomWithStorage: any) => {
     }
     return atomWithStorage;
   };
-
   const anAtom = atom(getInitialValue(), (get, set, update) => {
     const nextValue =
       typeof update === 'function' ? update(get(anAtom)) : update;
@@ -114,7 +113,6 @@ export const createBlueprintAtom = atom<CreateBlueprint>({
 export const availableComponentAtom = atom<number>(7);
 export const headerActiveItemAtom = atom<number>(0);
 
-// Store the blueprint token list
 export const blueprintTokenListAtom = atom<BlueprintNFT[]>([]);
 export const ownBlueprintTokenListAtom = atom<ProductToken[]>([]);
 export const productTokenListAtom = atom<Array<ProductToken>>([]);

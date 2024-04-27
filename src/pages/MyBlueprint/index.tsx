@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAtom } from 'jotai';
 import { HeadProvider, Title, Link, Meta } from 'react-head';
+import { Helmet } from 'react-helmet';
 
 import OwnBlueprintCard from '../../components/Cards/BlueprintCard/OwnBlueprintCard';
 import SearchBar from '../../components/SearchBar';
@@ -12,7 +13,6 @@ import {
   isLoadingAtom,
   ownBlueprintTokenListAtom,
 } from '../../jotai/atoms';
-import { Helmet } from 'react-helmet';
 
 const MyBlueprintPage = () => {
   const [, setSelectedBlueprint] = useAtom(selectedOwnBlueprintAtom);
@@ -25,7 +25,6 @@ const MyBlueprintPage = () => {
 
   const showSidebar = () => {
     setIsDrawerOpen(true);
-
     if (typeof window != 'undefined' && window.document) {
       document.body.style.overflow = 'hidden';
     }

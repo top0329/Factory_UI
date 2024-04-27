@@ -1,13 +1,14 @@
-import { Icon } from '@iconify/react/dist/iconify.js';
 import { useEffect, useState } from 'react';
 import Web3 from 'web3';
-import useWeb3 from '../../../hooks/useWeb3';
-import { factoryAddress } from '../../../constants';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { Address } from 'viem';
+
+import useWeb3 from '../../../hooks/useWeb3';
 import copy from 'copy-to-clipboard';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
 import getERC721Data from '../../../utils/getERC721Data';
+import { factoryAddress } from '../../../constants';
 
 export interface Props {
   address?: string;

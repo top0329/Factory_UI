@@ -35,7 +35,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const defaultProvider = new ethers.JsonRpcProvider(defaultRPC);
   const web3 = new Web3(window.ethereum);
 
-  // Ethers Contracts
   const [provider, setProvider] = useState<ContractRunner>(defaultProvider);
   const [factoryContract, setFactoryContract] = useState<Contract>(
     {} as Contract
@@ -47,7 +46,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     {} as Contract
   );
 
-  // Web3 Contracts
   const [factoryWeb3, setFactoryWeb3] = useState<Contract>({} as Contract);
   const [blueprintWeb3, setBlueprintWeb3] = useState<Contract>({} as Contract);
   const [productWeb3, setProductWeb3] = useState<Contract>({} as Contract);
@@ -61,7 +59,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log('Connected wallet');
       }
 
-      // Ethers Contracts
       const _factoryContract: Contract = new ethers.Contract(
         factoryAddress,
         FactoryABI,
@@ -78,7 +75,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         provider
       ) as Contract;
 
-      // Web3 Contracts
       const _factoryWeb3: any = new web3.eth.Contract(
         FactoryABI,
         factoryAddress

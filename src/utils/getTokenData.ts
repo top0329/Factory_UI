@@ -14,7 +14,6 @@ async function getTokenData(contractAddress: Address) {
   try {
     const tokenName = await erc20Contract.name();
     const decimal = await erc20Contract.decimals();
-
     return { decimal: decimal, tokenName: tokenName };
   } catch (err) {
     console.error(err);

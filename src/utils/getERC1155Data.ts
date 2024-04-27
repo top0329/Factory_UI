@@ -1,9 +1,9 @@
+import axios from 'axios';
 import { ethers } from 'ethers';
 import { Address } from 'viem';
-import axios from 'axios';
 
-import { defaultRPC } from '../constants';
 import erc1155Abi from '../abi/ERC1155ABI.json';
+import { defaultRPC } from '../constants';
 
 export default async function getERC1155Data(
   contractAddress: Address | '',
@@ -16,14 +16,12 @@ export default async function getERC1155Data(
     erc1155Abi,
     provider
   );
-
   try {
     const tokenUri = await erc1155Contract.uri(tokenId);
     const gatewayUrl = 'https://ipfs.io/';
     const metaData = await axios.get(`${gatewayUrl}${tokenUri}`);
     const { name, image } = metaData.data;
     if (image === undefined) return null;
-
     return {
       name,
       uri: `${gatewayUrl}${image}`,

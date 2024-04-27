@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Web3 from 'web3';
+import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
-import copy from 'copy-to-clipboard';
 import { HeadProvider, Title, Link, Meta } from 'react-head';
-
-import useToast from '../../hooks/useToast';
-import Button from '../../components/Button';
-import { blueprintSelectionState } from '../../jotai/atoms';
-import useWeb3 from '../../hooks/useWeb3';
-import Web3 from 'web3';
-import useSpinner from '../../hooks/useSpinner';
 import { isAddress } from 'web3-validator';
+
+import Button from '../../components/Button';
+import useToast from '../../hooks/useToast';
+import useWeb3 from '../../hooks/useWeb3';
+import useSpinner from '../../hooks/useSpinner';
 import filterWalletAddress from '../../utils/isWalletAddress';
+import { blueprintSelectionState } from '../../jotai/atoms';
+
 const TransferOwnershipPage = () => {
+  const { openSpin, closeSpin } = useSpinner();
+
   const navigate = useNavigate();
 
   const [selectedBlueprint] = useAtom(blueprintSelectionState);
@@ -25,7 +28,6 @@ const TransferOwnershipPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { showToast } = useToast();
   const { factoryWeb3, account, isConnected, library } = useWeb3();
-  const { openSpin, closeSpin } = useSpinner();
 
   const toggleModal = () => {
     setIsModalOpen(true);
@@ -199,8 +201,6 @@ const TransferOwnershipPage = () => {
                     <div className="col-span-2 relative flex items-center gap-1">
                       <p
                         className=" text-base break-all"
-                        // href={`https://sepolia.etherscan.io/address/${selectedBlueprint.creator}`}
-                        // target="_blank"
                       >
                         {selectedBlueprint.creator.substring(0, 16)}...
                         {selectedBlueprint.creator.slice(-16)}
@@ -272,7 +272,6 @@ const TransferOwnershipPage = () => {
               <div className="bg-black sm:px-6 px-2 py-4 text-light-gray md:text-[18px]">
                 <p>
                   The ownership of Your Blueprint will be transferred{' '}
-                  {/* <br /> */}
                   to the
                   <span className="text-white sm:text-[16px] text-[14px] break-all">
                     {' '}

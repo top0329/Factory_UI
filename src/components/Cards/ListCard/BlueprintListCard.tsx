@@ -1,5 +1,6 @@
-import { Icon } from '@iconify/react/dist/iconify.js';
 import { useEffect, useState } from 'react';
+import { Icon } from '@iconify/react/dist/iconify.js';
+
 import useWeb3 from '../../../hooks/useWeb3';
 
 export interface Props {
@@ -18,6 +19,7 @@ export function BlueprintListCard(props: Props) {
   const [tokenAmount, setTokenAmount] = useState<number>();
   const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
+
   useEffect(() => {
     const getContractInfo = async () => {
       setComponentName(props.name);
@@ -27,9 +29,11 @@ export function BlueprintListCard(props: Props) {
     };
     getContractInfo();
   }, [account, props]);
+
   const handleCopyButtonClicked = () => {
     setIsCopied(true);
   };
+
   return (
     <div className="flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] px-4  py-2 mb-2 borderpy-2 border  rounded-3xl text-white text-base bg-[#858584]/20 border-black">
       <div id="icon" className="flex justify-center py-2">
@@ -38,14 +42,12 @@ export function BlueprintListCard(props: Props) {
           className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
         />
       </div>
-
       <div
         id="type"
         className="hidden sm:block text-white justify-center items-center w-[15%] md:text-[24px] text-[16px] text-xl"
       >
         Blueprint
       </div>
-
       <div
         id="name"
         className="flex flex-col justify-center sm:w-[12%] w-[30%]"
@@ -53,7 +55,6 @@ export function BlueprintListCard(props: Props) {
         <p className="text-[#858584] text-xs">Name</p>
         <p className="text-[#BABABA] truncate">{componentName}</p>
       </div>
-
       <div
         id="address"
         className="hidden md:block flex-col justify-center w-[25%]"
@@ -82,14 +83,12 @@ export function BlueprintListCard(props: Props) {
           </div>
         </div>
       </div>
-
       <div id="id" className="w-[3%]">
         <div>
           <p className="text-[#858584] text-xs">ID</p>
           <p className="text-[#BABABA]">{props.id}</p>
         </div>
       </div>
-
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
         <p className="text-center">{tokenAmount}</p>

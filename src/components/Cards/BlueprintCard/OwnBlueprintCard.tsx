@@ -25,10 +25,10 @@ const OwnBlueprintCard: FC<Props> = ({
   const [tooltipMessage, setTooltipMessage] = useState('Copy to clipboard');
   const copyToClipboard = () => {
     navigator.clipboard.writeText(address).then(() => {
-      setTooltipMessage('Copied!'); // Update tooltip message on success
+      setTooltipMessage('Copied!');
       setTimeout(() => {
-        setTooltipMessage('Copy to clipboard'); // Reset tooltip message after delay
-      }, 2000); // Duration before resetting the tooltip message
+        setTooltipMessage('Copy to clipboard');
+      }, 2000);
     });
   };
   return (

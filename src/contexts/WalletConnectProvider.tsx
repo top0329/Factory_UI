@@ -1,11 +1,8 @@
 import React, { ReactNode } from 'react';
-import '@rainbow-me/rainbowkit/styles.css';
 import { bsc, sepolia } from 'wagmi/chains';
-
 import { createConfig, WagmiProvider, http } from 'wagmi';
 import { RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
-
 import { connectorsForWallets } from '@rainbow-me/rainbowkit';
 import {
   metaMaskWallet,
@@ -14,6 +11,7 @@ import {
   ledgerWallet,
   coinbaseWallet,
 } from '@rainbow-me/rainbowkit/wallets';
+import '@rainbow-me/rainbowkit/styles.css';
 
 const connectors = connectorsForWallets(
   [

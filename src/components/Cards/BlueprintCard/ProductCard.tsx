@@ -1,16 +1,9 @@
 import { FC, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import { Icon } from '@iconify/react/dist/iconify.js';
-// import { useAtom } from 'jotai';
 
 import Button from '../../Button';
 import Image from '../../Image';
 import { productAddress } from '../../../constants';
-// import {
-//   selectedProductintAtom,
-//   productSelectionState,
-// } from '../../../jotai/atoms';
-// import { SelectedProduct } from '../../../types';
 
 export interface Props {
   uri: string;
@@ -30,23 +23,14 @@ const ProductCard: FC<Props> = ({
   onClickDecompose,
 }) => {
   const [tooltipMessage, setTooltipMessage] = useState('Copy to clipboard');
-  // const navigate = useNavigate();
   const copyToClipboard = () => {
     navigator.clipboard.writeText(productAddress).then(() => {
-      setTooltipMessage('Copied!'); // Update tooltip message on success
+      setTooltipMessage('Copied!');
       setTimeout(() => {
-        setTooltipMessage('Copy to clipboard'); // Reset tooltip message after delay
-      }, 2000); // Duration before resetting the tooltip message
+        setTooltipMessage('Copy to clipboard');
+      }, 2000);
     });
   };
-  // const [selectedProduct] = useAtom<SelectedProduct>(selectedProductintAtom);
-  // const [, setProductSelectionState] = useAtom<SelectedProduct>(
-  //   productSelectionState
-  // );
-  // const onClickDecompose = () => {
-  //   setProductSelectionState(selectedProduct);
-  //   navigate(`/product/decompose/${selectedProduct.id}`);
-  // };
 
   return (
     <div
