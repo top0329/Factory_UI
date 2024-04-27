@@ -1,19 +1,18 @@
 import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
-import { erc20Abi, erc721Abi } from 'viem';
-import { Icon } from '@iconify/react/dist/iconify.js';
 import copy from 'copy-to-clipboard';
+import { ethers } from 'ethers';
+import { Icon } from '@iconify/react/dist/iconify.js';
+import { erc20Abi, erc721Abi } from 'viem';
 
 import useWeb3 from '../../../hooks/useWeb3';
 import erc1155Abi from '../../../abi/ERC1155ABI.json';
-import { ListCardInterface } from '../../../types';
-import { DefaultErc20ImageUri, defaultRPC, factoryAddress, productAddress } from '../../../constants';
 import Web3, { HttpProvider } from 'web3';
+import { ListCardInterface } from '../../../types';
 import { tokenUriToName } from '../../../utils/tokenUriToName';
 import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
+import { DefaultErc20ImageUri, defaultRPC, factoryAddress, productAddress } from '../../../constants';
 
 export default function ListCard(props: ListCardInterface) {
-  const [isCopied, setIsCopied] = useState<boolean>(false);
   const {
     isConnected,
     library,
@@ -23,25 +22,25 @@ export default function ListCard(props: ListCardInterface) {
     erc721Approve,
     erc1155Approve,
   } = useWeb3();
+
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [componentName, setComponentName] = useState<string>('');
   const [tokenAmount, setTokenAmount] = useState<number>();
   const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
   const [tokenId, setTokenId] = useState<number>();
   const [decimal, setDecimal] = useState<number>();
+
   useEffect(() => {
     const getContractInfo = async () => {
       const web3 = new Web3(new HttpProvider(defaultRPC));
       const erc20Contract = new web3.eth.Contract(erc20Abi, props[0]);
-
       const erc721Contract = new web3.eth.Contract(erc721Abi, props[0]);
-
       const erc1155Contract = new web3.eth.Contract(erc1155Abi, props[0]);
       if (props.type == 0) {
         const name: string = await erc20Contract.methods
           .name()
           .call({ from: account });
-
         const _decimal: number = await erc20Contract.methods
           .decimals()
           .call({ from: account });
@@ -61,7 +60,6 @@ export default function ListCard(props: ListCardInterface) {
         const uri: string = await erc1155Contract.methods
           .uri(props[1])
           .call({ from: account });
-
         setComponentName(await tokenUriToName(uri));
         setTokenAddress(String(props[0]));
         setTokenAmount(Number(props[2]));
@@ -142,7 +140,6 @@ export default function ListCard(props: ListCardInterface) {
           className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
         />
       </div>
-
       <div
         className="hidden sm:block text-white justify-center  items-center w-[15%] md:text-[24px] text-[16px] text-xl"
         id="type"
@@ -153,7 +150,6 @@ export default function ListCard(props: ListCardInterface) {
         {props.type == 3 && <p>Blueprint</p>}
         {props.type == 4 && <p>Product</p>}
       </div>
-
       <div
         id="name"
         className={`${
@@ -169,7 +165,6 @@ export default function ListCard(props: ListCardInterface) {
           {componentName}
         </p>
       </div>
-
       <div
         id="address"
         className="hidden md:block flex-col justify-center w-[25%]"
@@ -191,7 +186,6 @@ export default function ListCard(props: ListCardInterface) {
                 className={`${
                   props.isDecompose ? 'text-[#BABABA]' : ''
                 } item-center my-auto`}
-                // className="item-center my-auto"
               />
             </button>
             {isCopied && (
@@ -219,7 +213,6 @@ export default function ListCard(props: ListCardInterface) {
           </div>
         )}
       </div>
-
       <div id="amount" className="truncate sm:w-auto">
         {props.type != 1 && (
           <div>

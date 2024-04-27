@@ -1,6 +1,7 @@
-import { Icon } from '@iconify/react/dist/iconify.js';
 import { useState } from 'react';
 import copy from 'copy-to-clipboard';
+import Web3 from 'web3';
+import { Icon } from '@iconify/react/dist/iconify.js';
 import { ethers } from 'ethers';
 import { Address } from 'viem';
 
@@ -9,7 +10,6 @@ import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
 import { factoryAddress } from '../../../constants';
 import getTokenData from '../../../utils/getTokenData';
-import Web3 from 'web3';
 
 export interface Props {
   name?: string;

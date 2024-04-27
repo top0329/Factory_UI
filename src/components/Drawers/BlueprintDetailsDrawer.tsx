@@ -5,6 +5,12 @@ import { useAtom } from 'jotai';
 import copy from 'copy-to-clipboard';
 
 import Button from '../Button';
+import useWeb3 from '../../hooks/useWeb3';
+import useToast from '../../hooks/useToast';
+import ERC20Card from '../Cards/ComponentCard/ERC20Card';
+import ERC721Card from '../Cards/ComponentCard/ERC721Card';
+import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
+import Image from '../Image';
 import {
   ERC1155Data,
   ERC20Data,
@@ -17,12 +23,6 @@ import {
   isCreatorModeAtom,
   selectedBlueprintAtom,
 } from '../../jotai/atoms';
-import ERC20Card from '../Cards/ComponentCard/ERC20Card';
-import ERC721Card from '../Cards/ComponentCard/ERC721Card';
-import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
-import Image from '../Image';
-import useWeb3 from '../../hooks/useWeb3';
-import useToast from '../../hooks/useToast';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -126,7 +126,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
   };
 
   return (
-    <main
+    <div
       className={
         'fixed overflow-hidden z-50 bg-black bg-opacity-50 inset-0 transform ease-in-out ' +
         (isDrawerOpen
@@ -134,13 +134,13 @@ const BlueprintDetailDrawer: FC<Props> = ({
           : 'transition-all delay-500 opacity-0 translate-x-full')
       }
     >
-      <section
+      <div
         className={
           'w-screen max-w-2xl right-0 absolute bg-drawer h-full shadow-xl delay-400 duration-500 ease-in-out transition-all transform ' +
           (isDrawerOpen ? 'translate-x-0' : 'translate-x-full')
         }
       >
-        <article className="relative w-screen max-w-2xl flex flex-col overflow-y-auto h-full overflow-x-hidden">
+        <div className="relative w-screen max-w-2xl flex flex-col overflow-y-auto h-full overflow-x-hidden">
           <Image
             className="min-h-[235px] object-cover sm:min-h-[435px] xs:min-h-[335px]"
             src={selectedBlueprint.imageUri}
@@ -402,13 +402,13 @@ const BlueprintDetailDrawer: FC<Props> = ({
           >
             Blueprint
           </div>
-        </article>
-      </section>
-      <section
+        </div>
+      </div>
+      <div
         className="w-screen h-full cursor-pointer"
         onClick={sideDrawerClosedHandler}
-      ></section>
-    </main>
+      ></div>
+    </div>
   );
 };
 

@@ -1,5 +1,5 @@
-import { Icon } from '@iconify/react/dist/iconify.js';
 import React, { FC, ReactNode } from 'react';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 export interface Props {
   title: string;
@@ -21,29 +21,6 @@ const Accordion: FC<Props> = ({ title, content }) => {
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {title}
-        {/* <svg
-            className={`fill-indigo-500 shrink-0 ml-8 bg-white rounded-full p-1`}
-            width="24"
-            height="24"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect
-              y="6.5"
-              width="20"
-              height="3"
-              rx="1"
-              className={`transform origin-center transition duration-200 ease-out ${
-                !isExpanded ? '!rotate-90' : ''
-              }`}
-            />
-            <rect
-              y="6.5"
-              width="20"
-              height="3"
-              rx="1"
-              className="transform origin-center rotate-180 transition duration-200 ease-out"
-            />
-          </svg> */}
         <Icon
           icon={
             isExpanded

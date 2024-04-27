@@ -6,13 +6,13 @@ import SearchBar from '../../components/SearchBar';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
+import LoadingSpinner from '../../components/Loading/LoadingSpinner';
+import NoDataFound from '../../components/Loading/NoDataFound';
 import {
   componentTokenListAtom,
   isDataEmptyAtom,
   isLoadingAtom,
 } from '../../jotai/atoms';
-import LoadingSpinner from '../../components/Loading/LoadingSpinner';
-import NoDataFound from '../../components/Loading/NoDataFound';
 
 const Component = () => {
   const [componentTokenList] = useAtom(componentTokenListAtom);

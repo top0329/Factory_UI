@@ -13,18 +13,11 @@ const SpinnerProvider = ({ children }: { children: ReactElement }) => {
   const [isSpin, setIsSpin] = React.useState(false);
   const [title, setTitle] = React.useState('');
 
-  /**
-   *
-   * @param {*} text loading title
-   */
   const openSpin = (text: string) => {
     setTitle(text);
     setIsSpin(true);
   };
 
-  /**
-   * close the spin page
-   */
   const closeSpin = () => {
     setIsSpin(false);
   };

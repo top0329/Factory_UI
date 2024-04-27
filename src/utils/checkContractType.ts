@@ -1,6 +1,6 @@
+import axios from 'axios';
 import { Address } from 'viem';
 import { ethers } from 'ethers';
-import axios from 'axios';
 
 import erc20Abi from '../abi/ERC20ABI.json';
 import erc721Abi from '../abi/ERC721ABI.json';
@@ -45,7 +45,6 @@ async function checkContractType(contractAddress: Address | '') {
     erc1155Abi,
     provider
   );
-
   try {
     const is721 = await erc721Contract.supportsInterface('0x80ac58cd');
     if (is721) {
@@ -58,17 +57,10 @@ async function checkContractType(contractAddress: Address | '') {
     return { type: 'Unknown' };
   } catch (error) {
     try {
-      const totalSupply = await erc20Contract.totalSupply();
+      await erc20Contract.totalSupply();
       const tokenName = await erc20Contract.name();
       const decimal = await erc20Contract.decimals();
-      console.log('This is an ERC20 contract');
-      console.log(totalSupply);
-      console.log(tokenName);
-      console.log(decimal);
-      // const tokenData = await getTokenDetailsByAddress(contractAddress);
-      // data = { name: tokenName, logo: tokenData?.logo, decimals: decimal };
       data = { name: tokenName, decimals: decimal };
-      // If totalSupply succeeds, then return, assuming ERC20
       return { type: 'ERC20', payload: data };
     } catch (error) {
       console.error(

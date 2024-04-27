@@ -25,7 +25,6 @@ export default function Terms() {
           acceptance of the revised terms.
         </p>
       </div>
-
       <div id="description" className="flex flex-col gap-y-2">
         <p id="desc_title" className="font-bold text-xl">
           2. Description of Service
@@ -49,7 +48,6 @@ export default function Terms() {
           digital collectibles.
         </p>
       </div>
-
       <div id="user_conduct" className="flex flex-col gap-y-2">
         <p id="user_conduct_title" className="font-bold text-xl">
           3. User Conduct and Responsibilities
@@ -68,7 +66,6 @@ export default function Terms() {
           creation and exchange of digital assets.
         </p>
       </div>
-
       <div id="rights" className="flex flex-col gap-y-2">
         <p id="rights_title" className="font-bold text-xl">
           4. Intellectual Property Rights
@@ -86,7 +83,6 @@ export default function Terms() {
           rights are respected and upheld.
         </p>
       </div>
-
       <div id="disclaimers" className="flex flex-col gap-y-2">
         <p id="disclaimers_title" className="font-bold text-xl">
           5. Disclaimers, Limitation of Liability, and Indemnification
@@ -111,7 +107,6 @@ export default function Terms() {
           connection with their use of the Platform.
         </p>
       </div>
-
       <div id="law" className="flex flex-col gap-y-2">
         <p id="law_title" className="font-bold text-xl">
           6. Governing Law and Dispute Resolution

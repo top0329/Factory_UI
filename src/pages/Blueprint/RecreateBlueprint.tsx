@@ -7,6 +7,7 @@ import BlueprintInfoCard from '../../components/Cards/BlueprintInfoCard';
 import ERC1155Card from '../../components/Cards/ComponentCard/ERC1155Card';
 import ERC20Card from '../../components/Cards/ComponentCard/ERC20Card';
 import AddComponentModal from '../../components/Modals/AddComponentModal';
+import UpdateComponentModal from '../../components/Modals/UpdateComponentModal';
 import ERC721Card from '../../components/Cards/ComponentCard/ERC721Card';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
@@ -24,7 +25,6 @@ import {
   ERC721Data,
   SelectedComponentData,
 } from '../../types';
-import UpdateComponentModal from '../../components/Modals/UpdateComponentModal';
 
 const RecreateBlueprintPage = () => {
   const { factoryContract } = useWeb3();

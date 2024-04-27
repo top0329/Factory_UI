@@ -8,7 +8,7 @@ export default function Privacy() {
         Last Updated: April 16, 2024
       </p>
       <p id="introduction" className="text-xl">
-        Our platform ("us", "we", or "our") operates the factory1155.com
+        Our platform ("us", "we", or "our") operates the factorygame.org
         website. This page informs you of our policies regarding the collection,
         use, and disclosure of personal data when you use our Service and the
         choices you have associated with that data. We use your data to provide
@@ -43,7 +43,6 @@ export default function Privacy() {
           information.
         </p>
       </div>
-
       <div id="datause" className="flex flex-col gap-y-2">
         <p id="data_title" className="font-bold text-xl">
           2. Use of Data
@@ -61,7 +60,6 @@ export default function Privacy() {
           <br /> - To detect, prevent and address technical issues
         </p>
       </div>
-
       <div id="disclosure" className="flex flex-col gap-y-2">
         <p id="discl_title" className="font-bold text-xl">
           3. Disclosure of Data
@@ -79,7 +77,6 @@ export default function Privacy() {
           <br /> - To protect against legal liability
         </p>
       </div>
-
       <div id="security" className="flex flex-col gap-y-2">
         <p id="sec_title" className="font-bold text-xl">
           4. Security of Data
@@ -92,7 +89,6 @@ export default function Privacy() {
           security.
         </p>
       </div>
-
       <div id="service_provider" className="flex flex-col gap-y-2">
         <p id="serv_title" className="font-bold text-xl">
           5. Service Providers
@@ -106,7 +102,6 @@ export default function Privacy() {
           to disclose or use it for any other purpose.
         </p>
       </div>
-
       <div id="service_provider" className="flex flex-col gap-y-2">
         <p id="serv_title" className="font-bold text-xl">
           6. Links to Other Sites
@@ -120,7 +115,6 @@ export default function Privacy() {
           third party sites or services.
         </p>
       </div>
-
       <div id="service_provider" className="flex flex-col gap-y-2">
         <p id="serv_title" className="font-bold text-xl">
           7. Children's Privacy
@@ -135,7 +129,6 @@ export default function Privacy() {
           steps to remove that information from our servers.
         </p>
       </div>
-
       <div id="service_provider" className="flex flex-col gap-y-2">
         <p id="serv_title" className="font-bold text-xl">
           8. Changes to This Privacy Policy
@@ -150,7 +143,6 @@ export default function Privacy() {
           are effective when they are posted on this page.
         </p>
       </div>
-
       <div id="service_provider" className="flex flex-col gap-y-2">
         <p id="serv_title" className="font-bold text-xl">
           9. Contact Us

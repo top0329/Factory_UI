@@ -1,30 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Web3 from 'web3';
 import { useAtom } from 'jotai';
 import { ethers } from 'ethers';
-import useWeb3 from '../../hooks/useWeb3';
+
 import Button from '../../components/Button';
-import { SelectedProduct } from '../../types';
-import { selectedProductintAtom } from '../../jotai/atoms';
-import { ERC20DecomposeListCard } from '../../components/Cards/ListCard/ERC20ListCard';
-import { ProductListCard } from '../../components/Cards/ListCard/ProductListCard';
-import { BlueprintListCard } from '../../components/Cards/ListCard/BlueprintListCard';
-import { blueprintAddress, productAddress } from '../../constants';
-import { ERC1155DecomposeListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
-import Web3 from 'web3';
+import useWeb3 from '../../hooks/useWeb3';
 import useSpinner from '../../hooks/useSpinner';
 import useToast from '../../hooks/useToast';
+import { selectedProductintAtom } from '../../jotai/atoms';
+import { ProductListCard } from '../../components/Cards/ListCard/ProductListCard';
+import { BlueprintListCard } from '../../components/Cards/ListCard/BlueprintListCard';
+import { ERC20DecomposeListCard } from '../../components/Cards/ListCard/ERC20ListCard';
 import { ERC721DecomposeListCard } from '../../components/Cards/ListCard/ERC721ListCard';
+import { ERC1155DecomposeListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
+import { SelectedProduct } from '../../types';
+import { blueprintAddress, productAddress } from '../../constants';
 
 const DecomposeProductPage = () => {
-  const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
-  const [productAmount, setProductAmount] = useState<string>('');
-  const [isDecomposeApproved, setIsDecomposeApproved] =
-    useState<boolean>(false);
-  const [isApproveEnable, setIsApproveEnable] = useState<boolean>(false);
-  const { openSpin, closeSpin } = useSpinner();
-  const { showToast } = useToast();
-
   const {
     isConnected,
     library,
@@ -33,8 +26,18 @@ const DecomposeProductPage = () => {
     factoryWeb3,
     productWeb3,
   } = useWeb3();
+  const { openSpin, closeSpin } = useSpinner();
+  const { showToast } = useToast();
+
   const navigate = useNavigate();
   const productId = useParams().id;
+
+  const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
+
+  const [productAmount, setProductAmount] = useState<string>('');
+  const [isDecomposeApproved, setIsDecomposeApproved] =
+    useState<boolean>(false);
+  const [isApproveEnable, setIsApproveEnable] = useState<boolean>(false);
 
   useEffect(() => {
     if (selectedOwnData.id.toString() !== productId) {
@@ -44,7 +47,6 @@ const DecomposeProductPage = () => {
 
   const handleApprove = async () => {
     const web3 = new Web3(window.ethereum);
-
     if (isConnected && library) {
       try {
         let receipt = null;
@@ -52,14 +54,12 @@ const DecomposeProductPage = () => {
           const transaction = productWeb3.methods
             .setApprovalForAll(await factoryContract.getAddress(), true)
             .send({ from: account });
-
           openSpin('Approving');
           receipt = await web3.eth.getTransactionReceipt(
             (
               await transaction
             ).transactionHash
           );
-
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
               setIsDecomposeApproved(true);
@@ -89,7 +89,6 @@ const DecomposeProductPage = () => {
       Number(inputValue) != 0
     ) {
       setIsApproveEnable(true);
-
       if (Number(inputValue) > selectedOwnData.balance) {
         setProductAmount(selectedOwnData.balance.toString());
       } else {
@@ -102,7 +101,6 @@ const DecomposeProductPage = () => {
 
   const handleDecompose = async () => {
     const web3 = new Web3(window.ethereum);
-
     try {
       let receipt = null;
       while (receipt === null || receipt.status === undefined) {
@@ -115,13 +113,11 @@ const DecomposeProductPage = () => {
             ),
           });
         openSpin('Decomposing Product...');
-
         receipt = await web3.eth.getTransactionReceipt(
           (
             await transaction
           ).transactionHash
         );
-
         if (receipt && receipt.status !== undefined) {
           if (receipt.status) {
             showToast('success', 'Decompose success!');

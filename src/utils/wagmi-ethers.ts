@@ -15,23 +15,18 @@ export function clientToProvider(client: Client<Transport, Chain>) {
     name: chain.name,
     ensAddress: chain.contracts?.ensRegistry?.address,
   };
-
   if (transport.type === 'fallback') {
     const providers = (transport.transports as ReturnType<Transport>[]).map(
       ({ value }) => new JsonRpcProvider(value?.url, network)
     );
-
     if (providers.length === 1) return providers[0];
     return new FallbackProvider(providers);
   }
-
   return new JsonRpcProvider(transport.url, network);
 }
 
-/** Action to convert a viem Client to an ethers.js Provider. */
 export function useEthersProvider({ chainId }: { chainId?: number } = {}) {
   const client = useClient<Config>({ chainId })!;
-
   return useMemo(() => clientToProvider(client), [client]);
 }
 
@@ -47,7 +42,6 @@ export function clientToSigner(client: Client<Transport, Chain, Account>) {
   return signer;
 }
 
-/** Hook to convert a viem Wallet Client to an ethers.js Signer. */
 export async function useEthersSigner({ chainId }: { chainId?: number } = {}) {
   const { data: client } = useConnectorClient<Config>({ chainId });
   return useMemo(() => (client ? clientToSigner(client) : undefined), [client]);

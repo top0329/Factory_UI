@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import Web3 from 'web3';
 import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
@@ -8,7 +9,6 @@ import Button from '../../components/Button';
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
 import useSpinner from '../../hooks/useSpinner';
-import Web3 from 'web3';
 import { SelectedOwnBlueprint } from '../../types';
 import {
   ownBlueprintSelectionState,
@@ -40,7 +40,7 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
         appearance: 'none',
         border: '1px solid #858584',
         borderRadius: '2px',
-        backgroundColor: checked ? '#011018' : 'transparent', // Change the background color when checked/unchecked
+        backgroundColor: checked ? '#011018' : 'transparent',
         backgroundImage: checked
           ? `url('data:image/svg+xml;base64,${CheckboxIcon}')`
           : '',
@@ -48,27 +48,13 @@ function CustomCheckbox({ checked, onChange }: CustomCheckboxProps) {
         backgroundSize: '98%',
         width: '14px',
         height: '14px',
-        cursor: 'pointer', // Change the cursor based on the editable state
+        cursor: 'pointer',
       }}
     />
   );
 }
 
 const MintProductPage = () => {
-  const [selectedOwnData] = useAtom<SelectedOwnBlueprint>(
-    selectedOwnBlueprintAtom
-  );
-  const navigate = useNavigate();
-  const blueprintId = useParams().id;
-  const [maxChecked, setMaxChecked] = useState(false);
-  const [approvedCount, setApprovedCount] = useState<number>(0);
-  const [isApproveEnable, setIsApproveEnable] = useState<boolean>(false);
-  const [selectedOwnBlueprint] = useAtom(ownBlueprintSelectionState);
-  const { openSpin, closeSpin } = useSpinner();
-
-  const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
-    useState<string>('');
-  const [isCopied, setIsCopied] = useState<boolean>(false);
   const {
     isConnected,
     library,
@@ -78,6 +64,23 @@ const MintProductPage = () => {
     blueprintContract,
   } = useWeb3();
   const { showToast } = useToast();
+  const { openSpin, closeSpin } = useSpinner();
+
+  const navigate = useNavigate();
+  const blueprintId = useParams().id;
+
+  const [selectedOwnData] = useAtom<SelectedOwnBlueprint>(
+    selectedOwnBlueprintAtom
+  );
+  const [selectedOwnBlueprint] = useAtom(ownBlueprintSelectionState);
+
+  const [maxChecked, setMaxChecked] = useState(false);
+  const [approvedCount, setApprovedCount] = useState<number>(0);
+  const [isApproveEnable, setIsApproveEnable] = useState<boolean>(false);
+  const [blueprintMintAmountValue, setBlueprintMintAmountValue] =
+    useState<string>('');
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (selectedOwnData.id.toString() !== blueprintId) {
@@ -127,8 +130,6 @@ const MintProductPage = () => {
       setBlueprintMintAmountValue('');
     }
   };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -322,7 +323,6 @@ const MintProductPage = () => {
         <div
           id="default-modal"
           aria-hidden="true"
-          // tabIndex={-1}
           className="fixed top-0 z-50 flex justify-center items-center h-modal md:h-full inset-0 "
           style={{ backdropFilter: 'blur(5px)' }}
           onClick={closeModal}
@@ -390,4 +390,5 @@ const MintProductPage = () => {
     </div>
   );
 };
+
 export default MintProductPage;

@@ -12,6 +12,7 @@ export default function ContactUs() {
     number: '',
     message: '',
   };
+
   const [form, setForm] = useState(initalState);
 
   const handleInputChange = (e: any) => {
@@ -66,7 +67,6 @@ export default function ContactUs() {
         count++;
       }
     }
-
     if (count >= 10) {
       return true;
     }
@@ -78,7 +78,7 @@ export default function ContactUs() {
       <Helmet>
         <meta
           name="description"
-          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens. You can contact us with this page."
+          content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens. You can contact us with this page."
         />
         <meta
           name="keyword"
@@ -87,12 +87,11 @@ export default function ContactUs() {
         <meta property="og:title" content="Factory/Contact" />
         <meta
           property="og:description"
-          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens. You can contact us with this page."
+          content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens. You can contact us with this page."
         />
-
         <meta
           name="description"
-          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens. You can contact us with this page."
+          content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens. You can contact us with this page."
         />
         <meta
           name="keyword"
@@ -101,14 +100,14 @@ export default function ContactUs() {
         <meta property="og:title" content="Factory" />
         <meta
           property="og:description"
-          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
+          content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://factorygame.org/" />
         <meta property="twitter:title" content="Factory1155" />
         <meta
           property="twitter:description"
-          content="This is Factory1155.com. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
+          content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
         />
       </Helmet>
       <div className="hidden lg:flex lg:flex-col xl:flex xl:flex-col w-1/3 text-white px-4 py-16 gap-y-16">
@@ -159,7 +158,6 @@ export default function ContactUs() {
         </div>
       </div>
       <div className="hidden lg:block xl:block w-0.5 bg-white m-8 opacity-50"></div>
-
       <div className="w-full min-w-80 lg:w-2/3 xl:w-2/3 py-12 px-4 sm:px-12 md:px-12 lg:px-12 xl:px-12">
         <p className="text-white font-semibold text-2xl sm:font-semibold sm:text-2xl md:font-bold md:text-4xl lg:font-black lg:text-5xl xl:font-black xl:text-6xl">
           Contact Us

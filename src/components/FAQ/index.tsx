@@ -13,8 +13,8 @@ export default function FAQ() {
             <p className="leading-8 px-1">
               Blueprint is <span className="text-white">ERC1155</span> Token
               that includes information about Product Token, and that allows
-              project owners to create NFTs containing specific combinations of
-              kinds of&nbsp;
+              project owners to create game assets containing specific
+              combinations of kinds of&nbsp;
               <span className="text-white">Tokens</span>.
             </p>
           }
@@ -24,7 +24,7 @@ export default function FAQ() {
           content={
             <p className="leading-8 px-1">
               Product is the main asset of platform synthesized by users using
-              Blueprint NFTs and the corresponding <span>Component Tokens</span>
+              Blueprint tokens and the corresponding <span>Component Tokens</span>
               .
             </p>
           }
@@ -41,10 +41,10 @@ export default function FAQ() {
           title="4. What is Factory Platform?"
           content={
             <p className="leading-8 px-1">
-              Factory is an innovative NFT platform based on blockchain
-              technology, dedicated to offering users a unique experience in NFT
+              Factory is an innovative game asset platform based on blockchain
+              technology, dedicated to offering users a unique experience in game asset
               synthesis and management. The platform enables users to create
-              new, higher-level NFTs, referred to as &quot;Product Tokens&quot;,
+              new, higher-level game assets, referred to as &quot;Product Tokens&quot;,
               by staking existing digital asset -{' '}
               <span className="text-white">ERC-20</span>,&nbsp;
               <span className="text-white">ERC-721</span>,&nbsp;and{' '}
