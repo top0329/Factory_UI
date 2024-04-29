@@ -228,11 +228,13 @@ const LandingPage = () => {
           />
         </Helmet>
         <img
+          loading="lazy"
           className="absolute w-[1000px] z-10 top-[-220px] rotate-[-30deg] overflow-hidden 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full"
           src={Union}
           alt="union"
         />
         <img
+          loading="lazy"
           className="absolute w-[1000px] z-10 top-[900px] left-[calc((100vw)/2)] rotate-[-30deg]"
           src={Union}
           alt="union"
