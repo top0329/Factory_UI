@@ -192,9 +192,6 @@ const LandingPage = () => {
       <div className="relative text-white bg-landing overflow-hidden">
         <Title>Factory - Factory</Title>
         <Link rel="canonical" href="http://factorygame.org/" />
-        <Link rel="preload" as="image" href={CardFront} />
-        <Link rel="preload" as="image" href={SmallBlueprintCardImage} />
-        <Link rel="preload" as="image" href={Union} />
         <Meta
           name="description"
           content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
@@ -204,6 +201,9 @@ const LandingPage = () => {
           content="Factory, Factory1155, Blueprint, Product, Custody, Component Token, Combine, Synthesis, Decompose"
         />
         <Helmet>
+          <link rel="preload" as="image" href={Union} />
+          <link rel="preload" as="image" href={CardFront} />
+          <link rel="preload" as="image" href={SmallBlueprintCardImage} />
           <meta
             name="description"
             content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
