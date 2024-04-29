@@ -8,8 +8,8 @@ import { Address } from 'viem';
 import useWeb3 from '../../../hooks/useWeb3';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
-import { factoryAddress } from '../../../constants';
 import getTokenData from '../../../utils/getTokenData';
+import { factoryAddress } from '../../../constants';
 
 export interface Props {
   name?: string;

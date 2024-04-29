@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import Web3, { HttpProvider } from 'web3';
+import Web3 from 'web3';
 import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Address } from 'viem';
@@ -7,11 +7,8 @@ import { Address } from 'viem';
 import useWeb3 from '../../../hooks/useWeb3';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
-import erc1155Abi from '../../../abi/ERC1155ABI.json';
 import getERC1155Data from '../../../utils/getERC1155Data';
-import { factoryAddress, defaultRPC } from '../../../constants';
-import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
-import { tokenUriToName } from '../../../utils/tokenUriToName';
+import { factoryAddress } from '../../../constants';
 
 export interface Props {
   address?: string;
@@ -25,13 +22,14 @@ export interface Props {
 }
 
 export function ERC1155MintListCard(props: Props) {
-  const [isCopied, setIsCopied] = useState<boolean>(false);
   const { isConnected, library, erc1155Approve } = useWeb3();
+  const { openSpin, closeSpin } = useSpinner();
+  const { showToast } = useToast();
+
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [componentName, setComponentName] = useState<string>('');
   const [isApproved, setIsApproved] = useState<boolean>();
   const [tokenImage, setTokenImage] = useState<string>('');
-  const { openSpin, closeSpin } = useSpinner();
-  const { showToast } = useToast();
 
   useEffect(() => {
     async function init() {
@@ -138,7 +136,6 @@ export function ERC1155MintListCard(props: Props) {
                 onClick={handleCopyButtonClicked}
                 icon="solar:copy-outline"
                 className="item-center my-auto"
-                // className="item-center my-auto"
               />
             </button>
             {isCopied && (
@@ -179,31 +176,33 @@ export function ERC1155MintListCard(props: Props) {
 
 export function ERC1155DecomposeListCard(props: Props) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
-  const { account } = useWeb3();
   const [componentName, setComponentName] = useState<string>('');
-  const [tokenAmount, setTokenAmount] = useState<number>();
-  const [tokenId, setTokenId] = useState<number>();
-  const [tokenAddress, setTokenAddress] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
 
   useEffect(() => {
-    const getContractInfo = async () => {
-      const web3 = new Web3(new HttpProvider(defaultRPC));
-      const erc1155Contract = new web3.eth.Contract(erc1155Abi, props[0]);
-      const uri: string = await erc1155Contract.methods
-        .uri(props[1])
-        .call({ from: account });
-      setTokenAddress(String(props[0]));
-      setComponentName(await tokenUriToName(uri));
-      setTokenId(Number(props[1]));
-      setTokenAmount(Number(props[2]) * Number(props.productAmount));
-      setTokenImage(String(await tokenUriToImageUri(uri)));
-    };
-    getContractInfo();
-  }, [account, props]);
+    async function init() {
+      try {
+        const erc1155Data = await getERC1155Data(
+          props.address as Address,
+          props.id as number
+        );
+        if (erc1155Data) {
+          const { name, uri } = erc1155Data;
+          setComponentName(name);
+          setTokenImage(uri);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    init();
+  }, [props.address, props.id]);
+
   const handleCopyButtonClicked = () => {
-    copy(tokenAddress);
-    setIsCopied(true);
+    if (props.address) {
+      copy(props.address);
+      setIsCopied(true);
+    }
   };
 
   return (
@@ -218,7 +217,7 @@ export function ERC1155DecomposeListCard(props: Props) {
         id="type"
         className="hidden sm:block text-white justify-center items-center w-[15%] md:text-[24px] text-[16px] text-xl"
       >
-        Blueprint
+        ERC1155
       </div>
       <div
         id="name"
@@ -234,7 +233,8 @@ export function ERC1155DecomposeListCard(props: Props) {
         <p className="text-[#858584] text-xs">Address</p>
         <div className="flex gap-2">
           <p className="text-[#BABABA] truncate">
-            {tokenAddress.substring(0, 9)} ... {tokenAddress.slice(-7)}
+            {props.address && props.address.substring(0, 9)} ...{' '}
+            {props.address && props.address.slice(-7)}
           </p>
           <div className="relative">
             <button>
@@ -258,12 +258,12 @@ export function ERC1155DecomposeListCard(props: Props) {
       <div id="id" className="w-[3%]">
         <div>
           <p className="text-[#858584] text-xs">ID</p>
-          <p className="text-[#BABABA]">{tokenId}</p>
+          <p className="text-[#BABABA]">{props.id}</p>
         </div>
       </div>
       <div id="amount" className="truncate sm:w-auto">
         <p className="text-[#858584] text-xs">Amount</p>
-        <p className="text-center">{tokenAmount}</p>
+        <p className="text-center">{props.amount}</p>
       </div>
     </div>
   );
