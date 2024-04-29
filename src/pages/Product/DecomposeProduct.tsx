@@ -63,6 +63,7 @@ const DecomposeProductPage = () => {
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
               setIsDecomposeApproved(true);
+              setIsApproveEnable(false);
               showToast('success', 'Approve success!');
               closeSpin();
             } else {
