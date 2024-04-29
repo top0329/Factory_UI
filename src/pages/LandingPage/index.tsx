@@ -14,7 +14,9 @@ import FAQ from '../../components/FAQ';
 import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCardForCarousel from '../../components/Cards/BlueprintCard/BlueprintCardForCarousel';
-import Union from '../../assets/images/union.png';
+import Union from '../../assets/images/union_min.png';
+// import Union from '../../assets/svg/union.svg';
+
 import CardFront from '../../assets/svg/card-front.svg';
 import SmallBlueprintCardImage from '../../assets/svg/small-blueprint-card.svg';
 import Image from '../../components/Image';
