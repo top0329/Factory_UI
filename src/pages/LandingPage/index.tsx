@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Slider from 'react-slick';
 import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
-import Slider from 'react-slick';
 import { Helmet } from 'react-helmet';
+import { HeadProvider, Title, Link, Meta } from 'react-head';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import { HeadProvider, Title, Link, Meta } from 'react-head';
 
 import useWeb3 from '../../hooks/useWeb3';
 import ScrollButton from '../../components/Button/ScrollDownButton';
@@ -14,11 +14,9 @@ import FAQ from '../../components/FAQ';
 import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCardForCarousel from '../../components/Cards/BlueprintCard/BlueprintCardForCarousel';
-import Union from '../../assets/images/union_min.png';
-// import Union from '../../assets/svg/union.svg';
-
-import CardFront from '../../assets/svg/card-front.svg';
-import SmallBlueprintCardImage from '../../assets/svg/small-blueprint-card.svg';
+import Union from '../../assets/images/union.png';
+import CardFront from '../../assets/images/card-front.png';
+import SmallBlueprintCardImage from '../../assets/images/small-blueprint-card.png';
 import Image from '../../components/Image';
 import { searchValueAtom } from '../../jotai/atoms';
 import { invalidChars } from '../../constants';
