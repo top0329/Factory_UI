@@ -10,7 +10,7 @@ import ProductDetailsDrawer from '../../components/Drawers/ProductDetailsDrawer'
 import NoDataFound from '../../components/Loading/NoDataFound';
 import LoadingSpinner from '../../components/Loading/LoadingSpinner';
 import {
-  selectedProductintAtom,
+  selectedProductAtom,
   productSelectionState,
   isLoadingAtom,
   productTokenListAtom,
@@ -19,7 +19,7 @@ import {
 const ProductPage = () => {
   const navigate = useNavigate();
 
-  const [, setSelectedProduct] = useAtom(selectedProductintAtom);
+  const [, setSelectedProduct] = useAtom(selectedProductAtom);
   const [, setProductSelectionState] = useAtom(productSelectionState);
   const [productTokenList] = useAtom(productTokenListAtom);
   const [isLoading] = useAtom<boolean>(isLoadingAtom);
