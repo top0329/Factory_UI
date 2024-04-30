@@ -20,13 +20,14 @@ export interface Props {
 }
 
 export function ERC721MintListCard(props: Props) {
-  const [isCopied, setIsCopied] = useState<boolean>(false);
   const { isConnected, library, erc721Approve } = useWeb3();
+  const { openSpin, closeSpin } = useSpinner();
+  const { showToast } = useToast();
+
+  const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isApproved, setIsApproved] = useState<boolean>();
   const [componentName, setComponentName] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
-  const { openSpin, closeSpin } = useSpinner();
-  const { showToast } = useToast();
 
   useEffect(() => {
     async function init() {
@@ -53,9 +54,9 @@ export function ERC721MintListCard(props: Props) {
       setIsCopied(true);
     }
   };
+
   const handleApprove = async () => {
     const web3 = new Web3(window.ethereum);
-
     try {
       if (isConnected && library) {
         let receipt = null;
@@ -170,6 +171,7 @@ export function ERC721DecomposeListCard(props: Props) {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [componentName, setComponentName] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
+
   useEffect(() => {
     async function init() {
       try {
@@ -177,7 +179,6 @@ export function ERC721DecomposeListCard(props: Props) {
           String(props.address) as Address,
           Number(props.id) as number
         );
-
         if (erc721Data) {
           const { name, uri } = erc721Data;
           setComponentName(name);
@@ -189,12 +190,14 @@ export function ERC721DecomposeListCard(props: Props) {
     }
     init();
   }, [props, props.address, props.id]);
+
   const handleCopyButtonClicked = () => {
     if (props.address) {
       copy(props.address);
       setIsCopied(true);
     }
   };
+
   return (
     <div className="flex justify-between w-full h-[80px] gap-6 items-center md:px-[40px] sm:px-[20px] px-4  py-2 mb-2 borderpy-2 border  rounded-3xl text-white text-base bg-[#858584]/20 border-black">
       <div id="icon" className="flex justify-center py-2">
@@ -203,14 +206,12 @@ export function ERC721DecomposeListCard(props: Props) {
           className="block sm:w-[64px] w-[52px] sm:h-[64px] h-[52px] rounded-full"
         />
       </div>
-
       <div
         id="type"
         className="hidden sm:block text-white justify-center items-center w-[15%] md:text-[24px] text-[16px] text-xl"
       >
-        Blueprint
+        ERC721
       </div>
-
       <div
         id="name"
         className="flex flex-col justify-center sm:w-[12%] w-[30%]"
@@ -218,7 +219,6 @@ export function ERC721DecomposeListCard(props: Props) {
         <p className="text-[#858584] text-xs">Name</p>
         <p className="text-[#BABABA] truncate">{componentName}</p>
       </div>
-
       <div
         id="address"
         className="hidden md:block flex-col justify-center w-[25%]"
@@ -248,14 +248,12 @@ export function ERC721DecomposeListCard(props: Props) {
           </div>
         </div>
       </div>
-
       <div id="id" className="w-[3%]">
         <div>
           <p className="text-[#858584] text-xs">ID</p>
           <p className="text-[#BABABA]">{props.id}</p>
         </div>
       </div>
-
       <div id="amount" className="w-[5%]"></div>
     </div>
   );

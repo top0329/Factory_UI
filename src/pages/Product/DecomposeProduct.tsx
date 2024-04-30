@@ -63,6 +63,7 @@ const DecomposeProductPage = () => {
           if (receipt && receipt.status !== undefined) {
             if (receipt.status) {
               setIsDecomposeApproved(true);
+              setIsApproveEnable(false);
               showToast('success', 'Approve success!');
               closeSpin();
             } else {
@@ -84,18 +85,33 @@ const DecomposeProductPage = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
-    if (
-      (inputValue === '' || /^\d*$/.test(inputValue)) &&
-      Number(inputValue) != 0
-    ) {
-      setIsApproveEnable(true);
-      if (Number(inputValue) > selectedOwnData.balance) {
-        setProductAmount(selectedOwnData.balance.toString());
-      } else {
-        setProductAmount(inputValue);
-      }
-    } else {
+    if (inputValue === '' || Number(inputValue) === 0) {
       setIsApproveEnable(false);
+      setProductAmount(inputValue);
+    } else if (Number(inputValue) > selectedOwnData.balance) {
+      setIsApproveEnable(true);
+      setProductAmount(selectedOwnData.balance.toString());
+    } else {
+      setIsApproveEnable(true);
+      setProductAmount(inputValue);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (
+      !(
+        (event.key >= '0' && event.key <= '9') ||
+        event.key === 'Backspace' ||
+        event.key === 'Delete' ||
+        event.key === 'Tab' ||
+        event.key === 'ArrowLeft' ||
+        event.key === 'ArrowRight' ||
+        (event.key >= '0' &&
+          event.key <= '9' &&
+          event.getModifierState('NumLock'))
+      )
+    ) {
+      event.preventDefault();
     }
   };
 
@@ -164,11 +180,12 @@ const DecomposeProductPage = () => {
             </div>
             <div className=" flex justify-between gap-6 items-center">
               <input
+                className="md:w-[70%] w-1/2 h-[40px] rounded-xl placeholder-gray-600 bg-black border border-white px-4 hide-arrows"
                 type="number"
                 placeholder="Product Amount"
                 onChange={handleChange}
+                onKeyDown={handleKeyDown}
                 value={productAmount}
-                className="md:w-[70%] w-1/2 h-[40px] rounded-xl placeholder-gray-600 bg-black border border-white px-4 hide-arrows"
               />
               <Button
                 className="flex disabled:bg-gray-900 justify-center w-[160px] h-9 rounded-xl"
@@ -194,7 +211,10 @@ const DecomposeProductPage = () => {
             {selectedOwnData.data.erc20Data.map((dataItem, index) => (
               <ERC20DecomposeListCard
                 key={index}
-                {...dataItem}
+                name={dataItem.name}
+                uri={dataItem.uri}
+                address={dataItem.tokenAddress}
+                amount={Number(dataItem.amount)}
                 productAmount={Number(productAmount)}
               />
             ))}
@@ -208,7 +228,9 @@ const DecomposeProductPage = () => {
             {selectedOwnData.data.erc1155Data.map((dataItem, index) => (
               <ERC1155DecomposeListCard
                 key={index}
-                {...dataItem}
+                id={dataItem.tokenId}
+                address={dataItem.tokenAddress}
+                amount={dataItem.amount}
                 productAmount={Number(productAmount)}
               />
             ))}
