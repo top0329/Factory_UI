@@ -8,7 +8,7 @@ import Button from '../../components/Button';
 import useWeb3 from '../../hooks/useWeb3';
 import useSpinner from '../../hooks/useSpinner';
 import useToast from '../../hooks/useToast';
-import { selectedProductintAtom } from '../../jotai/atoms';
+import { selectedProductAtom } from '../../jotai/atoms';
 import { ProductListCard } from '../../components/Cards/ListCard/ProductListCard';
 import { BlueprintListCard } from '../../components/Cards/ListCard/BlueprintListCard';
 import { ERC20DecomposeListCard } from '../../components/Cards/ListCard/ERC20ListCard';
@@ -32,18 +32,26 @@ const DecomposeProductPage = () => {
   const navigate = useNavigate();
   const productId = useParams().id;
 
-  const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductintAtom);
+  const [selectedOwnData] = useAtom<SelectedProduct>(selectedProductAtom);
 
   const [productAmount, setProductAmount] = useState<string>('');
   const [isDecomposeApproved, setIsDecomposeApproved] =
     useState<boolean>(false);
   const [isApproveEnable, setIsApproveEnable] = useState<boolean>(false);
+  const [decomposeFee, setDecomposeFee] = useState<number>(0);
 
   useEffect(() => {
-    if (selectedOwnData.id.toString() !== productId) {
-      navigate('/product');
+    async function init() {
+      if (selectedOwnData.id.toString() !== productId) {
+        navigate('/product');
+      }
+
+      const tmpDecomposeFee = await factoryContract.productDecomposeFee();
+      console.log('tmpDecomposeFee', tmpDecomposeFee);
+      setDecomposeFee(Number(ethers.formatEther(tmpDecomposeFee)));
     }
-  }, [productId, navigate, selectedOwnData.id]);
+    init();
+  }, [productId, navigate, selectedOwnData.id, factoryContract]);
 
   const handleApprove = async () => {
     const web3 = new Web3(window.ethereum);
@@ -124,9 +132,7 @@ const DecomposeProductPage = () => {
           .decomposeProduct(selectedOwnData.id, Number(productAmount))
           .send({
             from: account,
-            value: ethers.parseEther(
-              Number(selectedOwnData.decomposeFee).toString()
-            ),
+            value: ethers.parseEther(Number(decomposeFee).toString()),
           });
         openSpin('Decomposing Product...');
         receipt = await web3.eth.getTransactionReceipt(
@@ -175,7 +181,7 @@ const DecomposeProductPage = () => {
                 Product Decompose Fee
               </p>
               <p className="xs:text-[24px] text-[16px] font-semibold">
-                {selectedOwnData.decomposeFee} ETH
+                {Number(decomposeFee) * Number(productAmount)} ETH
               </p>
             </div>
             <div className=" flex justify-between gap-6 items-center">

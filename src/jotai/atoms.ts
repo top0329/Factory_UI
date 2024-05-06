@@ -51,7 +51,7 @@ export const selectedOwnBlueprintAtom = atom<SelectedOwnBlueprint>({
     erc1155Data: [],
   },
 });
-export const selectedProductintAtom = atom<SelectedProduct>({
+export const selectedProductAtom = atom<SelectedProduct>({
   id: '',
   name: '',
   imageUri: '',
@@ -91,14 +91,14 @@ export const blueprintSelectionState = localStorageEffect('selected-blueprint')(
 export const ownBlueprintSelectionState = localStorageEffect(
   'selected-ownBlueprint'
 )(selectedOwnBlueprintAtom);
-export const productSelectionState = localStorageEffect('selected-product')(
-  selectedProductintAtom
-);
+export const productSelectionState =
+  localStorageEffect('selected-product')(selectedProductAtom);
 export const isCreatorModeAtom = atom<boolean>(false);
 export const createBlueprintAtom = atom<CreateBlueprint>({
   id: '',
   name: '',
-  imageUri: 'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
+  imageUri:
+    'https://ipfs.io/ipfs/bafkreiac47exop4qnvi47azogyp2xrb45dlyqgsijpnsvkvizkh4rm3uvi',
   creator: '',
   totalSupply: '',
   mintPrice: '',

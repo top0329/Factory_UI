@@ -16,10 +16,7 @@ import {
   SelectedProduct,
   WindowSize,
 } from '../../types';
-import {
-  selectedProductintAtom,
-  productSelectionState,
-} from '../../jotai/atoms';
+import { selectedProductAtom, productSelectionState } from '../../jotai/atoms';
 import { productAddress } from '../../constants';
 
 export interface Props {
@@ -30,7 +27,7 @@ export interface Props {
 const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
   const navigate = useNavigate();
 
-  const [selectedProduct] = useAtom<SelectedProduct>(selectedProductintAtom);
+  const [selectedProduct] = useAtom<SelectedProduct>(selectedProductAtom);
   const [, setProductSelectionState] = useAtom<SelectedProduct>(
     productSelectionState
   );
