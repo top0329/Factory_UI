@@ -112,7 +112,7 @@ function Footer() {
                 className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#f74141] transition-colors duration-300"
               />
             </a> */}
-            <a href="https://discord.gg/GRtC66Zd" target="_blank">
+            <a href="https://discord.com/invite/7aKVRegu3X" target="_blank">
               <Icon
                 icon="simple-icons:discord"
                 className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#5865f2] transition-colors duration-300"
