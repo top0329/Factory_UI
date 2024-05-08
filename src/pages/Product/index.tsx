@@ -112,7 +112,7 @@ const ProductPage = () => {
           </div>
         ) : (
           <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
-            <NoDataFound message="No My Blueprints Found!" />
+            <NoDataFound message="No Products Found!" />
           </div>
         )}
         <ProductDetailsDrawer
