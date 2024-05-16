@@ -18,6 +18,14 @@ import Union from '../../assets/images/union.png';
 import CardFront from '../../assets/images/card-front.png';
 import SmallBlueprintCardImage from '../../assets/images/small-blueprint-card.png';
 import Image from '../../components/Image';
+import HelmetImage from '../../assets/images/helmet.jpg';
+import ArmorImage from '../../assets/images/armor.jpg';
+import SwordImage from '../../assets/images/sword.jpg';
+import BlackTeaImage from '../../assets/images/black-tea.webp';
+import GoldCoinImage from '../../assets/images/gold-coin.webp';
+import MilkTeaImage from '../../assets/images/milk-tea.webp';
+import CoffeeImage from '../../assets/images/coffee.webp';
+import SilverCoinImage from '../../assets/images/siliver-coin.webp';
 import { searchValueAtom } from '../../jotai/atoms';
 import { invalidChars } from '../../constants';
 
@@ -310,74 +318,85 @@ const LandingPage = () => {
                   mintPrice={0.001}
                   mintUnit={1}
                   totalSupply={100000000}
-                  name="Iron Sword"
-                  uri="https://ipfs.io/ipfs/bafkreih47rxou2qm5kmc6ye5fxae37aih2qkjvlizrgzrzhjp7tqsvkzh4"
+                  name="Helmet"
+                  uri={HelmetImage}
                 />
               </div>
               <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                 <BlueprintCardForCarousel
-                  blueprintId={95}
+                  blueprintId={293}
+                  mintLimit={10000}
+                  mintUnit={0}
+                  mintPrice={0.001}
+                  totalSupply={100000000}
+                  name="Armor"
+                  uri={ArmorImage}
+                />
+              </div>
+              <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                <BlueprintCardForCarousel
+                  blueprintId={843}
+                  mintLimit={10000}
+                  mintUnit={2}
+                  mintPrice={0.001}
+                  totalSupply={100000000}
+                  name="Sword"
+                  uri={SwordImage}
+                />
+              </div>
+              <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
+                <BlueprintCardForCarousel
+                  blueprintId={658}
                   mintLimit={10000}
                   mintUnit={2}
                   mintPrice={0.001}
                   totalSupply={100000000}
                   name="Black Tea"
-                  uri="https://ipfs.io/ipfs/bafkreigw4ex37u2tl3tt5kocwacrbq3ucox2pkmmlojg3f3lc2545vzcza"
+                  uri={BlackTeaImage}
                 />
               </div>
               <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                 <BlueprintCardForCarousel
-                  blueprintId={95}
-                  mintLimit={10000}
-                  mintUnit={0}
-                  mintPrice={0.001}
-                  totalSupply={100000000}
-                  name="Spear"
-                  uri="https://ipfs.io/ipfs/bafkreigc7k7kmuc6nh2ykdn4hto26nnqpltnvrjh2mu5zsioaeo5cic3kq"
-                />
-              </div>
-              <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
-                <BlueprintCardForCarousel
-                  blueprintId={95}
+                  blueprintId={83}
                   mintLimit={10000}
                   mintUnit={1}
                   mintPrice={0.001}
                   totalSupply={100000000}
                   name="Gold Coin"
-                  uri="https://ipfs.io/ipfs/bafkreiaw3v4sctoiryu5wmwcqznzngjymfrgjswt667zb4msda6lg54boy"
+                  uri={GoldCoinImage}
                 />
               </div>
               <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                 <BlueprintCardForCarousel
-                  blueprintId={95}
+                  blueprintId={693}
                   mintLimit={10000}
                   mintUnit={0}
                   mintPrice={0.001}
                   totalSupply={100000000}
                   name="Milk Tea"
-                  uri="https://ipfs.io/ipfs/bafkreie4shaao65odx4ie7oqfdr5vldbbg4pbwib4gragksb7z6ae3eabq"
+                  uri={MilkTeaImage}
                 />
               </div>
               <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                 <BlueprintCardForCarousel
-                  blueprintId={95}
+                  blueprintId={62}
                   mintLimit={10000}
                   mintUnit={1}
                   mintPrice={0.001}
                   totalSupply={100000000}
                   name="Coffee"
-                  uri="https://ipfs.io/ipfs/bafybeig6qdkvvfa2o24x7xbwsyyd3n3nichylckgyqgygots22pzi3amjm"
+                  uri={CoffeeImage}
                 />
               </div>
               <div className="px-1 lg:px-2 relative flex flex-col bg-transparent h-full items-center justify-center rounded-3xl duration-300 ease-in-out">
                 <BlueprintCardForCarousel
-                  blueprintId={95}
+                  blueprintId={482}
                   mintUnit={0}
                   mintLimit={10000}
                   mintPrice={0.001}
                   totalSupply={100000000}
                   name="Silver Coin"
-                  uri="https://ipfs.io/ipfs/bafybeibp23rhdzkvgkek2zj4jxg3ti7qqcgmfpwevz3ni4dnicw2kvz77a"
+                  uri={SilverCoinImage}
                 />
               </div>
             </Slider>
