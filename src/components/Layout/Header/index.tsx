@@ -119,7 +119,7 @@ function Header() {
                 handleInitSearchOptions();
                 navigate('/product');
               }}
-              hidden={!isConnected}
+              // hidden={!isConnected}
             >
               Product
             </button>
@@ -194,7 +194,8 @@ function Header() {
                     My Blueprint
                   </button>
                 </li>
-                <li hidden={!isConnected}>
+                {/* <li hidden={!isConnected}> */}
+                <li>
                   <button
                     className={`block my-1 px-4 py-3 text-left rounded ${
                       headerActiveItem === 3 ? 'text-white' : 'text-light-gray'

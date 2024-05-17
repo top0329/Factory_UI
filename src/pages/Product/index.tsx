@@ -15,9 +15,12 @@ import {
   isLoadingAtom,
   productTokenListAtom,
 } from '../../jotai/atoms';
+import useWeb3 from '../../hooks/useWeb3';
+import { WalletConnectButton } from '../../components/Button/WalletConnectButton';
 
 const ProductPage = () => {
   const navigate = useNavigate();
+  const { isConnected } = useWeb3();
 
   const [, setSelectedProduct] = useAtom(selectedProductAtom);
   const [, setProductSelectionState] = useAtom(productSelectionState);
@@ -89,30 +92,39 @@ const ProductPage = () => {
             placeholders="Search for Proudct ID and Name."
           />
         </div>
-        {isLoading ? (
-          <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
-            <LoadingSpinner />
-          </div>
-        ) : productTokenList.length > 0 ? (
-          <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
-            {productTokenList.map((product) => {
-              return (
-                <div className="flex justify-center" key={product.id}>
-                  <ProductCard
-                    productId={product.id}
-                    name={product.name}
-                    uri={product.imageUri}
-                    balance={product.balance}
-                    onClick={() => handleProductCardClicked(product)}
-                    onClickDecompose={() => handleDecomposeProduct(product)}
-                  />
-                </div>
-              );
-            })}
-          </div>
+        {isConnected ? (
+          isLoading ? (
+            <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
+              <LoadingSpinner />
+            </div>
+          ) : productTokenList.length > 0 ? (
+            <div className="grid grid-cols-2 pt-8 pb-16 xs:grid-cols-2 sm:grid-cols-3 md:gap-4 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-2  xl:grid-cols-4">
+              {productTokenList.map((product) => {
+                return (
+                  <div className="flex justify-center" key={product.id}>
+                    <ProductCard
+                      productId={product.id}
+                      name={product.name}
+                      uri={product.imageUri}
+                      balance={product.balance}
+                      onClick={() => handleProductCardClicked(product)}
+                      onClickDecompose={() => handleDecomposeProduct(product)}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
+              <NoDataFound message="No Products Found!" />
+            </div>
+          )
         ) : (
-          <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh]">
-            <NoDataFound message="No Products Found!" />
+          <div className="w-full h-[38vh] flex flex-col items-center justify-center md:h-[58vh] sm:h-[42vh] text-2xl text-center gap-4">
+            <p>Please connect your wallet to view your products.</p>
+            <div className='border-2 border-white rounded-2xl px-4 py-0.5 md:border-none'>
+              <WalletConnectButton />
+            </div>
           </div>
         )}
         <ProductDetailsDrawer
