@@ -10,7 +10,7 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import useWeb3 from '../../hooks/useWeb3';
 import ScrollButton from '../../components/Button/ScrollDownButton';
-import FAQ from '../../components/FAQ';
+// import FAQ from '../../components/FAQ';
 import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCardForCarousel from '../../components/Cards/BlueprintCard/BlueprintCardForCarousel';
@@ -197,7 +197,7 @@ const LandingPage = () => {
 
   return (
     <HeadProvider>
-      <div className="relative text-white bg-landing overflow-hidden">
+      <div className="relative text-white bg-landing overflow-hidden pb-10">
         <Title>Factory - Factory</Title>
         <Link rel="canonical" href="http://factorygame.org/" />
         <Meta
@@ -409,7 +409,7 @@ const LandingPage = () => {
           products={productsValue}
         />
         <PlatformUsage />
-        <FAQ />
+        {/* <FAQ /> */}
       </div>
     </HeadProvider>
   );

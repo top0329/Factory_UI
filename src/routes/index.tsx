@@ -31,6 +31,7 @@ const DecomposeProductPage = Loadable(
   lazy(() => import('../pages/Product/DecomposeProduct'))
 );
 const ComponentPage = Loadable(lazy(() => import('../pages/Component')));
+const FAQPage = Loadable(lazy(() => import('../pages/FAQ')));
 const LoadingLandingPage = Loadable(
   lazy(() => import('../pages/LandingPage/LoadingLanding'))
 );
@@ -164,6 +165,15 @@ const CommonRoutes = {
             {
               path: '',
               element: <ComponentPage />,
+            },
+          ],
+        },
+        {
+          path: 'faq',
+          children: [
+            {
+              path: '',
+              element: <FAQPage />,
             },
           ],
         },

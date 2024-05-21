@@ -48,6 +48,7 @@ function Header() {
     location.pathname.includes('my-blueprint') && setHeaderActiveItem(2);
     location.pathname.includes('product') && setHeaderActiveItem(3);
     location.pathname.includes('component') && setHeaderActiveItem(4);
+    location.pathname.includes('faq') && setHeaderActiveItem(9);
     location.pathname === '/' && setHeaderActiveItem(0);
   }, [location.pathname, setHeaderActiveItem]);
 
@@ -133,6 +134,17 @@ function Header() {
               }}
             >
               Component
+            </button>
+            <button
+              className={`${
+                headerActiveItem === 9 ? 'text-white' : 'text-light-gray'
+              }`}
+              onClick={() => {
+                handleInitSearchOptions();
+                navigate('/faq');
+              }}
+            >
+              FAQ
             </button>
             <button
               className="text-light-gray"
@@ -221,6 +233,20 @@ function Header() {
                     }}
                   >
                     Component
+                  </button>
+                </li>
+                <li>
+                  <button
+                    className={`block my-1 px-4 py-3 text-left rounded ${
+                      headerActiveItem === 9 ? 'text-white' : 'text-light-gray'
+                    } w-full hover:bg-secondary`}
+                    onClick={() => {
+                      handleInitSearchOptions();
+                      navigate('/faq');
+                      setIsListButtonClicked(false);
+                    }}
+                  >
+                    FAQ
                   </button>
                 </li>
                 <li>

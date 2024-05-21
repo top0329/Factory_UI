@@ -60,6 +60,7 @@ function Footer() {
     location.pathname.includes('my-blueprint') && setHeaderActiveItem(2);
     location.pathname.includes('product') && setHeaderActiveItem(3);
     location.pathname.includes('component') && setHeaderActiveItem(4);
+    location.pathname.includes('faq') && setHeaderActiveItem(9);
     location.pathname === '/' && setHeaderActiveItem(0);
   }, [location.pathname, setHeaderActiveItem]);
 
@@ -214,6 +215,17 @@ function Footer() {
               }}
             >
               Component
+            </button>
+            <button
+              className={`text-left ${
+                headerActiveItem === 4 ? 'text-white' : 'text-light-gray'
+              } cursor-pointer`}
+              onClick={() => {
+                handleInitSearchOptions();
+                navigate('/faq');
+              }}
+            >
+              FAQ
             </button>
             <button
               className={`text-left ${

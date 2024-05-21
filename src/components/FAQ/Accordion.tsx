@@ -36,7 +36,7 @@ const Accordion: FC<Props> = ({ title, content }) => {
           isExpanded ? 'max-h-[500px] sm:max-h-[300px]' : 'max-h-[0px]'
         }`}
       >
-        <div className="pb-5">{content}</div>
+        <div className="pl-4 pb-5">{content}</div>
       </div>
     </div>
   );
