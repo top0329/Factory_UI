@@ -10,7 +10,6 @@ import 'slick-carousel/slick/slick-theme.css';
 
 import useWeb3 from '../../hooks/useWeb3';
 import ScrollButton from '../../components/Button/ScrollDownButton';
-// import FAQ from '../../components/FAQ';
 import PlatformStatus from '../../components/PlatformStatus';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCardForCarousel from '../../components/Cards/BlueprintCard/BlueprintCardForCarousel';
@@ -409,7 +408,6 @@ const LandingPage = () => {
           products={productsValue}
         />
         <PlatformUsage />
-        {/* <FAQ /> */}
       </div>
     </HeadProvider>
   );

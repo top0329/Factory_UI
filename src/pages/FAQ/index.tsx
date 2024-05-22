@@ -1,11 +1,7 @@
-import FAQ from "../../components/FAQ";
+import FAQ from '../../components/FAQ';
 
 function FAQPage() {
-  return (
-    <div>
-      <FAQ />
-    </div>
-  );
+  return <FAQ />;
 }
 
 export default FAQPage;

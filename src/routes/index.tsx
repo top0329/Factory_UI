@@ -144,9 +144,7 @@ const CommonRoutes = {
             {
               path: '',
               element: (
-                // <AuthGuard>
                 <ProductPage />
-                // </AuthGuard>
               ),
             },
             {
