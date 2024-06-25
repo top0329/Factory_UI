@@ -65,7 +65,6 @@ const TransferOwnershipPage = () => {
     if (isConnected && library) {
       if (isValidEthereumAddress(newOwner)) {
         const isWalletAddress = await filterWalletAddress(newOwner);
-        console.log('isWalletAddress', isWalletAddress);
         if (isWalletAddress) {
           toggleModal();
         } else {

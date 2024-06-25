@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { Address } from 'viem';
 
 import Button from '../Button';
+import useWeb3 from '../../hooks/useWeb3';
 import checkContractType from '../../utils/checkContractType';
 import getERC721Data from '../../utils/getERC721Data';
 import getERC1155Data from '../../utils/getERC1155Data';
@@ -20,6 +21,7 @@ import {
 import { AddComponentModalInputValue, CreateBlueprint } from '../../types';
 
 const AddComponentModal = () => {
+  const { library } = useWeb3();
   const CarouselData = [
     {
       headerText: null,
@@ -88,7 +90,8 @@ const AddComponentModal = () => {
         if (error === '' && inputValues.erc721Id !== '') {
           const erc721Data = await getERC721Data(
             inputValues.erc721Address,
-            inputValues.erc721Id
+            inputValues.erc721Id,
+            library
           );
           if (
             createBlueprint.data.erc721Data.some(
@@ -113,7 +116,8 @@ const AddComponentModal = () => {
         ) {
           const erc1155Data = await getERC1155Data(
             inputValues.erc1155Address,
-            inputValues.erc1155Id
+            inputValues.erc1155Id,
+            library
           );
           if (
             createBlueprint.data.erc1155Data.some(
@@ -137,6 +141,7 @@ const AddComponentModal = () => {
     error,
     createBlueprint.data.erc721Data,
     createBlueprint.data.erc1155Data,
+    library,
   ]);
 
   const handleAddressChange = async (
@@ -148,7 +153,7 @@ const AddComponentModal = () => {
         ...inputValues,
         [name]: value,
       });
-      const result = await checkContractType(value as Address | '');
+      const result = await checkContractType(value as Address | '', library);
       if (activeItem === 0 && result.type === 'ERC20') {
         if (
           createBlueprint.data.erc20Data.some(

@@ -9,7 +9,6 @@ import useWeb3 from '../../../hooks/useWeb3';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
 import getTokenData from '../../../utils/getTokenData';
-import { factoryAddress } from '../../../constants';
 
 export interface Props {
   name?: string;
@@ -23,7 +22,7 @@ export interface Props {
 }
 
 export function ERC20MintListCard(props: Props) {
-  const { isConnected, library, erc20Approve } = useWeb3();
+  const { isConnected, library, erc20Approve, currentFactoryAddress } = useWeb3();
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
 
@@ -41,17 +40,19 @@ export function ERC20MintListCard(props: Props) {
     const web3 = new Web3(window.ethereum);
     try {
       if (isConnected && library) {
-        const tokenData = await getTokenData(props.address as Address);
+        const tokenData = await getTokenData(props.address as Address, library);
         if (tokenData) {
           if (props.amount) {
             let receipt = null;
             while (receipt === null || receipt.status === undefined) {
               const res = erc20Approve(
                 props.address as Address,
-                factoryAddress,
+                currentFactoryAddress,
                 ethers
                   .parseUnits(
-                    (Number(props.amount) * Number(props.productAmount)).toString(),
+                    (
+                      Number(props.amount) * Number(props.productAmount)
+                    ).toString(),
                     tokenData.decimal
                   )
                   .toString()

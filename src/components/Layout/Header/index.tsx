@@ -120,7 +120,6 @@ function Header() {
                 handleInitSearchOptions();
                 navigate('/product');
               }}
-              // hidden={!isConnected}
             >
               Product
             </button>

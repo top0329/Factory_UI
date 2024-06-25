@@ -8,7 +8,6 @@ import useWeb3 from '../../../hooks/useWeb3';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
 import getERC1155Data from '../../../utils/getERC1155Data';
-import { factoryAddress } from '../../../constants';
 
 export interface Props {
   address?: string;
@@ -22,7 +21,8 @@ export interface Props {
 }
 
 export function ERC1155MintListCard(props: Props) {
-  const { isConnected, library, erc1155Approve } = useWeb3();
+  const { isConnected, library, erc1155Approve, currentFactoryAddress } =
+    useWeb3();
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
 
@@ -36,7 +36,8 @@ export function ERC1155MintListCard(props: Props) {
       try {
         const erc1155Data = await getERC1155Data(
           props.address as Address,
-          props.id as number
+          props.id as number,
+          library
         );
         if (erc1155Data) {
           const { name, uri } = erc1155Data;
@@ -48,7 +49,7 @@ export function ERC1155MintListCard(props: Props) {
       }
     }
     init();
-  }, [props.address, props.id]);
+  }, [library, props.address, props.id]);
 
   const handleCopyButtonClicked = () => {
     if (props.address) {
@@ -65,7 +66,7 @@ export function ERC1155MintListCard(props: Props) {
         while (receipt === null || receipt.status === undefined) {
           const res = erc1155Approve(
             props.address as Address,
-            factoryAddress,
+            currentFactoryAddress,
             true
           );
           openSpin('Approving...');
@@ -175,6 +176,8 @@ export function ERC1155MintListCard(props: Props) {
 }
 
 export function ERC1155DecomposeListCard(props: Props) {
+  const { library } = useWeb3();
+
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [componentName, setComponentName] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
@@ -184,7 +187,8 @@ export function ERC1155DecomposeListCard(props: Props) {
       try {
         const erc1155Data = await getERC1155Data(
           props.address as Address,
-          props.id as number
+          props.id as number,
+          library
         );
         if (erc1155Data) {
           const { name, uri } = erc1155Data;
@@ -196,7 +200,7 @@ export function ERC1155DecomposeListCard(props: Props) {
       }
     }
     init();
-  }, [props.address, props.id]);
+  }, [library, props.address, props.id]);
 
   const handleCopyButtonClicked = () => {
     if (props.address) {

@@ -22,7 +22,11 @@ import {
   factoryAddress,
   blueprintAddress,
   productAddress,
+  usdtAddress,
+  usdcAddress,
+  POLYGON_AMOY_GAS_URL,
 } from '../constants';
+import axios from 'axios';
 
 declare let window: any;
 const Web3Context = createContext<Web3ContextType | null>(null);
@@ -32,10 +36,23 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const chainId = useChainId();
   const signer = useEthersSigner();
   const ethersProvider = useEthersProvider();
-  const defaultProvider = new ethers.JsonRpcProvider(defaultRPC);
-  const web3 = new Web3(window.ethereum);
+  let defaultProvider: any;
+  if (chainId === 11155111) {
+    defaultProvider = new ethers.JsonRpcProvider(defaultRPC.sepolia);
+  } else if (chainId === 80002) {
+    defaultProvider = new ethers.JsonRpcProvider(defaultRPC.amoy);
+  }
+  const web3 = useMemo(() => new Web3(window.ethereum), []);
 
   const [provider, setProvider] = useState<ContractRunner>(defaultProvider);
+  const [currentFactoryAddress, setCurrentFactoryAddress] =
+    useState<string>('');
+  const [currentBlueprintAddress, setCurrentBlueprintAddress] =
+    useState<string>('');
+  const [currentProductAddress, setCurrentProductAddress] =
+    useState<string>('');
+  const [currentUSDTAddress, setCurrentUSDTAddress] = useState<string>('');
+  const [currentUSDCAddress, setCurrentUSDCAddress] = useState<string>('');
   const [factoryContract, setFactoryContract] = useState<Contract>(
     {} as Contract
   );
@@ -46,9 +63,10 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     {} as Contract
   );
 
-  const [factoryWeb3, setFactoryWeb3] = useState<Contract>({} as Contract);
-  const [blueprintWeb3, setBlueprintWeb3] = useState<Contract>({} as Contract);
-  const [productWeb3, setProductWeb3] = useState<Contract>({} as Contract);
+  const [factoryWeb3, setFactoryWeb3] = useState<any>();
+  const [blueprintWeb3, setBlueprintWeb3] = useState<any>();
+  const [productWeb3, setProductWeb3] = useState<any>();
+  const [gasPrice, setGasPrice] = useState<string>('0.00');
 
   const init = useCallback(async () => {
     try {
@@ -59,47 +77,85 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log('Connected wallet');
       }
 
-      const _factoryContract: Contract = new ethers.Contract(
-        factoryAddress,
-        FactoryABI,
-        provider
-      ) as Contract;
-      const _blueprintContract: Contract = new ethers.Contract(
-        blueprintAddress,
-        BlueprintABI,
-        provider
-      ) as Contract;
-      const _productContract: Contract = new ethers.Contract(
-        productAddress,
-        ProductABI,
-        provider
-      ) as Contract;
-
-      const _factoryWeb3: any = new web3.eth.Contract(
-        FactoryABI,
-        factoryAddress
-      );
-      const _blueprintWeb3: any = new web3.eth.Contract(
-        BlueprintABI,
-        blueprintAddress
-      );
-      const _productWeb3: any = new web3.eth.Contract(
-        ProductABI,
-        productAddress
-      );
-
-      setFactoryContract(_factoryContract);
-      setBlueprintContract(_blueprintContract);
-      setProductContract(_productContract);
-
-      setFactoryWeb3(_factoryWeb3);
-      setBlueprintWeb3(_blueprintWeb3);
-      setProductWeb3(_productWeb3);
+      if (chainId === 11155111) {
+        setFactoryContract(
+          new ethers.Contract(
+            factoryAddress.sepolia,
+            FactoryABI,
+            provider
+          ) as Contract
+        );
+        setBlueprintContract(
+          new ethers.Contract(
+            blueprintAddress.sepolia,
+            BlueprintABI,
+            provider
+          ) as Contract
+        );
+        setProductContract(
+          new ethers.Contract(
+            productAddress.sepolia,
+            ProductABI,
+            provider
+          ) as Contract
+        );
+        setFactoryWeb3(
+          new web3.eth.Contract(FactoryABI, factoryAddress.sepolia)
+        );
+        setBlueprintWeb3(
+          new web3.eth.Contract(BlueprintABI, blueprintAddress.sepolia)
+        );
+        setProductWeb3(
+          new web3.eth.Contract(ProductABI, productAddress.sepolia)
+        );
+        setCurrentFactoryAddress(factoryAddress.sepolia);
+        setCurrentBlueprintAddress(blueprintAddress.sepolia);
+        setCurrentProductAddress(productAddress.sepolia);
+        setCurrentUSDTAddress(usdtAddress.sepolia);
+        setCurrentUSDCAddress(usdcAddress.sepolia);
+        const _gasPrice = await web3.eth.getGasPrice();
+        setGasPrice(Number(_gasPrice).toString());
+      } else if (chainId === 80002) {
+        setFactoryContract(
+          new ethers.Contract(
+            factoryAddress.amoy,
+            FactoryABI,
+            provider
+          ) as Contract
+        );
+        setBlueprintContract(
+          new ethers.Contract(
+            blueprintAddress.amoy,
+            BlueprintABI,
+            provider
+          ) as Contract
+        );
+        setProductContract(
+          new ethers.Contract(
+            productAddress.amoy,
+            ProductABI,
+            provider
+          ) as Contract
+        );
+        setFactoryWeb3(new web3.eth.Contract(FactoryABI, factoryAddress.amoy));
+        setBlueprintWeb3(
+          new web3.eth.Contract(BlueprintABI, blueprintAddress.amoy)
+        );
+        setProductWeb3(new web3.eth.Contract(ProductABI, productAddress.amoy));
+        setCurrentFactoryAddress(factoryAddress.amoy);
+        setCurrentBlueprintAddress(blueprintAddress.amoy);
+        setCurrentProductAddress(productAddress.amoy);
+        setCurrentUSDTAddress(usdtAddress.amoy);
+        setCurrentUSDCAddress(usdcAddress.amoy);
+        const _currentGasPriceData = await axios.get(POLYGON_AMOY_GAS_URL);
+        const _gasPrice = _currentGasPriceData.data.fast.maxFee;
+        setGasPrice(web3.utils.toWei(_gasPrice, 'gwei'));
+      }
     } catch (err) {
       console.log(err);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isConnected, ethersProvider, provider]);
+  }, [isConnected, ethersProvider, provider, chainId]);
 
   useEffect(() => {
     init();
@@ -159,6 +215,11 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       chainId,
       isConnected,
       library: provider ?? signer,
+      currentFactoryAddress,
+      currentBlueprintAddress,
+      currentProductAddress,
+      currentUSDTAddress,
+      currentUSDCAddress,
       factoryContract,
       blueprintContract,
       productContract,
@@ -168,6 +229,8 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       erc20Approve,
       erc721Approve,
       erc1155Approve,
+      web3,
+      gasPrice,
     }),
     [
       address,
@@ -175,6 +238,11 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       isConnected,
       provider,
       signer,
+      currentFactoryAddress,
+      currentBlueprintAddress,
+      currentProductAddress,
+      currentUSDTAddress,
+      currentUSDCAddress,
       factoryContract,
       blueprintContract,
       productContract,
@@ -184,6 +252,8 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       erc20Approve,
       erc721Approve,
       erc1155Approve,
+      web3,
+      gasPrice,
     ]
   );
 

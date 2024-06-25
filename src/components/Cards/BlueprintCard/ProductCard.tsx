@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 
 import Button from '../../Button';
 import Image from '../../Image';
-import { productAddress } from '../../../constants';
+import useWeb3 from '../../../hooks/useWeb3';
 
 export interface Props {
   uri: string;
@@ -22,9 +22,10 @@ const ProductCard: FC<Props> = ({
   onClick,
   onClickDecompose,
 }) => {
+  const { currentProductAddress } = useWeb3();
   const [tooltipMessage, setTooltipMessage] = useState('Copy to clipboard');
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(productAddress).then(() => {
+    navigator.clipboard.writeText(currentProductAddress).then(() => {
       setTooltipMessage('Copied!');
       setTimeout(() => {
         setTooltipMessage('Copy to clipboard');
@@ -88,8 +89,8 @@ const ProductCard: FC<Props> = ({
                     className="hidden md:block item-center my-auto"
                   />
                   <p>
-                    {productAddress.substring(0, 7)}...
-                    {productAddress.slice(-5)}
+                    {currentProductAddress.substring(0, 7)}...
+                    {currentProductAddress.slice(-5)}
                   </p>
                 </div>
                 <button

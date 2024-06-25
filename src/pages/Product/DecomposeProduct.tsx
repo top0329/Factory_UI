@@ -15,7 +15,6 @@ import { ERC20DecomposeListCard } from '../../components/Cards/ListCard/ERC20Lis
 import { ERC721DecomposeListCard } from '../../components/Cards/ListCard/ERC721ListCard';
 import { ERC1155DecomposeListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
 import { SelectedProduct } from '../../types';
-import { blueprintAddress, productAddress } from '../../constants';
 
 const DecomposeProductPage = () => {
   const {
@@ -25,6 +24,8 @@ const DecomposeProductPage = () => {
     factoryContract,
     factoryWeb3,
     productWeb3,
+    currentBlueprintAddress,
+    currentProductAddress,
   } = useWeb3();
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
@@ -47,7 +48,6 @@ const DecomposeProductPage = () => {
       }
 
       const tmpDecomposeFee = await factoryContract.productDecomposeFee();
-      console.log('tmpDecomposeFee', tmpDecomposeFee);
       setDecomposeFee(Number(ethers.formatEther(tmpDecomposeFee)));
     }
     init();
@@ -171,7 +171,7 @@ const DecomposeProductPage = () => {
           <div className="flex flex-col gap-6 p-6 sm:bg-[#040404] ">
             <ProductListCard
               name={selectedOwnData.name}
-              address={productAddress}
+              address={currentProductAddress}
               id={selectedOwnData.id}
               balance={selectedOwnData.balance}
               uri={selectedOwnData.imageUri}
@@ -210,7 +210,7 @@ const DecomposeProductPage = () => {
               id={selectedOwnData.id}
               amount={selectedOwnData.balance}
               uri={selectedOwnData.imageUri}
-              address={blueprintAddress}
+              address={currentBlueprintAddress}
               name={selectedOwnData.name}
               productAmount={Number(productAmount)}
             />

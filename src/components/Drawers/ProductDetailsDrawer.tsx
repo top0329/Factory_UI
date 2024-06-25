@@ -9,6 +9,7 @@ import ERC20Card from '../Cards/ComponentCard/ERC20Card';
 import ERC721Card from '../Cards/ComponentCard/ERC721Card';
 import ERC1155Card from '../Cards/ComponentCard/ERC1155Card';
 import Image from '../Image';
+import useWeb3 from '../../hooks/useWeb3';
 import {
   ERC1155Data,
   ERC20Data,
@@ -17,7 +18,6 @@ import {
   WindowSize,
 } from '../../types';
 import { selectedProductAtom, productSelectionState } from '../../jotai/atoms';
-import { productAddress } from '../../constants';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -25,6 +25,7 @@ export interface Props {
 }
 
 const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
+  const { currentProductAddress } = useWeb3();
   const navigate = useNavigate();
 
   const [selectedProduct] = useAtom<SelectedProduct>(selectedProductAtom);
@@ -139,12 +140,12 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <a
                     className="underline text-base"
-                    href={`https://sepolia.etherscan.io/address/${productAddress}`}
+                    href={`https://sepolia.etherscan.io/address/${currentProductAddress}`}
                     target="_blank"
                   >
                     {windowSize.width !== undefined && windowSize.width > 472
-                      ? `${productAddress}`
-                      : `${shortenAddress(productAddress)}`}
+                      ? `${currentProductAddress}`
+                      : `${shortenAddress(currentProductAddress)}`}
                   </a>
                   <Icon
                     className="w-4 h-4 cursor-pointer"

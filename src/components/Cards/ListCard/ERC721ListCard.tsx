@@ -8,7 +8,6 @@ import copy from 'copy-to-clipboard';
 import useSpinner from '../../../hooks/useSpinner';
 import useToast from '../../../hooks/useToast';
 import getERC721Data from '../../../utils/getERC721Data';
-import { factoryAddress } from '../../../constants';
 
 export interface Props {
   address?: string;
@@ -20,7 +19,8 @@ export interface Props {
 }
 
 export function ERC721MintListCard(props: Props) {
-  const { isConnected, library, erc721Approve } = useWeb3();
+  const { isConnected, library, erc721Approve, currentFactoryAddress } =
+    useWeb3();
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
 
@@ -34,7 +34,8 @@ export function ERC721MintListCard(props: Props) {
       try {
         const erc721Data = await getERC721Data(
           props.address as Address,
-          props.id as number
+          props.id as number,
+          library
         );
         if (erc721Data) {
           const { name, uri } = erc721Data;
@@ -46,7 +47,7 @@ export function ERC721MintListCard(props: Props) {
       }
     }
     init();
-  }, [props.address, props.id]);
+  }, [library, props.address, props.id]);
 
   const handleCopyButtonClicked = () => {
     if (props.address) {
@@ -63,7 +64,7 @@ export function ERC721MintListCard(props: Props) {
         while (receipt === null || receipt.status === undefined) {
           const res = erc721Approve(
             props.address as Address,
-            factoryAddress,
+            currentFactoryAddress,
             String(props.id)
           );
           openSpin('Approving...');
@@ -168,6 +169,8 @@ export function ERC721MintListCard(props: Props) {
 }
 
 export function ERC721DecomposeListCard(props: Props) {
+  const { library } = useWeb3();
+
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [componentName, setComponentName] = useState<string>('');
   const [tokenImage, setTokenImage] = useState<string>('');
@@ -177,7 +180,8 @@ export function ERC721DecomposeListCard(props: Props) {
       try {
         const erc721Data = await getERC721Data(
           String(props.address) as Address,
-          Number(props.id) as number
+          Number(props.id) as number,
+          library
         );
         if (erc721Data) {
           const { name, uri } = erc721Data;
@@ -189,7 +193,7 @@ export function ERC721DecomposeListCard(props: Props) {
       }
     }
     init();
-  }, [props, props.address, props.id]);
+  }, [library, props, props.address, props.id]);
 
   const handleCopyButtonClicked = () => {
     if (props.address) {

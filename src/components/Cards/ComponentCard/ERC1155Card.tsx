@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { Address } from 'viem';
 
 import Image from '../../Image';
+import useWeb3 from '../../../hooks/useWeb3';
 import getERC1155Data from '../../../utils/getERC1155Data';
 
 export interface Props {
@@ -23,6 +24,7 @@ const ERC1155Card: FC<Props> = ({
   onEditIconClicked,
   onDeleteIconClicked,
 }) => {
+  const { library } = useWeb3();
   const [name, setName] = useState<string>('');
   const [uri, setUri] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
@@ -32,7 +34,8 @@ const ERC1155Card: FC<Props> = ({
       try {
         const erc1155Data = await getERC1155Data(
           tokenAddress as Address,
-          tokenId
+          tokenId,
+          library
         );
         if (erc1155Data) {
           const { name, uri } = erc1155Data;
@@ -44,7 +47,7 @@ const ERC1155Card: FC<Props> = ({
       }
     }
     init();
-  }, [tokenAddress, tokenId]);
+  }, [library, tokenAddress, tokenId]);
 
   const handleCopyButtonClicked = () => {
     try {

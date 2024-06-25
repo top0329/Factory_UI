@@ -3,14 +3,13 @@ import { ethers } from 'ethers';
 import { Address } from 'viem';
 
 import erc1155Abi from '../abi/ERC1155ABI.json';
-import { defaultRPC } from '../constants';
 
 export default async function getERC1155Data(
   contractAddress: Address | '',
-  tokenId: number
+  tokenId: number,
+  provider: any
 ) {
   if (contractAddress === '') return null;
-  const provider = new ethers.JsonRpcProvider(defaultRPC);
   const erc1155Contract = new ethers.Contract(
     contractAddress,
     erc1155Abi,

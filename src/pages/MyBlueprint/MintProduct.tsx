@@ -14,7 +14,6 @@ import {
   ownBlueprintSelectionState,
   selectedOwnBlueprintAtom,
 } from '../../jotai/atoms';
-import { factoryAddress } from '../../constants';
 import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard';
 import { ERC721MintListCard } from '../../components/Cards/ListCard/ERC721ListCard';
 import { ERC1155MintListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
@@ -62,6 +61,7 @@ const MintProductPage = () => {
     factoryWeb3,
     blueprintWeb3,
     blueprintContract,
+    currentFactoryAddress
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -141,7 +141,7 @@ const MintProductPage = () => {
       if (isConnected && library && blueprintMintAmountValue) {
         const isApproved = await blueprintContract.isApprovedForAll(
           account,
-          factoryAddress
+          currentFactoryAddress
         );
         if (isApproved) {
           setIsModalOpen(true);
@@ -151,7 +151,7 @@ const MintProductPage = () => {
               let receipt = null;
               while (receipt === null || receipt.status === undefined) {
                 const transaction = blueprintWeb3.methods
-                  .setApprovalForAll(factoryAddress, true)
+                  .setApprovalForAll(currentFactoryAddress, true)
                   .send({ from: account });
                 openSpin('Approving');
                 receipt = await web3.eth.getTransactionReceipt(

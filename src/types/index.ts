@@ -43,6 +43,11 @@ export type Web3ContextType = {
   chainId?: number;
   isConnected?: boolean;
   library?: ContractRunner;
+  currentFactoryAddress: string;
+  currentBlueprintAddress: string;
+  currentProductAddress: string;
+  currentUSDTAddress: string;
+  currentUSDCAddress: string;
   factoryContract: Contract;
   blueprintContract: Contract;
   productContract: Contract;
@@ -60,6 +65,8 @@ export type Web3ContextType = {
     spender: string,
     approved: boolean
   ) => any;
+  web3: any;
+  gasPrice: string;
 };
 
 export type SelectedBlueprint = {
@@ -252,6 +259,4 @@ export type SortField =
   | 'mintedAmount'
   | 'balance';
 
-export type ComponentSortField =
-  | 'name'
-  | 'type';
+export type ComponentSortField = 'name' | 'type';

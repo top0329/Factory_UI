@@ -21,7 +21,6 @@ import {
   ownBlueprintSelectionState,
   selectedOwnBlueprintAtom,
 } from '../../jotai/atoms';
-import { blueprintAddress } from '../../constants';
 
 export interface Props {
   isDrawerOpen?: boolean;
@@ -32,7 +31,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }) => {
-  const { account } = useWeb3();
+  const { account, currentBlueprintAddress } = useWeb3();
 
   const navigate = useNavigate();
 
@@ -205,12 +204,12 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <a
                     className="underline text-base"
-                    href={`https://sepolia.etherscan.io/address/${blueprintAddress}`}
+                    href={`https://sepolia.etherscan.io/address/${currentBlueprintAddress}`}
                     target="_blank"
                   >
                     {windowSize.width !== undefined && windowSize.width > 472
-                      ? `${blueprintAddress}`
-                      : `${shortenAddress(blueprintAddress)}`}
+                      ? `${currentBlueprintAddress}`
+                      : `${shortenAddress(currentBlueprintAddress)}`}
                   </a>
                   <Icon
                     className="w-4 h-4 cursor-pointer"

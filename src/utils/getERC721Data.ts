@@ -1,15 +1,12 @@
 import axios from 'axios';
 import { ethers } from 'ethers';
 import { Address, erc721Abi } from 'viem';
-
-import { defaultRPC } from '../constants';
-
 export default async function getERC721Data(
   contractAddress: Address | '',
-  tokenId: number
+  tokenId: number,
+  provider: any
 ) {
   if (contractAddress === '') return null;
-  const provider = new ethers.JsonRpcProvider(defaultRPC);
   const erc721Contract = new ethers.Contract(
     contractAddress,
     erc721Abi,

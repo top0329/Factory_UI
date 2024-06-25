@@ -6,11 +6,10 @@ import { erc20Abi, erc721Abi } from 'viem';
 
 import useWeb3 from '../../../hooks/useWeb3';
 import erc1155Abi from '../../../abi/ERC1155ABI.json';
-import Web3, { HttpProvider } from 'web3';
 import { ListCardInterface } from '../../../types';
 import { tokenUriToName } from '../../../utils/tokenUriToName';
 import { tokenUriToImageUri } from '../../../utils/tokenUriToImageUri';
-import { DefaultErc20ImageUri, defaultRPC, factoryAddress, productAddress } from '../../../constants';
+import { DefaultErc20ImageUri } from '../../../constants';
 
 export default function ListCard(props: ListCardInterface) {
   const {
@@ -21,6 +20,9 @@ export default function ListCard(props: ListCardInterface) {
     erc20Approve,
     erc721Approve,
     erc1155Approve,
+    currentFactoryAddress,
+    currentProductAddress,
+    web3,
   } = useWeb3();
 
   const [isCopied, setIsCopied] = useState<boolean>(false);
@@ -33,7 +35,6 @@ export default function ListCard(props: ListCardInterface) {
 
   useEffect(() => {
     const getContractInfo = async () => {
-      const web3 = new Web3(new HttpProvider(defaultRPC));
       const erc20Contract = new web3.eth.Contract(erc20Abi, props[0]);
       const erc721Contract = new web3.eth.Contract(erc721Abi, props[0]);
       const erc1155Contract = new web3.eth.Contract(erc1155Abi, props[0]);
@@ -67,13 +68,13 @@ export default function ListCard(props: ListCardInterface) {
         setTokenImage(String(await tokenUriToImageUri(uri)));
       } else if (props.type == 3) {
         setComponentName('');
-        setTokenAddress(productAddress);
+        setTokenAddress(currentProductAddress);
         setTokenAmount(Number(props.amount));
         setTokenId(props.tokenId);
         setTokenImage('');
       } else if (props.type == 4) {
         setComponentName('');
-        setTokenAddress(productAddress);
+        setTokenAddress(currentProductAddress);
         setTokenAmount(Number(props.amount));
         setTokenId(props.tokenId);
         setTokenImage('');
@@ -100,15 +101,18 @@ export default function ListCard(props: ListCardInterface) {
         if (props.type == 0) {
           erc20Approve(
             tokenAddress,
-            factoryAddress,
+            currentFactoryAddress,
             String(ethers.parseUnits(String(tokenAmount), decimal))
           );
         } else if (props.type == 1) {
-          erc721Approve(tokenAddress, factoryAddress, String(tokenId));
+          erc721Approve(tokenAddress, currentFactoryAddress, String(tokenId));
         } else if (props.type == 2) {
-          erc1155Approve(tokenAddress, factoryAddress, true);
+          erc1155Approve(tokenAddress, currentFactoryAddress, true);
         } else if (props.type == 4) {
-          await blueprintContract.setApprovalForAll(factoryAddress, true);
+          await blueprintContract.setApprovalForAll(
+            currentFactoryAddress,
+            true
+          );
         } else {
           console.log('Invalid Component');
         }

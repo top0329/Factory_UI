@@ -176,15 +176,6 @@
     "type": "event"
   },
   {
-    "inputs": [
-      { "internalType": "uint256", "name": "blueprintId", "type": "uint256" }
-    ],
-    "name": "CustodyContract",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "_blueprint",
     "outputs": [
@@ -215,13 +206,6 @@
     "inputs": [],
     "name": "blueprintCreationFee",
     "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
-    "name": "blueprintIDCustody",
-    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },
@@ -317,6 +301,15 @@
     "type": "function"
   },
   {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "custodyContracts",
+    "outputs": [
+      { "internalType": "contract Custody", "name": "", "type": "address" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "uint256", "name": "productId", "type": "uint256" },
       { "internalType": "uint256", "name": "productAmount", "type": "uint256" }
@@ -328,11 +321,10 @@
   },
   {
     "inputs": [
-      { "internalType": "uint256", "name": "blueprintId", "type": "uint256" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
+      { "internalType": "uint256", "name": "blueprintId", "type": "uint256" }
     ],
-    "name": "getExpectedFee",
-    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "getCustodyAddress",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
     "stateMutability": "view",
     "type": "function"
   },

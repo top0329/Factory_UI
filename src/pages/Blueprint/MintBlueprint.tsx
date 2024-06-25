@@ -15,12 +15,7 @@ import useSpinner from '../../hooks/useSpinner';
 import erc20Abi from '../../abi/ERC20ABI.json';
 import strip from '../../utils/strip';
 import { blueprintSelectionState } from '../../jotai/atoms';
-import {
-  usdtAddress,
-  usdcAddress,
-  factoryAddress,
-  BASE_URI,
-} from '../../constants';
+import { BASE_URI } from '../../constants';
 
 const MintBlueprintPage = () => {
   const {
@@ -30,6 +25,9 @@ const MintBlueprintPage = () => {
     erc20Approve,
     library,
     isConnected,
+    currentFactoryAddress,
+    currentUSDTAddress,
+    currentUSDCAddress,
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -60,12 +58,12 @@ const MintBlueprintPage = () => {
   useEffect(() => {
     async function init() {
       const usdtContract: Contract = new ethers.Contract(
-        usdtAddress,
+        currentUSDTAddress,
         erc20Abi,
         library
       ) as Contract;
       const usdcContract: Contract = new ethers.Contract(
-        usdcAddress,
+        currentUSDCAddress,
         erc20Abi,
         library
       ) as Contract;
@@ -86,7 +84,13 @@ const MintBlueprintPage = () => {
       setCurrentEthBalance(Number(_ethBalanceNumber));
     }
     init();
-  }, [account, factoryContract, library]);
+  }, [
+    account,
+    currentUSDCAddress,
+    currentUSDTAddress,
+    factoryContract,
+    library,
+  ]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -149,8 +153,8 @@ const MintBlueprintPage = () => {
               let receipt = null;
               while (receipt === null || receipt.status === undefined) {
                 const res = erc20Approve(
-                  usdtAddress,
-                  factoryAddress,
+                  currentUSDTAddress,
+                  currentFactoryAddress,
                   approveValue.toString()
                 );
                 openSpin('Approving...');
@@ -198,8 +202,8 @@ const MintBlueprintPage = () => {
               let receipt = null;
               while (receipt === null || receipt.status === undefined) {
                 const res = erc20Approve(
-                  usdcAddress,
-                  factoryAddress,
+                  currentUSDCAddress,
+                  currentFactoryAddress,
                   approveValue.toString()
                 );
                 openSpin('Approving...');
@@ -264,7 +268,7 @@ const MintBlueprintPage = () => {
               blueprintMintAmountValue * Number(selectedBlueprint.mintPrice) +
               blueprintCreationFee;
             const _mintFeeWei = ethers.parseEther(strip(_mintFee).toString());
-            const transition = await factoryWeb3.methods
+            await factoryWeb3.methods
               .mintBlueprint(
                 account,
                 selectedBlueprint.id,
@@ -272,7 +276,6 @@ const MintBlueprintPage = () => {
                 '0x'
               )
               .send({ from: account, value: _mintFeeWei });
-            console.log(transition);
             await axios.put(`${BASE_URI}/blueprint/mint`, {
               id: Number(selectedBlueprint.id),
               mintedAmount: blueprintMintAmountValue,
@@ -296,7 +299,7 @@ const MintBlueprintPage = () => {
                 const _blueprintCreationFeeWei = ethers.parseEther(
                   blueprintCreationFee.toString()
                 );
-                const transition = await factoryWeb3.methods
+                await factoryWeb3.methods
                   .mintBlueprint(
                     account,
                     selectedBlueprint.id,
@@ -304,7 +307,6 @@ const MintBlueprintPage = () => {
                     '0x'
                   )
                   .send({ from: account, value: _blueprintCreationFeeWei });
-                console.log(transition);
                 await axios.put(`${BASE_URI}/blueprint/mint`, {
                   id: Number(selectedBlueprint.id),
                   mintedAmount: blueprintMintAmountValue,
@@ -336,7 +338,7 @@ const MintBlueprintPage = () => {
                 const _blueprintCreationFeeWei = ethers.parseEther(
                   blueprintCreationFee.toString()
                 );
-                const transition = await factoryWeb3.methods
+                await factoryWeb3.methods
                   .mintBlueprint(
                     account,
                     selectedBlueprint.id,
@@ -344,7 +346,6 @@ const MintBlueprintPage = () => {
                     '0x'
                   )
                   .send({ from: account, value: _blueprintCreationFeeWei });
-                console.log(transition);
                 await axios.put(`${BASE_URI}/blueprint/mint`, {
                   id: Number(selectedBlueprint.id),
                   mintedAmount: blueprintMintAmountValue,

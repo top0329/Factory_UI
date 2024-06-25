@@ -3,6 +3,7 @@ import { useAtom } from 'jotai';
 import { Address } from 'viem';
 
 import Button from '../Button';
+import useWeb3 from '../../hooks/useWeb3';
 import getERC721Data from '../../utils/getERC721Data';
 import getERC1155Data from '../../utils/getERC1155Data';
 import getTokenData from '../../utils/getTokenData';
@@ -33,6 +34,8 @@ const UpdateComponentModal = ({
 }: {
   selectedComponentData: SelectedComponentData;
 }) => {
+  const { library } = useWeb3();
+
   const [isUpdateComponentModalOpen, setIsUpdateComponentModalOpen] =
     useAtom<boolean>(isEditComponentModalAtom);
   const [activeItem, setActiveItem] = useAtom<number>(
@@ -69,7 +72,8 @@ const UpdateComponentModal = ({
       if (selectedComponentData.tokenAddress) {
         if (activeItem === 0) {
           const tokenDetails = await getTokenData(
-            selectedComponentData.tokenAddress as Address
+            selectedComponentData.tokenAddress as Address,
+            library
           );
           const details = await getTokenDetailsByAddress(
             selectedComponentData.tokenAddress as Address
@@ -91,7 +95,8 @@ const UpdateComponentModal = ({
         if (activeItem === 1) {
           const erc721Data = await getERC721Data(
             selectedComponentData.tokenAddress as Address,
-            selectedComponentData.tokenId as number
+            selectedComponentData.tokenId as number,
+            library
           );
           if (erc721Data) {
             const { name, uri } = erc721Data;
@@ -108,7 +113,8 @@ const UpdateComponentModal = ({
         if (activeItem === 2) {
           const erc1155Data = await getERC1155Data(
             selectedComponentData.tokenAddress as Address,
-            selectedComponentData.tokenId as number
+            selectedComponentData.tokenId as number,
+            library
           );
           if (erc1155Data) {
             const { name, uri } = erc1155Data;
@@ -135,12 +141,14 @@ const UpdateComponentModal = ({
     selectedComponentData.erc20Amount,
     selectedComponentData.tokenId,
     selectedComponentData.erc1155Amount,
+    library,
   ]);
 
   useEffect(() => {
     if (activeItem === 0) {
       if (
-        erc20Data.amount && Number(erc20Data.amount)!== 0 &&
+        erc20Data.amount &&
+        Number(erc20Data.amount) !== 0 &&
         Number(erc20Data.amount) !=
           Number(
             selectedComponentData.erc20Amount
@@ -190,7 +198,8 @@ const UpdateComponentModal = ({
       if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
         const erc721Data = await getERC721Data(
           selectedComponentData.tokenAddress as Address,
-          Number(value)
+          Number(value),
+          library
         );
         if (erc721Data) {
           const { name, uri } = erc721Data;
@@ -221,7 +230,8 @@ const UpdateComponentModal = ({
       if (/^\d+$/.test(value) && parseInt(value, 10) > 0) {
         const erc1155Data = await getERC1155Data(
           selectedComponentData.tokenAddress as Address,
-          Number(value)
+          Number(value),
+          library
         );
         if (erc1155Data) {
           const { name, uri } = erc1155Data;

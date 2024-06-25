@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { Address } from 'viem';
 
 import Image from '../../Image';
+import useWeb3 from '../../../hooks/useWeb3';
 import getTokenData from '../../../utils/getTokenData';
 import { getTokenDetailsByAddress } from '../../../utils/checkContractType';
 import { DefaultErc20ImageUri } from '../../../constants';
@@ -29,6 +30,7 @@ const ERC20Card: FC<Props> = ({
   onDeleteIconClicked,
   isForAdd,
 }) => {
+  const { library } = useWeb3();
   const [tokenName, setTokenName] = useState<string>('');
   const [imageUri, setImageUri] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
@@ -37,7 +39,10 @@ const ERC20Card: FC<Props> = ({
     async function init() {
       try {
         if (isForAdd) {
-          const tokenData = await getTokenData(tokenAddress as Address);
+          const tokenData = await getTokenData(
+            tokenAddress as Address,
+            library
+          );
           if (tokenData) {
             const { tokenName } = tokenData;
             const details = await getTokenDetailsByAddress(
@@ -59,7 +64,7 @@ const ERC20Card: FC<Props> = ({
       }
     }
     init();
-  }, [isForAdd, name, tokenAddress, uri]);
+  }, [isForAdd, library, name, tokenAddress, uri]);
 
   const handleCopyButtonClicked = () => {
     try {
@@ -122,9 +127,7 @@ const ERC20Card: FC<Props> = ({
         </p>
         <div className="flex flex-col">
           <p className="text-sm text-light-gray">Amount</p>
-          <p className="truncate">
-            {amount.toString()}
-          </p>
+          <p className="truncate">{amount.toString()}</p>
         </div>
         <div className="hidden sm:flex sm:flex-row sm:justify-between">
           <p className="text-sm text-light-gray">Address</p>

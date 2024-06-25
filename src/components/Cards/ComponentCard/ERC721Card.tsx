@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import copy from 'copy-to-clipboard';
 
 import Image from '../../Image';
+import useWeb3 from '../../../hooks/useWeb3';
 import getERC721Data from '../../../utils/getERC721Data';
 import { Address } from 'viem';
 
@@ -21,6 +22,8 @@ const ERC721Card: FC<Props> = ({
   onEditIconClicked,
   onDeleteIconClicked,
 }) => {
+  const { library } = useWeb3();
+
   const [name, setName] = useState<string>('');
   const [uri, setUri] = useState<string>('');
   const [isCopied, setIsCopied] = useState<boolean>(false);
@@ -30,7 +33,8 @@ const ERC721Card: FC<Props> = ({
       try {
         const erc721Data = await getERC721Data(
           tokenAddress as Address,
-          tokenId
+          tokenId,
+          library
         );
         if (erc721Data) {
           const { name, uri } = erc721Data;
@@ -42,7 +46,7 @@ const ERC721Card: FC<Props> = ({
       }
     }
     init();
-  }, [tokenAddress, tokenId]);
+  }, [library, tokenAddress, tokenId]);
 
   const handleCopyButtonClicked = () => {
     try {

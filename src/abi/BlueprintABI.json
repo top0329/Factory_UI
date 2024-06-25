@@ -88,43 +88,6 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "to",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "uint256",
-        "name": "id",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "amount",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "mintedAmountOfId",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "totalMintedAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "BlueprintBurned",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
@@ -174,58 +137,45 @@
       {
         "components": [
           {
-            "components": [
-              {
-                "internalType": "address",
-                "name": "tokenAddress",
-                "type": "address"
-              },
-              { "internalType": "uint256", "name": "amount", "type": "uint256" }
-            ],
-            "internalType": "struct IBlueprintData.ERC20Data[]",
-            "name": "erc20Data",
-            "type": "tuple[]"
+            "internalType": "address",
+            "name": "tokenAddress",
+            "type": "address"
           },
-          {
-            "components": [
-              {
-                "internalType": "address",
-                "name": "tokenAddress",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "tokenId",
-                "type": "uint256"
-              }
-            ],
-            "internalType": "struct IBlueprintData.ERC721Data[]",
-            "name": "erc721Data",
-            "type": "tuple[]"
-          },
-          {
-            "components": [
-              {
-                "internalType": "address",
-                "name": "tokenAddress",
-                "type": "address"
-              },
-              {
-                "internalType": "uint256",
-                "name": "tokenId",
-                "type": "uint256"
-              },
-              { "internalType": "uint256", "name": "amount", "type": "uint256" }
-            ],
-            "internalType": "struct IBlueprintData.ERC1155Data[]",
-            "name": "erc1155Data",
-            "type": "tuple[]"
-          }
+          { "internalType": "uint256", "name": "amount", "type": "uint256" }
         ],
         "indexed": false,
-        "internalType": "struct IBlueprintData.BlueprintData",
-        "name": "data",
-        "type": "tuple"
+        "internalType": "struct IBlueprintData.ERC20Data[]",
+        "name": "erc20Data",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "tokenAddress",
+            "type": "address"
+          },
+          { "internalType": "uint256", "name": "tokenId", "type": "uint256" }
+        ],
+        "indexed": false,
+        "internalType": "struct IBlueprintData.ERC721Data[]",
+        "name": "erc721Data",
+        "type": "tuple[]"
+      },
+      {
+        "components": [
+          {
+            "internalType": "address",
+            "name": "tokenAddress",
+            "type": "address"
+          },
+          { "internalType": "uint256", "name": "tokenId", "type": "uint256" },
+          { "internalType": "uint256", "name": "amount", "type": "uint256" }
+        ],
+        "indexed": false,
+        "internalType": "struct IBlueprintData.ERC1155Data[]",
+        "name": "erc1155Data",
+        "type": "tuple[]"
       }
     ],
     "name": "BlueprintCreated",
@@ -702,6 +652,13 @@
     "type": "function"
   },
   {
+    "inputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "name": "blueprintIdsByCreator",
+    "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "address", "name": "from", "type": "address" },
       { "internalType": "address", "name": "to", "type": "address" },
@@ -710,17 +667,6 @@
       { "internalType": "bytes", "name": "data", "type": "bytes" }
     ],
     "name": "blueprintTransferFrom",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      { "internalType": "address", "name": "to", "type": "address" },
-      { "internalType": "uint256", "name": "id", "type": "uint256" },
-      { "internalType": "uint256", "name": "amount", "type": "uint256" }
-    ],
-    "name": "burn",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

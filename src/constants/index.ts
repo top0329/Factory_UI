@@ -1,15 +1,31 @@
-export const factoryAddress =
-  '0x1d5577f98450306Ba58a7D2A2277042d81F46E24'.toLocaleLowerCase();
-export const blueprintAddress =
-  '0x61eEb68d910EAc7563816b38a37Ba96A316c109D'.toLocaleLowerCase();
-export const productAddress =
-  '0xaaF0e2a505F074d8080B834c33a9ff44DD7946F1'.toLocaleLowerCase();
-export const usdtAddress =
-  '0xaa8e23fb1079ea71e0a56f48a2aa51851d8433d0'.toLocaleLowerCase();
-export const usdcAddress =
-  '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLocaleLowerCase();
+export const factoryAddress = {
+  sepolia: '0x0300C57Aa0A4E6d70DaB6b861683Adb812A19cDb'.toLocaleLowerCase(),
+  amoy: '0x67a22B86482228b514e55D73931f763418eAaB2a'.toLocaleLowerCase(),
+};
+export const blueprintAddress = {
+  sepolia: '0xD03513A6135FdB9A74a303D9f33c1F872b7Fe454'.toLocaleLowerCase(),
+  amoy: '0x5a18EF8096Eb3a5ab331c700336Ff3EDc6157D96'.toLocaleLowerCase(),
+};
+export const productAddress = {
+  sepolia: '0xC4B7826e1275c3058019d7654E13E4058a00Bb08'.toLocaleLowerCase(),
+  amoy: '0x2a54bC9eBd293D218ccbbB23556067B391B8d568'.toLocaleLowerCase(),
+};
+export const usdtAddress = {
+  sepolia: '0xaa8e23fb1079ea71e0a56f48a2aa51851d8433d0'.toLocaleLowerCase(),
+  amoy: '0xbCF39d8616d15FD146dd5dB4a86b4f244A9Bc772'.toLocaleLowerCase(),
+};
+export const usdcAddress = {
+  sepolia: '0x94a9d9ac8a22534e3faca9f4e7f2e2cf85d5e4c8'.toLocaleLowerCase(),
+  amoy: '0x41e94eb019c0762f9bfcf9fb1e58725bfb0e7582'.toLocaleLowerCase(),
+};
 
-export const defaultRPC = 'https://ethereum-sepolia-rpc.publicnode.com';
+export const defaultRPC = {
+  sepolia: 'https://ethereum-sepolia-rpc.publicnode.com',
+  amoy: 'https://rpc-amoy.polygon.technology/',
+};
+
+export const POLYGON_GAS_URL = 'https://gasstation.polygon.technology/v2';
+export const POLYGON_AMOY_GAS_URL = 'https://gasstation.polygon.technology/amoy';
 
 export const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 

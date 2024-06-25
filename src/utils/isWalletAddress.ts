@@ -1,8 +1,7 @@
 import Web3 from 'web3';
-import { defaultRPC } from '../constants';
 
 const filterWalletAddress = async (address: string) => {
-  const web3 = new Web3(new Web3.providers.HttpProvider(defaultRPC));
+  const web3 = new Web3(window.ethereum);
   const code = await web3.eth.getCode(address);
   if (code == '0x') {
     return true;

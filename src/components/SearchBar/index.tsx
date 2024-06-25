@@ -24,12 +24,7 @@ import {
   sortFieldAtom,
   sortOrderAtom,
 } from '../../jotai/atoms';
-import {
-  BASE_URI,
-  blueprintAddress,
-  invalidChars,
-  productAddress,
-} from '../../constants';
+import { BASE_URI, invalidChars } from '../../constants';
 import {
   AdvancedFilterValue,
   ComponentSortField,
@@ -51,7 +46,12 @@ const SearchBar: FC<Props> = ({
   advancedFilter,
   pageFilter,
 }) => {
-  const { isConnected, account } = useWeb3();
+  const {
+    isConnected,
+    account,
+    currentProductAddress,
+    currentBlueprintAddress,
+  } = useWeb3();
   const { showToast } = useToast();
 
   const navigate = useNavigate();
@@ -143,7 +143,10 @@ const SearchBar: FC<Props> = ({
             );
             return;
           }
-          const myBluprints = await runMain(blueprintAddress, String(account));
+          const myBluprints = await runMain(
+            currentBlueprintAddress,
+            String(account)
+          );
           if (myBluprints) {
             const myBlueprintIds = myBluprints.map(
               (blueprint) => blueprint.tokenId
@@ -261,14 +264,15 @@ const SearchBar: FC<Props> = ({
             );
             return;
           }
-          const myProducts = await runMain(productAddress, String(account));
-          console.log(myProducts);
+          const myProducts = await runMain(
+            currentProductAddress,
+            String(account)
+          );
           if (myProducts && myProducts.length > 0) {
             const myProductsIds = myProducts.map((product) => product.tokenId);
             const myProductsData = await axios.get(
               `${BASE_URI}/product/?ids=${myProductsIds}`
             );
-            console.log(myProductsData.data);
             if (myProductsData.data.length === 0) {
               setIsDataEmpty(true);
             } else {
@@ -345,12 +349,9 @@ const SearchBar: FC<Props> = ({
             setIsDataEmpty(true);
           }
         } else if (pageFilter === 'component') {
-          console.log(componentSortField, sortOrder);
-          console.log(searchValue);
           const searchResult = await axios.get(
             `${BASE_URI}/component/search?query=${searchValue}&sortField=${componentSortField}&sortOrder=${sortOrder}`
           );
-          console.log(searchResult.data);
           if (searchResult.data.length === 0) {
             setIsDataEmpty(true);
           } else {
@@ -394,6 +395,8 @@ const SearchBar: FC<Props> = ({
     setProductTokenList,
     componentSortField,
     setComponentTokenList,
+    currentBlueprintAddress,
+    currentProductAddress,
   ]);
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {

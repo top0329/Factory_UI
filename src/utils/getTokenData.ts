@@ -2,10 +2,8 @@ import { Address } from 'viem';
 import { ethers } from 'ethers';
 
 import erc20Abi from '../abi/ERC20ABI.json';
-import { defaultRPC } from '../constants';
 
-async function getTokenData(contractAddress: Address) {
-  const provider = new ethers.JsonRpcProvider(defaultRPC);
+async function getTokenData(contractAddress: Address, provider: any) {
   const erc20Contract = new ethers.Contract(
     contractAddress,
     erc20Abi,

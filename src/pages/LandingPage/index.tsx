@@ -113,7 +113,9 @@ const LandingPage = () => {
       setMintedBlueprintsValue(Number(_totalMintedBlueprintTokens));
       setProductsValue(_productIds.length);
     }
-    fetchData();
+    if (blueprintContract && factoryContract && productContract) {
+      fetchData();
+    }
   }, [blueprintContract, factoryContract, productContract]);
 
   useEffect(() => {

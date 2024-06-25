@@ -88,6 +88,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     factoryWeb3,
     blueprintWeb3,
     blueprintContract,
+    gasPrice,
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -339,7 +340,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
             erc20Data: await Promise.all(
               createInfo.data.erc20Data.map(async (erc20) => {
                 const tokenData = await getTokenData(
-                  erc20.tokenAddress as Address
+                  erc20.tokenAddress as Address,
+                  library
                 );
                 if (tokenData) {
                   const { decimal } = tokenData;
@@ -410,7 +412,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             createInfo.mintPriceUnit,
                             Number(createInfo.mintLimit)
                           )
-                          .send({ from: account });
+                          .send({ from: account, gasPrice });
                         await axios.put(`${BASE_URI}/blueprint/update`, data);
                         setCreateInfo(initialBlueprint);
                         showToast('success', 'Blueprint updated successfully');
@@ -447,7 +449,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               createInfo.mintPriceUnit,
                               Number(createInfo.mintLimit)
                             )
-                            .send({ from: account });
+                            .send({ from: account, gasPrice });
                           data.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           await axios.put(`${BASE_URI}/blueprint/update`, data);
                           setCreateInfo(initialBlueprint);
@@ -486,7 +488,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       createInfo.mintPriceUnit,
                       Number(createInfo.mintLimit)
                     )
-                    .send({ from: account });
+                    .send({ from: account, gasPrice });
                   await axios.put(`${BASE_URI}/blueprint/update`, data);
                   setCreateInfo(initialBlueprint);
                   showToast('success', 'Blueprint updated successfully');
@@ -506,7 +508,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           createInfo.id,
                           jsonHash.substring(16)
                         )
-                        .send({ from: account });
+                        .send({ from: account, gasPrice });
                       await axios.put(`${BASE_URI}/blueprint/update`, {
                         id: Number(createInfo.id),
                         imageUri: imageSrc,
@@ -535,7 +537,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             createInfo.id,
                             jsonHash.substring(16)
                           )
-                          .send({ from: account });
+                          .send({ from: account, gasPrice });
                         await axios.put(`${BASE_URI}/blueprint/update`, {
                           id: Number(createInfo.id),
                           imageUri: `https://ipfs.io/ipfs/${imageHash}`,
@@ -571,7 +573,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     _mintPrice,
                     createInfo.mintPriceUnit
                   )
-                  .send({ from: account });
+                  .send({ from: account, gasPrice });
                 await axios.put(`${BASE_URI}/blueprint/update`, {
                   id: Number(createInfo.id),
                   mintPrice:
@@ -588,7 +590,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 openSpin('Updating Blueprint MintLimit');
                 await factoryWeb3.methods
                   .updateBlueprintMintLimit(createInfo.id, _mintLimit)
-                  .send({ from: account });
+                  .send({ from: account, gasPrice });
                 await axios.put(`${BASE_URI}/blueprint/update`, {
                   id: Number(createInfo.id),
                   mintLimit: Number(_mintLimit),
@@ -632,7 +634,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         let _name: string = '';
                         let _uri: string = '';
                         const tokenData = await getTokenData(
-                          erc20.tokenAddress as Address
+                          erc20.tokenAddress as Address,
+                          library
                         );
                         if (tokenData) {
                           const { tokenName } = tokenData;
@@ -659,7 +662,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         let _name: string = '';
                         const erc721Data = await getERC721Data(
                           erc721.tokenAddress as Address,
-                          erc721.tokenId
+                          erc721.tokenId,
+                          library
                         );
                         if (erc721Data) {
                           const { name } = erc721Data;
@@ -677,7 +681,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         let _name: string = '';
                         const erc1155Data = await getERC1155Data(
                           erc1155.tokenAddress as Address,
-                          erc1155.tokenId
+                          erc1155.tokenId,
+                          library
                         );
                         if (erc1155Data) {
                           const { name } = erc1155Data;
@@ -723,7 +728,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             createInfo.mintLimit,
                             componentData
                           )
-                          .send({ from: account });
+                          .send({ from: account, gasPrice });
                         const events = await blueprintWeb3.getPastEvents(
                           'BlueprintCreated',
                           {
@@ -781,7 +786,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               createInfo.mintLimit,
                               componentData
                             )
-                            .send({ from: account });
+                            .send({ from: account, gasPrice });
                           const events = await blueprintWeb3.getPastEvents(
                             'BlueprintCreated',
                             {
@@ -844,7 +849,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       _mintLimit,
                       componentData
                     )
-                    .send({ from: account });
+                    .send({ from: account, gasPrice });
                   const events = await blueprintWeb3.getPastEvents(
                     'BlueprintCreated',
                     {
@@ -898,7 +903,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         let _name: string = '';
                         let _uri: string = '';
                         const tokenData = await getTokenData(
-                          erc20.tokenAddress as Address
+                          erc20.tokenAddress as Address,
+                          library
                         );
                         if (tokenData) {
                           const { tokenName } = tokenData;
@@ -925,7 +931,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         let _name: string = '';
                         const erc721Data = await getERC721Data(
                           erc721.tokenAddress as Address,
-                          erc721.tokenId
+                          erc721.tokenId,
+                          library
                         );
                         if (erc721Data) {
                           const { name } = erc721Data;
@@ -943,7 +950,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         let _name: string = '';
                         const erc1155Data = await getERC1155Data(
                           erc1155.tokenAddress as Address,
-                          erc1155.tokenId
+                          erc1155.tokenId,
+                          library
                         );
                         if (erc1155Data) {
                           const { name } = erc1155Data;
@@ -1002,7 +1010,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             _mintLimit,
                             componentData
                           )
-                          .send({ from: account });
+                          .send({ from: account, gasPrice });
                         const events = await blueprintWeb3.getPastEvents(
                           'BlueprintCreated',
                           {
@@ -1068,20 +1076,25 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               _mintLimit,
                               componentData
                             )
-                            .send({ from: account });
+                            .send({
+                              from: account,
+                              gasPrice: gasPrice,
+                            });
                           const events = await blueprintWeb3.getPastEvents(
                             'BlueprintCreated',
                             {
-                              fromBlock: 'latest',
+                              fromBlock: 0,
                               toBlock: 'latest',
                             }
                           );
+                          console.log(events);
                           for (const event of events) {
                             if (event.returnValues.creator === account) {
                               blueprintData.id = Number(event.returnValues[0]);
                               break;
                             }
                           }
+                          console.log(blueprintData.id);
                           blueprintData.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           blueprintData.mintLimit = _mintLimit;
                           await axios.post(
@@ -1136,7 +1149,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       _mintLimit,
                       componentData
                     )
-                    .send({ from: account });
+                    .send({ from: account, gasPrice });
                   const events = await blueprintWeb3.getPastEvents(
                     'BlueprintCreated',
                     {

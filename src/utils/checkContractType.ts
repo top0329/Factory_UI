@@ -5,14 +5,14 @@ import { ethers } from 'ethers';
 import erc20Abi from '../abi/ERC20ABI.json';
 import erc721Abi from '../abi/ERC721ABI.json';
 import erc1155Abi from '../abi/ERC1155ABI.json';
-import { DefaultErc20ImageUri, defaultRPC } from '../constants';
+import { DefaultErc20ImageUri } from '../constants';
 
 export const getTokenDetailsByAddress = async (contractAddress: Address) => {
   try {
     const response = await axios.get(
       `https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}`
     );
-    const tokenId = response.data.id; // Token ID
+    const tokenId = response.data.id;
     let logo: string;
     if (response.data.image.large) {
       logo = response.data.image.large;
@@ -26,10 +26,9 @@ export const getTokenDetailsByAddress = async (contractAddress: Address) => {
   }
 };
 
-async function checkContractType(contractAddress: Address | '') {
+async function checkContractType(contractAddress: Address | '', provider: any) {
   let data: any;
   if (contractAddress === '') return { type: 'Unknown', payload: data };
-  const provider = new ethers.JsonRpcProvider(defaultRPC);
   const erc20Contract = new ethers.Contract(
     contractAddress,
     erc20Abi,
