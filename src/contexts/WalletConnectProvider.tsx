@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { mainnet, bsc, polygon, polygonAmoy, sepolia } from 'wagmi/chains';
+import { polygon, polygonAmoy, sepolia } from 'wagmi/chains';
 import { createConfig, WagmiProvider, http } from 'wagmi';
 import { Chain, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
