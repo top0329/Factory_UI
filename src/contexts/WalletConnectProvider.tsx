@@ -35,8 +35,6 @@ const connectors = connectorsForWallets(
 );
 
 const chains: readonly [Chain, ...Chain[]] = [
-  mainnet,
-  bsc,
   sepolia,
   polygon,
   {
@@ -48,9 +46,8 @@ const chains: readonly [Chain, ...Chain[]] = [
 const config = createConfig({
   chains,
   transports: {
-    [bsc.id]: http('https://rpc.ankr.com/bsc'),
     [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
-    [polygon.id]: http('wss://polygon-bor-rpc.publicnode.com'),
+    [polygon.id]: http('https://rpc.ankr.com/polygon'),
     [polygonAmoy.id]: http('https://polygon-amoy.drpc.org'),
   },
   connectors,
