@@ -61,7 +61,9 @@ const MintProductPage = () => {
     factoryWeb3,
     blueprintWeb3,
     blueprintContract,
-    currentFactoryAddress
+    currentFactoryAddress,
+    web3,
+    gasPrice,
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -136,7 +138,6 @@ const MintProductPage = () => {
   };
 
   const handleApprove = async () => {
-    const web3 = new Web3(window.ethereum);
     try {
       if (isConnected && library && blueprintMintAmountValue) {
         const isApproved = await blueprintContract.isApprovedForAll(
@@ -152,7 +153,7 @@ const MintProductPage = () => {
               while (receipt === null || receipt.status === undefined) {
                 const transaction = blueprintWeb3.methods
                   .setApprovalForAll(currentFactoryAddress, true)
-                  .send({ from: account });
+                  .send({ from: account, gasPrice: gasPrice });
                 openSpin('Approving');
                 receipt = await web3.eth.getTransactionReceipt(
                   (
@@ -209,7 +210,7 @@ const MintProductPage = () => {
               blueprintMintAmountValue,
               '0x'
             )
-            .send({ from: account });
+            .send({ from: account, gasPrice: gasPrice });
           openSpin('Minting Product');
           receipt = await web3.eth.getTransactionReceipt(
             (

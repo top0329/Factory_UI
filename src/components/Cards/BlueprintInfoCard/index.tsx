@@ -89,6 +89,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     blueprintWeb3,
     blueprintContract,
     gasPrice,
+    nativeTokenUnit,
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -1420,7 +1421,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               disabled={!mintPriceChecked}
             >
               <option value={0} className="!bg-[#4A4A4A]">
-                ETH
+                {nativeTokenUnit}
               </option>
               <option value={1} className="!bg-[#4A4A4A]">
                 USDT

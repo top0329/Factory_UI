@@ -1,16 +1,29 @@
 import { Alchemy, Network } from 'alchemy-sdk';
 
-const config = {
+const config: any = {
   apiKey: 'Z66PxY86kCkFslToB82DiSM531OnIyHS',
-  network: Network.ETH_SEPOLIA,
 };
-
-const alchemy = new Alchemy(config);
 
 export const runMain = async (
   collectionAddress: string,
-  walletAddress: string
+  walletAddress: string,
+  chainId: number
 ) => {
+  if (chainId === 80002) {
+    config.network = Network.MATIC_AMOY;
+  } else if (chainId === 11155111) {
+    config.network = Network.ETH_SEPOLIA;
+  } else if (chainId === 137) {
+    config.network = Network.MATIC_MAINNET;
+  } else {
+    console.error(
+      'Unsupported network.'
+    );
+    return [];
+  }
+
+  const alchemy = new Alchemy(config);
+
   try {
     const nfts = await alchemy.nft.getNftsForOwner(walletAddress, {
       contractAddresses: [collectionAddress],
@@ -18,7 +31,8 @@ export const runMain = async (
     const nftsList = nfts.ownedNfts.map((nft) => {
       const { tokenId, balance } = nft;
       return { tokenId, balance };
-    })
+    });
+    console.log(nftsList);
     return nftsList;
   } catch (err) {
     console.log(err);

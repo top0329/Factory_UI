@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAtom } from 'jotai';
 
 import Button from '../Button';
+import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
 import {
   advancedFilterValueAtom,
@@ -22,6 +23,7 @@ export interface Props {
 }
 
 const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
+  const { nativeTokenUnit } = useWeb3();
   const { showToast } = useToast();
 
   const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
@@ -247,7 +249,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
                     onChange={handleSelectChange}
                     value={advancedFilterValueState.mintPriceUnit}
                   >
-                    <option value={0}>ETH</option>
+                    <option value={0}>{nativeTokenUnit}</option>
                     <option value={1}>USDT</option>
                     <option value={2}>USDC</option>
                   </select>

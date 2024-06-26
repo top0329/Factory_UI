@@ -67,6 +67,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const [blueprintWeb3, setBlueprintWeb3] = useState<any>();
   const [productWeb3, setProductWeb3] = useState<any>();
   const [gasPrice, setGasPrice] = useState<string>('0.00');
+  const [nativeTokenUnit, setNativeTokenUnit] = useState<string>('ETH');
 
   const init = useCallback(async () => {
     try {
@@ -115,6 +116,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         setCurrentUSDCAddress(usdcAddress.sepolia);
         const _gasPrice = await web3.eth.getGasPrice();
         setGasPrice(Number(_gasPrice).toString());
+        setNativeTokenUnit('ETH');
       } else if (chainId === 80002) {
         setFactoryContract(
           new ethers.Contract(
@@ -150,6 +152,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         const _currentGasPriceData = await axios.get(POLYGON_AMOY_GAS_URL);
         const _gasPrice = _currentGasPriceData.data.fast.maxFee;
         setGasPrice(web3.utils.toWei(_gasPrice, 'gwei'));
+        setNativeTokenUnit('MATIC');
       }
     } catch (err) {
       console.log(err);
@@ -167,13 +170,13 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         const erc20Contract = new web3.eth.Contract(erc20Abi, erc20Address);
         const tx = await erc20Contract.methods
           .approve(spender, amount)
-          .send({ from: address });
+          .send({ from: address, gasPrice: gasPrice });
         return tx;
       } catch (err) {
         console.log(err);
       }
     },
-    [address, web3.eth]
+    [address, gasPrice, web3.eth.Contract]
   );
 
   const erc721Approve = useCallback(
@@ -182,13 +185,13 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         const erc721Contract = new web3.eth.Contract(erc721Abi, erc721Address);
         const tx = await erc721Contract.methods
           .approve(spender, tokenId)
-          .send({ from: address });
+          .send({ from: address, gasPrice: gasPrice });
         return tx;
       } catch (err) {
         console.log(err);
       }
     },
-    [address, web3.eth]
+    [address, gasPrice, web3.eth.Contract]
   );
 
   const erc1155Approve = useCallback(
@@ -200,13 +203,13 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         );
         const tx = await erc1155Contract.methods
           .setApprovalForAll(spender, approved)
-          .send({ from: address });
+          .send({ from: address, gasPrice: gasPrice });
         return tx;
       } catch (err) {
         console.log(err);
       }
     },
-    [address, web3.eth]
+    [address, gasPrice, web3.eth.Contract]
   );
 
   const value = useMemo(
@@ -231,6 +234,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       erc1155Approve,
       web3,
       gasPrice,
+      nativeTokenUnit,
     }),
     [
       address,
@@ -254,6 +258,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       erc1155Approve,
       web3,
       gasPrice,
+      nativeTokenUnit,
     ]
   );
 

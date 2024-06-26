@@ -49,6 +49,7 @@ const SearchBar: FC<Props> = ({
   const {
     isConnected,
     account,
+    chainId,
     currentProductAddress,
     currentBlueprintAddress,
   } = useWeb3();
@@ -145,7 +146,8 @@ const SearchBar: FC<Props> = ({
           }
           const myBluprints = await runMain(
             currentBlueprintAddress,
-            String(account)
+            String(account),
+            chainId!
           );
           if (myBluprints) {
             const myBlueprintIds = myBluprints.map(
@@ -266,7 +268,8 @@ const SearchBar: FC<Props> = ({
           }
           const myProducts = await runMain(
             currentProductAddress,
-            String(account)
+            String(account),
+            chainId!
           );
           if (myProducts && myProducts.length > 0) {
             const myProductsIds = myProducts.map((product) => product.tokenId);
@@ -367,6 +370,7 @@ const SearchBar: FC<Props> = ({
     }
     init();
   }, [
+    chainId,
     setBlueprintTokenList,
     showToast,
     sortField,

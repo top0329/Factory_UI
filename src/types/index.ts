@@ -67,6 +67,7 @@ export type Web3ContextType = {
   ) => any;
   web3: any;
   gasPrice: string;
+  nativeTokenUnit: string;
 };
 
 export type SelectedBlueprint = {

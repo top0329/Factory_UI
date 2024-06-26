@@ -1,5 +1,6 @@
 import { FC } from 'react';
 
+import useWeb3 from '../../../hooks/useWeb3';
 import EthLineSvg from '../../../assets/images/currency-eth.png';
 
 export interface Props {
@@ -39,6 +40,7 @@ const BlueprintCardForCarousel: FC<Props> = ({
   onClick,
   onClickMint,
 }) => {
+  const { nativeTokenUnit } = useWeb3();
   return (
     <div
       id="container"
@@ -129,7 +131,11 @@ const BlueprintCardForCarousel: FC<Props> = ({
                 </span>{' '}
                 {mintPrice}{' '}
                 <span className="text-[#F3AC19]">
-                  {mintUnit === 0 ? 'ETH' : mintUnit === 1 ? 'USDT' : 'USDC'}
+                  {mintUnit === 0
+                    ? nativeTokenUnit
+                    : mintUnit === 1
+                    ? 'USDT'
+                    : 'USDC'}
                 </span>
               </p>
             </div>

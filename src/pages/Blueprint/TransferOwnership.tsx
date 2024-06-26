@@ -15,7 +15,10 @@ import filterWalletAddress from '../../utils/isWalletAddress';
 import { blueprintSelectionState } from '../../jotai/atoms';
 
 const TransferOwnershipPage = () => {
+  const { factoryWeb3, account, isConnected, library, nativeTokenUnit } =
+    useWeb3();
   const { openSpin, closeSpin } = useSpinner();
+  const { showToast } = useToast();
 
   const navigate = useNavigate();
 
@@ -26,8 +29,6 @@ const TransferOwnershipPage = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const { showToast } = useToast();
-  const { factoryWeb3, account, isConnected, library } = useWeb3();
 
   const toggleModal = () => {
     setIsModalOpen(true);
@@ -177,7 +178,7 @@ const TransferOwnershipPage = () => {
                     <p className="col-span-1">
                       {Number(selectedBlueprint.mintPrice)}{' '}
                       {selectedBlueprint.mintPriceUnit === 0
-                        ? 'ETH'
+                        ? nativeTokenUnit
                         : selectedBlueprint.mintPriceUnit === 1
                         ? 'USDT'
                         : 'USDC'}
@@ -198,9 +199,7 @@ const TransferOwnershipPage = () => {
                   <div className="grid grid-cols-3 justify-between items-start gap-2 font-mono sm:flex-row sm:items-center">
                     <p className="text-light-gray">Owner</p>
                     <div className="col-span-2 relative flex items-center gap-1">
-                      <p
-                        className=" text-base break-all"
-                      >
+                      <p className=" text-base break-all">
                         {selectedBlueprint.creator.substring(0, 16)}...
                         {selectedBlueprint.creator.slice(-16)}
                       </p>
@@ -270,8 +269,7 @@ const TransferOwnershipPage = () => {
               </p>
               <div className="bg-black sm:px-6 px-2 py-4 text-light-gray md:text-[18px]">
                 <p>
-                  The ownership of Your Blueprint will be transferred{' '}
-                  to the
+                  The ownership of Your Blueprint will be transferred to the
                   <span className="text-white sm:text-[16px] text-[14px] break-all">
                     {' '}
                     {newOwner}.

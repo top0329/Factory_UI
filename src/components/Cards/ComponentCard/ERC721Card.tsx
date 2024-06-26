@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import copy from 'copy-to-clipboard';
+import { Address } from 'viem';
 
 import Image from '../../Image';
 import useWeb3 from '../../../hooks/useWeb3';
 import getERC721Data from '../../../utils/getERC721Data';
-import { Address } from 'viem';
 
 export interface Props {
   tokenId: number;

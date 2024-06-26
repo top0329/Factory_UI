@@ -26,6 +26,9 @@ const DecomposeProductPage = () => {
     productWeb3,
     currentBlueprintAddress,
     currentProductAddress,
+    web3,
+    gasPrice,
+    nativeTokenUnit,
   } = useWeb3();
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
@@ -61,7 +64,7 @@ const DecomposeProductPage = () => {
         while (receipt === null || receipt.status === undefined) {
           const transaction = productWeb3.methods
             .setApprovalForAll(await factoryContract.getAddress(), true)
-            .send({ from: account });
+            .send({ from: account, gasPrice: gasPrice });
           openSpin('Approving');
           receipt = await web3.eth.getTransactionReceipt(
             (
@@ -124,7 +127,6 @@ const DecomposeProductPage = () => {
   };
 
   const handleDecompose = async () => {
-    const web3 = new Web3(window.ethereum);
     try {
       let receipt = null;
       while (receipt === null || receipt.status === undefined) {
@@ -133,6 +135,7 @@ const DecomposeProductPage = () => {
           .send({
             from: account,
             value: ethers.parseEther(Number(decomposeFee).toString()),
+            gasPrice: gasPrice,
           });
         openSpin('Decomposing Product...');
         receipt = await web3.eth.getTransactionReceipt(
@@ -181,7 +184,7 @@ const DecomposeProductPage = () => {
                 Product Decompose Fee
               </p>
               <p className="xs:text-[24px] text-[16px] font-semibold">
-                {Number(decomposeFee) * Number(productAmount)} ETH
+                {Number(decomposeFee) * Number(productAmount)} {nativeTokenUnit}
               </p>
             </div>
             <div className=" flex justify-between gap-6 items-center">

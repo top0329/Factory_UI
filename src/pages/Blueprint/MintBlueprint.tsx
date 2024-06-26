@@ -28,6 +28,8 @@ const MintBlueprintPage = () => {
     currentFactoryAddress,
     currentUSDTAddress,
     currentUSDCAddress,
+    gasPrice,
+    nativeTokenUnit,
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -275,7 +277,7 @@ const MintBlueprintPage = () => {
                 blueprintMintAmountValue,
                 '0x'
               )
-              .send({ from: account, value: _mintFeeWei });
+              .send({ from: account, value: _mintFeeWei, gasPrice: gasPrice });
             await axios.put(`${BASE_URI}/blueprint/mint`, {
               id: Number(selectedBlueprint.id),
               mintedAmount: blueprintMintAmountValue,
@@ -306,7 +308,11 @@ const MintBlueprintPage = () => {
                     blueprintMintAmountValue,
                     '0x'
                   )
-                  .send({ from: account, value: _blueprintCreationFeeWei });
+                  .send({
+                    from: account,
+                    value: _blueprintCreationFeeWei,
+                    gasPrice: gasPrice,
+                  });
                 await axios.put(`${BASE_URI}/blueprint/mint`, {
                   id: Number(selectedBlueprint.id),
                   mintedAmount: blueprintMintAmountValue,
@@ -345,7 +351,11 @@ const MintBlueprintPage = () => {
                     blueprintMintAmountValue,
                     '0x'
                   )
-                  .send({ from: account, value: _blueprintCreationFeeWei });
+                  .send({
+                    from: account,
+                    value: _blueprintCreationFeeWei,
+                    gasPrice: gasPrice,
+                  });
                 await axios.put(`${BASE_URI}/blueprint/mint`, {
                   id: Number(selectedBlueprint.id),
                   mintedAmount: blueprintMintAmountValue,
@@ -484,7 +494,9 @@ const MintBlueprintPage = () => {
                 <p className="col-span-1 text-light-gray">
                   Blueprint Creation Fee
                 </p>
-                <p className="col-span-1">{blueprintCreationFee} ETH</p>
+                <p className="col-span-1">
+                  {blueprintCreationFee} {nativeTokenUnit}
+                </p>
               </div>
               <div className="grid grid-cols-2 items-center gap-3 font-mono">
                 <p className="col-span-1 text-light-gray">
@@ -493,7 +505,7 @@ const MintBlueprintPage = () => {
                 <p className="col-span-1">
                   {Number(selectedBlueprint.mintPrice)}{' '}
                   {Number(selectedBlueprint.mintPriceUnit) === 0
-                    ? 'ETH'
+                    ? nativeTokenUnit
                     : Number(selectedBlueprint.mintPriceUnit) === 1
                     ? 'USDT'
                     : 'USDC'}
@@ -502,11 +514,11 @@ const MintBlueprintPage = () => {
               <div className="grid grid-cols-2 items-center gap-3 font-mono">
                 <p className="col-span-1 text-light-gray">Total Mint fee</p>
                 <p className="col-span-1">
-                  {blueprintCreationFee} ETH +{' '}
+                  {blueprintCreationFee} {nativeTokenUnit} +{' '}
                   {Number(blueprintMintAmountValue)} *{' '}
                   {Number(selectedBlueprint.mintPrice)}{' '}
                   {Number(selectedBlueprint.mintPriceUnit) === 0
-                    ? 'ETH'
+                    ? nativeTokenUnit
                     : Number(selectedBlueprint.mintPriceUnit) === 1
                     ? 'USDT'
                     : 'USDC'}
