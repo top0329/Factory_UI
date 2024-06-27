@@ -66,7 +66,6 @@ export type Web3ContextType = {
     approved: boolean
   ) => any;
   web3: any;
-  gasPrice: string;
   nativeTokenUnit: string;
 };
 

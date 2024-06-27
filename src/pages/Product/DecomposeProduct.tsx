@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Web3 from 'web3';
 import { useAtom } from 'jotai';
 import { ethers } from 'ethers';
 
@@ -15,19 +14,20 @@ import { ERC20DecomposeListCard } from '../../components/Cards/ListCard/ERC20Lis
 import { ERC721DecomposeListCard } from '../../components/Cards/ListCard/ERC721ListCard';
 import { ERC1155DecomposeListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
 import { SelectedProduct } from '../../types';
+import { getGasPrice } from '../../utils/getGasPrice';
 
 const DecomposeProductPage = () => {
   const {
     isConnected,
     library,
     account,
+    chainId,
     factoryContract,
     factoryWeb3,
     productWeb3,
     currentBlueprintAddress,
     currentProductAddress,
     web3,
-    gasPrice,
     nativeTokenUnit,
   } = useWeb3();
   const { openSpin, closeSpin } = useSpinner();
@@ -57,9 +57,9 @@ const DecomposeProductPage = () => {
   }, [productId, navigate, selectedOwnData.id, factoryContract]);
 
   const handleApprove = async () => {
-    const web3 = new Web3(window.ethereum);
     if (isConnected && library) {
       try {
+        const gasPrice = await getGasPrice(chainId!);
         let receipt = null;
         while (receipt === null || receipt.status === undefined) {
           const transaction = productWeb3.methods
@@ -128,6 +128,7 @@ const DecomposeProductPage = () => {
 
   const handleDecompose = async () => {
     try {
+      const gasPrice = await getGasPrice(chainId!);
       let receipt = null;
       while (receipt === null || receipt.status === undefined) {
         const transaction = factoryWeb3.methods
@@ -183,9 +184,9 @@ const DecomposeProductPage = () => {
               <p className="xs:text-[22px] text-[16px] text-[#BABABA]">
                 Product Decompose Fee
               </p>
-              <p className="xs:text-[24px] text-[16px] font-semibold">
-                {Number(decomposeFee) * Number(productAmount)} {nativeTokenUnit}
-              </p>
+              <label className="xs:text-[24px] text-[16px] font-semibold">
+                {Number(decomposeFee)} {nativeTokenUnit}
+              </label>
             </div>
             <div className=" flex justify-between gap-6 items-center">
               <input

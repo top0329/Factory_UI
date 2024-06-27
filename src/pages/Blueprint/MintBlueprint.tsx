@@ -16,6 +16,7 @@ import erc20Abi from '../../abi/ERC20ABI.json';
 import strip from '../../utils/strip';
 import { blueprintSelectionState } from '../../jotai/atoms';
 import { BASE_URI } from '../../constants';
+import { getGasPrice } from '../../utils/getGasPrice';
 
 const MintBlueprintPage = () => {
   const {
@@ -29,7 +30,6 @@ const MintBlueprintPage = () => {
     currentFactoryAddress,
     currentUSDTAddress,
     currentUSDCAddress,
-    gasPrice,
     nativeTokenUnit,
   } = useWeb3();
   const { showToast } = useToast();
@@ -254,6 +254,8 @@ const MintBlueprintPage = () => {
 
   const handleMintBlueprintClick = async () => {
     try {
+      const gasPrice = await getGasPrice(chainId!);
+      console.log(gasPrice);
       if (blueprintMintAmountValue === 0 || blueprintMintAmountValue === '') {
         setIsMintAmountEmpty(true);
         setTimeout(() => {

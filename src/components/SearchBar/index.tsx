@@ -353,7 +353,7 @@ const SearchBar: FC<Props> = ({
           }
         } else if (pageFilter === 'component') {
           const searchResult = await axios.get(
-            `${BASE_URI}/component/search?query=${searchValue}&sortField=${componentSortField}&sortOrder=${sortOrder}`
+            `${BASE_URI}/component/search?query=${searchValue}&=chainId=${chainId}&sortField=${componentSortField}&sortOrder=${sortOrder}`
           );
           if (searchResult.data.length === 0) {
             setIsDataEmpty(true);

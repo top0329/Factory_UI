@@ -22,6 +22,7 @@ import {
 } from '../../../constants';
 import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
 import { getTokenDetailsByAddress } from '../../../utils/checkContractType';
+import { getGasPrice } from '../../../utils/getGasPrice';
 
 interface CustomCheckboxProps {
   checked: boolean;
@@ -89,7 +90,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     factoryWeb3,
     blueprintWeb3,
     blueprintContract,
-    gasPrice,
     nativeTokenUnit,
   } = useWeb3();
   const { showToast } = useToast();
@@ -309,6 +309,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
 
   const handleSubmit = async () => {
     try {
+      const gasPrice = await getGasPrice(chainId!);
       if (name === '') {
         setError((prevState) => ({
           ...prevState,
@@ -1075,7 +1076,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                                 : createInfo.mintLimit;
                           }
                           openSpin('Creating Blueprint');
-                          console.log(gasPrice);
                           await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
@@ -1093,18 +1093,16 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           const events = await blueprintWeb3.getPastEvents(
                             'BlueprintCreated',
                             {
-                              fromBlock: 0,
+                              fromBlock: 'latest',
                               toBlock: 'latest',
                             }
                           );
-                          console.log(events);
                           for (const event of events) {
                             if (event.returnValues.creator === account) {
                               blueprintData.id = Number(event.returnValues[0]);
                               break;
                             }
                           }
-                          console.log(blueprintData.id);
                           blueprintData.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           blueprintData.mintLimit = _mintLimit;
                           await axios.post(

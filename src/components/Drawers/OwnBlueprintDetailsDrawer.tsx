@@ -216,7 +216,7 @@ const OwnBlueprintDetailsDrawer: FC<Props> = ({
                     icon="solar:copy-outline"
                     onClick={() =>
                       handleCopyBlueprintAddressButtonClicked(
-                        selectedOwnBlueprint.blueprintAddress
+                        currentBlueprintAddress
                       )
                     }
                   />

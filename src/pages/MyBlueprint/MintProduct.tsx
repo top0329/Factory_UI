@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Web3 from 'web3';
 import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
@@ -17,6 +16,7 @@ import {
 import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard';
 import { ERC721MintListCard } from '../../components/Cards/ListCard/ERC721ListCard';
 import { ERC1155MintListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
+import { getGasPrice } from '../../utils/getGasPrice';
 
 interface CustomCheckboxProps {
   checked: boolean;
@@ -58,12 +58,12 @@ const MintProductPage = () => {
     isConnected,
     library,
     account,
+    chainId,
     factoryWeb3,
     blueprintWeb3,
     blueprintContract,
     currentFactoryAddress,
     web3,
-    gasPrice,
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -139,6 +139,7 @@ const MintProductPage = () => {
 
   const handleApprove = async () => {
     try {
+      const gasPrice = await getGasPrice(chainId!);
       if (isConnected && library && blueprintMintAmountValue) {
         const isApproved = await blueprintContract.isApprovedForAll(
           account,
@@ -151,9 +152,12 @@ const MintProductPage = () => {
             try {
               let receipt = null;
               while (receipt === null || receipt.status === undefined) {
+                console.log(gasPrice);
+                const _gasPrice = await web3.eth.getGasPrice();
+                console.log(_gasPrice);
                 const transaction = blueprintWeb3.methods
                   .setApprovalForAll(currentFactoryAddress, true)
-                  .send({ from: account, gasPrice: gasPrice });
+                  .send({ from: account, gasPrice: _gasPrice });
                 openSpin('Approving');
                 receipt = await web3.eth.getTransactionReceipt(
                   (
@@ -199,9 +203,9 @@ const MintProductPage = () => {
   };
 
   const handleMintProduct = async () => {
-    const web3 = new Web3(window.ethereum);
-    if (!isConnected || !library || blueprintMintAmountValue) {
-      try {
+    try {
+      if (!isConnected || !library || blueprintMintAmountValue) {
+        const gasPrice = await getGasPrice(chainId!);
         let receipt = null;
         while (receipt === null || receipt.status === undefined) {
           const tx = factoryWeb3.methods
@@ -231,12 +235,12 @@ const MintProductPage = () => {
             await new Promise((resolve) => setTimeout(resolve, 1000)); // Wait for 1 second before checking again
           }
         }
-      } catch (err) {
-        showToast('fail', 'User Rejected');
-        console.log(err);
-      } finally {
-        closeSpin();
       }
+    } catch (err) {
+      showToast('fail', 'User Rejected');
+      console.log(err);
+    } finally {
+      closeSpin();
     }
   };
 
