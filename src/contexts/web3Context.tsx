@@ -30,6 +30,8 @@ import { getGasPrice } from '../utils/getGasPrice';
 declare let window: any;
 const Web3Context = createContext<Web3ContextType | null>(null);
 
+let web3: any;
+
 export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
@@ -41,7 +43,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   } else if (chainId === 80002) {
     defaultProvider = new ethers.JsonRpcProvider(defaultRPC.amoy);
   }
-  const web3 = useMemo(() => new Web3(window.ethereum), []);
 
   const [provider, setProvider] = useState<ContractRunner>(defaultProvider);
   const [currentFactoryAddress, setCurrentFactoryAddress] =
@@ -69,6 +70,9 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
 
   const init = useCallback(async () => {
     try {
+      if (typeof window !== 'undefined') {
+        web3 = new Web3(window.ethereum);
+      }
       if (!isConnected || !ethersProvider) {
         console.log('Not connected wallet');
       } else {
@@ -172,7 +176,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log(err);
       }
     },
-    [address, chainId, web3.eth.Contract]
+    [address, chainId]
   );
 
   const erc721Approve = useCallback(
@@ -190,7 +194,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log(err);
       }
     },
-    [address, chainId, web3.eth.Contract]
+    [address, chainId]
   );
 
   const erc1155Approve = useCallback(
@@ -211,7 +215,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log(err);
       }
     },
-    [address, chainId, web3.eth.Contract]
+    [address, chainId]
   );
 
   const value = useMemo(
