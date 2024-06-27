@@ -85,7 +85,7 @@ const SearchBar: FC<Props> = ({
         setIsLoading(true);
         if (pageFilter === 'blueprint') {
           const searchResult = await axios.get(
-            `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+            `${BASE_URI}/blueprint/search?query=${searchValue}&chainId=${chainId}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
               advancedFilterValue.blueprintIdMax
             }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
               advancedFilterValue.mintPriceMin
@@ -154,7 +154,7 @@ const SearchBar: FC<Props> = ({
               (blueprint) => blueprint.tokenId
             );
             const myBlueprintData = await axios.get(
-              `${BASE_URI}/my-blueprint/?ids=${myBlueprintIds}`
+              `${BASE_URI}/my-blueprint/?ids=${myBlueprintIds}&chainId=${chainId}`
             );
             if (myBlueprintData.data.length === 0) {
               setIsDataEmpty(true);
@@ -274,7 +274,7 @@ const SearchBar: FC<Props> = ({
           if (myProducts && myProducts.length > 0) {
             const myProductsIds = myProducts.map((product) => product.tokenId);
             const myProductsData = await axios.get(
-              `${BASE_URI}/product/?ids=${myProductsIds}`
+              `${BASE_URI}/product/?ids=${myProductsIds}&chainId=${chainId}`
             );
             if (myProductsData.data.length === 0) {
               setIsDataEmpty(true);

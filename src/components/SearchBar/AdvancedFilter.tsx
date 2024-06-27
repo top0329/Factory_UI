@@ -23,7 +23,7 @@ export interface Props {
 }
 
 const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
-  const { nativeTokenUnit } = useWeb3();
+  const { nativeTokenUnit, chainId } = useWeb3();
   const { showToast } = useToast();
 
   const [, setBlueprintTokenList] = useAtom(blueprintTokenListAtom);
@@ -129,7 +129,7 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
       });
       setShowFilterOption(false);
       const advancedFilterResult = await axios.get(
-        `${BASE_URI}/blueprint/search?query=${searchValue}&sortField=${sortField}&sortOrder=${sortOrder}&minId=&maxId=&mintPriceUnit=&mintPriceMin=&mintPriceMax=&totalSupplyMin=&totalSupplyMax=&mintLimitMin=&mintLimitMax=&mintedAmountMin=&mintedAmountMax=`
+        `${BASE_URI}/blueprint/search?query=${searchValue}&chainId=${chainId}&sortField=${sortField}&sortOrder=${sortOrder}&minId=&maxId=&mintPriceUnit=&mintPriceMin=&mintPriceMax=&totalSupplyMin=&totalSupplyMax=&mintLimitMin=&mintLimitMax=&mintedAmountMin=&mintedAmountMax=`
       );
       if (advancedFilterResult.data.length === 0) {
         setIsDataEmpty(true);

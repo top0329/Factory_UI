@@ -22,6 +22,7 @@ const MintBlueprintPage = () => {
     factoryContract,
     factoryWeb3,
     account,
+    chainId,
     erc20Approve,
     library,
     isConnected,
@@ -280,6 +281,7 @@ const MintBlueprintPage = () => {
               .send({ from: account, value: _mintFeeWei, gasPrice: gasPrice });
             await axios.put(`${BASE_URI}/blueprint/mint`, {
               id: Number(selectedBlueprint.id),
+              chainId: chainId,
               mintedAmount: blueprintMintAmountValue,
             });
             showToast('success', 'Blueprint minted successfully');
@@ -315,6 +317,7 @@ const MintBlueprintPage = () => {
                   });
                 await axios.put(`${BASE_URI}/blueprint/mint`, {
                   id: Number(selectedBlueprint.id),
+                  chainId: chainId,
                   mintedAmount: blueprintMintAmountValue,
                 });
                 showToast('success', 'Blueprint minted successfully');
@@ -358,6 +361,7 @@ const MintBlueprintPage = () => {
                   });
                 await axios.put(`${BASE_URI}/blueprint/mint`, {
                   id: Number(selectedBlueprint.id),
+                  chainId: chainId,
                   mintedAmount: blueprintMintAmountValue,
                 });
                 showToast('success', 'Blueprint minted successfully');

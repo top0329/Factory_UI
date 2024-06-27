@@ -85,6 +85,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     isConnected,
     library,
     account,
+    chainId,
     factoryWeb3,
     blueprintWeb3,
     blueprintContract,
@@ -372,6 +373,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
           if (isUpdate) {
             const data = {
               id: Number(createInfo.id),
+              chainId: chainId,
               imageUri: imageSrc,
               mintPrice:
                 createInfo.mintPrice === '' ? 0 : Number(createInfo.mintPrice),
@@ -512,6 +514,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         .send({ from: account, gasPrice });
                       await axios.put(`${BASE_URI}/blueprint/update`, {
                         id: Number(createInfo.id),
+                        chainId: chainId,
                         imageUri: imageSrc,
                       });
                       setCreateInfo(initialBlueprint);
@@ -541,6 +544,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           .send({ from: account, gasPrice });
                         await axios.put(`${BASE_URI}/blueprint/update`, {
                           id: Number(createInfo.id),
+                          chainId: chainId,
                           imageUri: `https://ipfs.io/ipfs/${imageHash}`,
                         });
                         setCreateInfo(initialBlueprint);
@@ -577,6 +581,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   .send({ from: account, gasPrice });
                 await axios.put(`${BASE_URI}/blueprint/update`, {
                   id: Number(createInfo.id),
+                  chainId: chainId,
                   mintPrice:
                     createInfo.mintPrice === ''
                       ? 0
@@ -594,6 +599,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   .send({ from: account, gasPrice });
                 await axios.put(`${BASE_URI}/blueprint/update`, {
                   id: Number(createInfo.id),
+                  chainId: chainId,
                   mintLimit: Number(_mintLimit),
                 });
                 setCreateInfo(initialBlueprint);
@@ -619,6 +625,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               ) {
                 const blueprintData = {
                   id: 0,
+                  chainId: chainId,
                   name: createInfo.name,
                   imageUri: imageSrc,
                   creator: account,
@@ -888,6 +895,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
               ) {
                 const blueprintData = {
                   id: 0,
+                  chainId: chainId,
                   name: createInfo.name,
                   imageUri: imageSrc,
                   creator: account,
@@ -1067,6 +1075,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                                 : createInfo.mintLimit;
                           }
                           openSpin('Creating Blueprint');
+                          console.log(gasPrice);
                           await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
