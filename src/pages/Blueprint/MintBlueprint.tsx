@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import Web3 from 'web3';
 import axios from 'axios';
 import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
@@ -31,6 +30,7 @@ const MintBlueprintPage = () => {
     currentUSDTAddress,
     currentUSDCAddress,
     nativeTokenUnit,
+    web3,
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -133,7 +133,6 @@ const MintBlueprintPage = () => {
   };
 
   const handleApproveClick = async () => {
-    const web3 = new Web3(window.ethereum);
     try {
       if (isConnected && library) {
         if (blueprintMintAmountValue === 0 || blueprintMintAmountValue === '') {

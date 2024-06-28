@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import copy from 'copy-to-clipboard';
-import Web3 from 'web3';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { ethers } from 'ethers';
 import { Address } from 'viem';
@@ -22,7 +21,7 @@ export interface Props {
 }
 
 export function ERC20MintListCard(props: Props) {
-  const { isConnected, library, erc20Approve, currentFactoryAddress } = useWeb3();
+  const { isConnected, library, erc20Approve, currentFactoryAddress, web3 } = useWeb3();
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
 
@@ -37,7 +36,6 @@ export function ERC20MintListCard(props: Props) {
   };
 
   const handleApprove = async () => {
-    const web3 = new Web3(window.ethereum);
     try {
       if (isConnected && library) {
         const tokenData = await getTokenData(props.address as Address, library);

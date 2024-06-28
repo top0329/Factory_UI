@@ -261,7 +261,6 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       erc20Approve,
       erc721Approve,
       erc1155Approve,
-      web3,
       nativeTokenUnit,
     ]
   );

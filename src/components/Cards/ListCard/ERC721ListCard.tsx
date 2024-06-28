@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import Web3 from 'web3';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Address } from 'viem';
 
@@ -19,7 +18,7 @@ export interface Props {
 }
 
 export function ERC721MintListCard(props: Props) {
-  const { isConnected, library, erc721Approve, currentFactoryAddress } =
+  const { isConnected, library, erc721Approve, currentFactoryAddress, web3 } =
     useWeb3();
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
@@ -57,7 +56,6 @@ export function ERC721MintListCard(props: Props) {
   };
 
   const handleApprove = async () => {
-    const web3 = new Web3(window.ethereum);
     try {
       if (isConnected && library) {
         let receipt = null;

@@ -1,6 +1,10 @@
 import Web3 from 'web3';
 
-const web3 = new Web3(window.ethereum);
+let web3: any;
+
+if (typeof window !== 'undefined') {
+  web3 = new Web3(window.ethereum);
+}
 
 export const getGasPrice = async (chainId: number) => {
   if (chainId === 11155111) {

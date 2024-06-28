@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Web3 from 'web3';
 import copy from 'copy-to-clipboard';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
@@ -15,7 +14,7 @@ import filterWalletAddress from '../../utils/isWalletAddress';
 import { blueprintSelectionState } from '../../jotai/atoms';
 
 const TransferOwnershipPage = () => {
-  const { factoryWeb3, account, isConnected, library, nativeTokenUnit } =
+  const { factoryWeb3, account, isConnected, library, nativeTokenUnit, web3 } =
     useWeb3();
   const { openSpin, closeSpin } = useSpinner();
   const { showToast } = useToast();
@@ -79,7 +78,6 @@ const TransferOwnershipPage = () => {
   };
 
   const handleConfirm = async () => {
-    const web3 = new Web3(window.ethereum);
     try {
       let receipt = null;
       while (receipt === null || receipt.status === undefined) {
