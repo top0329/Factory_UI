@@ -31,6 +31,7 @@ const MintBlueprintPage = () => {
     currentUSDCAddress,
     nativeTokenUnit,
     web3,
+    chainExplorer,
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -443,7 +444,7 @@ const MintBlueprintPage = () => {
                   />
                   <a
                     className="underline text-base break-all"
-                    href={`https://sepolia.etherscan.io/address/${selectedBlueprint.creator}`}
+                    href={`${chainExplorer}/address/${selectedBlueprint.creator}`}
                     target="_blank"
                   >
                     {selectedBlueprint.creator}

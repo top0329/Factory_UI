@@ -24,9 +24,6 @@ export const defaultRPC = {
   amoy: 'https://rpc-amoy.polygon.technology/',
 };
 
-export const POLYGON_GAS_URL = 'https://gasstation.polygon.technology/v2';
-export const POLYGON_AMOY_GAS_URL = 'https://gasstation.polygon.technology/amoy';
-
 export const invalidChars = /['"`\\;%&!@#$%^?~*]/;
 
 export const PINATA = {
@@ -46,3 +43,10 @@ export const DefaultErc1155ImageUri =
 
 export const BASE_URI = 'https://factory-backend-beta.vercel.app/api';
 // export const BASE_URI = 'http://localhost:5000/api';
+
+export const CHAIN_EXPLORER = {
+  main: 'https://etherscan.io',
+  sepolia: 'https://sepolia.etherscan.io',
+  polygon: 'https://polygonscan.com',
+  amoy: 'https://www.oklink.com/amoy',
+};

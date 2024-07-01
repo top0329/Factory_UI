@@ -33,7 +33,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
   isDrawerOpen,
   setIsDrawerOpen,
 }) => {
-  const { account, isConnected } = useWeb3();
+  const { account, isConnected, chainExplorer } = useWeb3();
   const { showToast } = useToast();
 
   const navigate = useNavigate();
@@ -226,7 +226,7 @@ const BlueprintDetailDrawer: FC<Props> = ({
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <a
                     className="underline text-base"
-                    href={`https://sepolia.etherscan.io/address/${selectedBlueprint.creator}`}
+                    href={`${chainExplorer}/address/${selectedBlueprint.creator}`}
                     target="_blank"
                   >
                     {windowSize.width !== undefined && windowSize.width > 472

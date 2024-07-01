@@ -22,7 +22,7 @@ const ERC721Card: FC<Props> = ({
   onEditIconClicked,
   onDeleteIconClicked,
 }) => {
-  const { library } = useWeb3();
+  const { library, chainExplorer } = useWeb3();
 
   const [name, setName] = useState<string>('');
   const [uri, setUri] = useState<string>('');
@@ -71,7 +71,7 @@ const ERC721Card: FC<Props> = ({
     <div className="relative w-full min-w-[120px] h-[250px] overflow-hidden bg-[#040a0f] border border-black rounded-3xl sm:h-[290px] sm:min-w-[220px]">
       <div className="group relative">
         <Image
-          className={`z-20 flex justify-center items-center w-full h-44 rounded-t-3xl object-cover ${
+          className={`z-20 flex justify-center items-center w-full h-44 rounded-t-3xl object-cover hover:scale-105 duration-300 ease-in-out ${
             icon && 'transition duration-300 ease-in-out group-hover:blur-sm'
           }`}
           spinnerClassName="w-full h-44"
@@ -115,7 +115,7 @@ const ERC721Card: FC<Props> = ({
             <Icon className="w-4 h-5" icon="logos:ethereum" />
             <a
               className="underline text-base"
-              href={`https://sepolia.etherscan.io/address/${tokenAddress}`}
+              href={`${chainExplorer}/address/${tokenAddress}`}
               target="_blank"
             >
               {shortenAddress(tokenAddress)}

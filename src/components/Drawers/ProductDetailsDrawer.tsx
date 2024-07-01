@@ -25,7 +25,7 @@ export interface Props {
 }
 
 const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
-  const { currentProductAddress } = useWeb3();
+  const { currentProductAddress, chainExplorer } = useWeb3();
   const navigate = useNavigate();
 
   const [selectedProduct] = useAtom<SelectedProduct>(selectedProductAtom);
@@ -140,7 +140,7 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
                   <Icon className="w-4 h-6" icon="logos:ethereum" />
                   <a
                     className="underline text-base"
-                    href={`https://sepolia.etherscan.io/address/${currentProductAddress}`}
+                    href={`${chainExplorer}/address/${currentProductAddress}`}
                     target="_blank"
                   >
                     {windowSize.width !== undefined && windowSize.width > 472

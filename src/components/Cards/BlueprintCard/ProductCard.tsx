@@ -42,7 +42,7 @@ const ProductCard: FC<Props> = ({
       <div className="relative w-full overflow-hidden">
         <div className="w-full md:h-full overflow-hidden object-cover">
           <Image
-            className="w-full aspect-square"
+            className="w-full aspect-square hover:scale-105 duration-300 ease-in-out"
             src={uri}
             spinnerClassName="w-full aspect-square"
             alt="product-card"

@@ -67,6 +67,7 @@ export type Web3ContextType = {
   ) => any;
   web3: any;
   nativeTokenUnit: string;
+  chainExplorer: string;
 };
 
 export type SelectedBlueprint = {

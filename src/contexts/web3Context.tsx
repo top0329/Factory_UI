@@ -24,6 +24,7 @@ import {
   productAddress,
   usdtAddress,
   usdcAddress,
+  CHAIN_EXPLORER,
 } from '../constants';
 import { getGasPrice } from '../utils/getGasPrice';
 
@@ -67,6 +68,9 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const [blueprintWeb3, setBlueprintWeb3] = useState<any>();
   const [productWeb3, setProductWeb3] = useState<any>();
   const [nativeTokenUnit, setNativeTokenUnit] = useState<string>('ETH');
+  const [chainExplorer, setChainExplorer] = useState<string>(
+    CHAIN_EXPLORER.main
+  );
 
   const init = useCallback(async () => {
     try {
@@ -117,6 +121,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         setCurrentUSDTAddress(usdtAddress.sepolia);
         setCurrentUSDCAddress(usdcAddress.sepolia);
         setNativeTokenUnit('ETH');
+        setChainExplorer(CHAIN_EXPLORER.sepolia);
       } else if (chainId === 80002) {
         setFactoryContract(
           new ethers.Contract(
@@ -150,6 +155,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         setCurrentUSDTAddress(usdtAddress.amoy);
         setCurrentUSDCAddress(usdcAddress.amoy);
         setNativeTokenUnit('MATIC');
+        setChainExplorer(CHAIN_EXPLORER.amoy);
       }
     } catch (err) {
       console.log(err);
@@ -240,6 +246,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       erc1155Approve,
       web3,
       nativeTokenUnit,
+      chainExplorer,
     }),
     [
       address,
@@ -262,6 +269,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
       erc721Approve,
       erc1155Approve,
       nativeTokenUnit,
+      chainExplorer,
     ]
   );
 
