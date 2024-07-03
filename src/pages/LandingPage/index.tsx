@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
+import AOS from 'aos';
 import { useAtom } from 'jotai';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Helmet } from 'react-helmet';
@@ -100,6 +101,10 @@ const LandingPage = () => {
   const [mintedBlueprintsValue, setMintedBlueprintsValue] = useState<number>(0);
   const [productsValue, setProductsValue] = useState<number>(0);
   const [isScrollAtBottom, setIsScrollAtBottom] = useState<boolean>(false);
+
+  useEffect(() => {
+    AOS.init();
+  }, []);
 
   useEffect(() => {
     async function fetchData() {
@@ -236,13 +241,13 @@ const LandingPage = () => {
         </Helmet>
         <img
           loading="lazy"
-          className="absolute w-[1000px] z-10 top-[-220px] rotate-[-30deg] overflow-hidden 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full"
+          className="absolute w-[1000px] top-[-220px] rotate-[-30deg] overflow-hidden 2xl:max-w-[1536px] 2xl:px-[calc((100vw-1536px)/2)] 2xl:min-w-full"
           src={Union}
           alt="union"
         />
         <img
           loading="lazy"
-          className="absolute w-[1000px] z-10 top-[900px] left-[calc((100vw)/2)] rotate-[-30deg]"
+          className="absolute w-[1000px] top-[900px] left-[calc((100vw)/2)] rotate-[-30deg]"
           src={Union}
           alt="union"
         />
@@ -251,7 +256,15 @@ const LandingPage = () => {
           className="px-6 xl:px-20 lg:px-16 md:px-12 sm:px-10 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
         >
           <div className="grid grid-cols-12 pt-2 md:pt-4 lg:pt-8">
-            <div className="col-span-12 md:col-span-6">
+            <div
+              className="col-span-12 md:col-span-6"
+              data-aos="fade-right"
+              data-aos-offset="200"
+              data-aos-delay="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-once="true"
+            >
               <h1 className="mt-4 font-bold text-[30px] leading-[40px] xl:text-[66px] xl:leading-[80px] lg:text-[50px] lg:mt-10 md:text-[38px] md:mt-4 sm:text-[40px] sm:leading-[60px]">
                 Seamlessly Craft Your Custom Gaming Tokens.
               </h1>
@@ -279,7 +292,15 @@ const LandingPage = () => {
                 )}
               </div>
             </div>
-            <div className="col-span-12 md:col-span-6">
+            <div
+              className="col-span-12 md:col-span-6"
+              data-aos="fade-left"
+              data-aos-offset="200"
+              data-aos-delay="200"
+              data-aos-duration="500"
+              data-aos-easing="ease-in-out"
+              data-aos-once="true"
+            >
               <div className="relative">
                 <div className="flex flex-row-reverse justify-center mt-20 ml-0 items-center z-30 rounded-3xl px-1 top-[170px] right-[116px] xl:mt-20 md:mt-10 md:ml-32">
                   <Image
@@ -306,6 +327,12 @@ const LandingPage = () => {
         <div
           id="carousel"
           className="relative mt-10 h-[400px] sm:h-[550px] md:h-[620px] lg:h-[650px] xl:h-[680px]"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-delay="200"
+          data-aos-duration="500"
+          data-aos-easing="ease-in-out"
+          data-aos-once="true"
         >
           <h1 className="text-center text-xl font-semibold pt-6 sm:text-3xl">
             Most Minted Blueprints

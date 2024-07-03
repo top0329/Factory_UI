@@ -18,6 +18,12 @@ const Accordion: FC<Props> = ({ title, content }) => {
       <button
         type="button"
         className="flex items-center text-white text-xl md:text-2xl lg:text-[28px] justify-between w-full text-left py-5"
+        data-aos="fade-right"
+        data-aos-offset="200"
+        data-aos-delay="100"
+        data-aos-duration="700"
+        data-aos-easing="ease-in-out"
+        data-aos-once="true"
         onClick={() => setIsExpanded(!isExpanded)}
       >
         {title}

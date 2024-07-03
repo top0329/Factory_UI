@@ -4,9 +4,10 @@ import { DevTools } from 'jotai-devtools';
 import { HeadProvider } from 'react-head';
 
 import App from './App.tsx';
-import './index.css';
-import { StoreProvider, store } from './jotai/store.ts';
 import WalletConnectProvider from './contexts/WalletConnectProvider.tsx';
+import { StoreProvider, store } from './jotai/store.ts';
+import './index.css';
+import 'aos/dist/aos.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <HeadProvider>
