@@ -306,13 +306,13 @@ const LandingPage = () => {
                   <Image
                     className="mt-[100px] max-w-[120px] max-h-[250px] rotate-[35deg] opacity-50 lg:max-w-[170px] lg:max-h-[320px] lg:mt-[120px] sm:max-w-[150px] sm:max-h-[280px]"
                     src={SmallBlueprintCardImage}
-                    spinnerClassName="mt-[100px] min-w-[120px] min-h-[250px] rotate-[35deg] opacity-50 lg:min-w-[170px] lg:min-h-[320px] lg:mt-[120px] sm:min-w-[150px] sm:min-h-[280px]"
+                    spinnerClassName="mt-[100px] min-w-[120px] min-h-[250px] rotate-[35deg] rounded-2xl opacity-50 lg:min-w-[170px] lg:min-h-[320px] lg:mt-[120px] sm:min-w-[150px] sm:min-h-[280px]"
                     alt="card-front"
                   />
                   <Image
                     className="max-w-[200px] max-h-[350px] rotate-[-24deg] lg:max-w-[250px] lg:max-h-[460px] sm:max-w-[230px] sm:max-h-[400px]"
                     src={CardFront}
-                    spinnerClassName="min-w-[200px] min-h-[350px] rotate-[-24deg] lg:min-w-[250px] lg:min-h-[460px] sm:min-w-[230px] sm:min-h-[400px]"
+                    spinnerClassName="min-w-[200px] min-h-[350px] rotate-[-24deg] rounded-2xl lg:min-w-[250px] lg:min-h-[460px] sm:min-w-[230px] sm:min-h-[400px]"
                     alt="card-front"
                   />
                 </div>

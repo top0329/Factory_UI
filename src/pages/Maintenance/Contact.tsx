@@ -1,15 +1,33 @@
 import { useState } from 'react';
 import emailJs from '@emailjs/browser';
 import { Helmet } from 'react-helmet';
-import { Icon } from '@iconify/react/dist/iconify.js';
+import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 
 import Button from '../../components/Button';
+import Image from '../../components/Image';
+import PhoneNumberInput from '../../components/PhoneNumberInput';
+import useToast from '../../hooks/useToast';
+import ContactUsImage from '../../assets/svg/contact-us.svg';
+import TeamImage from '../../assets/svg/team.svg';
+import ChatIcon from '../../assets/svg/chat-icon.svg';
+import SupportIcon from '../../assets/svg/support-icon.svg';
+import ShareIcon from '../../assets/svg/share-icon.svg';
 
 export default function ContactUs() {
+  const { showToast } = useToast();
+
+  const {
+    setValue,
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitted },
+    getValues,
+  } = useForm<FieldValues>();
+
   const initalState = {
-    name: '',
+    firstName: '',
+    lastName: '',
     email: '',
-    number: '',
     message: '',
   };
 
@@ -19,37 +37,33 @@ export default function ContactUs() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleClick = () => {
-    const { name, email, number, message } = form;
-    if (name && email && number && message) {
-      if (!validateNumber(number)) {
-        alert('Invalid Phone number.');
-        return;
-      }
-      if (validateEmail(email)) {
+  const handleClick: SubmitHandler<FieldValues> = () => {
+    const { firstName, lastName, email, message } = form;
+    const number = getValues('phoneNumber');
+    if (firstName && lastName && email && number && message) {
+      if (!validateNumber(number)) return;
+      if (validateEmail(email))
         emailJs
           .send(
             'service_q3nio78',
             'template_kw86h2m',
             {
-              from_name: form.name,
+              from_name: `${form.firstName} ${form.lastName}`,
               from_email: form.email,
               message: form.message,
-              number: form.number,
+              number: number,
             },
             'M6jnU3EEYwoZrQ-zE'
           )
           .then((response) => {
             console.log('SUCCESS!', response.status, response.text);
+            showToast('success', 'Message sent successfully.');
           })
           .catch((err) => {
             console.log(err);
+            showToast('fail', 'Something went wrong. Please try again later.');
           });
-      } else {
-        alert('Invalid Email address');
-      }
     }
-    alert('Will send');
   };
 
   function validateEmail(email: string) {
@@ -74,7 +88,7 @@ export default function ContactUs() {
   }
 
   return (
-    <div className="flex px-4">
+    <div className="pt-16 pb-24 text-white w-full">
       <Helmet>
         <meta
           name="description"
@@ -110,118 +124,148 @@ export default function ContactUs() {
           content="This is factorygame.org. Here you can get the unique 'Product Token' which is combined of 'blueprint token' and component tokens - ERC20, ERC721 and ERC1155 tokens"
         />
       </Helmet>
-      <div className="hidden lg:flex lg:flex-col xl:flex xl:flex-col w-1/3 text-white px-4 py-16 gap-y-16">
-        <div id="intro" className="flex flex-col gap-y-4">
-          <h1 className="text-3xl font-bold">Get in touch</h1>
-          <p className="text-xl opacity-55">
-            We'd love to hear from you.
-            <br /> Our friendly team is always here to chat.
-          </p>
-        </div>
-        <div id="intro" className="flex flex-col gap-y-4">
-          <h1 className="flex gap-4 items-center text-3xl font-bold">
-            <Icon
-              className="w-10 h-10 cursor-pointer justify-center items-center pt-2"
-              icon="line-md:chat"
+      <div className="grid grid-cols-2 w-full gap-12 pb-24">
+        <div className="col-span-2 flex flex-col justify-between p-6 h-full gap-12 xl:p-10 lg:col-span-1">
+          <div className="flex flex-col">
+            <h2 className="text-4xl font-semibold">Contact Us</h2>
+            <h5 className="text-[#C5C5C5] text-xl mt-5">
+              Our friendly team would love to hear from you.
+            </h5>
+          </div>
+          <form
+            onSubmit={handleSubmit(handleClick)}
+            className="flex flex-col justify-between h-full gap-6"
+          >
+            <div className="flex flex-col justify-between gap-6 xs:flex-row xs:gap-8">
+              <div className="flex flex-col w-full min-w-40 gap-1.5">
+                <label className="text-sm">First Name</label>
+                <input
+                  name="firstName"
+                  className="py-2.5 px-3.5 text-base rounded-lg bg-[#161925]"
+                  placeholder="First Name"
+                  type="text"
+                  onChange={handleInputChange}
+                  value={form.firstName}
+                  required
+                />
+              </div>
+              <div className="flex flex-col w-full min-w-40 gap-1.5">
+                <label className="text-sm">Last Name</label>
+                <input
+                  name="lastName"
+                  className="py-2.5 px-3.5 text-base rounded-lg bg-[#161925]"
+                  placeholder="Last Name"
+                  type="text"
+                  onChange={handleInputChange}
+                  value={form.lastName}
+                  required
+                />
+              </div>
+            </div>
+            <div className="flex flex-col w-full gap-1.5">
+              <label className="text-sm">Email</label>
+              <input
+                name="email"
+                className="py-2.5 px-3.5 text-base rounded-lg bg-[#161925]"
+                placeholder="you@company.com"
+                type="email"
+                onChange={handleInputChange}
+                value={form.email}
+                required
+              />
+            </div>
+            <div className="flex flex-col w-full gap-1.5">
+              <label className="text-sm">Phone Number</label>
+              <PhoneNumberInput
+                control={control}
+                setValue={setValue}
+                id="phoneNumber"
+                errors={errors}
+                isSubmitted={isSubmitted}
+              />
+            </div>
+            <div className="flex flex-col w-full gap-1.5">
+              <label className="text-sm">Message</label>
+              <textarea
+                name="message"
+                className="w-full py-3 px-3.5 rounded-lg text-base bg-[#161925] resize-none h-36"
+                rows={5}
+                placeholder="Leave us a message..."
+                onChange={handleInputChange}
+                value={form.message}
+                required
+              />
+            </div>
+            <div className="flex items-start">
+              <div className="flex items-center h-5">
+                <input
+                  id="remember"
+                  type="checkbox"
+                  value=""
+                  className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300"
+                  required
+                />
+              </div>
+              <label htmlFor="remember" className="ms-2 text-base text-white">
+                You agree to our friendly{' '}
+                <a href="#" className="text-primary underline">
+                  privacy policy
+                </a>
+                .
+              </label>
+            </div>
+            <Button
+              className="flex justify-center items-center text-base font-semibold w-full rounded-lg"
+              text="Submit message"
+              variant="primary"
             />
-            Chat to Us
-          </h1>
-          <p className="text-xl opacity-55">
-            Our friendly team is here to help.
-          </p>
+          </form>
         </div>
-        <div id="intro" className="flex flex-col gap-y-4">
-          <h1 className="flex gap-4 items-center text-3xl font-bold">
-            <Icon
-              className="w-10 h-10 cursor-pointer justify-center items-center pt-2"
-              icon="basil:telegram-outline"
-            />
-            Live support
-          </h1>
-          <p className="text-xl opacity-55">
-            Come join our Telegram community for live support! We're here to
-            help you out.
-          </p>
-        </div>
-        <div id="intro" className="flex flex-col gap-y-4">
-          <h1 className="flex gap-4 items-center text-3xl font-bold">
-            <Icon
-              className="w-10 h-10 cursor-pointer justify-center items-center pt-2"
-              icon="simple-icons:discord"
-            />
-            Share ideas
-          </h1>
-          <p className="text-xl opacity-55">
-            Talk to our friendly team about what you want, and we'll make it a
-            reality!
-          </p>
-        </div>
+        <Image
+          className="col-span-1 w-full h-full object-cover rounded-xl hidden lg:block"
+          src={ContactUsImage}
+          spinnerClassName="w-full aspect-auto rounded-xl"
+          alt="contact-us"
+        />
       </div>
-      <div className="hidden lg:block xl:block w-0.5 bg-white m-8 opacity-50"></div>
-      <div className="w-full min-w-80 lg:w-2/3 xl:w-2/3 py-12 px-4 sm:px-12 md:px-12 lg:px-12 xl:px-12">
-        <p className="text-white font-semibold text-2xl sm:font-semibold sm:text-2xl md:font-bold md:text-4xl lg:font-black lg:text-5xl xl:font-black xl:text-6xl">
-          Contact Us
-        </p>
-        <form className="flex flex-col gap-y-7 pt-8">
-          <div className="flex flex-col gap-y-2">
-            <p className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-[#858584]">
-              Name:
+      <div className="text-center">
+        <h1 className="mt-11 text-4xl font-semibold">
+          We'd love to hear from you
+        </h1>
+        <h3 className="mt-5 mb-16 text-[#C5C5C5] text-xl">
+          Chat to our friendly team.
+        </h3>
+        <Image
+          className="px-8 w-full aspect-auto rounded-xl"
+          src={TeamImage}
+          spinnerClassName="px-8 w-full aspect-auto rounded-xl"
+          alt="team"
+        />
+        <div className="flex flex-col justify-between items-center pt-24 px-8 gap-8 lg:flex-row">
+          <div className="p-6 bg-[#2B2F40] rounded-lg w-full h-full min-h-[286px] text-left">
+            <img className="mb-16" src={ChatIcon} alt="chat-cion" />
+            <h3 className="text-2xl font-semibold mb-2">Chat to Us</h3>
+            <p className="text-base text-[#C5C5C5]">
+              Our friendly team is here to help.
             </p>
-            <input
-              name="name"
-              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-base sm:text-xl md:text:2xl lg:text-3xl xl:text-3xl bg-[#010B10] border-secondary"
-              maxLength={20}
-              value={form.name}
-              onChange={handleInputChange}
-              required
-            />
           </div>
-          <div className="flex flex-col gap-y-2">
-            <p className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-[#858584]">
-              Email:
+          <div className="p-6 bg-[#2B2F40] rounded-lg w-full h-full min-h-[286px] text-left">
+            <img className="mb-16" src={SupportIcon} alt="chat-cion" />
+            <h3 className="text-2xl font-semibold mb-2">Live support</h3>
+            <p className="text-base text-[#C5C5C5]">
+              Come join our Telegram community for live support! We're here to l
+              help you out.
             </p>
-            <input
-              name="email"
-              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-base sm:text-xl md:text:2xl lg:text-3xl xl:text-3xl bg-[#010B10] border-secondary"
-              maxLength={30}
-              value={form.email}
-              onChange={handleInputChange}
-              required
-            />
           </div>
-          <div className="flex flex-col gap-y-2">
-            <p className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-[#858584]">
-              Phone Number:
+          <div className="p-6 bg-[#2B2F40] rounded-lg w-full h-full min-h-[286px] text-left">
+            <img className="mb-16" src={ShareIcon} alt="chat-cion" />
+            <h3 className="text-2xl font-semibold mb-2">Share ideas</h3>
+            <p className="text-base text-[#C5C5C5]">
+              Talk to our friendly team about what you want, and we'll make it a
+              reality!
             </p>
-            <input
-              name="number"
-              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-base sm:text-xl md:text:2xl lg:text-3xl xl:text-3xl bg-[#010B10] border-secondary"
-              maxLength={20}
-              value={form.number}
-              onChange={handleInputChange}
-              required
-            />
           </div>
-          <div className="flex flex-col gap-y-2">
-            <p className="text-sm sm:text-sm md:text-base lg:text-lg xl:text-lg text-[#858584]">
-              Message:
-            </p>
-            <textarea
-              name="message"
-              rows={5}
-              className="text-white border-[0.5px] w-full py-1 px-4 rounded-md text-base sm:text-xl md:text:2xl lg:text-3xl xl:text-3xl bg-[#010B10] border-secondary"
-              value={form.message}
-              onChange={handleInputChange}
-              required
-            />
-          </div>
-          <Button
-            className="flex justify-center items-center m-auto w-[160px] rounded-xl text-base sm:text-base md:text-xl lg:text-2xl xl:text-2xl"
-            text="Submit"
-            variant="primary"
-            onClick={handleClick}
-          />
-        </form>
+        </div>
       </div>
     </div>
   );

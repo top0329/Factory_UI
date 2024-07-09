@@ -15,6 +15,26 @@ body {
   width: calc((100% - 12px) / 2);
 }
 
+.selected-flag {
+  background-color: #161925 !important;
+}
+
+.selected-flag:hover {
+  background-color: #2c3044 !important;
+}
+
+.selected-flag:focus {
+  background-color: #2c3044 !important;
+}
+
+.country:hover {
+  background-color: #2c3044 !important;
+}
+
+.highlight {
+  background-color: #2c3044 !important;
+}
+
 @layer utilities {
   @media (min-width: 1536px) {
     .min-px-96 {
