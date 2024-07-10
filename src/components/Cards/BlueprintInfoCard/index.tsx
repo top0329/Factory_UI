@@ -16,9 +16,9 @@ import getERC721Data from '../../../utils/getERC721Data';
 import { createBlueprintAtom } from '../../../jotai/atoms';
 import { CreateBlueprint } from '../../../types';
 import {
-  BASE_URI,
   DefaultErc20ImageUri,
   invalidChars,
+  TOKEN_DETAIL_DATA_URL,
 } from '../../../constants';
 import { uploadFileToIPFS, uploadJSONToIPFS } from '../../../utils/uploadIPFS';
 import { getTokenDetailsByAddress } from '../../../utils/checkContractType';
@@ -111,6 +111,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const [imageSrc, setImageSrc] = useState<string>(
     createInfo.imageUri.substring(21)
   );
+  const [tokenDataUrl, setTokenDataUrl] = useState<string>('');
   const [uploadedImageSrc, setUploadedImageSrc] = useState<string>(
     DefaultBlueprintImage
   );
@@ -131,6 +132,14 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (chainId === 1) {
+      setTokenDataUrl(TOKEN_DETAIL_DATA_URL.main);
+    } else if (chainId === 137) {
+      setTokenDataUrl(TOKEN_DETAIL_DATA_URL.polygon);
+    }
+  }, [chainId]);
 
   useEffect(() => {
     setIsIPFSSelected(isIPFSSelected);
@@ -417,7 +426,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             Number(createInfo.mintLimit)
                           )
                           .send({ from: account, gasPrice });
-                        await axios.put(`${BASE_URI}/blueprint/update`, data);
+                        await axios.put(
+                          `${import.meta.env.VITE_BASE_URI}/blueprint/update`,
+                          data
+                        );
                         setCreateInfo(initialBlueprint);
                         showToast('success', 'Blueprint updated successfully');
                         navigate('/blueprint');
@@ -455,7 +467,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             )
                             .send({ from: account, gasPrice });
                           data.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
-                          await axios.put(`${BASE_URI}/blueprint/update`, data);
+                          await axios.put(
+                            `${import.meta.env.VITE_BASE_URI}/blueprint/update`,
+                            data
+                          );
                           setCreateInfo(initialBlueprint);
                           showToast(
                             'success',
@@ -493,7 +508,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       Number(createInfo.mintLimit)
                     )
                     .send({ from: account, gasPrice });
-                  await axios.put(`${BASE_URI}/blueprint/update`, data);
+                  await axios.put(
+                    `${import.meta.env.VITE_BASE_URI}/blueprint/update`,
+                    data
+                  );
                   setCreateInfo(initialBlueprint);
                   showToast('success', 'Blueprint updated successfully');
                   navigate('/blueprint');
@@ -513,11 +531,14 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           jsonHash.substring(16)
                         )
                         .send({ from: account, gasPrice });
-                      await axios.put(`${BASE_URI}/blueprint/update`, {
-                        id: Number(createInfo.id),
-                        chainId: chainId,
-                        imageUri: imageSrc,
-                      });
+                      await axios.put(
+                        `${import.meta.env.VITE_BASE_URI}/blueprint/update`,
+                        {
+                          id: Number(createInfo.id),
+                          chainId: chainId,
+                          imageUri: imageSrc,
+                        }
+                      );
                       setCreateInfo(initialBlueprint);
                       showToast(
                         'success',
@@ -543,11 +564,14 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             jsonHash.substring(16)
                           )
                           .send({ from: account, gasPrice });
-                        await axios.put(`${BASE_URI}/blueprint/update`, {
-                          id: Number(createInfo.id),
-                          chainId: chainId,
-                          imageUri: `https://ipfs.io/ipfs/${imageHash}`,
-                        });
+                        await axios.put(
+                          `${import.meta.env.VITE_BASE_URI}/blueprint/update`,
+                          {
+                            id: Number(createInfo.id),
+                            chainId: chainId,
+                            imageUri: `https://ipfs.io/ipfs/${imageHash}`,
+                          }
+                        );
                         setCreateInfo(initialBlueprint);
                         showToast(
                           'success',
@@ -580,15 +604,18 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                     createInfo.mintPriceUnit
                   )
                   .send({ from: account, gasPrice });
-                await axios.put(`${BASE_URI}/blueprint/update`, {
-                  id: Number(createInfo.id),
-                  chainId: chainId,
-                  mintPrice:
-                    createInfo.mintPrice === ''
-                      ? 0
-                      : Number(createInfo.mintPrice),
-                  mintPriceUnit: Number(createInfo.mintPriceUnit),
-                });
+                await axios.put(
+                  `${import.meta.env.VITE_BASE_URI}/blueprint/update`,
+                  {
+                    id: Number(createInfo.id),
+                    chainId: chainId,
+                    mintPrice:
+                      createInfo.mintPrice === ''
+                        ? 0
+                        : Number(createInfo.mintPrice),
+                    mintPriceUnit: Number(createInfo.mintPriceUnit),
+                  }
+                );
                 setCreateInfo(initialBlueprint);
                 showToast('success', 'Blueprint MintPrice update successfully');
                 navigate('/blueprint');
@@ -598,11 +625,14 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                 await factoryWeb3.methods
                   .updateBlueprintMintLimit(createInfo.id, _mintLimit)
                   .send({ from: account, gasPrice });
-                await axios.put(`${BASE_URI}/blueprint/update`, {
-                  id: Number(createInfo.id),
-                  chainId: chainId,
-                  mintLimit: Number(_mintLimit),
-                });
+                await axios.put(
+                  `${import.meta.env.VITE_BASE_URI}/blueprint/update`,
+                  {
+                    id: Number(createInfo.id),
+                    chainId: chainId,
+                    mintLimit: Number(_mintLimit),
+                  }
+                );
                 setCreateInfo(initialBlueprint);
                 showToast(
                   'success',
@@ -649,7 +679,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         if (tokenData) {
                           const { tokenName } = tokenData;
                           const details = await getTokenDetailsByAddress(
-                            erc20.tokenAddress as Address
+                            erc20.tokenAddress as Address,
+                            tokenDataUrl
                           );
                           _name = tokenName;
                           if (details) {
@@ -752,7 +783,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           }
                         }
                         await axios.post(
-                          `${BASE_URI}/blueprint/create`,
+                          `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
                           blueprintData
                         );
                         setCreateInfo(initialBlueprint);
@@ -811,7 +842,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           }
                           blueprintData.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           await axios.post(
-                            `${BASE_URI}/blueprint/create`,
+                            `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
                             blueprintData
                           );
                           setCreateInfo(initialBlueprint);
@@ -874,7 +905,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   }
                   blueprintData.imageUri = _imageUri;
                   await axios.post(
-                    `${BASE_URI}/blueprint/create`,
+                    `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
                     blueprintData
                   );
                   setCreateInfo(initialBlueprint);
@@ -919,7 +950,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         if (tokenData) {
                           const { tokenName } = tokenData;
                           const details = await getTokenDetailsByAddress(
-                            erc20.tokenAddress as Address
+                            erc20.tokenAddress as Address,
+                            tokenDataUrl
                           );
                           _name = tokenName;
                           if (details) {
@@ -1036,7 +1068,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                         }
                         blueprintData.mintLimit = _mintLimit;
                         await axios.post(
-                          `${BASE_URI}/blueprint/create`,
+                          `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
                           blueprintData
                         );
                         setCreateInfo(initialBlueprint);
@@ -1106,7 +1138,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           blueprintData.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           blueprintData.mintLimit = _mintLimit;
                           await axios.post(
-                            `${BASE_URI}/blueprint/create`,
+                            `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
                             blueprintData
                           );
                           setCreateInfo(initialBlueprint);
@@ -1174,7 +1206,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   blueprintData.imageUri = _imageUri;
                   blueprintData.mintLimit = _mintLimit;
                   await axios.post(
-                    `${BASE_URI}/blueprint/create`,
+                    `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
                     blueprintData
                   );
                   setCreateInfo(initialBlueprint);

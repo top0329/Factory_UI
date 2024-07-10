@@ -16,7 +16,6 @@ import {
   sortOrderAtom,
 } from '../../jotai/atoms';
 import { AdvancedFilterValue } from '../../types';
-import { BASE_URI } from '../../constants';
 
 export interface Props {
   pageFilter?: 'blueprint' | 'my-blueprint' | 'product' | 'component';
@@ -129,7 +128,9 @@ const AdvancedFilter: FC<Props> = ({ pageFilter }) => {
       });
       setShowFilterOption(false);
       const advancedFilterResult = await axios.get(
-        `${BASE_URI}/blueprint/search?query=${searchValue}&chainId=${chainId}&sortField=${sortField}&sortOrder=${sortOrder}&minId=&maxId=&mintPriceUnit=&mintPriceMin=&mintPriceMax=&totalSupplyMin=&totalSupplyMax=&mintLimitMin=&mintLimitMax=&mintedAmountMin=&mintedAmountMax=`
+        `${
+          import.meta.env.VITE_BASE_URI
+        }/blueprint/search?query=${searchValue}&chainId=${chainId}&sortField=${sortField}&sortOrder=${sortOrder}&minId=&maxId=&mintPriceUnit=&mintPriceMin=&mintPriceMax=&totalSupplyMin=&totalSupplyMax=&mintLimitMin=&mintLimitMax=&mintedAmountMin=&mintedAmountMax=`
       );
       if (advancedFilterResult.data.length === 0) {
         setIsDataEmpty(true);

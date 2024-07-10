@@ -122,6 +122,40 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         setCurrentUSDCAddress(usdcAddress.sepolia);
         setNativeTokenUnit('ETH');
         setChainExplorer(CHAIN_EXPLORER.sepolia);
+      } else if (chainId === 137) {
+        setFactoryContract(
+          new ethers.Contract(
+            factoryAddress.polygon,
+            FactoryABI,
+            provider
+          ) as Contract
+        );
+        setBlueprintContract(
+          new ethers.Contract(
+            blueprintAddress.polygon,
+            BlueprintABI,
+            provider
+          ) as Contract
+        );
+        setProductContract(
+          new ethers.Contract(
+            productAddress.polygon,
+            ProductABI,
+            provider
+          ) as Contract
+        );
+        setFactoryWeb3(new web3.eth.Contract(FactoryABI, factoryAddress.polygon));
+        setBlueprintWeb3(
+          new web3.eth.Contract(BlueprintABI, blueprintAddress.polygon)
+        );
+        setProductWeb3(new web3.eth.Contract(ProductABI, productAddress.polygon));
+        setCurrentFactoryAddress(factoryAddress.polygon);
+        setCurrentBlueprintAddress(blueprintAddress.polygon);
+        setCurrentProductAddress(productAddress.polygon);
+        setCurrentUSDTAddress(usdtAddress.polygon);
+        setCurrentUSDCAddress(usdcAddress.polygon);
+        setNativeTokenUnit('MATIC');
+        setChainExplorer(CHAIN_EXPLORER.polygon);
       } else if (chainId === 80002) {
         setFactoryContract(
           new ethers.Contract(

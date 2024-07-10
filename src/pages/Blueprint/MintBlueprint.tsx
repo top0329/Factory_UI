@@ -14,7 +14,6 @@ import useSpinner from '../../hooks/useSpinner';
 import erc20Abi from '../../abi/ERC20ABI.json';
 import strip from '../../utils/strip';
 import { blueprintSelectionState } from '../../jotai/atoms';
-import { BASE_URI } from '../../constants';
 import { getGasPrice } from '../../utils/getGasPrice';
 
 const MintBlueprintPage = () => {
@@ -281,7 +280,7 @@ const MintBlueprintPage = () => {
                 '0x'
               )
               .send({ from: account, value: _mintFeeWei, gasPrice: gasPrice });
-            await axios.put(`${BASE_URI}/blueprint/mint`, {
+            await axios.put(`${import.meta.env.VITE_BASE_URI}/blueprint/mint`, {
               id: Number(selectedBlueprint.id),
               chainId: chainId,
               mintedAmount: blueprintMintAmountValue,
@@ -317,11 +316,14 @@ const MintBlueprintPage = () => {
                     value: _blueprintCreationFeeWei,
                     gasPrice: gasPrice,
                   });
-                await axios.put(`${BASE_URI}/blueprint/mint`, {
-                  id: Number(selectedBlueprint.id),
-                  chainId: chainId,
-                  mintedAmount: blueprintMintAmountValue,
-                });
+                await axios.put(
+                  `${import.meta.env.VITE_BASE_URI}/blueprint/mint`,
+                  {
+                    id: Number(selectedBlueprint.id),
+                    chainId: chainId,
+                    mintedAmount: blueprintMintAmountValue,
+                  }
+                );
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
                 navigate('/my-blueprint');
@@ -361,11 +363,14 @@ const MintBlueprintPage = () => {
                     value: _blueprintCreationFeeWei,
                     gasPrice: gasPrice,
                   });
-                await axios.put(`${BASE_URI}/blueprint/mint`, {
-                  id: Number(selectedBlueprint.id),
-                  chainId: chainId,
-                  mintedAmount: blueprintMintAmountValue,
-                });
+                await axios.put(
+                  `${import.meta.env.VITE_BASE_URI}/blueprint/mint`,
+                  {
+                    id: Number(selectedBlueprint.id),
+                    chainId: chainId,
+                    mintedAmount: blueprintMintAmountValue,
+                  }
+                );
                 showToast('success', 'Blueprint minted successfully');
                 setIsApproved(false);
                 navigate('/my-blueprint');

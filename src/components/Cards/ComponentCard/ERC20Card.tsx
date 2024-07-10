@@ -7,7 +7,7 @@ import Image from '../../Image';
 import useWeb3 from '../../../hooks/useWeb3';
 import getTokenData from '../../../utils/getTokenData';
 import { getTokenDetailsByAddress } from '../../../utils/checkContractType';
-import { DefaultErc20ImageUri } from '../../../constants';
+import { DefaultErc20ImageUri, TOKEN_DETAIL_DATA_URL } from '../../../constants';
 
 export interface Props {
   name?: string;
@@ -30,7 +30,7 @@ const ERC20Card: FC<Props> = ({
   onDeleteIconClicked,
   isForAdd,
 }) => {
-  const { library, chainExplorer } = useWeb3();
+  const { library, chainExplorer, chainId } = useWeb3();
 
   const [tokenName, setTokenName] = useState<string>('');
   const [imageUri, setImageUri] = useState<string>('');
@@ -40,6 +40,12 @@ const ERC20Card: FC<Props> = ({
     async function init() {
       try {
         if (isForAdd) {
+          let tokenDataUrl: string = '';
+          if (chainId === 1) {
+            tokenDataUrl = TOKEN_DETAIL_DATA_URL.main;
+          } else if (chainId === 137) {
+            tokenDataUrl = TOKEN_DETAIL_DATA_URL.polygon;
+          }
           const tokenData = await getTokenData(
             tokenAddress as Address,
             library
@@ -47,7 +53,8 @@ const ERC20Card: FC<Props> = ({
           if (tokenData) {
             const { tokenName } = tokenData;
             const details = await getTokenDetailsByAddress(
-              tokenAddress as Address
+              tokenAddress as Address,
+              tokenDataUrl
             );
             setTokenName(tokenName);
             if (details && details.logo) {
@@ -65,7 +72,7 @@ const ERC20Card: FC<Props> = ({
       }
     }
     init();
-  }, [isForAdd, library, name, tokenAddress, uri]);
+  }, [chainId, isForAdd, library, name, tokenAddress, uri]);
 
   const handleCopyButtonClicked = () => {
     try {

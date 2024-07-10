@@ -7,8 +7,9 @@ import {
   UseFormSetValue,
 } from 'react-hook-form';
 import PhoneInput, { CountryData } from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
 import libphonenumber from 'google-libphonenumber';
+
+import 'react-phone-input-2/lib/style.css';
 
 // Define props for the PhoneInput component
 interface PhoneInputProps {

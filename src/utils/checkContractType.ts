@@ -7,11 +7,9 @@ import erc721Abi from '../abi/ERC721ABI.json';
 import erc1155Abi from '../abi/ERC1155ABI.json';
 import { DefaultErc20ImageUri } from '../constants';
 
-export const getTokenDetailsByAddress = async (contractAddress: Address) => {
+export const getTokenDetailsByAddress = async (contractAddress: Address, tokenDataUrl: string) => {
   try {
-    const response = await axios.get(
-      `https://api.coingecko.com/api/v3/coins/ethereum/contract/${contractAddress}`
-    );
+    const response = await axios.get(`${tokenDataUrl}/${contractAddress}`);
     const tokenId = response.data.id;
     let logo: string;
     if (response.data.image.large) {

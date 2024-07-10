@@ -24,7 +24,7 @@ import {
   sortFieldAtom,
   sortOrderAtom,
 } from '../../jotai/atoms';
-import { BASE_URI, invalidChars } from '../../constants';
+import { invalidChars } from '../../constants';
 import {
   AdvancedFilterValue,
   ComponentSortField,
@@ -85,7 +85,9 @@ const SearchBar: FC<Props> = ({
         setIsLoading(true);
         if (pageFilter === 'blueprint') {
           const searchResult = await axios.get(
-            `${BASE_URI}/blueprint/search?query=${searchValue}&chainId=${chainId}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
+            `${
+              import.meta.env.VITE_BASE_URI
+            }/blueprint/search?query=${searchValue}&chainId=${chainId}&sortField=${sortField}&sortOrder=${sortOrder}&minId=${advancedFilterValue.blueprintIdMin.toString()}&maxId=${
               advancedFilterValue.blueprintIdMax
             }&mintPriceUnit=${advancedFilterValue.mintPriceUnit}&mintPriceMin=${
               advancedFilterValue.mintPriceMin
@@ -154,7 +156,9 @@ const SearchBar: FC<Props> = ({
               (blueprint) => blueprint.tokenId
             );
             const myBlueprintData = await axios.get(
-              `${BASE_URI}/my-blueprint/?ids=${myBlueprintIds}&chainId=${chainId}`
+              `${
+                import.meta.env.VITE_BASE_URI
+              }/my-blueprint/?ids=${myBlueprintIds}&chainId=${chainId}`
             );
             if (myBlueprintData.data.length === 0) {
               setIsDataEmpty(true);
@@ -274,7 +278,9 @@ const SearchBar: FC<Props> = ({
           if (myProducts && myProducts.length > 0) {
             const myProductsIds = myProducts.map((product) => product.tokenId);
             const myProductsData = await axios.get(
-              `${BASE_URI}/product/?ids=${myProductsIds}&chainId=${chainId}`
+              `${
+                import.meta.env.VITE_BASE_URI
+              }/product/?ids=${myProductsIds}&chainId=${chainId}`
             );
             if (myProductsData.data.length === 0) {
               setIsDataEmpty(true);
@@ -353,7 +359,9 @@ const SearchBar: FC<Props> = ({
           }
         } else if (pageFilter === 'component') {
           const searchResult = await axios.get(
-            `${BASE_URI}/component/search?query=${searchValue}&=chainId=${chainId}&sortField=${componentSortField}&sortOrder=${sortOrder}`
+            `${
+              import.meta.env.VITE_BASE_URI
+            }/component/search?query=${searchValue}&=chainId=${chainId}&sortField=${componentSortField}&sortOrder=${sortOrder}`
           );
           if (searchResult.data.length === 0) {
             setIsDataEmpty(true);

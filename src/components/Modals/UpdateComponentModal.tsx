@@ -27,6 +27,7 @@ import {
   DefaultErc1155ImageUri,
   DefaultErc20ImageUri,
   DefaultErc721ImageUri,
+  TOKEN_DETAIL_DATA_URL,
 } from '../../constants';
 
 const UpdateComponentModal = ({
@@ -34,7 +35,7 @@ const UpdateComponentModal = ({
 }: {
   selectedComponentData: SelectedComponentData;
 }) => {
-  const { library } = useWeb3();
+  const { library, chainId } = useWeb3();
 
   const [isUpdateComponentModalOpen, setIsUpdateComponentModalOpen] =
     useAtom<boolean>(isEditComponentModalAtom);
@@ -71,12 +72,19 @@ const UpdateComponentModal = ({
     async function init() {
       if (selectedComponentData.tokenAddress) {
         if (activeItem === 0) {
+          let tokenDataUrl: string = '';
+          if (chainId === 1) {
+            tokenDataUrl = TOKEN_DETAIL_DATA_URL.main;
+          } else if (chainId === 137) {
+            tokenDataUrl = TOKEN_DETAIL_DATA_URL.polygon;
+          }
           const tokenDetails = await getTokenData(
             selectedComponentData.tokenAddress as Address,
             library
           );
           const details = await getTokenDetailsByAddress(
-            selectedComponentData.tokenAddress as Address
+            selectedComponentData.tokenAddress as Address,
+            tokenDataUrl
           );
           if (details) {
             setImageUri(details?.logo as string);
@@ -142,6 +150,7 @@ const UpdateComponentModal = ({
     selectedComponentData.tokenId,
     selectedComponentData.erc1155Amount,
     library,
+    chainId,
   ]);
 
   useEffect(() => {

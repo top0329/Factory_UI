@@ -1,7 +1,7 @@
 import { Alchemy, Network } from 'alchemy-sdk';
 
 const config: any = {
-  apiKey: 'Z66PxY86kCkFslToB82DiSM531OnIyHS',
+  apiKey: import.meta.env.VITE_ALCHEMY_API_KEY,
 };
 
 export const runMain = async (
@@ -32,7 +32,6 @@ export const runMain = async (
       const { tokenId, balance } = nft;
       return { tokenId, balance };
     });
-    console.log(nftsList);
     return nftsList;
   } catch (err) {
     console.log(err);
