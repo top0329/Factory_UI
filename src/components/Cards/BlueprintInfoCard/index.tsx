@@ -320,7 +320,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
   const handleSubmit = async () => {
     try {
       const gasPrice = await getGasPrice(web3);
-      console.log(gasPrice);
       if (name === '') {
         setError((prevState) => ({
           ...prevState,
