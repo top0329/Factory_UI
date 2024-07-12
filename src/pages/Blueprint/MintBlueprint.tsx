@@ -253,8 +253,7 @@ const MintBlueprintPage = () => {
 
   const handleMintBlueprintClick = async () => {
     try {
-      const gasPrice = await getGasPrice(chainId!);
-      console.log(gasPrice);
+      const gasPrice = await getGasPrice(web3);
       if (blueprintMintAmountValue === 0 || blueprintMintAmountValue === '') {
         setIsMintAmountEmpty(true);
         setTimeout(() => {

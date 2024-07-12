@@ -41,6 +41,8 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   let defaultProvider: any;
   if (chainId === 11155111) {
     defaultProvider = new ethers.JsonRpcProvider(defaultRPC.sepolia);
+  } else if (chainId === 137) {
+    defaultProvider = new ethers.JsonRpcProvider(defaultRPC.polygon);
   } else if (chainId === 80002) {
     defaultProvider = new ethers.JsonRpcProvider(defaultRPC.amoy);
   }
@@ -144,11 +146,15 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
             provider
           ) as Contract
         );
-        setFactoryWeb3(new web3.eth.Contract(FactoryABI, factoryAddress.polygon));
+        setFactoryWeb3(
+          new web3.eth.Contract(FactoryABI, factoryAddress.polygon)
+        );
         setBlueprintWeb3(
           new web3.eth.Contract(BlueprintABI, blueprintAddress.polygon)
         );
-        setProductWeb3(new web3.eth.Contract(ProductABI, productAddress.polygon));
+        setProductWeb3(
+          new web3.eth.Contract(ProductABI, productAddress.polygon)
+        );
         setCurrentFactoryAddress(factoryAddress.polygon);
         setCurrentBlueprintAddress(blueprintAddress.polygon);
         setCurrentProductAddress(productAddress.polygon);
@@ -205,7 +211,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     async (erc20Address: string, spender: string, amount: string) => {
       try {
         const erc20Contract = new web3.eth.Contract(erc20Abi, erc20Address);
-        const gasPrice = await getGasPrice(chainId);
+        const gasPrice = await getGasPrice(web3);
         if (gasPrice) {
           const tx = await erc20Contract.methods
             .approve(spender, amount)
@@ -216,14 +222,14 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log(err);
       }
     },
-    [address, chainId]
+    [address]
   );
 
   const erc721Approve = useCallback(
     async (erc721Address: string, spender: string, tokenId: string) => {
       try {
         const erc721Contract = new web3.eth.Contract(erc721Abi, erc721Address);
-        const gasPrice = await getGasPrice(chainId);
+        const gasPrice = await getGasPrice(web3);
         if (gasPrice) {
           const tx = await erc721Contract.methods
             .approve(spender, tokenId)
@@ -234,7 +240,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log(err);
       }
     },
-    [address, chainId]
+    [address]
   );
 
   const erc1155Approve = useCallback(
@@ -244,7 +250,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
           erc1155Abi,
           erc1155Address
         );
-        const gasPrice = await getGasPrice(chainId);
+        const gasPrice = await getGasPrice(web3);
         if (gasPrice) {
           const tx = await erc1155Contract.methods
             .setApprovalForAll(spender, approved)
@@ -255,7 +261,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log(err);
       }
     },
-    [address, chainId]
+    [address]
   );
 
   const value = useMemo(

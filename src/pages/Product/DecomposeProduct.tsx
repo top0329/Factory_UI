@@ -21,7 +21,6 @@ const DecomposeProductPage = () => {
     isConnected,
     library,
     account,
-    chainId,
     factoryContract,
     factoryWeb3,
     productWeb3,
@@ -59,12 +58,12 @@ const DecomposeProductPage = () => {
   const handleApprove = async () => {
     if (isConnected && library) {
       try {
-        const gasPrice = await getGasPrice(chainId!);
+        const gasPrice = await getGasPrice(web3);
         let receipt = null;
         while (receipt === null || receipt.status === undefined) {
           const transaction = productWeb3.methods
             .setApprovalForAll(await factoryContract.getAddress(), true)
-            .send({ from: account, gasPrice: gasPrice });
+            .send({ from: account, gasPrice });
           openSpin('Approving');
           receipt = await web3.eth.getTransactionReceipt(
             (
@@ -128,7 +127,7 @@ const DecomposeProductPage = () => {
 
   const handleDecompose = async () => {
     try {
-      const gasPrice = await getGasPrice(chainId!);
+      const gasPrice = await getGasPrice(web3);
       let receipt = null;
       while (receipt === null || receipt.status === undefined) {
         const transaction = factoryWeb3.methods

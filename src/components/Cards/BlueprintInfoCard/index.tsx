@@ -91,6 +91,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     blueprintWeb3,
     blueprintContract,
     nativeTokenUnit,
+    web3
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -318,7 +319,8 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
 
   const handleSubmit = async () => {
     try {
-      const gasPrice = await getGasPrice(chainId!);
+      const gasPrice = await getGasPrice(web3);
+      console.log(gasPrice);
       if (name === '') {
         setError((prevState) => ({
           ...prevState,
