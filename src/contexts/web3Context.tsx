@@ -211,7 +211,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     async (erc20Address: string, spender: string, amount: string) => {
       try {
         const erc20Contract = new web3.eth.Contract(erc20Abi, erc20Address);
-        const gasPrice = await getGasPrice(web3);
+        const gasPrice = await getGasPrice(web3, chainId);
         if (gasPrice) {
           const tx = await erc20Contract.methods
             .approve(spender, amount)
@@ -229,7 +229,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     async (erc721Address: string, spender: string, tokenId: string) => {
       try {
         const erc721Contract = new web3.eth.Contract(erc721Abi, erc721Address);
-        const gasPrice = await getGasPrice(web3);
+        const gasPrice = await getGasPrice(web3, chainId);
         if (gasPrice) {
           const tx = await erc721Contract.methods
             .approve(spender, tokenId)
@@ -250,7 +250,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
           erc1155Abi,
           erc1155Address
         );
-        const gasPrice = await getGasPrice(web3);
+        const gasPrice = await getGasPrice(web3, chainId);
         if (gasPrice) {
           const tx = await erc1155Contract.methods
             .setApprovalForAll(spender, approved)

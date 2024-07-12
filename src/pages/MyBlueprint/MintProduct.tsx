@@ -58,6 +58,7 @@ const MintProductPage = () => {
     isConnected,
     library,
     account,
+    chainId,
     factoryWeb3,
     blueprintWeb3,
     blueprintContract,
@@ -138,7 +139,7 @@ const MintProductPage = () => {
 
   const handleApprove = async () => {
     try {
-      const gasPrice = await getGasPrice(web3);
+      const gasPrice = await getGasPrice(web3, chainId!);
       if (isConnected && library && blueprintMintAmountValue) {
         const isApproved = await blueprintContract.isApprovedForAll(
           account,
@@ -201,7 +202,7 @@ const MintProductPage = () => {
   const handleMintProduct = async () => {
     try {
       if (!isConnected || !library || blueprintMintAmountValue) {
-        const gasPrice = await getGasPrice(web3);
+        const gasPrice = await getGasPrice(web3, chainId!);
         let receipt = null;
         while (receipt === null || receipt.status === undefined) {
           const tx = factoryWeb3.methods

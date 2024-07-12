@@ -21,6 +21,7 @@ const DecomposeProductPage = () => {
     isConnected,
     library,
     account,
+    chainId,
     factoryContract,
     factoryWeb3,
     productWeb3,
@@ -58,7 +59,7 @@ const DecomposeProductPage = () => {
   const handleApprove = async () => {
     if (isConnected && library) {
       try {
-        const gasPrice = await getGasPrice(web3);
+        const gasPrice = await getGasPrice(web3, chainId!);
         let receipt = null;
         while (receipt === null || receipt.status === undefined) {
           const transaction = productWeb3.methods
@@ -127,7 +128,7 @@ const DecomposeProductPage = () => {
 
   const handleDecompose = async () => {
     try {
-      const gasPrice = await getGasPrice(web3);
+      const gasPrice = await getGasPrice(web3, chainId!);
       let receipt = null;
       while (receipt === null || receipt.status === undefined) {
         const transaction = factoryWeb3.methods
