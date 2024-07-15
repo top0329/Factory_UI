@@ -1,16 +1,16 @@
 export const factoryAddress = {
   sepolia: '0x0300C57Aa0A4E6d70DaB6b861683Adb812A19cDb'.toLocaleLowerCase(),
-  polygon: '0x579a59ce0B88335d1fcc81ad7940dC6c8181F0f3'.toLocaleLowerCase(),
+  polygon: '0x6Aeb5002df026ed10193A1052D76081F5d043d1C'.toLocaleLowerCase(),
   amoy: '0x67a22B86482228b514e55D73931f763418eAaB2a'.toLocaleLowerCase(),
 };
 export const blueprintAddress = {
   sepolia: '0xD03513A6135FdB9A74a303D9f33c1F872b7Fe454'.toLocaleLowerCase(),
-  polygon: '0xAF337AAa9098F9b5b03602a5370A8B48c0bba233'.toLocaleLowerCase(),
+  polygon: '0x2439dc49D0ECABeD01B282B875743768E7c0D458'.toLocaleLowerCase(),
   amoy: '0x5a18EF8096Eb3a5ab331c700336Ff3EDc6157D96'.toLocaleLowerCase(),
 };
 export const productAddress = {
   sepolia: '0xC4B7826e1275c3058019d7654E13E4058a00Bb08'.toLocaleLowerCase(),
-  polygon: '0xd0DaDC9d9a3728Cab83Dd80702df0d11828563aC'.toLocaleLowerCase(),
+  polygon: '0x4eF7388B30e8f75BC9142218F3f7D3C8f61dFb12'.toLocaleLowerCase(),
   amoy: '0x2a54bC9eBd293D218ccbbB23556067B391B8d568'.toLocaleLowerCase(),
 };
 export const usdtAddress = {
