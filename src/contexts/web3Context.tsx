@@ -222,7 +222,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log(err);
       }
     },
-    [address]
+    [address, chainId]
   );
 
   const erc721Approve = useCallback(
@@ -240,7 +240,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log(err);
       }
     },
-    [address]
+    [address, chainId]
   );
 
   const erc1155Approve = useCallback(
@@ -261,7 +261,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log(err);
       }
     },
-    [address]
+    [address, chainId]
   );
 
   const value = useMemo(

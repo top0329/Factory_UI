@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-// import { polygon } from 'wagmi/chains';
-import { polygon, polygonAmoy, sepolia } from 'wagmi/chains';
+// import { mainnet, bsc, polygon, polygonAmoy, sepolia } from 'wagmi/chains';
+import { mainnet, bsc, polygon } from 'wagmi/chains';
 import { createConfig, WagmiProvider, http } from 'wagmi';
 import { Chain, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query';
@@ -14,7 +14,7 @@ import {
 } from '@rainbow-me/rainbowkit/wallets';
 import '@rainbow-me/rainbowkit/styles.css';
 
-import PolygonIcon from '../assets/images/polygon-icon.png';
+// import PolygonIcon from '../assets/images/polygon-icon.png';
 
 const connectors = connectorsForWallets(
   [
@@ -36,20 +36,24 @@ const connectors = connectorsForWallets(
 );
 
 const chains: readonly [Chain, ...Chain[]] = [
-  sepolia,
+  mainnet,
+  bsc,
+  // sepolia,
   polygon,
-  {
-    ...polygonAmoy,
-    iconBackground: '#000',
-    iconUrl: PolygonIcon,
-  },
+  // {
+  //   ...polygonAmoy,
+  //   iconBackground: '#000',
+  //   iconUrl: PolygonIcon,
+  // },
 ];
 const config = createConfig({
   chains,
   transports: {
-    [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
+    [mainnet.id]: http('https://eth-pokt.nodies.app'),
+    // [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
+    [bsc.id]: http('https://bsc.meowrpc.com'),
     [polygon.id]: http('https://rpc.ankr.com/polygon'),
-    [polygonAmoy.id]: http('https://polygon-amoy.drpc.org'),
+    // [polygonAmoy.id]: http('https://polygon-amoy.drpc.org'),
   },
   connectors,
 });
