@@ -168,7 +168,7 @@ const SearchBar: FC<Props> = ({
                   (n) => Number(n.tokenId) === Number(blueprint.id)
                 );
                 if (ownedBlueprint) {
-                  blueprint.balance = Number(ownedBlueprint.balance);
+                  blueprint.balance = Number(ownedBlueprint.amount);
                 }
               });
               let keywordRegex: any = '';
@@ -290,7 +290,7 @@ const SearchBar: FC<Props> = ({
                   (n) => Number(n.tokenId) === Number(product.id)
                 );
                 if (_product) {
-                  product.balance = Number(_product.balance);
+                  product.balance = Number(_product.amount);
                 }
               });
               let keywordRegex: any = '';

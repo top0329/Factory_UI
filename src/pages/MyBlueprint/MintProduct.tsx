@@ -5,18 +5,19 @@ import { Icon } from '@iconify/react/dist/iconify.js';
 import { useAtom } from 'jotai';
 
 import Button from '../../components/Button';
+import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard';
+import { ERC721MintListCard } from '../../components/Cards/ListCard/ERC721ListCard';
+import { ERC1155MintListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
+
 import useWeb3 from '../../hooks/useWeb3';
 import useToast from '../../hooks/useToast';
 import useSpinner from '../../hooks/useSpinner';
-import { SelectedOwnBlueprint } from '../../types';
 import {
   ownBlueprintSelectionState,
   selectedOwnBlueprintAtom,
 } from '../../jotai/atoms';
-import { ERC20MintListCard } from '../../components/Cards/ListCard/ERC20ListCard';
-import { ERC721MintListCard } from '../../components/Cards/ListCard/ERC721ListCard';
-import { ERC1155MintListCard } from '../../components/Cards/ListCard/ERC1155ListCard';
 import { getGasPrice } from '../../utils/getGasPrice';
+import { SelectedOwnBlueprint } from '../../types';
 
 interface CustomCheckboxProps {
   checked: boolean;

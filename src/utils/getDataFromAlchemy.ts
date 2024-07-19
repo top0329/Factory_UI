@@ -1,36 +1,47 @@
-import { Alchemy, Network } from 'alchemy-sdk';
-
-const config: any = {
-  apiKey: import.meta.env.VITE_ALCHEMY_API_KEY,
-};
+import Moralis from 'moralis';
+import { EvmChain } from '@moralisweb3/common-evm-utils';
 
 export const runMain = async (
   collectionAddress: string,
   walletAddress: string,
   chainId: number
 ) => {
-  if (chainId === 80002) {
-    config.network = Network.MATIC_AMOY;
-  } else if (chainId === 11155111) {
-    config.network = Network.ETH_SEPOLIA;
-  } else if (chainId === 137) {
-    config.network = Network.MATIC_MAINNET;
-  } else {
-    console.error(
-      'Unsupported network.'
-    );
-    return [];
+  let chain: any;
+  if (!Moralis.Core.isStarted) {
+    await Moralis.start({
+      apiKey: import.meta.env.VITE_MORALIS_API_KEY,
+    });
+  }
+  switch (chainId) {
+    case 1:
+      chain = EvmChain.ETHEREUM;
+      break;
+    case 56:
+      chain = EvmChain.BSC;
+      break;
+    case 80002:
+      chain = EvmChain.POLYGON_AMOY;
+      break;
+    case 11155111:
+      chain = EvmChain.SEPOLIA;
+      break;
+    case 137:
+      chain = EvmChain.POLYGON;
+      break;
+    default:
+      console.error('Unsupported network.');
+      return [];
   }
 
-  const alchemy = new Alchemy(config);
-
   try {
-    const nfts = await alchemy.nft.getNftsForOwner(walletAddress, {
-      contractAddresses: [collectionAddress],
+    const nfts = await Moralis.EvmApi.nft.getWalletNFTs({
+      chain,
+      tokenAddresses: [collectionAddress],
+      address: walletAddress,
     });
-    const nftsList = nfts.ownedNfts.map((nft) => {
-      const { tokenId, balance } = nft;
-      return { tokenId, balance };
+    const nftsList = nfts.result.map((nft) => {
+      const { tokenId, amount } = nft;
+      return { tokenId, amount };
     });
     return nftsList;
   } catch (err) {

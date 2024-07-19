@@ -50,10 +50,10 @@ const config = createConfig({
   chains,
   transports: {
     [mainnet.id]: http('https://eth-pokt.nodies.app'),
-    [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
     [bsc.id]: http('https://bsc.meowrpc.com'),
+    [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
     [polygon.id]: http('https://rpc.ankr.com/polygon'),
-    [polygonAmoy.id]: http('https://polygon-amoy.drpc.org'),
+    [polygonAmoy.id]: http('https://rpc-amoy.polygon.technology'),
   },
   connectors,
 });

@@ -21,6 +21,7 @@ export default function ListCard(props: ListCardInterface) {
     erc721Approve,
     erc1155Approve,
     currentFactoryAddress,
+    currentBlueprintAddress,
     currentProductAddress,
     web3,
   } = useWeb3();
@@ -68,7 +69,7 @@ export default function ListCard(props: ListCardInterface) {
         setTokenImage(String(await tokenUriToImageUri(uri)));
       } else if (props.type == 3) {
         setComponentName('');
-        setTokenAddress(currentProductAddress);
+        setTokenAddress(currentBlueprintAddress);
         setTokenAmount(Number(props.amount));
         setTokenId(props.tokenId);
         setTokenImage('');

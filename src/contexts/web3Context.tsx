@@ -71,7 +71,7 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const [productWeb3, setProductWeb3] = useState<any>();
   const [nativeTokenUnit, setNativeTokenUnit] = useState<string>('ETH');
   const [chainExplorer, setChainExplorer] = useState<string>(
-    CHAIN_EXPLORER.main
+    CHAIN_EXPLORER.mainnet
   );
 
   const init = useCallback(async () => {
@@ -86,7 +86,45 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         console.log('Connected wallet');
       }
 
-      if (chainId === 11155111) {
+      if (chainId === 1) {
+        setFactoryContract(
+          new ethers.Contract(
+            factoryAddress.mainnet,
+            FactoryABI,
+            provider
+          ) as Contract
+        );
+        setBlueprintContract(
+          new ethers.Contract(
+            blueprintAddress.mainnet,
+            BlueprintABI,
+            provider
+          ) as Contract
+        );
+        setProductContract(
+          new ethers.Contract(
+            productAddress.mainnet,
+            ProductABI,
+            provider
+          ) as Contract
+        );
+        setFactoryWeb3(
+          new web3.eth.Contract(FactoryABI, factoryAddress.mainnet)
+        );
+        setBlueprintWeb3(
+          new web3.eth.Contract(BlueprintABI, blueprintAddress.mainnet)
+        );
+        setProductWeb3(
+          new web3.eth.Contract(ProductABI, productAddress.mainnet)
+        );
+        setCurrentFactoryAddress(factoryAddress.mainnet);
+        setCurrentBlueprintAddress(blueprintAddress.mainnet);
+        setCurrentProductAddress(productAddress.mainnet);
+        setCurrentUSDTAddress(usdtAddress.mainnet);
+        setCurrentUSDCAddress(usdcAddress.mainnet);
+        setNativeTokenUnit('ETH');
+        setChainExplorer(CHAIN_EXPLORER.mainnet);
+      } else if (chainId === 11155111) {
         setFactoryContract(
           new ethers.Contract(
             factoryAddress.sepolia,
@@ -124,6 +162,40 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         setCurrentUSDCAddress(usdcAddress.sepolia);
         setNativeTokenUnit('ETH');
         setChainExplorer(CHAIN_EXPLORER.sepolia);
+      } else if (chainId === 56) {
+        setFactoryContract(
+          new ethers.Contract(
+            factoryAddress.bsc,
+            FactoryABI,
+            provider
+          ) as Contract
+        );
+        setBlueprintContract(
+          new ethers.Contract(
+            blueprintAddress.bsc,
+            BlueprintABI,
+            provider
+          ) as Contract
+        );
+        setProductContract(
+          new ethers.Contract(
+            productAddress.bsc,
+            ProductABI,
+            provider
+          ) as Contract
+        );
+        setFactoryWeb3(new web3.eth.Contract(FactoryABI, factoryAddress.bsc));
+        setBlueprintWeb3(
+          new web3.eth.Contract(BlueprintABI, blueprintAddress.bsc)
+        );
+        setProductWeb3(new web3.eth.Contract(ProductABI, productAddress.bsc));
+        setCurrentFactoryAddress(factoryAddress.bsc);
+        setCurrentBlueprintAddress(blueprintAddress.bsc);
+        setCurrentProductAddress(productAddress.bsc);
+        setCurrentUSDTAddress(usdtAddress.bsc);
+        setCurrentUSDCAddress(usdcAddress.bsc);
+        setNativeTokenUnit('BNB');
+        setChainExplorer(CHAIN_EXPLORER.bsc);
       } else if (chainId === 137) {
         setFactoryContract(
           new ethers.Contract(

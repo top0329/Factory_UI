@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import emailJs from '@emailjs/browser';
 import { Helmet } from 'react-helmet';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
@@ -55,8 +56,7 @@ export default function ContactUs() {
             },
             'M6jnU3EEYwoZrQ-zE'
           )
-          .then((response) => {
-            console.log('SUCCESS!', response.status, response.text);
+          .then(() => {
             showToast('success', 'Message sent successfully.');
           })
           .catch((err) => {
@@ -208,9 +208,9 @@ export default function ContactUs() {
               </div>
               <label htmlFor="remember" className="ms-2 text-base text-white">
                 You agree to our friendly{' '}
-                <a href="#" className="text-primary underline">
+                <Link to="/privacy" className="text-primary underline">
                   privacy policy
-                </a>
+                </Link>
                 .
               </label>
             </div>

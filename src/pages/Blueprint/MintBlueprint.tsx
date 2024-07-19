@@ -185,9 +185,6 @@ const MintBlueprintPage = () => {
                 'warning',
                 "You don't have enough USDT to approve this transaction"
               );
-              console.log(
-                "You don't have enough USDT to approve this transaction"
-              );
               setIsApproved(false);
             }
           } else if (Number(selectedBlueprint.mintPriceUnit) === 2) {
@@ -232,9 +229,6 @@ const MintBlueprintPage = () => {
             } else {
               showToast(
                 'warning',
-                "You don't have enough USDC to approve this transaction"
-              );
-              console.log(
                 "You don't have enough USDC to approve this transaction"
               );
               setIsApproved(false);
@@ -288,8 +282,7 @@ const MintBlueprintPage = () => {
             setIsApproved(false);
             navigate('/my-blueprint');
           } else {
-            showToast('warning', "You don't have enough eth");
-            console.log("You don't have enough eth");
+            showToast('warning', `You don't have enough ${nativeTokenUnit}`);
           }
         }
         if (Number(selectedBlueprint.mintPriceUnit) === 1) {
@@ -328,15 +321,12 @@ const MintBlueprintPage = () => {
                 navigate('/my-blueprint');
               } else {
                 showToast('warning', 'Not approved');
-                console.log('Not approved');
               }
             } else {
               showToast('warning', "You don't have enough USDT");
-              console.log("You don't have enough USDT");
             }
           } else {
-            showToast('warning', "You don't have enough eth");
-            console.log("You don't have enough eth");
+            showToast('warning', `You don't have enough ${nativeTokenUnit}`);
           }
         }
         if (Number(selectedBlueprint.mintPriceUnit) === 2) {
@@ -375,15 +365,12 @@ const MintBlueprintPage = () => {
                 navigate('/my-blueprint');
               } else {
                 showToast('warning', 'Not approved');
-                console.log('Not approved');
               }
             } else {
               showToast('warning', "You don't have enough USDC");
-              console.log("You don't have enough USDC");
             }
           } else {
-            showToast('warning', "You don't have enough eth");
-            console.log("You don't have enough eth");
+            showToast('warning', `You don't have enough ${nativeTokenUnit}`);
           }
         }
       }

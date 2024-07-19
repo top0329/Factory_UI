@@ -12,6 +12,9 @@ export default defineConfig({
       },
     }),
   ],
+  define: {
+    global: {},
+  },
   // build: {
   //   chunkSizeWarningLimit: 1600,
   // },

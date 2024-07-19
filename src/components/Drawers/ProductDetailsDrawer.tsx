@@ -152,7 +152,7 @@ const ProductDetailsDrawer: FC<Props> = ({ isDrawerOpen, setIsDrawerOpen }) => {
                     icon="solar:copy-outline"
                     onClick={() =>
                       handleCopyProductAddressButtonClicked(
-                        selectedProduct.blueprintAddress
+                        currentProductAddress
                       )
                     }
                   />
