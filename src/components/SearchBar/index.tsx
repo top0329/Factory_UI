@@ -30,7 +30,7 @@ import {
   ComponentSortField,
   SortField,
 } from '../../types';
-import { runMain } from '../../utils/getDataFromAlchemy';
+import { runMain } from '../../utils/getDataFromMoralis';
 
 export interface Props {
   value?: string;

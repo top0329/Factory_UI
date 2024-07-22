@@ -39,8 +39,12 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
   const signer = useEthersSigner();
   const ethersProvider = useEthersProvider();
   let defaultProvider: any;
-  if (chainId === 11155111) {
+  if (chainId === 1) {
+    defaultProvider = new ethers.JsonRpcProvider(defaultRPC.mainnet);
+  } else if (chainId === 11155111) {
     defaultProvider = new ethers.JsonRpcProvider(defaultRPC.sepolia);
+  } if (chainId === 56) {
+    defaultProvider = new ethers.JsonRpcProvider(defaultRPC.bsc);
   } else if (chainId === 137) {
     defaultProvider = new ethers.JsonRpcProvider(defaultRPC.polygon);
   } else if (chainId === 80002) {

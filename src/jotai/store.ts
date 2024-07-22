@@ -1,7 +1,7 @@
 import { createStore, Provider } from 'jotai';
 import { createElement, ReactNode } from 'react';
 
-export const store = createStore();
+const store = createStore();
 
 export type StoreProviderProps = {
   children: ReactNode;
