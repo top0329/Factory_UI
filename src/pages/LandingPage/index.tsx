@@ -94,6 +94,7 @@ const LandingPage = () => {
     blueprintContract,
     factoryContract,
     productContract,
+    currentFactoryAddress,
     currentBlueprintAddress,
     currentProductAddress,
     nativeTokenUnit,
@@ -448,42 +449,58 @@ const LandingPage = () => {
             </Slider>
           </div>
         </div>
-        <div className="flex flex-col items-center justify-center px-6 pb-10 w-full bg-transparent">
+        <div
+          className="flex flex-col items-center justify-center px-6 pb-10 w-full bg-transparent"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-delay="200"
+          data-aos-duration="500"
+          data-aos-easing="ease-in-out"
+          data-aos-once="true"
+        >
           <h2 className="text-2xl font-semibold pb-4 lg:text-4xl sm:text-3xl">
             Platform Informations
           </h2>
-          <div className="flex flex-col px-4 py-10 border-2 border-light-gray rounded-3xl gap-2 lg:px-10 sm:px-6">
+          <div className="flex flex-col px-4 py-6 border-2 border-light-gray rounded-3xl gap-1 lg:px-10 sm:px-6">
             <div className="flex flex-row justify-between gap-8">
               <div className="flex flex-col gap-2">
-                <h3 className="truncate text-xl font-semibold lg:text-3xl sm:text-2xl">
+                <h3 className="truncate text-lg font-semibold lg:text-2xl sm:text-xl">
                   Compose Fee
                 </h3>
-                <p className="text-center text-lg text-light-gray lg:text-2xl sm:text-xl">
+                <p className="text-center text-base text-light-gray lg:text-xl sm:text-lg">
                   {blueprintCreationFee} {nativeTokenUnit}
                 </p>
               </div>
               <div className="flex flex-col gap-2">
-                <h3 className="truncate text-xl font-semibold lg:text-3xl sm:text-2xl">
+                <h3 className="truncate text-lg font-semibold lg:text-2xl sm:text-xl">
                   Decompose Fee
                 </h3>
-                <p className="text-center text-lg text-light-gray lg:text-2xl sm:text-xl">
+                <p className="text-center text-base text-light-gray lg:text-xl sm:text-lg">
                   {decomposeFee} {nativeTokenUnit}
                 </p>
               </div>
             </div>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-center text-xl font-semibold lg:text-3xl sm:text-2xl">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-center text-lg font-semibold lg:text-2xl sm:text-xl">
+                Factory Address
+              </h3>
+              <p className="text-center text-sm text-light-gray break-all lg:text-xl sm:text-lg xs:text-base">
+                {currentFactoryAddress}
+              </p>
+            </div>
+            <div className="flex flex-col gap-1">
+              <h3 className="text-center text-lg font-semibold lg:text-2xl sm:text-xl">
                 Blueprint Address
               </h3>
-              <p className="text-center text-base text-light-gray break-all lg:text-2xl sm:text-xl xs:text-lg">
+              <p className="text-center text-sm text-light-gray break-all lg:text-xl sm:text-lg xs:text-base">
                 {currentBlueprintAddress}
               </p>
             </div>
-            <div className="flex flex-col gap-2">
-              <h3 className="text-center text-xl font-semibold lg:text-3xl sm:text-2xl">
+            <div className="flex flex-col gap-1">
+              <h3 className="text-center text-lg font-semibold lg:text-2xl sm:text-xl">
                 Product Address
               </h3>
-              <p className="text-center text-base text-light-gray break-all lg:text-2xl sm:text-xl xs:text-lg">
+              <p className="text-center text-sm text-light-gray break-all lg:text-xl sm:text-lg xs:text-base">
                 {currentProductAddress}
               </p>
             </div>
