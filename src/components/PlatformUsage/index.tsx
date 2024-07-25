@@ -9,7 +9,7 @@ const PlatformUsage: FC = () => {
     <HeadProvider>
       <Link rel="preload" as="image" href={ImageForPlatformUsage} />
       <div
-        className="relative z-20 px-6 pb-28 pt-20 mt-2 shadow-light-gray sm:px-10 sm:py-30 sm:mt-4 md:px-15 md:py-8 md:mt-6 lg:px-20 lg:py-12 lg:mt-8 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
+        className="relative z-20 px-6 pb-28 pt-20 shadow-light-gray sm:px-10 sm:py-30 md:px-15 md:py-8 lg:px-20 lg:py-12 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
         data-aos="fade-up"
         data-aos-offset="200"
         data-aos-delay="200"
