@@ -450,7 +450,6 @@ const LandingPage = () => {
         </div>
         <div
           className="flex flex-col items-center justify-center px-6 pb-10 w-full bg-transparent sm:px-10 md:px-15 lg:px-20 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
-          // className="relative z-20 px-6 pb-28 pt-20 shadow-light-gray sm:px-10 sm:py-30 md:px-15 md:py-8 lg:px-20 lg:py-12 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
           data-aos="fade-up"
           data-aos-offset="200"
           data-aos-delay="200"
