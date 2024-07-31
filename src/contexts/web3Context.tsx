@@ -45,6 +45,8 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
     defaultProvider = new ethers.JsonRpcProvider(defaultRPC.sepolia);
   } if (chainId === 56) {
     defaultProvider = new ethers.JsonRpcProvider(defaultRPC.bsc);
+  } else if (chainId === 97) {
+    defaultProvider = new ethers.JsonRpcProvider(defaultRPC.bscTestnet);
   } else if (chainId === 137) {
     defaultProvider = new ethers.JsonRpcProvider(defaultRPC.polygon);
   } else if (chainId === 80002) {
@@ -200,6 +202,40 @@ export const Web3Provider = ({ children }: { children: React.ReactNode }) => {
         setCurrentUSDCAddress(usdcAddress.bsc);
         setNativeTokenUnit('BNB');
         setChainExplorer(CHAIN_EXPLORER.bsc);
+      } else if (chainId === 97) {
+        setFactoryContract(
+          new ethers.Contract(
+            factoryAddress.bscTestnet,
+            FactoryABI,
+            provider
+          ) as Contract
+        );
+        setBlueprintContract(
+          new ethers.Contract(
+            blueprintAddress.bscTestnet,
+            BlueprintABI,
+            provider
+          ) as Contract
+        );
+        setProductContract(
+          new ethers.Contract(
+            productAddress.bscTestnet,
+            ProductABI,
+            provider
+          ) as Contract
+        );
+        setFactoryWeb3(new web3.eth.Contract(FactoryABI, factoryAddress.bscTestnet));
+        setBlueprintWeb3(
+          new web3.eth.Contract(BlueprintABI, blueprintAddress.bscTestnet)
+        );
+        setProductWeb3(new web3.eth.Contract(ProductABI, productAddress.bscTestnet));
+        setCurrentFactoryAddress(factoryAddress.bscTestnet);
+        setCurrentBlueprintAddress(blueprintAddress.bscTestnet);
+        setCurrentProductAddress(productAddress.bscTestnet);
+        setCurrentUSDTAddress(usdtAddress.bscTestnet);
+        setCurrentUSDCAddress(usdcAddress.bscTestnet);
+        setNativeTokenUnit('BNB');
+        setChainExplorer(CHAIN_EXPLORER.bscTestnet);
       } else if (chainId === 137) {
         setFactoryContract(
           new ethers.Contract(

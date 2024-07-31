@@ -91,7 +91,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     blueprintWeb3,
     blueprintContract,
     nativeTokenUnit,
-    web3
+    web3,
   } = useWeb3();
   const { showToast } = useToast();
   const { openSpin, closeSpin } = useSpinner();
@@ -1109,6 +1109,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                                 : createInfo.mintLimit;
                           }
                           openSpin('Creating Blueprint');
+                          console.log('before tx');
                           await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
@@ -1123,6 +1124,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               from: account,
                               gasPrice: gasPrice,
                             });
+                          console.log('tx successed');
                           const events = await blueprintWeb3.getPastEvents(
                             'BlueprintCreated',
                             {
@@ -1130,18 +1132,22 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               toBlock: 'latest',
                             }
                           );
+                          console.log('event: ', events);
                           for (const event of events) {
                             if (event.returnValues.creator === account) {
                               blueprintData.id = Number(event.returnValues[0]);
+                              console.log(Number(event.returnValues[0]));
                               break;
                             }
                           }
                           blueprintData.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           blueprintData.mintLimit = _mintLimit;
+                          console.log('before saving to db');
                           await axios.post(
                             `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
                             blueprintData
                           );
+                          console.log('after saving db');
                           setCreateInfo(initialBlueprint);
                           showToast(
                             'success',

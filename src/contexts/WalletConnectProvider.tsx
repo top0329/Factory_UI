@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react';
-import { mainnet, bsc, polygon, polygonAmoy, sepolia } from 'wagmi/chains';
+import { mainnet, sepolia, bsc, bscTestnet, polygon, polygonAmoy } from 'wagmi/chains';
 // import { mainnet, bsc, polygon } from 'wagmi/chains';
 import { createConfig, WagmiProvider, http } from 'wagmi';
 import { Chain, RainbowKitProvider, darkTheme } from '@rainbow-me/rainbowkit';
@@ -37,8 +37,9 @@ const connectors = connectorsForWallets(
 
 const chains: readonly [Chain, ...Chain[]] = [
   mainnet,
-  bsc,
   sepolia,
+  bsc,
+  bscTestnet,
   polygon,
   {
     ...polygonAmoy,
@@ -50,8 +51,9 @@ const config = createConfig({
   chains,
   transports: {
     [mainnet.id]: http('https://eth-pokt.nodies.app'),
-    [bsc.id]: http('https://bsc.meowrpc.com'),
     [sepolia.id]: http('https://ethereum-sepolia-rpc.publicnode.com'),
+    [bsc.id]: http('https://bsc.meowrpc.com'),
+    [bscTestnet.id]: http('https://bsc-testnet.public.blastapi.io'),
     [polygon.id]: http('https://rpc.ankr.com/polygon'),
     [polygonAmoy.id]: http('https://rpc-amoy.polygon.technology'),
   },
