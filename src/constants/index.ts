@@ -42,8 +42,8 @@ export const usdcAddress = {
 export const defaultRPC = {
   mainnet: 'https://eth-pokt.nodies.app',
   sepolia: 'https://ethereum-sepolia-rpc.publicnode.com',
-  bsc: 'https://bsc.meowrpc.com',
-  bscTestnet: 'https://bsc-testnet.public.blastapi.io',
+  bsc: 'https://bsc-dataseed.binance.org',
+  bscTestnet: 'https://data-seed-prebsc-1-s1.binance.org:8545',
   polygon: 'https://polygon-rpc.com',
   amoy: 'https://rpc-amoy.polygon.technology',
 };

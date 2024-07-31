@@ -88,7 +88,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
     account,
     chainId,
     factoryWeb3,
-    blueprintWeb3,
     blueprintContract,
     nativeTokenUnit,
     web3,
@@ -759,7 +758,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           );
                         }
                         openSpin('Recreating Blueprint');
-                        await factoryWeb3.methods
+                        const tx = await factoryWeb3.methods
                           .createBlueprint(
                             createInfo.name,
                             jsonHash.substring(16),
@@ -770,19 +769,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             componentData
                           )
                           .send({ from: account, gasPrice });
-                        const events = await blueprintWeb3.getPastEvents(
-                          'BlueprintCreated',
-                          {
-                            fromBlock: 'latest',
-                            toBlock: 'latest',
-                          }
-                        );
-                        for (const event of events) {
-                          if (event.returnValues.creator === account) {
-                            blueprintData.id = Number(event.returnValues[0]);
-                            break;
-                          }
-                        }
+                        blueprintData.id = parseInt(tx.logs[0].topics[1]);
                         await axios.post(
                           `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
                           blueprintData
@@ -817,7 +804,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             );
                           }
                           openSpin('Rereating Blueprint');
-                          await factoryWeb3.methods
+                          const tx = await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
                               jsonHash.substring(16),
@@ -828,19 +815,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               componentData
                             )
                             .send({ from: account, gasPrice });
-                          const events = await blueprintWeb3.getPastEvents(
-                            'BlueprintCreated',
-                            {
-                              fromBlock: 'latest',
-                              toBlock: 'latest',
-                            }
-                          );
-                          for (const event of events) {
-                            if (event.returnValues.creator === account) {
-                              blueprintData.id = Number(event.returnValues[0]);
-                              break;
-                            }
-                          }
+                          blueprintData.id = parseInt(tx.logs[0].topics[1]);
                           blueprintData.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           await axios.post(
                             `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
@@ -880,7 +855,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                   _imageUri = `https://ipfs.io/${image}`;
                   const _mintLimit = createInfo.mintLimit;
                   openSpin('Recreating Blueprint');
-                  await factoryWeb3.methods
+                  const tx = await factoryWeb3.methods
                     .createBlueprint(
                       createInfo.name,
                       jsonHashUri,
@@ -891,19 +866,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       componentData
                     )
                     .send({ from: account, gasPrice });
-                  const events = await blueprintWeb3.getPastEvents(
-                    'BlueprintCreated',
-                    {
-                      fromBlock: 'latest',
-                      toBlock: 'latest',
-                    }
-                  );
-                  for (const event of events) {
-                    if (event.returnValues.creator === account) {
-                      blueprintData.id = Number(event.returnValues[0]);
-                      break;
-                    }
-                  }
+                  blueprintData.id = parseInt(tx.logs[0].topics[1]);
                   blueprintData.imageUri = _imageUri;
                   await axios.post(
                     `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
@@ -1043,7 +1006,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               : createInfo.mintLimit;
                         }
                         openSpin('Creating Blueprint');
-                        await factoryWeb3.methods
+                        const tx = await factoryWeb3.methods
                           .createBlueprint(
                             createInfo.name,
                             jsonHash.substring(16),
@@ -1054,19 +1017,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                             componentData
                           )
                           .send({ from: account, gasPrice });
-                        const events = await blueprintWeb3.getPastEvents(
-                          'BlueprintCreated',
-                          {
-                            fromBlock: 'latest',
-                            toBlock: 'latest',
-                          }
-                        );
-                        for (const event of events) {
-                          if (event.returnValues.creator === account) {
-                            blueprintData.id = Number(event.returnValues[0]);
-                            break;
-                          }
-                        }
+                        blueprintData.id = parseInt(tx.logs[0].topics[1]);
                         blueprintData.mintLimit = _mintLimit;
                         await axios.post(
                           `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
@@ -1110,7 +1061,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           }
                           openSpin('Creating Blueprint');
                           console.log('before tx');
-                          await factoryWeb3.methods
+                          const tx = await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
                               jsonHash.substring(16),
@@ -1124,22 +1075,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                               from: account,
                               gasPrice: gasPrice,
                             });
-                          console.log('tx successed');
-                          const events = await blueprintWeb3.getPastEvents(
-                            'BlueprintCreated',
-                            {
-                              fromBlock: 'latest',
-                              toBlock: 'latest',
-                            }
-                          );
-                          console.log('event: ', events);
-                          for (const event of events) {
-                            if (event.returnValues.creator === account) {
-                              blueprintData.id = Number(event.returnValues[0]);
-                              console.log(Number(event.returnValues[0]));
-                              break;
-                            }
-                          }
+                          blueprintData.id = parseInt(tx.logs[0].topics[1]);
                           blueprintData.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           blueprintData.mintLimit = _mintLimit;
                           console.log('before saving to db');
@@ -1186,7 +1122,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       createInfo.mintLimit === '' ? 0 : createInfo.mintLimit;
                   }
                   openSpin('Creating Blueprint');
-                  await factoryWeb3.methods
+                  const tx = await factoryWeb3.methods
                     .createBlueprint(
                       createInfo.name,
                       jsonHashUri,
@@ -1197,19 +1133,7 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                       componentData
                     )
                     .send({ from: account, gasPrice });
-                  const events = await blueprintWeb3.getPastEvents(
-                    'BlueprintCreated',
-                    {
-                      fromBlock: 'latest',
-                      toBlock: 'latest',
-                    }
-                  );
-                  for (const event of events) {
-                    if (event.returnValues.creator === account) {
-                      blueprintData.id = Number(event.returnValues[0]);
-                      break;
-                    }
-                  }
+                  blueprintData.id = parseInt(tx.logs[0].topics[1]);
                   blueprintData.imageUri = _imageUri;
                   blueprintData.mintLimit = _mintLimit;
                   await axios.post(
