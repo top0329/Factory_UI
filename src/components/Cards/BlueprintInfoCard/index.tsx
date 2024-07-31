@@ -1060,7 +1060,6 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                                 : createInfo.mintLimit;
                           }
                           openSpin('Creating Blueprint');
-                          console.log('before tx');
                           const tx = await factoryWeb3.methods
                             .createBlueprint(
                               createInfo.name,
@@ -1078,12 +1077,10 @@ const BlueprintInfoCard: FC<Props> = ({ isRecreate, isUpdate }) => {
                           blueprintData.id = parseInt(tx.logs[0].topics[1]);
                           blueprintData.imageUri = `https://ipfs.io/ipfs/${imageHash}`;
                           blueprintData.mintLimit = _mintLimit;
-                          console.log('before saving to db');
                           await axios.post(
                             `${import.meta.env.VITE_BASE_URI}/blueprint/create`,
                             blueprintData
                           );
-                          console.log('after saving db');
                           setCreateInfo(initialBlueprint);
                           showToast(
                             'success',
