@@ -571,6 +571,103 @@ const LandingPage = () => {
           data-aos-once="true"
         >
           <h2 className="text-2xl font-semibold pb-4 lg:text-4xl sm:text-3xl xl:pb-6">
+            Polygon Informations
+          </h2>
+          <div className="flex flex-col justify-center items-center px-4 py-6 border-2 border-light-gray rounded-3xl gap-4 2xl:gap-10 lg:px-10 lg:flex-row sm:px-6">
+            <div className="flex flex-col w-full gap-1 lg:w-auto">
+              <div className="flex flex-row justify-between gap-4 2xl:gap-10">
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Compose Fee
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(blueprintCreationFee.polygon)} MATIC
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Blueprints
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(blueprintsValue.polygon)}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Minted Blueprints
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(mintedBlueprintsValue.polygon)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Decompose Fee
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(decomposeFee.polygon)} MATIC
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Creators
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(creatorsValue.polygon)}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Products
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(productsValue.polygon)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
+                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
+                  Factory Address
+                </h3>
+                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
+                  {factoryAddress.polygon}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
+                  Blueprint Address
+                </h3>
+                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
+                  {blueprintAddress.polygon}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
+                  Product Address
+                </h3>
+                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
+                  {productAddress.polygon}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="flex flex-col items-center justify-center px-6 pb-10 w-full bg-transparent sm:px-10 md:px-15 lg:px-20 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-delay="200"
+          data-aos-duration="500"
+          data-aos-easing="ease-in-out"
+          data-aos-once="true"
+        >
+          <h2 className="text-2xl font-semibold pb-4 lg:text-4xl sm:text-3xl xl:pb-6">
             Ethereum Informations
           </h2>
           <div className="flex flex-col justify-center items-center px-4 py-6 border-2 border-light-gray rounded-3xl gap-4 2xl:gap-10 lg:px-10 lg:flex-row sm:px-6">
@@ -750,103 +847,6 @@ const LandingPage = () => {
                 </h3>
                 <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
                   {productAddress.bsc}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          className="flex flex-col items-center justify-center px-6 pb-10 w-full bg-transparent sm:px-10 md:px-15 lg:px-20 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
-          data-aos="fade-up"
-          data-aos-offset="200"
-          data-aos-delay="200"
-          data-aos-duration="500"
-          data-aos-easing="ease-in-out"
-          data-aos-once="true"
-        >
-          <h2 className="text-2xl font-semibold pb-4 lg:text-4xl sm:text-3xl xl:pb-6">
-            Polygon Informations
-          </h2>
-          <div className="flex flex-col justify-center items-center px-4 py-6 border-2 border-light-gray rounded-3xl gap-4 2xl:gap-10 lg:px-10 lg:flex-row sm:px-6">
-            <div className="flex flex-col w-full gap-1 lg:w-auto">
-              <div className="flex flex-row justify-between gap-4 2xl:gap-10">
-                <div className="flex flex-col gap-1">
-                  <div className="flex flex-col gap-2">
-                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
-                      Compose Fee
-                    </h3>
-                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {Number(blueprintCreationFee.polygon)} MATIC
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
-                      Blueprints
-                    </h3>
-                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {Number(blueprintsValue.polygon)}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
-                      Minted Blueprints
-                    </h3>
-                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {Number(mintedBlueprintsValue.polygon)}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <div className="flex flex-col gap-2">
-                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
-                      Decompose Fee
-                    </h3>
-                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {Number(decomposeFee.polygon)} MATIC
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
-                      Creators
-                    </h3>
-                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {Number(creatorsValue.polygon)}
-                    </p>
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
-                      Products
-                    </h3>
-                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {Number(productsValue.polygon)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="flex flex-col gap-1">
-              <div className="flex flex-col gap-1">
-                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
-                  Factory Address
-                </h3>
-                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
-                  {factoryAddress.polygon}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
-                  Blueprint Address
-                </h3>
-                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
-                  {blueprintAddress.polygon}
-                </p>
-              </div>
-              <div className="flex flex-col gap-1">
-                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
-                  Product Address
-                </h3>
-                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
-                  {productAddress.polygon}
                 </p>
               </div>
             </div>
