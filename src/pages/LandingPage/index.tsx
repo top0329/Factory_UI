@@ -3,14 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import AOS from 'aos';
 import { useAtom } from 'jotai';
-import { ethers } from 'ethers';
+import { Contract, ethers } from 'ethers';
 import { Icon } from '@iconify/react/dist/iconify.js';
 import { Helmet } from 'react-helmet';
 import { HeadProvider, Title, Link, Meta } from 'react-head';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-import useWeb3 from '../../hooks/useWeb3';
 import ScrollButton from '../../components/Button/ScrollDownButton';
 import PlatformUsage from '../../components/PlatformUsage';
 import BlueprintCardForCarousel from '../../components/Cards/BlueprintCard/BlueprintCardForCarousel';
@@ -26,8 +25,17 @@ import GoldCoinImage from '../../assets/images/gold-coin.webp';
 import MilkTeaImage from '../../assets/images/milk-tea.webp';
 import CoffeeImage from '../../assets/images/coffee.webp';
 import SilverCoinImage from '../../assets/images/siliver-coin.webp';
+import FactoryABI from '../../abi/FactoryABI.json';
+import BlueprintABI from '../../abi/BlueprintABI.json';
+import ProductABI from '../../abi/ProductABI.json';
 import { searchValueAtom } from '../../jotai/atoms';
-import { invalidChars } from '../../constants';
+import {
+  blueprintAddress,
+  defaultRPC,
+  factoryAddress,
+  invalidChars,
+  productAddress,
+} from '../../constants';
 
 function SampleNextArrow(props: React.HTMLAttributes<SVGSVGElement>) {
   const { className, onClick } = props;
@@ -89,27 +97,41 @@ const LandingPage = () => {
     ],
   };
 
-  const {
-    blueprintContract,
-    factoryContract,
-    productContract,
-    currentFactoryAddress,
-    currentBlueprintAddress,
-    currentProductAddress,
-    nativeTokenUnit,
-  } = useWeb3();
-
   const navigate = useNavigate();
 
   const [searchValue, setSearchValue] = useAtom<string>(searchValueAtom);
 
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
-  const [blueprintsValue, setBlueprintsValue] = useState<number>(0);
-  const [creatorsValue, setCreatorsValue] = useState<number>(0);
-  const [mintedBlueprintsValue, setMintedBlueprintsValue] = useState<number>(0);
-  const [blueprintCreationFee, setBlueprintCreationFee] = useState<number>(0);
-  const [decomposeFee, setDecomposeFee] = useState<number>(0);
-  const [productsValue, setProductsValue] = useState<number>(0);
+  const [blueprintsValue, setBlueprintsValue] = useState<any>({
+    mainnet: 0,
+    bsc: 0,
+    polygon: 0,
+  });
+  const [creatorsValue, setCreatorsValue] = useState<any>({
+    mainnet: 0,
+    bsc: 0,
+    polygon: 0,
+  });
+  const [mintedBlueprintsValue, setMintedBlueprintsValue] = useState<any>({
+    mainnet: 0,
+    bsc: 0,
+    polygon: 0,
+  });
+  const [blueprintCreationFee, setBlueprintCreationFee] = useState<any>({
+    mainnet: 0,
+    bsc: 0,
+    polygon: 0,
+  });
+  const [decomposeFee, setDecomposeFee] = useState<any>({
+    mainnet: 0,
+    bsc: 0,
+    polygon: 0,
+  });
+  const [productsValue, setProductsValue] = useState<any>({
+    mainnet: 0,
+    bsc: 0,
+    polygon: 0,
+  });
   const [isScrollAtBottom, setIsScrollAtBottom] = useState<boolean>(false);
 
   useEffect(() => {
@@ -118,28 +140,119 @@ const LandingPage = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const _blueprintIds = await blueprintContract.getBlueprintIds();
-      const _blueprintCreators = await blueprintContract.getBlueprintCreators();
-      const _totalMintedBlueprintTokens =
-        await blueprintContract.totalMintedBlueprintTokens();
-      const _productIds = await productContract.getProductIDs();
-      const _blueprintCreationFee =
-        await factoryContract.blueprintCreationFee();
-      const _blueprintCreationFeeEth = ethers.formatEther(
-        _blueprintCreationFee
+      const _blueprints: any = { mainnet: 0, bsc: 0, polygon: 0 };
+      const _blueprintCreators: any = { mainnet: 0, bsc: 0, polygon: 0 };
+      const _mintedBlueprints: any = { mainnet: 0, bsc: 0, polygon: 0 };
+      const _products: any = { mainnet: 0, bsc: 0, polygon: 0 };
+      const _blueprintCreationFee: any = { mainnet: 0, bsc: 0, polygon: 0 };
+      const _decomposeFee: any = { mainnet: 0, bsc: 0, polygon: 0 };
+      const mainnetProvider = new ethers.JsonRpcProvider(defaultRPC.mainnet);
+      const mainnetFactoryContract = new ethers.Contract(
+        factoryAddress.mainnet,
+        FactoryABI,
+        mainnetProvider
+      ) as Contract;
+      const mainnetBlueprintContract = new ethers.Contract(
+        blueprintAddress.mainnet,
+        BlueprintABI,
+        mainnetProvider
+      ) as Contract;
+      const mainnetProductContract = new ethers.Contract(
+        productAddress.mainnet,
+        ProductABI,
+        mainnetProvider
+      ) as Contract;
+      const _mainnetBlueprintIds =
+        await mainnetBlueprintContract.getBlueprintIds();
+      _blueprints.mainnet = _mainnetBlueprintIds.length;
+      const _mainnetBlueprintCreators =
+        await mainnetBlueprintContract.getBlueprintCreators();
+      _blueprintCreators.mainnet = _mainnetBlueprintCreators.length;
+      _mintedBlueprints.mainnet =
+        await mainnetBlueprintContract.totalMintedBlueprintTokens();
+      const _mainnetProductIds = await mainnetProductContract.getProductIDs();
+      _products.mainnet = _mainnetProductIds.length;
+      const _mainnetBlueprintCreationFee =
+        await mainnetFactoryContract.blueprintCreationFee();
+      _blueprintCreationFee.mainnet = ethers.formatEther(
+        _mainnetBlueprintCreationFee
       );
-      const tmpDecomposeFee = await factoryContract.productDecomposeFee();
-      setDecomposeFee(Number(ethers.formatEther(tmpDecomposeFee)));
-      setBlueprintCreationFee(Number(_blueprintCreationFeeEth));
-      setBlueprintsValue(_blueprintIds.length);
-      setCreatorsValue(_blueprintCreators.length);
-      setMintedBlueprintsValue(Number(_totalMintedBlueprintTokens));
-      setProductsValue(_productIds.length);
+      const _mainnetDecomposeFee =
+        await mainnetFactoryContract.productDecomposeFee();
+      _decomposeFee.mainnet = ethers.formatEther(_mainnetDecomposeFee);
+      const bscProvider = new ethers.JsonRpcProvider(defaultRPC.bsc);
+      const bscFactoryContract = new ethers.Contract(
+        factoryAddress.bsc,
+        FactoryABI,
+        bscProvider
+      ) as Contract;
+      const bscBlueprintContract = new ethers.Contract(
+        blueprintAddress.bsc,
+        BlueprintABI,
+        bscProvider
+      ) as Contract;
+      const bscProductContract = new ethers.Contract(
+        productAddress.bsc,
+        ProductABI,
+        bscProvider
+      ) as Contract;
+      const _bscBlueprintIds = await bscBlueprintContract.getBlueprintIds();
+      _blueprints.bsc = _bscBlueprintIds.length;
+      const _bscBlueprintCreators =
+        await bscBlueprintContract.getBlueprintCreators();
+      _blueprintCreators.bsc = _bscBlueprintCreators.length;
+      _mintedBlueprints.bsc =
+        await bscBlueprintContract.totalMintedBlueprintTokens();
+      const _bscProductIds = await bscProductContract.getProductIDs();
+      _products.bsc = _bscProductIds.length;
+      const _bscBlueprintCreationFee =
+        await bscFactoryContract.blueprintCreationFee();
+      _blueprintCreationFee.bsc = ethers.formatEther(_bscBlueprintCreationFee);
+      const _bscDecomposeFee = await bscFactoryContract.productDecomposeFee();
+      _decomposeFee.bsc = ethers.formatEther(_bscDecomposeFee);
+      const polygonProvider = new ethers.JsonRpcProvider(defaultRPC.polygon);
+      const polygonFactoryContract = new ethers.Contract(
+        factoryAddress.polygon,
+        FactoryABI,
+        polygonProvider
+      ) as Contract;
+      const polygonBlueprintContract = new ethers.Contract(
+        blueprintAddress.polygon,
+        BlueprintABI,
+        polygonProvider
+      ) as Contract;
+      const polygonProductContract = new ethers.Contract(
+        productAddress.polygon,
+        ProductABI,
+        polygonProvider
+      ) as Contract;
+      const _polygonBlueprintIds =
+        await polygonBlueprintContract.getBlueprintIds();
+      _blueprints.polygon = _polygonBlueprintIds.length;
+      const _polygonBlueprintCreators =
+        await polygonBlueprintContract.getBlueprintCreators();
+      _blueprintCreators.polygon = _polygonBlueprintCreators.length;
+      _mintedBlueprints.polygon =
+        await polygonBlueprintContract.totalMintedBlueprintTokens();
+      const _polygonProductIds = await polygonProductContract.getProductIDs();
+      _products.polygon = _polygonProductIds.length;
+      const _polygonBlueprintCreationFee =
+        await polygonFactoryContract.blueprintCreationFee();
+      _blueprintCreationFee.polygon = ethers.formatEther(
+        _polygonBlueprintCreationFee
+      );
+      const _polygonDecomposeFee =
+        await polygonFactoryContract.productDecomposeFee();
+      _decomposeFee.polygon = ethers.formatEther(_polygonDecomposeFee);
+      setBlueprintsValue(_blueprints);
+      setCreatorsValue(_blueprintCreators);
+      setMintedBlueprintsValue(_mintedBlueprints);
+      setProductsValue(_products);
+      setBlueprintCreationFee(_blueprintCreationFee);
+      setDecomposeFee(_decomposeFee);
     }
-    if (blueprintContract && factoryContract && productContract) {
-      fetchData();
-    }
-  }, [blueprintContract, factoryContract, productContract]);
+    fetchData();
+  }, []);
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
@@ -458,7 +571,7 @@ const LandingPage = () => {
           data-aos-once="true"
         >
           <h2 className="text-2xl font-semibold pb-4 lg:text-4xl sm:text-3xl xl:pb-6">
-            Platform Informations
+            Ethereum Informations
           </h2>
           <div className="flex flex-col justify-center items-center px-4 py-6 border-2 border-light-gray rounded-3xl gap-4 2xl:gap-10 lg:px-10 lg:flex-row sm:px-6">
             <div className="flex flex-col w-full gap-1 lg:w-auto">
@@ -469,7 +582,7 @@ const LandingPage = () => {
                       Compose Fee
                     </h3>
                     <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {blueprintCreationFee} {nativeTokenUnit}
+                      {Number(blueprintCreationFee.mainnet)} ETH
                     </p>
                   </div>
                   <div className="flex flex-col gap-2">
@@ -477,7 +590,7 @@ const LandingPage = () => {
                       Blueprints
                     </h3>
                     <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {blueprintsValue}
+                      {Number(blueprintsValue.mainnet)}
                     </p>
                   </div>
                   <div className="flex flex-col gap-2">
@@ -485,7 +598,7 @@ const LandingPage = () => {
                       Minted Blueprints
                     </h3>
                     <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {mintedBlueprintsValue}
+                      {Number(mintedBlueprintsValue.mainnet)}
                     </p>
                   </div>
                 </div>
@@ -495,7 +608,7 @@ const LandingPage = () => {
                       Decompose Fee
                     </h3>
                     <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {decomposeFee} {nativeTokenUnit}
+                      {Number(decomposeFee.mainnet)} ETH
                     </p>
                   </div>
                   <div className="flex flex-col gap-2">
@@ -503,7 +616,7 @@ const LandingPage = () => {
                       Creators
                     </h3>
                     <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {creatorsValue}
+                      {Number(creatorsValue.mainnet)}
                     </p>
                   </div>
                   <div className="flex flex-col gap-2">
@@ -511,7 +624,7 @@ const LandingPage = () => {
                       Products
                     </h3>
                     <p className="text-base text-light-gray xl:text-xl sm:text-lg">
-                      {productsValue}
+                      {Number(productsValue.mainnet)}
                     </p>
                   </div>
                 </div>
@@ -523,7 +636,7 @@ const LandingPage = () => {
                   Factory Address
                 </h3>
                 <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
-                  {currentFactoryAddress}
+                  {factoryAddress.mainnet}
                 </p>
               </div>
               <div className="flex flex-col gap-1">
@@ -531,7 +644,7 @@ const LandingPage = () => {
                   Blueprint Address
                 </h3>
                 <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
-                  {currentBlueprintAddress}
+                  {blueprintAddress.mainnet}
                 </p>
               </div>
               <div className="flex flex-col gap-1">
@@ -539,7 +652,201 @@ const LandingPage = () => {
                   Product Address
                 </h3>
                 <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
-                  {currentProductAddress}
+                  {productAddress.mainnet}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="flex flex-col items-center justify-center px-6 pb-10 w-full bg-transparent sm:px-10 md:px-15 lg:px-20 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-delay="200"
+          data-aos-duration="500"
+          data-aos-easing="ease-in-out"
+          data-aos-once="true"
+        >
+          <h2 className="text-2xl font-semibold pb-4 lg:text-4xl sm:text-3xl xl:pb-6">
+            BSC Informations
+          </h2>
+          <div className="flex flex-col justify-center items-center px-4 py-6 border-2 border-light-gray rounded-3xl gap-4 2xl:gap-10 lg:px-10 lg:flex-row sm:px-6">
+            <div className="flex flex-col w-full gap-1 lg:w-auto">
+              <div className="flex flex-row justify-between gap-4 2xl:gap-10">
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Compose Fee
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(blueprintCreationFee.bsc)} BNB
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Blueprints
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(blueprintsValue.bsc)}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Minted Blueprints
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(mintedBlueprintsValue.bsc)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Decompose Fee
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(decomposeFee.bsc)} BNB
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Creators
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(creatorsValue.bsc)}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Products
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(productsValue.bsc)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
+                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
+                  Factory Address
+                </h3>
+                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
+                  {factoryAddress.bsc}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
+                  Blueprint Address
+                </h3>
+                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
+                  {blueprintAddress.bsc}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
+                  Product Address
+                </h3>
+                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
+                  {productAddress.bsc}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="flex flex-col items-center justify-center px-6 pb-10 w-full bg-transparent sm:px-10 md:px-15 lg:px-20 2xl:max-w-[1536px] 2xl:min-px-96 2xl:min-w-full"
+          data-aos="fade-up"
+          data-aos-offset="200"
+          data-aos-delay="200"
+          data-aos-duration="500"
+          data-aos-easing="ease-in-out"
+          data-aos-once="true"
+        >
+          <h2 className="text-2xl font-semibold pb-4 lg:text-4xl sm:text-3xl xl:pb-6">
+            Polygon Informations
+          </h2>
+          <div className="flex flex-col justify-center items-center px-4 py-6 border-2 border-light-gray rounded-3xl gap-4 2xl:gap-10 lg:px-10 lg:flex-row sm:px-6">
+            <div className="flex flex-col w-full gap-1 lg:w-auto">
+              <div className="flex flex-row justify-between gap-4 2xl:gap-10">
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Compose Fee
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(blueprintCreationFee.polygon)} MATIC
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Blueprints
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(blueprintsValue.polygon)}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Minted Blueprints
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(mintedBlueprintsValue.polygon)}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Decompose Fee
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(decomposeFee.polygon)} MATIC
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Creators
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(creatorsValue.polygon)}
+                    </p>
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <h3 className="truncate text-lg font-semibold xl:text-2xl sm:text-xl">
+                      Products
+                    </h3>
+                    <p className="text-base text-light-gray xl:text-xl sm:text-lg">
+                      {Number(productsValue.polygon)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
+                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
+                  Factory Address
+                </h3>
+                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
+                  {factoryAddress.polygon}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
+                  Blueprint Address
+                </h3>
+                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
+                  {blueprintAddress.polygon}
+                </p>
+              </div>
+              <div className="flex flex-col gap-1">
+                <h3 className="text-center text-lg font-semibold xl:text-2xl sm:text-xl">
+                  Product Address
+                </h3>
+                <p className="text-center text-sm text-light-gray break-all xl:text-xl sm:text-lg xs:text-base">
+                  {productAddress.polygon}
                 </p>
               </div>
             </div>
