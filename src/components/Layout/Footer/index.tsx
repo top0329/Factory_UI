@@ -131,7 +131,7 @@ function Footer() {
                 className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#1877F2] transition-colors duration-300"
               />
             </a>
-            <a href="https://twitter.com/Factory1155" target="_blank">
+            <a href="https://twitter.com/factorygame_org" target="_blank">
               <Icon
                 icon="pajamas:twitter"
                 className="w-7 h-7 xl:w-8 xl:h-8 cursor-pointer hover:text-[#1DA1F2] transition-colors duration-300"
